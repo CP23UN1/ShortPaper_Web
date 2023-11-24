@@ -1,8 +1,8 @@
 <script setup>
-import ApiService from '../composables/apiService'
+import ApiService from '../../composables/apiService'
 import { onMounted, ref } from 'vue'
 
-const users = ref([])
+const students = ref([])
 
 
 // const getSubjectName = (subjectId) => {
@@ -16,8 +16,8 @@ const users = ref([])
 
 onMounted(async() => {
   // User API
-    const usersResponse = await ApiService.getUsers()
-    users.value = usersResponse.data
+    const studetnsResponse = await ApiService.getStudents()
+    students.value = studetnsResponse.data
 })
 </script>
 
@@ -38,14 +38,14 @@ onMounted(async() => {
         </tr>
       </thead>
       <tbody>
-        <tr v-for="user in users" :key="user.userId" class="text-center">
-          <td>{{ user.studentId }}</td>
-          <td>{{ user.firstname }}</td>
-          <td>{{ user.lastname }}</td>
-          <td>{{ user.email }}</td>
-          <td>{{ user.year }}</td>
-          <td>{{ user.registeredSubject ? user.registeredSubject.subjectId : ""  }}</td>
-          <td>{{ user.shortpaperSubject ? user.shortpaperSubject.subjectId : "" }}</td>
+        <tr v-for="student in students" :key="student.userId" class="text-center">
+          <td>{{ student.studentId }}</td>
+          <td>{{ student.firstname }}</td>
+          <td>{{ student.lastname }}</td>
+          <td>{{ student.email }}</td>
+          <td>{{ student.year }}</td>
+          <td>{{ student.registeredSubject ? student.registeredSubject.subjectId : ""  }}</td>
+          <td>{{ student.shortpaperSubject ? student.shortpaperSubject.subjectId : "" }}</td>
         </tr>
       </tbody>
     </table>

@@ -13,6 +13,9 @@ import { RouterLink } from "vue-router";
         <router-link to="/studentlist">
           <button class="mr-6 hover:text-black">student list</button>
         </router-link>
+        <router-link to="/editstudent">
+          <button class="mr-6 hover:text-black">edit student</button>
+        </router-link>
         <!-- <button class="mr-4 hover:text-black"></button> -->
       </div>
     </div>
