@@ -56,6 +56,7 @@ onUpdated(() => {
           id="studentId"
           v-model="student.studentId"
           disabled
+          class="bg-slate-200"
         />
       </div>
       <div>
