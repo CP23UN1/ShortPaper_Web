@@ -16,8 +16,8 @@ const students = ref([])
 
 onMounted(async() => {
   // User API
-    const studetnsResponse = await ApiService.getStudents()
-    students.value = studetnsResponse.data
+    const studentsResponse = await ApiService.getStudents()
+    students.value = studentsResponse.data
 })
 </script>
 

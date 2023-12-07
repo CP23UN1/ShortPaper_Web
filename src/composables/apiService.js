@@ -27,6 +27,11 @@ class ApiService {
     return await api.get(`/subject/${subjectId}`)
   }
 
+  //announcements
+  async getAnnouncement() {
+    return await api.get(`/announcements`)
+  }
+
   //   get(id: any) {
   //     return api.get(`/products/${id}`)
   //   }
