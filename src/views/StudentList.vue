@@ -22,7 +22,7 @@ onMounted(async() => {
 </script>
 
 <template>
-  <div>
+  <div class="m-5">
     <h2>Student List</h2>
     <!-- {{ users[0] }} -->
     <table>

@@ -41,8 +41,7 @@
   </script>
 
 <template>
-    <div>
-      <h2>Edit Student</h2>
+    <div class="m-5">
       <form @submit.prevent="updateStudent">
         <div>
           <label for="studentId">Student ID:</label>
