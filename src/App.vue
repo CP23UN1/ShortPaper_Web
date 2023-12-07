@@ -8,8 +8,8 @@ import NavbarAdvisor from './components/NavbarAdvisor.vue';
 
 <template>
   <NavBarStudent />
-  <NavbarAdmin />
-  <NavbarAdvisor />
+  <!-- <NavbarAdmin />
+  <NavbarAdvisor /> -->
   <RouterView />
 </template>
 
