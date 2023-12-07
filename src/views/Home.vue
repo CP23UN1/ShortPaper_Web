@@ -3,6 +3,7 @@
 </script>
  
 <template>
+
 <div>
     <p>This is homepage</p>
 </div>
