@@ -7,9 +7,9 @@ import NavbarAdvisor from './components/NavbarAdvisor.vue';
 </script>
 
 <template>
-  <NavBarStudent />
-  <!-- <NavbarAdmin />
-  <NavbarAdvisor /> -->
+  <!-- <NavBarStudent /> -->
+  <NavbarAdmin />
+  <!-- <NavbarAdvisor /> -->
   <RouterView />
 </template>
 
