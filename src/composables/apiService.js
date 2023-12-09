@@ -5,8 +5,19 @@ class ApiService {
   async getUsers() {
     return await api.get(`/users`)
   }
+  async getStudents() {
+    return await api.get(`/students`)
+  }
+  async getStudentById(studentId) {
+    return await api.get(`/student/${studentId}`)
+  }
   async getUser(userId){
     return await api.get(`/user/${userId}`)
+  }
+  async updateStudent(studentId, newData){
+    console.log('to here');
+    
+    return await api.put(`/user/update/student/${studentId}`, newData)
   }
   // subjects
   async getSubjects() {
@@ -14,6 +25,11 @@ class ApiService {
   }
   async getSubject(subjectId){
     return await api.get(`/subject/${subjectId}`)
+  }
+
+  //announcements
+  async getAnnouncement() {
+    return await api.get(`/announcements`)
   }
 
   //   get(id: any) {

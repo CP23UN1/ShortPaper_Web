@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 // import HomeView from '../views/HomeView.vue'
 import Home from '../views/Home.vue'
-import StudentList from '../views/StudentList.vue'
-import StudentEditForm from '../views/StudentEditForm.vue'
-
+import StudentList from '../views/User/StudentList.vue'
+import StudentEditForm from '../views/User/StudentEditForm.vue'
+import Announcement from '../views/Announcement.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -19,9 +19,14 @@ const router = createRouter({
       component: StudentList
     },
     {
-      path: '/studentform',
-      name: 'studentform',
+      path: '/editstudent',
+      name: 'editstudent',
       component: StudentEditForm
+    },
+    {
+      path: '/announcement',
+      name: 'announcement',
+      component: Announcement
     }
   ]
 })
