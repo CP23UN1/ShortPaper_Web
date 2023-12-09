@@ -24,14 +24,14 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
   <div class="flex flex-nowrap justify-between text-xs font-medium text-center shadow-lg">
     <RouterLink to="/studentform">
       <div class="
-       bg-S01 hover:bg-white hover:text-S01 text-white w-[233px] p-5 ">ข้อมูลนักศึกษา</div>
+       bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5 ">ข้อมูลนักศึกษา</div>
     </RouterLink>
-    <div class=" bg-S01 hover:bg-white hover:text-S01 text-white w-[233px] p-5 ">ส่งเอกสารโครงงาน
+    <div class=" bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5 ">ส่งเอกสารโครงงาน
     </div>
 
     <Menu as="div" class="relative inline-block text-left">
       <div>
-        <MenuButton class=" bg-S01 w-[233px] p-5 text-white flex  hover:bg-white hover:text-S01 fill-white  hover:fill-S01 items-center justify-between">
+        <MenuButton class=" bg-bluemain w-[233px] p-5 text-white flex  hover:bg-white hover:text-bluemain fill-white  hover:fill-bluemain items-center justify-between">
           ความคิดเห็นคณะกรรมการ
           <svg width="8" height="8" viewBox="0 0 15 9" class="mx-5">
             <path
@@ -48,15 +48,15 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
           <div class="py-1">
             <MenuItem v-slot="{ active }">
             <a href="#"
-              :class="[active ? 'bg-slate-100 text-S01' : 'text-black', 'block px-4 py-2 text-xs']">ความคิดเห็น (กรรมการ1)</a>
+              :class="[active ? 'bg-slate-100 text-bluemain' : 'text-black', 'block px-4 py-2 text-xs']">ความคิดเห็น (กรรมการ1)</a>
             </MenuItem>
             <MenuItem v-slot="{ active }">
             <a href="#"
-              :class="[active ? 'bg-slate-100  text-S01' : 'text-black', 'block px-4 py-2 text-xs']">ความคิดเห็น (กรรมการ2)</a>
+              :class="[active ? 'bg-slate-100  text-bluemain' : 'text-black', 'block px-4 py-2 text-xs']">ความคิดเห็น (กรรมการ2)</a>
             </MenuItem>
             <MenuItem v-slot="{ active }">
             <a href="#"
-              :class="[active ? 'bg-slate-100  text-S01' : 'text-black', 'block px-4 py-2 text-xs']">ความคิดเห็น (กรรมการ3)</a>
+              :class="[active ? 'bg-slate-100  text-bluemain' : 'text-black', 'block px-4 py-2 text-xs']">ความคิดเห็น (กรรมการ3)</a>
             </MenuItem>
           </div>
         </MenuItems>
@@ -65,8 +65,8 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 
 
 
-  <div class=" bg-S01 hover:bg-white hover:text-S01 text-white w-[233px] p-5 ">(ฉบับแก้ไขตามคำแนะนำ)
+  <div class=" bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5 ">(ฉบับแก้ไขตามคำแนะนำ)
   </div>
-  <div class=" bg-S01 hover:bg-white hover:text-S01 text-white w-[233px] p-5 ">เอกสารโครงงานที่ผ่านมา</div>
-  <div class=" bg-S01 hover:bg-red-700 text-white w-[233px] p-5">ออกจากระบบ</div>
+  <div class=" bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5 ">เอกสารโครงงานที่ผ่านมา</div>
+  <div class=" bg-bluemain hover:bg-red-700 text-white w-[233px] p-5">ออกจากระบบ</div>
 </div></template>

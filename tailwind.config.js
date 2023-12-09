@@ -8,7 +8,11 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        S01: '#336799',
+        bluemain: '#336799',
+        bluebtn: '#3873C1'
+      },
+      fontFamily: {
+        'sarabun': ['Sarabun', 'sans-serif']
       },
       backgroundImage: {
         kmutt: "url('src/assets/kmutt.png')",
@@ -16,4 +20,6 @@ module.exports = {
     },
   },
   plugins: [require('flowbite/plugin')],
+  
 }
+//bluemain

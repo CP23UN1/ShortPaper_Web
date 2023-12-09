@@ -32,7 +32,7 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
     <Menu as="div" class="relative inline-block text-left">
       <div>
         <MenuButton
-          class="bg-S01 w-max p-5 text-white flex hover:bg-white hover:text-S01 fill-white hover:fill-S01 items-center justify-between"
+          class="bg-bluemain w-max p-5 text-white flex hover:bg-white hover:text-bluemain fill-white hover:fill-bluemain items-center justify-between"
         >
           ตรวจสอบการส่งโครงงาน
           <svg width="8" height="8" viewBox="0 0 15 9" class="mx-5">
@@ -59,7 +59,7 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
               <a
                 href="#"
                 :class="[
-                  active ? 'bg-slate-100 text-S01' : 'text-black',
+                  active ? 'bg-slate-100 text-bluemain' : 'text-black',
                   'block px-4 py-2 text-xs',
                 ]"
               >
@@ -70,7 +70,7 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
               <a
                 href="#"
                 :class="[
-                  active ? 'bg-slate-100  text-S01' : 'text-black',
+                  active ? 'bg-slate-100  text-bluemain' : 'text-black',
                   'block px-4 py-2 text-xs',
                 ]"
               >
@@ -81,7 +81,7 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
               <a
                 href="#"
                 :class="[
-                  active ? 'bg-slate-100  text-S01' : 'text-black',
+                  active ? 'bg-slate-100  text-bluemain' : 'text-black',
                   'block px-4 py-2 text-xs',
                 ]"
               >
@@ -96,7 +96,7 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
     <Menu as="div" class="relative inline-block text-left">
       <div>
         <MenuButton
-          class="bg-S01 w-full p-5 text-white flex hover:bg-white hover:text-S01 fill-white hover:fill-S01 items-center justify-between"
+          class="bg-bluemain w-full p-5 text-white flex hover:bg-white hover:text-bluemain fill-white hover:fill-bluemain items-center justify-between"
         >
           รายงานสรุปผลโครงงาน
           <svg width="8" height="8" viewBox="0 0 15 9" class="mx-5">
@@ -123,7 +123,7 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
               <a
                 href="#"
                 :class="[
-                  active ? 'bg-slate-100 text-S01' : 'text-black',
+                  active ? 'bg-slate-100 text-bluemain' : 'text-black',
                   'block px-4 py-2 text-xs',
                 ]"
                 >รายงานสรุปผลโครงงาน(ทั้งหมด)</a
@@ -133,7 +133,7 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
               <a
                 href="#"
                 :class="[
-                  active ? 'bg-slate-100  text-S01' : 'text-black',
+                  active ? 'bg-slate-100  text-bluemain' : 'text-black',
                   'block px-4 py-2 text-xs',
                 ]"
                 >รายงานสรุปผลโครงงาน(รายวิชา)
@@ -143,7 +143,7 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
               <a
                 href="#"
                 :class="[
-                  active ? 'bg-slate-100  text-S01' : 'text-black',
+                  active ? 'bg-slate-100  text-bluemain' : 'text-black',
                   'block px-4 py-2 text-xs',
                 ]"
                 >รายงานสรุปผลโครงงาน(บุคคล)
@@ -154,13 +154,13 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
       </transition>
     </Menu>
 
-    <div class="bg-S01 hover:bg-white hover:text-S01 text-white w-[233px] p-5">
+    <div class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5">
       <RouterLink to="/studentinfo"> ตรวจสอบข้อมูล(รายบุคคล) </RouterLink>
     </div>
-    <div class="bg-S01 hover:bg-white hover:text-S01 text-white w-[233px] p-5">
+    <div class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5">
       แต่งตั้งคณะกรรมการ
     </div>
-    <div class="bg-S01 hover:bg-red-700 text-white w-[233px] p-5">
+    <div class="bg-bluemain hover:bg-red-700 text-white w-[233px] p-5">
       ออกจากระบบ
     </div>
   </div>
