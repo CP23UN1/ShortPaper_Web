@@ -1,54 +1,324 @@
 <script setup>
-import ApiService from '../../composables/apiService'
 import { onMounted, ref } from 'vue'
+import ApiService from '../../composables/apiService'
 
 const students = ref([])
 
-
-// const getSubjectName = (subjectId) => {
-//   const subject = subjects.value.find(s => s.id === subjectId)
-//   const subjectObj = {
-//     subjectId: subject.subjectId,
-//     subjectName: subject.subjectName
-//   }
-//   return subjectObj
-// }
-
-onMounted(async() => {
+onMounted(async () => {
   // User API
-    const studentsResponse = await ApiService.getStudents()
-    students.value = studentsResponse.data
+  const studentsResponse = await ApiService.getStudents()
+  students.value = studentsResponse.data
 })
 </script>
 
 <template>
-  <div class="m-5">
-    <h2>Student List</h2>
-    <!-- {{ users[0] }} -->
-    <table>
-      <thead>
-        <tr>
-          <th>Student ID</th>
-          <th>Firstname</th>
-          <th>Lastname</th>
-          <th>Email</th>
-          <th>Year</th>
-          <th>Registered Subject ID</th>
-          <th>Short Paper Subject ID</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="student in students" :key="student.userId" class="text-center">
-          <td>{{ student.studentId }}</td>
-          <td>{{ student.firstname }}</td>
-          <td>{{ student.lastname }}</td>
-          <td>{{ student.email }}</td>
-          <td>{{ student.year }}</td>
-          <td>{{ student.registeredSubject ? student.registeredSubject.subjectId : ""  }}</td>
-          <td>{{ student.shortpaperSubject ? student.shortpaperSubject.subjectId : "" }}</td>
-        </tr>
-      </tbody>
-    </table>
+  <div>
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+      <table
+        class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+      >
+        <thead
+          class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+        >
+          <tr>
+            <th scope="col" class="px-6 py-3">รหัสนักศึกษา</th>
+            <th scope="col" class="px-6 py-3">ชื่อ - นามสกุล</th>
+            <th scope="col" class="px-6 py-3">รายวิชา</th>
+            <th scope="col" class="px-6 py-3">ใบ บ.1</th>
+            <th scope="col" class="px-6 py-3">ส่งครั้งที่ 1</th>
+            <th scope="col" class="px-6 py-3">ส่งครั้งที่ 2</th>
+            <th scope="col" class="px-6 py-3">รูปเล่มบทความ</th>
+            <th scope="col" class="px-6 py-3">ฉบับสมบูรณ์</th>
+            <th scope="col" class="px-6 py-3">ใบโอนลิขสิทธิ์</th>
+            <th scope="col" class="px-6 py-3">ใบโจรกรรม</th>
+            <th scope="col" class="px-6 py-3">
+              <span class="sr-only">รายละเอียด</span>
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr
+            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+            v-for="student in students"
+            :key="student.userId"
+          >
+            <!-- <RouterLink :to="'/studentinfo'" class="px-6 py-3"> -->
+            <th
+              scope="row"
+              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+            >
+              {{ student.studentId }}
+            </th>
+            <td class="px-6 py-4">
+              {{ student.firstname }} {{ student.lastname }}
+            </td>
+            <td>
+              {{ student.registeredSubject.subjectId }}
+              {{ student.registeredSubject.subjectName }}
+            </td>
+            <td class="px-6 py-4">
+              <div v-if="student.fileStatus.bOne == 0">
+                <svg
+                  class="w-[15px] h-[15px] text-red-600 dark:text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 14"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                  />
+                </svg>
+              </div>
+              <div v-else>
+                <svg
+                  class="w-[17px] h-[17px] text-lime-600 dark:text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 16 12"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M1 5.917 5.724 10.5 15 1.5"
+                  />
+                </svg>
+              </div>
+            </td>
+            <td class="px-6 py-4">
+              <div v-if="student.fileStatus.paperOne == 0">
+                <svg
+                  class="w-[15px] h-[15px] text-red-600 dark:text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 14"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                  />
+                </svg>
+              </div>
+              <div v-else>
+                <svg
+                  class="w-[17px] h-[17px] text-lime-600 dark:text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 16 12"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M1 5.917 5.724 10.5 15 1.5"
+                  />
+                </svg>
+              </div>
+            </td>
+            <td class="px-6 py-4">
+              <div v-if="student.fileStatus.paperTwo == 0">
+                <svg
+                  class="w-[15px] h-[15px] text-red-600 dark:text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 14"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                  />
+                </svg>
+              </div>
+              <div v-else>
+                <svg
+                  class="w-[17px] h-[17px] text-lime-600 dark:text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 16 12"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M1 5.917 5.724 10.5 15 1.5"
+                  />
+                </svg>
+              </div>
+            </td>
+            <td class="px-6 py-4">
+              <div v-if="student.fileStatus.article == 0">
+                <svg
+                  class="w-[15px] h-[15px] text-red-600 dark:text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 14"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                  />
+                </svg>
+              </div>
+              <div v-else>
+                <svg
+                  class="w-[17px] h-[17px] text-lime-600 dark:text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 16 12"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M1 5.917 5.724 10.5 15 1.5"
+                  />
+                </svg>
+              </div>
+            </td>
+            <td class="px-6 py-4">
+              <div v-if="student.fileStatus.final == 0">
+                <svg
+                  class="w-[15px] h-[15px] text-red-600 dark:text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 14"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                  />
+                </svg>
+              </div>
+              <div v-else>
+                <svg
+                  class="w-[17px] h-[17px] text-lime-600 dark:text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 16 12"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M1 5.917 5.724 10.5 15 1.5"
+                  />
+                </svg>
+              </div>
+            </td>
+            <td class="px-6 py-4">
+              <div v-if="student.fileStatus.copyright == 0">
+                <svg
+                  class="w-[15px] h-[15px] text-red-600 dark:text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 14"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                  />
+                </svg>
+              </div>
+              <div v-else>
+                <svg
+                  class="w-[17px] h-[17px] text-lime-600 dark:text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 16 12"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M1 5.917 5.724 10.5 15 1.5"
+                  />
+                </svg>
+              </div>
+            </td>
+            <td class="px-6 py-4">
+              <div v-if="student.fileStatus.robbery == 0">
+                <svg
+                  class="w-[15px] h-[15px] text-red-600 dark:text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 14"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                  />
+                </svg>
+              </div>
+              <div v-else>
+                <svg
+                  class="w-[17px] h-[17px] text-lime-600 dark:text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 16 12"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M1 5.917 5.724 10.5 15 1.5"
+                  />
+                </svg>
+              </div>
+            </td>
+            <!-- </RouterLink> -->
+            <td class="px-6 py-4 text-right">
+              <RouterLink :to="`/studentinfo?id=${student.userId}`" class="font-medium text-bluemain hover:underline"
+                >รายละเอียด</RouterLink
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 

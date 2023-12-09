@@ -1,15 +1,21 @@
 <script setup>
-import ApiService from '../../composables/apiService'
+import { useRoute, useRouter } from 'vue-router'
 import { onBeforeMount, ref } from 'vue'
+import ApiService from '../../composables/apiService'
 
 const student = ref({})
+const route = useRoute()
+const router = useRouter()
 
 const getStudent = async () => {
-  const res = await ApiService.getStudentById(1)
+  if (route.query.id) {
+    const id = route.query.id
+    const res = await ApiService.getStudentById(id)
 
-  if (res.status === 200) {
-    const data = await res.data
-    student.value = data
+    if (res.status === 200) {
+      const data = await res.data
+      student.value = data
+    }
   }
 }
 
@@ -88,290 +94,308 @@ onBeforeMount(async () => {
             <tr>
               <td>รายวิชาจัดทำ IS Report</td>
               <td>
-                {{ student.registeredSubject.subjectId }}
-                {{ student.registeredSubject.subjectName }}
+                {{
+                  student.registeredSubject !== null
+                    ? '-'
+                    : student.registeredSubject.subjectId
+                }}
+                {{
+                  student.registeredSubject !== null
+                    ? '-'
+                    : student.registeredSubject.subjectName
+                }}
               </td>
             </tr>
           </tbody>
         </table>
       </div>
       <div class="p-1 shadow-md mt-5">
-          <h1>ข้อมูลการ Upload File</h1>
-          <hr />
-          <table class="table-auto">
-            <tbody>
-              <tr>
-                <td>อัปโหลดเอกสาร ใบ บ.1</td>
-                <td>
-                  <div v-if="student.fileStatus.bOne == 0">
-                    <svg
-                      class="w-[15px] h-[15px] text-red-600 dark:text-white"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 14 14"
-                    >
-                      <path
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                      />
-                    </svg>
-                  </div>
-                  <div v-else>
-                    <svg
-                      class="w-[17px] h-[17px] text-lime-600 dark:text-white"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 16 12"
-                    >
-                      <path
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M1 5.917 5.724 10.5 15 1.5"
-                      />
-                    </svg>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>อัปโหลดเอกสารโครงงานครั้งที่ 1</td>
-                <td><div v-if="student.fileStatus.paperOne == 0">
-                    <svg
-                      class="w-[15px] h-[15px] text-red-600 dark:text-white"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 14 14"
-                    >
-                      <path
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                      />
-                    </svg>
-                  </div>
-                  <div v-else>
-                    <svg
-                      class="w-[17px] h-[17px] text-lime-600 dark:text-white"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 16 12"
-                    >
-                      <path
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M1 5.917 5.724 10.5 15 1.5"
-                      />
-                    </svg>
-                  </div></td>
-              </tr>
-              <tr>
-                <td>อัปโหลดเอกสารโครงงานครั้งที่ 2</td>
-                <td><div v-if="student.fileStatus.paperTwo == 0">
-                    <svg
-                      class="w-[15px] h-[15px] text-red-600 dark:text-white"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 14 14"
-                    >
-                      <path
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                      />
-                    </svg>
-                  </div>
-                  <div v-else>
-                    <svg
-                      class="w-[17px] h-[17px] text-lime-600 dark:text-white"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 16 12"
-                    >
-                      <path
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M1 5.917 5.724 10.5 15 1.5"
-                      />
-                    </svg>
-                  </div></td>
-              </tr>
-              <tr>
-                <td>
-                  อัปโหลดเอกสารโครงงานในรูปแบบของบทความ
-                  (ฉบับเกี่ยวข้องกับห้องสมุด)
-                </td>
-                <td>
-                  <div v-if="student.fileStatus.article == 0">
-                    <svg
-                      class="w-[15px] h-[15px] text-red-600 dark:text-white"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 14 14"
-                    >
-                      <path
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                      />
-                    </svg>
-                  </div>
-                  <div v-else>
-                    <svg
-                      class="w-[17px] h-[17px] text-lime-600 dark:text-white"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 16 12"
-                    >
-                      <path
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M1 5.917 5.724 10.5 15 1.5"
-                      />
-                    </svg>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>อัปโหลดเอกสารโครงงานฉบับสมบูรณ์</td>
-                <td><div v-if="student.fileStatus.final == 0">
-                    <svg
-                      class="w-[15px] h-[15px] text-red-600 dark:text-white"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 14 14"
-                    >
-                      <path
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                      />
-                    </svg>
-                  </div>
-                  <div v-else>
-                    <svg
-                      class="w-[17px] h-[17px] text-lime-600 dark:text-white"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 16 12"
-                    >
-                      <path
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M1 5.917 5.724 10.5 15 1.5"
-                      />
-                    </svg>
-                  </div></td>
-              </tr>
-              <tr>
-                <td>อัปโหลดใบโอนลิขสิทธิ์</td>
-                <td><div v-if="student.fileStatus.copyright == 0">
-                    <svg
-                      class="w-[15px] h-[15px] text-red-600 dark:text-white"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 14 14"
-                    >
-                      <path
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                      />
-                    </svg>
-                  </div>
-                  <div v-else>
-                    <svg
-                      class="w-[17px] h-[17px] text-lime-600 dark:text-white"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 16 12"
-                    >
-                      <path
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M1 5.917 5.724 10.5 15 1.5"
-                      />
-                    </svg>
-                  </div></td>
-              </tr>
-              <tr>
-                <td>
-                  อัปโหลดเอกสารข้อตกลงเพื่อการหลีกเลี่ยงการโจรกรรมทางวรรณกรรม
-                </td>
-                <td><div v-if="student.fileStatus.robbery == 0">
-                    <svg
-                      class="w-[15px] h-[15px] text-red-600 dark:text-white"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 14 14"
-                    >
-                      <path
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                      />
-                    </svg>
-                  </div>
-                  <div v-else>
-                    <svg
-                      class="w-[17px] h-[17px] text-lime-600 dark:text-white"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 16 12"
-                    >
-                      <path
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M1 5.917 5.724 10.5 15 1.5"
-                      />
-                    </svg>
-                  </div></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <h1>ข้อมูลการ Upload File</h1>
+        <hr />
+        <table class="table-auto">
+          <tbody>
+            <tr>
+              <td>อัปโหลดเอกสาร ใบ บ.1</td>
+              <td v-if="student.fileStatus !== null">
+                <div v-if="student.fileStatus.bOne == 0">
+                  <svg
+                    class="w-[15px] h-[15px] text-red-600 dark:text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 14 14"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                    />
+                  </svg>
+                </div>
+                <div v-else>
+                  <svg
+                    class="w-[17px] h-[17px] text-lime-600 dark:text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 16 12"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M1 5.917 5.724 10.5 15 1.5"
+                    />
+                  </svg>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>อัปโหลดเอกสารโครงงานครั้งที่ 1</td>
+              <td>
+                <div v-if="student.fileStatus.paperOne == 0">
+                  <svg
+                    class="w-[15px] h-[15px] text-red-600 dark:text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 14 14"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                    />
+                  </svg>
+                </div>
+                <div v-else>
+                  <svg
+                    class="w-[17px] h-[17px] text-lime-600 dark:text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 16 12"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M1 5.917 5.724 10.5 15 1.5"
+                    />
+                  </svg>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>อัปโหลดเอกสารโครงงานครั้งที่ 2</td>
+              <td>
+                <div v-if="student.fileStatus.paperTwo == 0">
+                  <svg
+                    class="w-[15px] h-[15px] text-red-600 dark:text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 14 14"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                    />
+                  </svg>
+                </div>
+                <div v-else>
+                  <svg
+                    class="w-[17px] h-[17px] text-lime-600 dark:text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 16 12"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M1 5.917 5.724 10.5 15 1.5"
+                    />
+                  </svg>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                อัปโหลดเอกสารโครงงานในรูปแบบของบทความ
+                (ฉบับเกี่ยวข้องกับห้องสมุด)
+              </td>
+              <td>
+                <div v-if="student.fileStatus.article == 0">
+                  <svg
+                    class="w-[15px] h-[15px] text-red-600 dark:text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 14 14"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                    />
+                  </svg>
+                </div>
+                <div v-else>
+                  <svg
+                    class="w-[17px] h-[17px] text-lime-600 dark:text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 16 12"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M1 5.917 5.724 10.5 15 1.5"
+                    />
+                  </svg>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>อัปโหลดเอกสารโครงงานฉบับสมบูรณ์</td>
+              <td>
+                <div v-if="student.fileStatus.final == 0">
+                  <svg
+                    class="w-[15px] h-[15px] text-red-600 dark:text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 14 14"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                    />
+                  </svg>
+                </div>
+                <div v-else>
+                  <svg
+                    class="w-[17px] h-[17px] text-lime-600 dark:text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 16 12"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M1 5.917 5.724 10.5 15 1.5"
+                    />
+                  </svg>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>อัปโหลดใบโอนลิขสิทธิ์</td>
+              <td>
+                <div v-if="student.fileStatus.copyright == 0">
+                  <svg
+                    class="w-[15px] h-[15px] text-red-600 dark:text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 14 14"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                    />
+                  </svg>
+                </div>
+                <div v-else>
+                  <svg
+                    class="w-[17px] h-[17px] text-lime-600 dark:text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 16 12"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M1 5.917 5.724 10.5 15 1.5"
+                    />
+                  </svg>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                อัปโหลดเอกสารข้อตกลงเพื่อการหลีกเลี่ยงการโจรกรรมทางวรรณกรรม
+              </td>
+              <td>
+                <div v-if="student.fileStatus.robbery == 0">
+                  <svg
+                    class="w-[15px] h-[15px] text-red-600 dark:text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 14 14"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                    />
+                  </svg>
+                </div>
+                <div v-else>
+                  <svg
+                    class="w-[17px] h-[17px] text-lime-600 dark:text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 16 12"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M1 5.917 5.724 10.5 15 1.5"
+                    />
+                  </svg>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
+    </div>
   </div>
 </template>
 

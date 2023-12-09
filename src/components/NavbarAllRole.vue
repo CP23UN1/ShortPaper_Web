@@ -165,11 +165,11 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
       รายงานสรุปผลโครงงาน
     </div>
 
-    <div
+    <!-- <div
       class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5"
     >
       <RouterLink to="/studentinfo"> ตรวจสอบข้อมูล(รายบุคคล) </RouterLink>
-    </div>
+    </div> -->
     <div
       class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5"
     >
@@ -178,7 +178,7 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
     <div
       class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5"
     >
-      ข้อมูลนักศึกษา
+      <RouterLink to="/studentlist"> ข้อมูลนักศึกษา </RouterLink>
     </div>
     <div
       class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5"
