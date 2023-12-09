@@ -26,7 +26,7 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
         <Menu as="div" class="relative inline-block text-left">
             <div>
                 <MenuButton
-                    class=" bg-S01 w-max p-5 text-white flex  hover:bg-white hover:text-S01 fill-white  hover:fill-S01 items-center justify-between">
+                    class=" bg-bluemain w-max p-5 text-white flex  hover:bg-white hover:text-bluemain fill-white  hover:fill-bluemain items-center justify-between">
                     ตรวจสอบการส่งโครงงาน
                     <svg width="8" height="8" viewBox="0 0 15 9" class="mx-5">
                         <path
@@ -43,17 +43,17 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
                     class="absolute w-full origin-top-right rounded-sm bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <div class="py-1">
                         <MenuItem v-slot="{ active }">
-                        <a href="#" :class="[active ? 'bg-slate-100 text-S01' : 'text-black', 'block px-4 py-2 text-xs']">
+                        <a href="#" :class="[active ? 'bg-slate-100 text-bluemain' : 'text-black', 'block px-4 py-2 text-xs']">
                             ตรวจสอบการส่งโครงงาน(ทั้งหมด)</a>
                         </MenuItem>
                         <MenuItem v-slot="{ active }">
-                        <a href="#" :class="[active ? 'bg-slate-100  text-S01' : 'text-black', 'block px-4 py-2 text-xs']">
+                        <a href="#" :class="[active ? 'bg-slate-100  text-bluemain' : 'text-black', 'block px-4 py-2 text-xs']">
                             ตรวจสอบการส่งโครงงาน(รายวิชา)</a>
                         </MenuItem>
                     </div>
                 </MenuItems>
             </transition>
         </Menu>
-        <div class=" bg-S01 hover:bg-red-700 text-white w-[233px] p-5">ออกจากระบบ</div>
+        <div class=" bg-bluemain hover:bg-red-700 text-white w-[233px] p-5">ออกจากระบบ</div>
     </div>
 </template>

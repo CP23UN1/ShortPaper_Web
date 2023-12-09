@@ -29,7 +29,7 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
   <div
     class="flex flex-nowrap justify-between text-xs font-medium text-center shadow-lg w-full"
   >
-    <Menu as="div" class="relative inline-block text-left">
+    <!-- <Menu as="div" class="relative inline-block text-left">
       <div>
         <MenuButton
           class="bg-bluemain w-max p-5 text-white flex hover:bg-white hover:text-bluemain fill-white hover:fill-bluemain items-center justify-between"
@@ -63,7 +63,7 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
                   'block px-4 py-2 text-xs',
                 ]"
               >
-                ตรวจสอบการส่งโครงงาน(ทั้งหมด)</a
+                ตรวจสอบการส่งโครงงาน (ทั้งหมด)</a
               >
             </MenuItem>
             <MenuItem v-slot="{ active }">
@@ -74,7 +74,7 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
                   'block px-4 py-2 text-xs',
                 ]"
               >
-                ตรวจสอบการส่งโครงงาน(รายวิชา)</a
+                ตรวจสอบการส่งโครงงาน (รายวิชา)</a
               >
             </MenuItem>
             <MenuItem v-slot="{ active }">
@@ -85,15 +85,15 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
                   'block px-4 py-2 text-xs',
                 ]"
               >
-                ตรวจสอบการส่งโครงงาน(บุคคล)</a
+                ตรวจสอบการส่งโครงงาน (บุคคล)</a
               >
             </MenuItem>
           </div>
         </MenuItems>
       </transition>
-    </Menu>
+    </Menu> -->
 
-    <Menu as="div" class="relative inline-block text-left">
+    <!-- <Menu as="div" class="relative inline-block text-left">
       <div>
         <MenuButton
           class="bg-bluemain w-full p-5 text-white flex hover:bg-white hover:text-bluemain fill-white hover:fill-bluemain items-center justify-between"
@@ -152,16 +152,51 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
           </div>
         </MenuItems>
       </transition>
-    </Menu>
+    </Menu> -->
 
-    <div class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5">
-      <RouterLink to="/studentinfo"> ตรวจสอบข้อมูล(รายบุคคล) </RouterLink>
+    <div
+      class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5"
+    >
+      ตรวจสอบการส่งโครงงาน
     </div>
-    <div class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5">
+    <div
+      class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5"
+    >
+      รายงานสรุปผลโครงงาน
+    </div>
+
+    <!-- <div
+      class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5"
+    >
+      <RouterLink to="/studentinfo"> ตรวจสอบข้อมูล(รายบุคคล) </RouterLink>
+    </div> -->
+    <div
+      class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5"
+    >
       แต่งตั้งคณะกรรมการ
     </div>
-    <div class="bg-bluemain hover:bg-red-700 text-white w-[233px] p-5">
-      ออกจากระบบ
+    <div
+      class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5"
+    >
+      <RouterLink to="/studentlist"> ข้อมูลนักศึกษา </RouterLink>
     </div>
+    <div
+      class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5"
+    >
+      ส่งเอกสารโครงงาน
+    </div>
+    <div
+      class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5"
+    >
+      ความคิดเห็นของกรรมการ
+    </div>
+    <div
+      class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5"
+    >
+      เอกสารโครงงานที่ผ่านมา
+    </div>
+    <!-- <div class="bg-bluemain hover:bg-red-700 text-white w-[233px] p-5">
+      ออกจากระบบ
+    </div> -->
   </div>
 </template>

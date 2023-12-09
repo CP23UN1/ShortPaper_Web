@@ -1,15 +1,25 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
+  content: [
+    './index.html',
+    './src/**/*.{vue,js,ts,jsx,tsx}',
+    './node_modules/flowbite/**/*.js',
+  ],
   theme: {
     extend: {
       colors: {
-        'S01' : '#336799',
+        bluemain: '#336799',
+        bluebtn: '#3873C1'
+      },
+      fontFamily: {
+        'sarabun': ['Sarabun', 'sans-serif']
       },
       backgroundImage: {
-        'kmutt' : "url('src/assets/kmutt.png')",
-      }
+        kmutt: "url('src/assets/kmutt.png')",
+      },
     },
   },
-  plugins: [],
-};
+  plugins: [require('flowbite/plugin')],
+  
+}
+//bluemain
