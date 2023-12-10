@@ -43,7 +43,7 @@ onMounted(async () => {
             v-for="student in students"
             :key="student.userId"
           >
-            <!-- <RouterLink :to="'/studentinfo'" class="px-6 py-3"> -->
+            <!-- <RouterLink :to="'/student'" class="px-6 py-3"> -->
             <th
               scope="row"
               class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
@@ -311,7 +311,7 @@ onMounted(async () => {
             </td>
             <!-- </RouterLink> -->
             <td class="px-6 py-4 text-right">
-              <RouterLink :to="`/studentinfo?id=${student.userId}`" class="font-medium text-bluemain hover:underline"
+              <RouterLink :to="`/student?id=${student.userId}`" class="font-medium text-bluemain hover:underline"
                 >รายละเอียด</RouterLink
               >
             </td>
