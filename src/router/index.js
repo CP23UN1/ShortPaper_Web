@@ -4,7 +4,7 @@ import Home from '../views/Home.vue'
 import StudentList from '../views/User/StudentList.vue'
 import StudentEditForm from '../views/StudentEditForm.vue'
 import Announcement from '../views/Announcement.vue'
-import StudentInformation from '../views/User/StudentInformation.vue'
+import StudentDetails from '../views/User/StudentDetails.vue'
 import CommitteeList from '../views/CommitteeList.vue'
 
 const router = createRouter({
@@ -33,7 +33,7 @@ const router = createRouter({
     {
       path: '/student',
       name: 'Student information',
-      component: StudentInformation
+      component: StudentDetails
     },
     {
       path: '/committees',
