@@ -60,16 +60,28 @@ onBeforeMount(async () => {
             type="submit"
             class="text-white absolute end-2.5 bottom-2.5 bg-bluebtn hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
-            Search
+            ค้นหา
           </button>
         </div>
       </form>
     </div> -->
-    <div class="mt-5">
+    
+    <div class="mt-4 text-end">
+      <RouterLink :to="`/student/edit?id=${route.query.id}`">
+        <button
+          type="button"
+          class="text-white bg-bluebtn hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        >
+          แก้ไขรายละเอียด
+        </button>
+      </RouterLink>
+    </div>
+
+    <div class="mt-3 justify-center item-center">
       <div class="p-1 shadow-md">
-        <h1>ข้อมูลนักศึกษา</h1>
+        <h1 class="my-2 ml-2">ข้อมูลนักศึกษา</h1>
         <hr />
-        <table class="table-auto">
+        <table class="table-auto my-2 ml-2">
           <tbody>
             <tr>
               <td>รหัสนักศึกษา</td>
@@ -92,15 +104,17 @@ onBeforeMount(async () => {
               <td>{{ student.projectName }}</td>
             </tr>
             <tr>
-              <td>รายวิชาจัดทำ IS Report</td>
+              <td class="pr-16">รายวิชาจัดทำ IS Report</td>
               <td>
                 {{
                   student.registeredSubject !== null
-                    ? student.registeredSubject.subjectId : '-'
+                    ? student.registeredSubject.subjectId
+                    : '-'
                 }}
                 {{
                   student.registeredSubject !== null
-                    ? student.registeredSubject.subjectName : ''
+                    ? student.registeredSubject.subjectName
+                    : ''
                 }}
               </td>
             </tr>
@@ -108,9 +122,9 @@ onBeforeMount(async () => {
         </table>
       </div>
       <div class="p-1 shadow-md mt-5">
-        <h1>ข้อมูลการ Upload File</h1>
+        <h1 class="my-2 ml-2">ข้อมูลการ Upload File</h1>
         <hr />
-        <table class="table-auto">
+        <table class="table-auto my-2 ml-2">
           <tbody>
             <tr>
               <td>อัปโหลดเอกสาร ใบ บ.1</td>
@@ -230,7 +244,7 @@ onBeforeMount(async () => {
               </td>
             </tr>
             <tr>
-              <td>
+              <td class="pr-16">
                 อัปโหลดเอกสารโครงงานในรูปแบบของบทความ
                 (ฉบับเกี่ยวข้องกับห้องสมุด)
               </td>
