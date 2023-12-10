@@ -96,13 +96,11 @@ onBeforeMount(async () => {
               <td>
                 {{
                   student.registeredSubject !== null
-                    ? '-'
-                    : student.registeredSubject.subjectId
+                    ? student.registeredSubject.subjectId : '-'
                 }}
                 {{
                   student.registeredSubject !== null
-                    ? '-'
-                    : student.registeredSubject.subjectName
+                    ? student.registeredSubject.subjectName : ''
                 }}
               </td>
             </tr>

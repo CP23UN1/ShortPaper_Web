@@ -6,7 +6,7 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
   <div>
     <nav class="p-2 bg-white">
       <div class="flex flex-wrap justify-between items-center">
-        <RouterLink to="/studentlist">
+        <RouterLink to="/">
           <img src="../assets/SIT-LOGO.png" class="h-12 mr-3" />
         </RouterLink>
         <button class="flex items-center bg-white">
@@ -168,17 +168,17 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
     <!-- <div
       class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5"
     >
-      <RouterLink to="/studentinfo"> ตรวจสอบข้อมูล(รายบุคคล) </RouterLink>
+      <RouterLink to="/student"> ตรวจสอบข้อมูล(รายบุคคล) </RouterLink>
     </div> -->
     <div
       class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5"
     >
-      แต่งตั้งคณะกรรมการ
+    <RouterLink to="/committees">แต่งตั้งคณะกรรมการ</RouterLink>
     </div>
     <div
       class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5"
     >
-      <RouterLink to="/studentlist"> ข้อมูลนักศึกษา </RouterLink>
+      <RouterLink to="/students"> ข้อมูลนักศึกษา </RouterLink>
     </div>
     <div
       class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5"
