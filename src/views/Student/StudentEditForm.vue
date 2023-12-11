@@ -66,12 +66,34 @@ onMounted(async () => {
 
 <template>
   <div>
+    <div class="mt-5 font-semibold">
+      <div class="text-bluemain text-center">
+        <p>
+          <RouterLink :to="'/students'">
+            <span
+              class="hover:text-white hover:bg-bluemain hover:p-2 rounded-lg"
+              >ข้อมูลนักศึกษาทั้งหมด</span
+            >
+          </RouterLink>
+          >
+          <RouterLink :to="`/student?id=${student.userId}`">
+            <span
+              class="hover:text-white hover:bg-bluemain hover:p-2 rounded-lg"
+              >ข้อมูลนักศึกษา</span
+            >
+          </RouterLink>
+          >
+          <span class="font-bold">แก้ไขข้อมูลนักศึกษา</span>
+        </p>
+      </div>
+      <div class="bg-bluemain text-white p-4 mb-3 text-lg mt-5">
+        <h1>ข้อมูลนักศึกษา</h1>
+      </div>
+    </div>
+    
     <form
       class="mt-[24px] text-black text-base font-medium font-['Sarabun'] grid"
     >
-      <div class="bg-bluemain text-white p-4 mb-3 text-lg">
-        <h1>ข้อมูลนักศึกษา</h1>
-      </div>
       <div class="grid grid-cols-3 bg-white p-[24px] rounded-[4px] shadow-md">
         <!--  -->
         <div>

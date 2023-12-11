@@ -62,8 +62,22 @@ onBeforeMount(async () => {
 
 <template>
   <div>
-    <div class="bg-bluemain text-white p-4 mb-3 text-lg mt-5">
-      <h1>ข้อมูลนักศึกษา</h1>
+    <div class="mt-5 font-semibold">
+      <div class="text-bluemain text-center">
+        <p>
+          <RouterLink :to="'/students'">
+            <span
+              class="hover:text-white hover:bg-bluemain hover:p-2 rounded-lg"
+              >ข้อมูลนักศึกษาทั้งหมด</span
+            >
+          </RouterLink>
+          >
+          <span class="font-bold">ข้อมูลนักศึกษา</span>
+        </p>
+      </div>
+      <div class="bg-bluemain text-white p-4 mb-3 text-lg mt-5">
+        <h1>ข้อมูลนักศึกษา</h1>
+      </div>
     </div>
 
     <div class="mt-4 text-end">
