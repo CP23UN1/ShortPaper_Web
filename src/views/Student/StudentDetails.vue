@@ -62,6 +62,10 @@ onBeforeMount(async () => {
 
 <template>
   <div>
+    <div class="bg-bluemain text-white p-4 mb-3 text-lg mt-5">
+      <h1>ข้อมูลนักศึกษา</h1>
+    </div>
+
     <div class="mt-4 text-end">
       <RouterLink :to="`/student/edit?id=${route.query.id}`">
         <button
@@ -73,7 +77,7 @@ onBeforeMount(async () => {
       </RouterLink>
     </div>
 
-    <div class="mt-3 justify-center item-center">
+    <div class="mt-3 justify-center item-center mb-12">
       <div class="p-1 shadow-md">
         <h1 class="my-2 ml-2">ข้อมูลนักศึกษา</h1>
         <hr />

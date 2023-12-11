@@ -48,7 +48,7 @@ import { RouterLink } from 'vue-router'
           $route.name !== 'Committees',
       }"
     >
-      <p>แต่งตั้งคณะกรรมการ</p>
+      <p>คณะกรรมการ</p>
     </RouterLink>
 
     <RouterLink

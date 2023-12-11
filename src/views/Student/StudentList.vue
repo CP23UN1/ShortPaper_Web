@@ -5,13 +5,12 @@ import ApiService from '../../composables/apiService'
 const students = ref([])
 
 const getStudents = async () => {
-    const res = await ApiService.getStudents()
+  const res = await ApiService.getStudents()
 
-    if (res.status === 200) {
-      const data = await res.data
-      students.value = data
-    }
-  
+  if (res.status === 200) {
+    const data = await res.data
+    students.value = data
+  }
 }
 
 onMounted(async () => {
@@ -21,7 +20,9 @@ onMounted(async () => {
 
 <template>
   <div>
-    <h1>ข้อมูลนักศึกษา</h1>
+    <div class="bg-bluemain text-white p-4 mb-3 text-lg mt-5">
+      <h1>ข้อมูลนักศึกษา</h1>
+    </div>
     <div class="p-5 mt-6 shadow-md">
       <form>
         <label for="student-search">รหัสนักศึกษา</label>
