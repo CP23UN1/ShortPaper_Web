@@ -2,18 +2,18 @@ import api from './api'
 
 class ApiService {
   // Users
-  async getUsers() {
-    return await api.get(`/users`)
-  }
+  // async getUsers() {
+  //   return await api.get(`/users`)
+  // }
   async getStudents() {
     return await api.get(`/students`)
   }
   async getStudentById(studentId) {
     return await api.get(`/student/${studentId}`)
   }
-  async getUser(userId){
-    return await api.get(`/user/${userId}`)
-  }
+  // async getUser(userId){
+  //   return await api.get(`/user/${userId}`)
+  // }
   async updateStudent(studentId, newData){
     return await api.put(`/user/update/student/${studentId}`, newData)
   }

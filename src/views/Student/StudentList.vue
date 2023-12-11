@@ -4,18 +4,27 @@ import ApiService from '../../composables/apiService'
 
 const students = ref([])
 
+const getStudents = async () => {
+    const res = await ApiService.getStudents()
+
+    if (res.status === 200) {
+      const data = await res.data
+      students.value = data
+    }
+  
+}
+
 onMounted(async () => {
-  // User API
-  const studentsResponse = await ApiService.getStudents()
-  students.value = studentsResponse.data
+  await getStudents()
 })
 </script>
 
 <template>
   <div>
+    <h1>ข้อมูลนักศึกษา</h1>
     <div class="p-5 mt-6 shadow-md">
       <form>
-        <label for="student-search" class="font-medium">รหัสนักศึกษา</label>
+        <label for="student-search">รหัสนักศึกษา</label>
         <div class="relative">
           <div
             class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
@@ -117,7 +126,7 @@ onMounted(async () => {
               </div>
               <div v-else>
                 <svg
-                  class="w-[17px] h-[17px] text-lime-600 dark:text-white"
+                  class="w-[17px] h-[17px] text-teal-700 dark:text-white"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -153,7 +162,7 @@ onMounted(async () => {
               </div>
               <div v-else>
                 <svg
-                  class="w-[17px] h-[17px] text-lime-600 dark:text-white"
+                  class="w-[17px] h-[17px] text-teal-700 dark:text-white"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -189,7 +198,7 @@ onMounted(async () => {
               </div>
               <div v-else>
                 <svg
-                  class="w-[17px] h-[17px] text-lime-600 dark:text-white"
+                  class="w-[17px] h-[17px] text-teal-700 dark:text-white"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -225,7 +234,7 @@ onMounted(async () => {
               </div>
               <div v-else>
                 <svg
-                  class="w-[17px] h-[17px] text-lime-600 dark:text-white"
+                  class="w-[17px] h-[17px] text-teal-700 dark:text-white"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -261,7 +270,7 @@ onMounted(async () => {
               </div>
               <div v-else>
                 <svg
-                  class="w-[17px] h-[17px] text-lime-600 dark:text-white"
+                  class="w-[17px] h-[17px] text-teal-700 dark:text-white"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -297,7 +306,7 @@ onMounted(async () => {
               </div>
               <div v-else>
                 <svg
-                  class="w-[17px] h-[17px] text-lime-600 dark:text-white"
+                  class="w-[17px] h-[17px] text-teal-700 dark:text-white"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -333,7 +342,7 @@ onMounted(async () => {
               </div>
               <div v-else>
                 <svg
-                  class="w-[17px] h-[17px] text-lime-600 dark:text-white"
+                  class="w-[17px] h-[17px] text-teal-700 dark:text-white"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"

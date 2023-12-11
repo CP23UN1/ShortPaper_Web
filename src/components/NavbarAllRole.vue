@@ -38,7 +38,7 @@ import { RouterLink } from 'vue-router'
     >
       รายงานสรุปผลโครงงาน
     </div>
-    
+
     <RouterLink
       to="/committees"
       class="w-[233px] p-5"
