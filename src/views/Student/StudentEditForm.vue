@@ -1,6 +1,6 @@
 <script setup>
 import ApiService from '../../composables/apiService'
-import { onMounted, ref, computed, onBeforeMount, onUpdated } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
@@ -35,109 +35,174 @@ const updateStudent = async () => {
   }
 }
 
-onBeforeMount(async () => {
+onMounted(async () => {
   await getStudent()
   await getSubjects()
-})
-
-onUpdated(() => {
-  console.log(student.value)
 })
 </script>
 
 <template>
-  <div>
-    <h2>Edit Student</h2>
-    <form @submit.prevent="updateStudent">
+  <form
+    class="mt-[24px] text-black text-sm font-medium font-['Sarabun'] grid"
+  >
+  <div class="bg-bluemain text-white p-4 mb-3">ข้อมูลนักศึกษา</div>
+    <div class="grid grid-cols-3 bg-white p-[24px] rounded-[4px] shadow-md">
+      <!--  -->
       <div>
-        <label for="studentId">Student ID:</label>
-        <input
-          type="text"
-          id="studentId"
-          v-model="student.studentId"
-          disabled
-          class="bg-slate-200"
-        />
+        <div>
+          <label for="studentId" class="mr-[16px]">รหัสนักศึกษา</label>
+        </div>
+        <div>
+          <input
+            type="text"
+            id="studentId"
+            v-model="student.studentId"
+            disabled
+            class="border border-gray-400 rounded-[4px] w-[250px]"
+          />
+        </div>
       </div>
+      <!--  -->
       <div>
-        <label for="firstName">First Name:</label>
-        <input type="text" id="firstName" v-model="student.firstname" />
+        <div>
+          <label for="firstName" class="mr-[16px]">ชื่อ</label>
+        </div>
+        <div>
+          <input
+            type="text"
+            id="firstName"
+            v-model="student.firstname"
+            class="border border-gray-400 rounded-[4px] w-[250px]"
+          />
+        </div>
       </div>
+      <!--  -->
       <div>
-        <label for="lastName">Last Name:</label>
-        <input type="text" id="lastName" v-model="student.lastname" />
+        <div>
+          <label for="lastName" class="mr-[16px]">นามสกุล</label>
+        </div>
+        <div>
+          <input
+            type="text"
+            id="lastName"
+            v-model="student.lastname"
+            class="border border-gray-400 rounded-[4px] w-[250px]"
+          />
+        </div>
       </div>
-      <div>
-        <label for="email">Email:</label>
-        <input type="email" id="email" v-model="student.email" />
+      <!--  -->
+      <div class="mt-3">
+        <div>
+          <label for="email">Email</label>
+        </div>
+        <div>
+          <input
+            type="email"
+            id="email"
+            v-model="student.email"
+            class="border border-gray-400 rounded-[4px] w-[250px]"
+          />
+        </div>
       </div>
-      <div>
-        <label for="phone">Phone:</label>
-        <input type="text" id="phone" v-model="student.phoneNumber" />
+      <!--  -->
+      <div class="mt-3">
+        <div>
+          <label for="phone" class="mr-[16px]">เบอร์โทรศัพท์</label>
+        </div>
+        <div>
+          <input
+            type="text"
+            id="phone"
+            v-model="student.phoneNumber"
+            class="border border-gray-400 rounded-[4px] w-[250px]"
+          />
+        </div>
       </div>
+    </div>
+    <!--  -->
+    <div class="bg-bluemain text-white p-4 my-3">โครงงานที่จัดทำ</div>
+    <div class="grid grid-cols-3 bg-white p-[24px] rounded-[4px] shadow-md">
       <div>
-        <label for="year">Year:</label>
-        <input type="text" id="year" v-model="student.year" />
+        <div>
+          <label for="projectName">ชื่อหัวข้อโครงงาน</label>
+        </div>
+        <div>
+          <input
+            type="text"
+            id="projectName"
+            v-model="student.projectName"
+            class="border border-gray-400 rounded-[4px] w-[250px]"
+          />
+        </div>
       </div>
+      <!--  -->
       <div>
-        <label for="projectName">Project Name:</label>
-        <input type="text" id="projectName" v-model="student.projectName" />
-      </div>
-      <div>
-        <label for="registeredSubject">Registered Subject:</label>
-        <select id="registeredSubject" v-model="student.registeredSubjectid">
-          <option
-            v-for="subject in subjects"
-            :key="subject.id"
-            :value="subject.id"
+        <div>
+          <label for="workshopSubject"
+            >วิชาจัดทำ IS Report / Thesis / Project</label
           >
-            {{ subject.subjectId }} {{ subject.subjectName }}
-          </option>
-        </select>
-      </div>
-      <div>
-        <label for="shortpaperSubject">Short Paper Subject:</label>
-        <select id="shortpaperSubject" v-model="student.shortpaperSubjectid">
-          <option
-            v-for="subject in subjects"
-            :key="subject.id"
-            :value="subject.id"
+        </div>
+        <div>
+          <select
+            id="workshopSubject"
+            v-model="student.registeredSubjectid"
+            class="border border-gray-400 rounded-[4px] w-[250px]"
           >
-            {{ subject.subjectId }} {{ subject.subjectName }}
-          </option>
-        </select>
+            <option
+              v-for="subject in subjects"
+              :key="subject.id"
+              :value="subject.id"
+            >
+              {{ subject.subjectId }} {{ subject.subjectName }}
+            </option>
+          </select>
+        </div>
       </div>
+
       <div>
-        <button type="submit" class="btn bg-red-600">Update Student</button>
+        <div>
+          <label for="reportSubject"
+            >วิชาเลือก IS Report / Thesis / Project</label
+          >
+        </div>
+        <div>
+          <select
+            id="reportSubject"
+            v-model="student.shortpaperSubjectid"
+            class="border border-gray-400 rounded-[4px] w-[250px]"
+          >
+            <option
+              v-for="subject in subjects"
+              :key="subject.id"
+              :value="subject.id"
+            >
+              {{ subject.subjectId }} {{ subject.subjectName }}
+            </option>
+          </select>
+        </div>
       </div>
-    </form>
-  </div>
+    </div>
+
+    <div class="text-sm font-medium space-x-4 mt-[24px] text-end">
+      <!-- <button
+        type="submit"
+        class="text-red-600 border border-red-600 rounded-[4px] px-[40px] py-[5px] hover:bg-red-600 hover:text-white"
+        >
+        ยกเลิก
+      </button> -->
+      <button
+        type="submit"
+        class="text-teal-700 border border-teal-700 rounded-[4px] px-[40px] py-[5px] hover:bg-teal-700 hover:text-white"
+        @click="updateStudent"
+      >
+        บันทึก
+      </button>
+      <!-- <button
+        type="submit"
+        class="text-amber-600 border border-amber-600 rounded-[4px] px-[40px] py-[5px] hover:bg-amber-600 hover:text-white"
+      >
+        แก้ไข
+      </button> -->
+    </div>
+  </form>
 </template>
-
-<style>
-/* Add some basic styling for the form */
-form {
-  max-width: 400px;
-  margin: 20px auto;
-}
-
-label {
-  display: block;
-  margin-bottom: 5px;
-}
-
-input,
-select {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 10px;
-}
-
-button {
-  background-color: #4caf50;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  cursor: pointer;
-}
-</style>

@@ -1,6 +1,6 @@
 <script setup>
 import { onBeforeMount, ref } from 'vue'
-import ApiService from '../composables/apiService'
+import ApiService from '../../composables/apiService'
 
 const projects = ref({})
 
