@@ -38,13 +38,14 @@ import { RouterLink } from 'vue-router'
     >
       รายงานสรุปผลโครงงาน
     </div>
+    
     <RouterLink
       to="/committees"
       class="w-[233px] p-5"
       :class="{
-        'bg-white text-bluemain': $route.path === '/committees',
+        'bg-white text-bluemain': $route.name === 'Committees',
         'bg-bluemain hover:bg-white hover:text-bluemain text-white':
-          $route.path !== '/committees',
+          $route.name !== 'Committees',
       }"
     >
       <p>แต่งตั้งคณะกรรมการ</p>
@@ -54,13 +55,19 @@ import { RouterLink } from 'vue-router'
       to="/students"
       class="w-[233px] p-5"
       :class="{
-        'bg-white text-bluemain': $route.path === '/students',
+        'bg-white text-bluemain':
+          $route.name === 'Student List' ||
+          $route.name === 'Student information' ||
+          $route.name === 'Editing student information',
         'bg-bluemain hover:bg-white hover:text-bluemain text-white':
-          $route.path !== '/students',
+          $route.name !== 'Student List' &&
+          $route.name !== 'Student information' &&
+          $route.name !== 'Editing student information',
       }"
     >
       <p>ข้อมูลนักศึกษา</p>
     </RouterLink>
+
     <div
       class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5"
     >

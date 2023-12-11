@@ -26,11 +26,6 @@ const routes = [
       component: StudentEditForm
     },
     {
-      path: '/announcement',
-      name: 'Announcement',
-      component: Announcement
-    },
-    {
       path: '/student',
       name: 'Student information',
       component: StudentDetails
@@ -39,7 +34,12 @@ const routes = [
       path: '/committees',
       name: 'Committees',
       component: CommitteeList
-    }
+    },
+    {
+      path: '/announcement',
+      name: 'Announcement',
+      component: Announcement
+    },
   ]
 
 const router = createRouter({ history, routes })  
