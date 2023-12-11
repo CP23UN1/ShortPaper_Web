@@ -26,11 +26,10 @@ onBeforeMount(async () => {
       <input
         type="text"
         class="justify-items-center border-slate-200 mr-[32px] text-opacity-60 text-sm font-medium text-slate-500 w-[500px]"
-        value="Upload File .CSV"
+        placeholder="Upload File .CSV"
       />
       <p class="text-red-500 text-xs italic">
-        *** เอกสารแต่งตั้งคณะกรรมการสำหรับ Upload จะต้องเป็นไฟล์ .CSV เท่านั้น
-        ***
+        *** เอกสารแต่งตั้งคณะกรรมการสำหรับ Upload จะต้องเป็นไฟล์ .CSV เท่านั้น ***
       </p>
       <div></div>
     </div>
@@ -50,6 +49,7 @@ onBeforeMount(async () => {
       ค้นหา
     </button>
   </div>
+
   <div class="mt-[24px] flex justify-center">
     <table
       class="text-sm text-center rtl:text-right text-gray-500 dark:text-gray-400 rounded-md w-full"

@@ -1,12 +1,11 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 // import HomeView from '../views/HomeView.vue'
 import Home from '../views/Home.vue'
-import StudentList from '../views/User/StudentList.vue'
+import StudentList from '../views/Student/StudentList.vue'
 import StudentEditForm from '../views/StudentEditForm.vue'
 import Announcement from '../views/Announcement.vue'
-import StudentDetails from '../views/User/StudentDetails.vue'
+import StudentDetails from '../views/Student/StudentDetails.vue'
 import CommitteeList from '../views/CommitteeList.vue'
-
 
 const history = createWebHashHistory();
 
@@ -38,7 +37,7 @@ const routes = [
     },
     {
       path: '/committees',
-      name: 'Assigning committees',
+      name: 'Committees',
       component: CommitteeList
     }
   ]

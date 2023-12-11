@@ -1,6 +1,5 @@
 <script setup>
 import { RouterLink } from 'vue-router'
-import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 </script>
 <template>
   <div>
@@ -29,131 +28,6 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
   <div
     class="flex flex-nowrap justify-between text-xs font-medium text-center shadow-lg w-full"
   >
-    <!-- <Menu as="div" class="relative inline-block text-left">
-      <div>
-        <MenuButton
-          class="bg-bluemain w-max p-5 text-white flex hover:bg-white hover:text-bluemain fill-white hover:fill-bluemain items-center justify-between"
-        >
-          ตรวจสอบการส่งโครงงาน
-          <svg width="8" height="8" viewBox="0 0 15 9" class="mx-5">
-            <path
-              d="M0.293015 0.792893C0.68354 0.402369 1.3167 0.402369 1.70723 0.792893L7.50012 6.58579L13.293 0.792894C13.6835 0.40237 14.3167 0.40237 14.7072 0.792894C15.0978 1.18342 15.0978 1.81658 14.7072 2.20711L8.20723 8.70711C8.01969 8.89464 7.76534 9 7.50012 9C7.23491 9 6.98055 8.89464 6.79301 8.70711L0.293015 2.20711C-0.097509 1.81658 -0.097509 1.18342 0.293015 0.792893Z"
-            />
-          </svg>
-        </MenuButton>
-      </div>
-
-      <transition
-        enter-active-class="transition ease-out duration-100"
-        enter-from-class="transform opacity-0 scale-95"
-        enter-to-class="transform opacity-100 scale-100"
-        leave-active-class="transition ease-in duration-75"
-        leave-from-class="transform opacity-100 scale-100"
-        leave-to-class="transform opacity-0 scale-95"
-      >
-        <MenuItems
-          class="absolute w-full origin-top-right rounded-sm bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-        >
-          <div class="py-1">
-            <MenuItem v-slot="{ active }">
-              <a
-                href="#"
-                :class="[
-                  active ? 'bg-slate-100 text-bluemain' : 'text-black',
-                  'block px-4 py-2 text-xs',
-                ]"
-              >
-                ตรวจสอบการส่งโครงงาน (ทั้งหมด)</a
-              >
-            </MenuItem>
-            <MenuItem v-slot="{ active }">
-              <a
-                href="#"
-                :class="[
-                  active ? 'bg-slate-100  text-bluemain' : 'text-black',
-                  'block px-4 py-2 text-xs',
-                ]"
-              >
-                ตรวจสอบการส่งโครงงาน (รายวิชา)</a
-              >
-            </MenuItem>
-            <MenuItem v-slot="{ active }">
-              <a
-                href="#"
-                :class="[
-                  active ? 'bg-slate-100  text-bluemain' : 'text-black',
-                  'block px-4 py-2 text-xs',
-                ]"
-              >
-                ตรวจสอบการส่งโครงงาน (บุคคล)</a
-              >
-            </MenuItem>
-          </div>
-        </MenuItems>
-      </transition>
-    </Menu> -->
-
-    <!-- <Menu as="div" class="relative inline-block text-left">
-      <div>
-        <MenuButton
-          class="bg-bluemain w-full p-5 text-white flex hover:bg-white hover:text-bluemain fill-white hover:fill-bluemain items-center justify-between"
-        >
-          รายงานสรุปผลโครงงาน
-          <svg width="8" height="8" viewBox="0 0 15 9" class="mx-5">
-            <path
-              d="M0.293015 0.792893C0.68354 0.402369 1.3167 0.402369 1.70723 0.792893L7.50012 6.58579L13.293 0.792894C13.6835 0.40237 14.3167 0.40237 14.7072 0.792894C15.0978 1.18342 15.0978 1.81658 14.7072 2.20711L8.20723 8.70711C8.01969 8.89464 7.76534 9 7.50012 9C7.23491 9 6.98055 8.89464 6.79301 8.70711L0.293015 2.20711C-0.097509 1.81658 -0.097509 1.18342 0.293015 0.792893Z"
-            />
-          </svg>
-        </MenuButton>
-      </div>
-
-      <transition
-        enter-active-class="transition ease-out duration-100"
-        enter-from-class="transform opacity-0 scale-95"
-        enter-to-class="transform opacity-100 scale-100"
-        leave-active-class="transition ease-in duration-75"
-        leave-from-class="transform opacity-100 scale-100"
-        leave-to-class="transform opacity-0 scale-95"
-      >
-        <MenuItems
-          class="absolute right-0 z-10 w-full origin-top-right rounded-sm bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-        >
-          <div class="py-1">
-            <MenuItem v-slot="{ active }">
-              <a
-                href="#"
-                :class="[
-                  active ? 'bg-slate-100 text-bluemain' : 'text-black',
-                  'block px-4 py-2 text-xs',
-                ]"
-                >รายงานสรุปผลโครงงาน(ทั้งหมด)</a
-              >
-            </MenuItem>
-            <MenuItem v-slot="{ active }">
-              <a
-                href="#"
-                :class="[
-                  active ? 'bg-slate-100  text-bluemain' : 'text-black',
-                  'block px-4 py-2 text-xs',
-                ]"
-                >รายงานสรุปผลโครงงาน(รายวิชา)
-              </a>
-            </MenuItem>
-            <MenuItem v-slot="{ active }">
-              <a
-                href="#"
-                :class="[
-                  active ? 'bg-slate-100  text-bluemain' : 'text-black',
-                  'block px-4 py-2 text-xs',
-                ]"
-                >รายงานสรุปผลโครงงาน(บุคคล)
-              </a>
-            </MenuItem>
-          </div>
-        </MenuItems>
-      </transition>
-    </Menu> -->
-
     <div
       class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5"
     >
@@ -164,22 +38,29 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
     >
       รายงานสรุปผลโครงงาน
     </div>
+    <RouterLink
+      to="/committees"
+      class="w-[233px] p-5"
+      :class="{
+        'bg-white text-bluemain': $route.path === '/committees',
+        'bg-bluemain hover:bg-white hover:text-bluemain text-white':
+          $route.path !== '/committees',
+      }"
+    >
+      <p>แต่งตั้งคณะกรรมการ</p>
+    </RouterLink>
 
-    <!-- <div
-      class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5"
+    <RouterLink
+      to="/students"
+      class="w-[233px] p-5"
+      :class="{
+        'bg-white text-bluemain': $route.path === '/students',
+        'bg-bluemain hover:bg-white hover:text-bluemain text-white':
+          $route.path !== '/students',
+      }"
     >
-      <RouterLink to="/student"> ตรวจสอบข้อมูล(รายบุคคล) </RouterLink>
-    </div> -->
-    <div
-      class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5"
-    >
-    <RouterLink to="/committees">แต่งตั้งคณะกรรมการ</RouterLink>
-    </div>
-    <div
-      class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5"
-    >
-      <RouterLink to="/students"> ข้อมูลนักศึกษา </RouterLink>
-    </div>
+      <p>ข้อมูลนักศึกษา</p>
+    </RouterLink>
     <div
       class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5"
     >
@@ -195,8 +76,5 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
     >
       เอกสารโครงงานที่ผ่านมา
     </div>
-    <!-- <div class="bg-bluemain hover:bg-red-700 text-white w-[233px] p-5">
-      ออกจากระบบ
-    </div> -->
   </div>
 </template>
