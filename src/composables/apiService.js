@@ -32,6 +32,17 @@ class ApiService {
     return await api.get(`/announcements`)
   }
 
+  //Projects
+  async getProjects() {
+    return await api.get(`/projects`)
+  }
+  async getProject(){
+    return await api.get(`/project`)
+  }
+  async addCommittee(){
+    return await api.get(`/project/committee`)
+  }
+
   //   get(id: any) {
   //     return api.get(`/products/${id}`)
   //   }
