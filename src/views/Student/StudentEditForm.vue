@@ -5,19 +5,10 @@ import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
 const router = useRouter()
-const subjects = ref([])
 const student = ref({})
 const combinedShortPaperSubject = ref()
 const combinedRegisSubject = ref()
-
-// const showModal = ref(false)
-// const modalMessage = ref()
-
-// Validation
-const errors = ref({
-  firstName: '',
-  lastName: '',
-})
+const error = ref()
 
 const getStudent = async () => {
   const res = await ApiService.getStudentById(1)
@@ -28,29 +19,67 @@ const getStudent = async () => {
   }
 }
 
-const getSubjects = async () => {
-  const res = await ApiService.getSubjects()
+const validateEmail = (email) => {
+  var validRegex =
+    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+  if (email.match(validRegex)) {
+    return true
+  } else {
+    return false
+  }
+}
 
-  if (res.status === 200) {
-    const data = await res.data
-    subjects.value = data
+const validateData = () => {
+  if (student.value.email == '' || null) {
+    error.value = 'กรุณาใส่อีเมล'
+    return error.value
+  } else {
+    if (validateEmail(student.value.email) == true) {
+      if (student.value.phoneNumber == '' || null) {
+        error.value = 'กรุณาใส่เบอร์โทรศัพท์'
+        return error.value
+      } else {
+        if (student.value.phoneNumber.length == 10) {
+          if (student.value.projectName == '' || null) {
+            error.value = 'กรุณาใส่ชื่อหัวข้อโครงงาน'
+            return error.value
+          } else {
+            if (student.value.firstname == '' || null) {
+              error.value = 'กรุณาใส่ชื่อ'
+              return error.value
+            } else {
+              if (student.value.lastname == '' || null) {
+                error.value = 'กรุณาใส่นามสกุล'
+                return error.value
+              } else {
+                return true
+              }
+            }
+          }
+        } else {
+          error.value = 'กรุณาใส่เบอร์โทรศัพท์ที่ถูกต้อง'
+          return error.value
+        }
+      }
+    } else {
+      error.value = 'กรุณาใส่อีเมลที่ถูกต้อง'
+      return error.value
+    }
   }
 }
 
 const updateStudent = async () => {
-  try {
+  if (validateData() == true) {
     await ApiService.updateStudent(student.value.userId, student.value)
-    // showModal.value = true
-    // modalMessage.value = 'บันทึกสำเร็จ'
-    // alert('successfully updated')
-  } catch (error) {
-    alert('Error updating student:', error)
+    alert('บันทึกสำเร็จ')
+    router.push('/student/' + student.value.userId)
+  } else {
+    alert(error.value)
   }
 }
 
 onMounted(async () => {
   await getStudent()
-  await getSubjects()
 
   combinedShortPaperSubject.value =
     student.value.shortpaperSubject.subjectId +
@@ -90,7 +119,7 @@ onMounted(async () => {
         <h1>ข้อมูลนักศึกษา</h1>
       </div>
     </div>
-    
+
     <form
       class="mt-[24px] text-black text-base font-medium font-['Sarabun'] grid"
     >
@@ -106,7 +135,7 @@ onMounted(async () => {
               id="studentId"
               v-model="student.studentId"
               disabled
-              class="border border-gray-400 rounded-[4px] w-[250px]"
+              class="border border-gray-400 rounded-[4px] w-[250px] bg-gray-200 text-gray-500"
             />
           </div>
         </div>
@@ -158,7 +187,7 @@ onMounted(async () => {
               type="email"
               id="email"
               v-model="student.email"
-              class="border border-gray-400 rounded-[4px] w-[250px]"
+              class="border border-gray-400 rounded-[4px] w-[400px]"
             />
             <p v-if="student.email == ''" class="text-red-600 text-sm">
               กรุณาใส่อีเมล
@@ -199,7 +228,7 @@ onMounted(async () => {
               type="text"
               id="projectName"
               v-model="student.projectName"
-              class="border border-gray-400 rounded-[4px] w-[250px]"
+              class="border border-gray-400 rounded-[4px] w-[400px]"
             />
             <p v-if="student.projectName == ''" class="text-red-600 text-sm">
               กรุณาใส่หัวข้อโครงงาน
@@ -219,7 +248,7 @@ onMounted(async () => {
               id="shortpapersubject"
               v-model="combinedShortPaperSubject"
               disabled
-              class="border border-gray-400 rounded-[4px] w-[250px]"
+              class="border border-gray-400 rounded-[4px] w-[330px] bg-gray-200 text-gray-500"
             />
             <!-- <select
             id="workshopSubject"
@@ -249,7 +278,7 @@ onMounted(async () => {
               id="registerSubject"
               v-model="combinedRegisSubject"
               disabled
-              class="border border-gray-400 rounded-[4px] w-[250px]"
+              class="border border-gray-400 rounded-[4px] w-[330px] bg-gray-200 text-gray-500"
             />
             <!-- <select
             id="reportSubject"
@@ -282,10 +311,11 @@ onMounted(async () => {
         >
           บันทึก
         </button> -->
+
         <button
           data-modal-target="popup-modal"
           data-modal-toggle="popup-modal"
-          class="text-teal-700 border border-teal-700 rounded-[4px] px-[40px] py-[5px] hover:bg-teal-700 hover:text-white"
+          class="text-teal-700 border border-teal-700 rounded-[4px] px-[40px] py-[5px] hover:bg-teal-700 hover:text-white disabled:bg-red-500"
           type="submit"
         >
           บันทึก
