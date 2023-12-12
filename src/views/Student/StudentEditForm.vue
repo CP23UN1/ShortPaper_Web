@@ -3,17 +3,21 @@ import ApiService from '../../composables/apiService'
 import { onMounted, ref, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
+const route = useRoute()
 const router = useRouter()
 const student = ref({})
 const combinedShortPaperSubject = ref()
 const combinedRegisSubject = ref()
 
 const getStudent = async () => {
-  const res = await ApiService.getStudentById(1)
+  if (route.query.id) {
+    const id = route.query.id
+    const res = await ApiService.getStudentById(id)
 
-  if (res.status === 200) {
-    const data = await res.data
-    student.value = data
+    if (res.status === 200) {
+      const data = await res.data
+      student.value = data
+    }
   }
 }
 
