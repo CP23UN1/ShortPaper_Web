@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import ApiService from '../../composables/apiService'
+import SearchInput from '../../components/SearchInput.vue'
 
 const students = ref([])
 
@@ -49,6 +50,18 @@ const isFileStatusValid = (fileStatus) => {
   return fileStatus !== undefined && fileStatus !== null
 }
 
+const searchKeyword = async (keyword) => {
+  if (keyword == null || keyword == undefined || keyword == '') {
+    await getStudents()
+  } else {
+    const res = await ApiService.searchStudent(keyword)
+    if (res.status === 200) {
+      const data = await res.data
+      students.value = data
+    }
+  }
+}
+
 onMounted(async () => {
   await getStudents()
 })
@@ -59,47 +72,13 @@ onMounted(async () => {
     <div class="bg-bluemain text-white p-4 mb-3 text-lg mt-5">
       <h1>ข้อมูลนักศึกษา</h1>
     </div>
-    <div class="p-5 mt-6 shadow-md">
-      <form>
-        <label for="student-search">รหัสนักศึกษา</label>
-        <div class="relative">
-          <div
-            class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
-          >
-            <svg
-              class="w-4 h-4 text-gray-500 dark:text-gray-400"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 20 20"
-            >
-              <path
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-              />
-            </svg>
-          </div>
-          <input
-            type="search"
-            id="student-search"
-            class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="กรอกรหัสนักศึกษา"
-            required
-          />
-          <button
-            type="submit"
-            class="text-white absolute end-2.5 bottom-2.5 bg-bluebtn hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            ค้นหา
-          </button>
-        </div>
-      </form>
-    </div>
 
-    <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-6">
+    <SearchInput @searchKeyword="searchKeyword" />
+
+    <div
+      class="relative overflow-x-auto shadow-md sm:rounded-lg mt-6"
+      v-if="students.length !== 0"
+    >
       <table
         class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
       >
@@ -122,7 +101,6 @@ onMounted(async () => {
             </th>
           </tr>
         </thead>
-
         <tbody>
           <tr
             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
@@ -217,6 +195,11 @@ onMounted(async () => {
           </tr>
         </tbody>
       </table>
+    </div>
+    <div class="text-center" v-else>
+      <h1 class="text-lg font-bold text-bluemain bg-slate-200 p-4 rounded-lg">
+        ไม่มีข้อมูลนักศึกษา
+      </h1>
     </div>
   </div>
 </template>

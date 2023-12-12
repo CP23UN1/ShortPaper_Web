@@ -11,6 +11,11 @@ class ApiService {
   async updateStudent(studentId, newData){
     return await api.put(`/user/update/student/${studentId}`, newData)
   }
+
+  async searchStudent(keyword){
+    return await api.get(`/user/student/${keyword}`)
+  }
+
   // Subjects
   async getSubjects() {
     return await api.get(`/subjects`)
