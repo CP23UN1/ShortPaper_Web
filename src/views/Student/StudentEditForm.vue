@@ -3,12 +3,10 @@ import ApiService from '../../composables/apiService'
 import { onMounted, ref, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
-const route = useRoute()
 const router = useRouter()
 const student = ref({})
 const combinedShortPaperSubject = ref()
 const combinedRegisSubject = ref()
-const error = ref()
 
 const getStudent = async () => {
   const res = await ApiService.getStudentById(1)
@@ -30,51 +28,50 @@ const validateEmail = (email) => {
 }
 
 const validateData = () => {
+  let isValid = true
+  if (student.value.firstname == '' || null) {
+    alert('กรุณาใส่ชื่อ')
+    isValid = false
+  }
+
+  if (student.value.lastname == '' || null) {
+    alert('กรุณาใส่นามสกุล')
+    isValid = false
+  }
+
   if (student.value.email == '' || null) {
-    error.value = 'กรุณาใส่อีเมล'
-    return error.value
+    alert('กรุณาใส่อีเมล')
+    isValid = false
   } else {
-    if (validateEmail(student.value.email) == true) {
-      if (student.value.phoneNumber == '' || null) {
-        error.value = 'กรุณาใส่เบอร์โทรศัพท์'
-        return error.value
-      } else {
-        if (student.value.phoneNumber.length == 10) {
-          if (student.value.projectName == '' || null) {
-            error.value = 'กรุณาใส่ชื่อหัวข้อโครงงาน'
-            return error.value
-          } else {
-            if (student.value.firstname == '' || null) {
-              error.value = 'กรุณาใส่ชื่อ'
-              return error.value
-            } else {
-              if (student.value.lastname == '' || null) {
-                error.value = 'กรุณาใส่นามสกุล'
-                return error.value
-              } else {
-                return true
-              }
-            }
-          }
-        } else {
-          error.value = 'กรุณาใส่เบอร์โทรศัพท์ที่ถูกต้อง'
-          return error.value
-        }
-      }
-    } else {
-      error.value = 'กรุณาใส่อีเมลที่ถูกต้อง'
-      return error.value
+    if (validateEmail(student.value.email) !== true) {
+      alert('กรุณาใส่อีเมลที่ถูกต้อง')
+      isValid = false
     }
   }
+
+  if (student.value.phoneNumber == '' || null) {
+    alert('กรุณาใส่เบอร์โทรศัพท์')
+    isValid = false
+  } else {
+    if (student.value.phoneNumber.length !== 10) {
+      alert('กรุณาใส่เบอร์โทรศัพท์ที่ถูกต้อง')
+      isValid = false
+    }
+  }
+
+  if (student.value.projectName == '' || null) {
+    alert('กรุณาใส่หัวข้อโครงงาน')
+    isValid = false
+  }
+
+  return isValid
 }
 
 const updateStudent = async () => {
   if (validateData() == true) {
     await ApiService.updateStudent(student.value.userId, student.value)
     alert('บันทึกสำเร็จ')
-    router.push('/student/' + student.value.userId)
-  } else {
-    alert(error.value)
+    router.push('/student?id=' + student.value.userId)
   }
 }
 
@@ -124,7 +121,6 @@ onMounted(async () => {
       class="mt-[24px] text-black text-base font-medium font-['Sarabun'] grid"
     >
       <div class="grid grid-cols-3 bg-white p-[24px] rounded-[4px] shadow-md">
-        <!--  -->
         <div>
           <div>
             <label for="studentId" class="mr-[16px]">รหัสนักศึกษา</label>
@@ -139,7 +135,7 @@ onMounted(async () => {
             />
           </div>
         </div>
-        <!--  -->
+
         <div>
           <div>
             <label for="firstName" class="mr-[16px]"
@@ -158,7 +154,7 @@ onMounted(async () => {
             </p>
           </div>
         </div>
-        <!--  -->
+
         <div>
           <div>
             <label for="lastName" class="mr-[16px]"
@@ -177,7 +173,7 @@ onMounted(async () => {
             </p>
           </div>
         </div>
-        <!--  -->
+
         <div class="mt-3">
           <div>
             <label for="email">อีเมล <span class="text-red-600">*</span></label>
@@ -194,7 +190,7 @@ onMounted(async () => {
             </p>
           </div>
         </div>
-        <!--  -->
+
         <div class="mt-3">
           <div>
             <label for="phone" class="mr-[16px]"
@@ -214,7 +210,7 @@ onMounted(async () => {
           </div>
         </div>
       </div>
-      <!--  -->
+
       <div class="bg-bluemain text-white p-4 my-3 text-lg">โครงงานที่จัดทำ</div>
       <div class="grid grid-cols-3 bg-white p-[24px] rounded-[4px] shadow-md">
         <div>
@@ -235,7 +231,7 @@ onMounted(async () => {
             </p>
           </div>
         </div>
-        <!--  -->
+
         <div>
           <div>
             <label for="shortpapersubject"
@@ -250,19 +246,6 @@ onMounted(async () => {
               disabled
               class="border border-gray-400 rounded-[4px] w-[330px] bg-gray-200 text-gray-500"
             />
-            <!-- <select
-            id="workshopSubject"
-            v-model="student.shortpaperSubjectid"
-            class="border border-gray-400 rounded-[4px] w-[250px]"
-          >
-            <option
-              v-for="subject in subjects"
-              :key="subject.id"
-              :value="subject.id"
-            >
-              {{ subject.subjectId }} {{ subject.subjectName }}
-            </option>
-          </select> -->
           </div>
         </div>
 
@@ -280,38 +263,11 @@ onMounted(async () => {
               disabled
               class="border border-gray-400 rounded-[4px] w-[330px] bg-gray-200 text-gray-500"
             />
-            <!-- <select
-            id="reportSubject"
-            v-model="student.registeredSubjectid"
-            class="border border-gray-400 rounded-[4px] w-[250px]"
-          >
-            <option
-              v-for="subject in subjects"
-              :key="subject.id"
-              :value="subject.id"
-            >
-              {{ subject.subjectId }} {{ subject.subjectName }}
-            </option>
-          </select> -->
           </div>
         </div>
       </div>
 
       <div class="text-sm font-medium space-x-4 mt-[24px] text-end">
-        <!-- <button
-        type="submit"
-        class="text-red-600 border border-red-600 rounded-[4px] px-[40px] py-[5px] hover:bg-red-600 hover:text-white"
-        >
-        ยกเลิก
-      </button> -->
-        <!-- <button
-          type="submit"
-          class="text-teal-700 border border-teal-700 rounded-[4px] px-[40px] py-[5px] hover:bg-teal-700 hover:text-white"
-          @click="updateStudent(student.userId, student)"
-        >
-          บันทึก
-        </button> -->
-
         <button
           data-modal-target="popup-modal"
           data-modal-toggle="popup-modal"
@@ -320,13 +276,6 @@ onMounted(async () => {
         >
           บันทึก
         </button>
-
-        <!-- <button
-        type="submit"
-        class="text-amber-600 border border-amber-600 rounded-[4px] px-[40px] py-[5px] hover:bg-amber-600 hover:text-white"
-      >
-        แก้ไข
-      </button> -->
       </div>
     </form>
 

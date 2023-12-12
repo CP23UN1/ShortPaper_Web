@@ -2,18 +2,12 @@ import api from './api'
 
 class ApiService {
   // Users
-  // async getUsers() {
-  //   return await api.get(`/users`)
-  // }
   async getStudents() {
     return await api.get(`/students`)
   }
   async getStudentById(studentId) {
     return await api.get(`/student/${studentId}`)
   }
-  // async getUser(userId){
-  //   return await api.get(`/user/${userId}`)
-  // }
   async updateStudent(studentId, newData){
     return await api.put(`/user/update/student/${studentId}`, newData)
   }
@@ -37,8 +31,8 @@ class ApiService {
   async getProject(){
     return await api.get(`/project`)
   }
-  async addCommittee(){
-    return await api.get(`/project/committee`)
+  async addCommittee(committeeList){
+    return await api.post(`/project/committee`, committeeList)
   }
 }
 export default new ApiService()
