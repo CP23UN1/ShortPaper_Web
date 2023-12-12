@@ -13,6 +13,42 @@ const getStudents = async () => {
   }
 }
 
+const wrongIconSvg = `<svg
+                    class="w-[15px] h-[15px] text-red-600 dark:text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 14 14"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                    />
+                  </svg>`
+
+const correctIconSvg = `<svg
+                    class="w-[17px] h-[17px] text-teal-700 dark:text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 16 12"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M1 5.917 5.724 10.5 15 1.5"
+                    />
+                  </svg>`
+
+const isFileStatusValid = (fileStatus) => {
+  return fileStatus !== undefined && fileStatus !== null
+}
+
 onMounted(async () => {
   await getStudents()
 })
@@ -108,255 +144,66 @@ onMounted(async () => {
               {{ student.registeredSubject.subjectName }}
             </td>
             <td class="px-6 py-4">
-              <div v-if="student.fileStatus.bOne == 0">
-                <svg
-                  class="w-[15px] h-[15px] text-red-600 dark:text-white"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 14 14"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                  />
-                </svg>
-              </div>
-              <div v-else>
-                <svg
-                  class="w-[17px] h-[17px] text-teal-700 dark:text-white"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 16 12"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M1 5.917 5.724 10.5 15 1.5"
-                  />
-                </svg>
+              <div v-if="isFileStatusValid(student.fileStatus)">
+                <div
+                  v-if="student.fileStatus.bOne === 0"
+                  v-html="wrongIconSvg"
+                ></div>
+                <div v-else v-html="correctIconSvg"></div>
               </div>
             </td>
             <td class="px-6 py-4">
-              <div v-if="student.fileStatus.paperOne == 0">
-                <svg
-                  class="w-[15px] h-[15px] text-red-600 dark:text-white"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 14 14"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                  />
-                </svg>
-              </div>
-              <div v-else>
-                <svg
-                  class="w-[17px] h-[17px] text-teal-700 dark:text-white"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 16 12"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M1 5.917 5.724 10.5 15 1.5"
-                  />
-                </svg>
+              <div v-if="isFileStatusValid(student.fileStatus)">
+                <div
+                  v-if="student.fileStatus.paperOne === 0"
+                  v-html="wrongIconSvg"
+                ></div>
+                <div v-else v-html="correctIconSvg"></div>
               </div>
             </td>
             <td class="px-6 py-4">
-              <div v-if="student.fileStatus.paperTwo == 0">
-                <svg
-                  class="w-[15px] h-[15px] text-red-600 dark:text-white"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 14 14"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                  />
-                </svg>
-              </div>
-              <div v-else>
-                <svg
-                  class="w-[17px] h-[17px] text-teal-700 dark:text-white"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 16 12"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M1 5.917 5.724 10.5 15 1.5"
-                  />
-                </svg>
+              <div v-if="isFileStatusValid(student.fileStatus)">
+                <div
+                  v-if="student.fileStatus.paperTwo === 0"
+                  v-html="wrongIconSvg"
+                ></div>
+                <div v-else v-html="correctIconSvg"></div>
               </div>
             </td>
             <td class="px-6 py-4">
-              <div v-if="student.fileStatus.article == 0">
-                <svg
-                  class="w-[15px] h-[15px] text-red-600 dark:text-white"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 14 14"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                  />
-                </svg>
-              </div>
-              <div v-else>
-                <svg
-                  class="w-[17px] h-[17px] text-teal-700 dark:text-white"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 16 12"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M1 5.917 5.724 10.5 15 1.5"
-                  />
-                </svg>
+              <div v-if="isFileStatusValid(student.fileStatus)">
+                <div
+                  v-if="student.fileStatus.article === 0"
+                  v-html="wrongIconSvg"
+                ></div>
+                <div v-else v-html="correctIconSvg"></div>
               </div>
             </td>
             <td class="px-6 py-4">
-              <div v-if="student.fileStatus.final == 0">
-                <svg
-                  class="w-[15px] h-[15px] text-red-600 dark:text-white"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 14 14"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                  />
-                </svg>
-              </div>
-              <div v-else>
-                <svg
-                  class="w-[17px] h-[17px] text-teal-700 dark:text-white"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 16 12"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M1 5.917 5.724 10.5 15 1.5"
-                  />
-                </svg>
+              <div v-if="isFileStatusValid(student.fileStatus)">
+                <div
+                  v-if="student.fileStatus.final === 0"
+                  v-html="wrongIconSvg"
+                ></div>
+                <div v-else v-html="correctIconSvg"></div>
               </div>
             </td>
             <td class="px-6 py-4">
-              <div v-if="student.fileStatus.copyright == 0">
-                <svg
-                  class="w-[15px] h-[15px] text-red-600 dark:text-white"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 14 14"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                  />
-                </svg>
-              </div>
-              <div v-else>
-                <svg
-                  class="w-[17px] h-[17px] text-teal-700 dark:text-white"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 16 12"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M1 5.917 5.724 10.5 15 1.5"
-                  />
-                </svg>
+              <div v-if="isFileStatusValid(student.fileStatus)">
+                <div
+                  v-if="student.fileStatus.copyright === 0"
+                  v-html="wrongIconSvg"
+                ></div>
+                <div v-else v-html="correctIconSvg"></div>
               </div>
             </td>
             <td class="px-6 py-4">
-              <div v-if="student.fileStatus.robbery == 0">
-                <svg
-                  class="w-[15px] h-[15px] text-red-600 dark:text-white"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 14 14"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                  />
-                </svg>
-              </div>
-              <div v-else>
-                <svg
-                  class="w-[17px] h-[17px] text-teal-700 dark:text-white"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 16 12"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M1 5.917 5.724 10.5 15 1.5"
-                  />
-                </svg>
+              <div v-if="isFileStatusValid(student.fileStatus)">
+                <div
+                  v-if="student.fileStatus.robbery === 0"
+                  v-html="wrongIconSvg"
+                ></div>
+                <div v-else v-html="correctIconSvg"></div>
               </div>
             </td>
             <!-- </RouterLink> -->

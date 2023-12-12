@@ -65,7 +65,7 @@ onBeforeMount(async () => {
     <div class="mt-5 font-semibold">
       <div class="text-bluemain text-center">
         <p>
-          <RouterLink :to="'/students'">
+          <RouterLink :to="'/'">
             <span
               class="hover:text-white hover:bg-bluemain hover:p-2 rounded-lg"
               >ข้อมูลนักศึกษาทั้งหมด</span

@@ -52,7 +52,7 @@ import { RouterLink } from 'vue-router'
     </RouterLink>
 
     <RouterLink
-      to="/students"
+      to="/"
       class="w-[233px] p-5"
       :class="{
         'bg-white text-bluemain':
