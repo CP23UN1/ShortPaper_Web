@@ -1,13 +1,8 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 
 const emits = defineEmits(['searchKeyword'])
-const props = defineProps({
-  //   user: {
-  //     type: Array,
-  //     default: [],
-  //   },
-})
+const props = defineProps({})
 
 const keyword = ref()
 </script>
@@ -15,7 +10,7 @@ const keyword = ref()
 <template>
   <div class="p-5 mt-6 shadow-md">
     <form>
-      <label for="student-search">รหัสนักศึกษา</label>
+      <label for="student-search">ค้นหานักศึกษา</label>
       <div class="relative">
         <div
           class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
