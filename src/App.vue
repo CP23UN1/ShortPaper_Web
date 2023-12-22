@@ -1,9 +1,9 @@
 <script setup>
 import { RouterView } from 'vue-router'
-import NavBarStudent from './components/NavBarStudent.vue';
-import NavbarAdmin from './components/NavbarAdmin.vue';
-import NavbarAdvisor from './components/NavbarAdvisor.vue';
-import NavbarAllRole from './components/NavbarAllRole.vue'
+import NavBarStudent from './components/Navbar/NavBarStudent.vue';
+import NavbarAdmin from './components/Navbar/NavbarAdmin.vue';
+import NavbarAdvisor from './components/Navbar/NavbarAdvisor.vue';
+import NavbarAllRole from './components/Navbar/NavbarAllRole.vue'
 
 </script>
 
