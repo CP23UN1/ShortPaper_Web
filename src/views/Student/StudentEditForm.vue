@@ -1,7 +1,8 @@
 <script setup>
-import ApiService from '../../composables/apiService'
 import { onMounted, ref, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import ApiService from '../../composables/apiService'
+import Header from '../../components/Header.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -116,10 +117,9 @@ onMounted(async () => {
           <span class="font-bold">แก้ไขข้อมูลนักศึกษา</span>
         </p>
       </div>
-      <div class="bg-bluemain text-white p-4 mb-3 text-lg mt-5">
-        <h1>ข้อมูลนักศึกษา</h1>
-      </div>
     </div>
+
+    <Header header="ข้อมูลนักศึกษา" />
 
     <form
       class="mt-[24px] text-black text-base font-medium font-['Sarabun'] grid"
@@ -215,7 +215,8 @@ onMounted(async () => {
         </div>
       </div>
 
-      <div class="bg-bluemain text-white p-4 my-3 text-lg">โครงงานที่จัดทำ</div>
+      <Header header="โครงงานที่จัดทำ" />
+
       <div class="grid grid-cols-3 bg-white p-[24px] rounded-[4px] shadow-md">
         <div>
           <div>

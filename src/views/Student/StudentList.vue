@@ -2,6 +2,7 @@
 import { onMounted, ref } from 'vue'
 import ApiService from '../../composables/apiService'
 import SearchInput from '../../components/SearchInput.vue'
+import Header from '../../components/Header.vue'
 
 const students = ref([])
 
@@ -69,11 +70,12 @@ onMounted(async () => {
 
 <template>
   <div>
-    <div class="bg-bluemain text-white p-4 mb-3 text-lg mt-5">
-      <h1>ข้อมูลนักศึกษา</h1>
-    </div>
-
-    <SearchInput @searchKeyword="searchKeyword" />
+    <Header header="ข้อมูลนักศึกษา" />
+    <SearchInput
+      @searchKeyword="searchKeyword"
+      placeholder="กรอกรหัสนักศึกษา ชื่อ นามสกุล หรืออีเมล"
+      label="ค้นหานักศึกษา"
+    />
 
     <div
       class="relative overflow-x-auto shadow-md sm:rounded-lg mt-6"

@@ -2,15 +2,24 @@
 import { ref } from 'vue'
 
 const emits = defineEmits(['searchKeyword'])
-const props = defineProps({})
+const props = defineProps({
+  label: {
+    type: String,
+    default: 'ค้นหา',
+  },
+  placeholder: {
+    type: String,
+    default: 'ค้นหา',
+  },
+})
 
 const keyword = ref()
 </script>
 
 <template>
-  <div class="p-5 mt-6 shadow-md">
-    <form>
-      <label for="student-search">ค้นหานักศึกษา</label>
+  <div class="p-5 shadow-md">
+    <form @submit.prevent="$emit('searchKeyword', keyword)">
+      <label for="search">{{ label }}</label>
       <div class="relative">
         <div
           class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
@@ -33,18 +42,18 @@ const keyword = ref()
         </div>
         <input
           type="search"
-          id="student-search"
+          id="search"
           class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="กรอกรหัสนักศึกษา ชื่อ นามสกุล หรืออีเมล"
+          :placeholder="placeholder"
           v-model="keyword"
         />
-        <button
+        <!-- <button
           type="submit"
           class="text-white absolute end-2.5 bottom-2.5 bg-bluebtn hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           @click="$emit('searchKeyword', keyword)"
         >
           ค้นหา
-        </button>
+        </button> -->
       </div>
     </form>
   </div>

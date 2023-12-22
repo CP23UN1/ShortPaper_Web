@@ -2,6 +2,7 @@
 import { useRoute, useRouter } from 'vue-router'
 import { onBeforeMount, ref } from 'vue'
 import ApiService from '../../composables/apiService'
+import Header from '../../components/Header.vue'
 
 const student = ref({})
 const route = useRoute()
@@ -75,10 +76,9 @@ onBeforeMount(async () => {
           <span class="font-bold">ข้อมูลนักศึกษา</span>
         </p>
       </div>
-      <div class="bg-bluemain text-white p-4 mb-3 text-lg mt-5">
-        <h1>ข้อมูลนักศึกษา</h1>
-      </div>
     </div>
+    
+    <Header header="ข้อมูลนักศึกษา" />
 
     <div class="mt-4 text-end">
       <RouterLink :to="`/student/edit?id=${route.query.id}`">

@@ -1,6 +1,7 @@
 <script setup>
 import { onBeforeMount, ref } from 'vue'
 import ApiService from '../../composables/apiService'
+import Header from '../../components/Header.vue'
 
 const projects = ref({})
 
@@ -20,9 +21,7 @@ onBeforeMount(async () => {
 
 <template>
   <div>
-    <div class="bg-bluemain text-white p-4 mb-3 text-lg mt-5">
-      <h1>คณะกรรมการ</h1>
-    </div>
+    <Header header="คณะกรรมการ" />
 
     <div
       class="w-full bg-white shadow-md mt-[24px] py-[8px] px-[16px flex justify-center"
