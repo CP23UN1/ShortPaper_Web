@@ -3,6 +3,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { onBeforeMount, ref } from 'vue'
 import ApiService from '../../composables/apiService'
 import Header from '../../components/Header.vue'
+import ButtonMain from '../../components/ButtonMain.vue'
 
 const student = ref({})
 const route = useRoute()
@@ -82,12 +83,7 @@ onBeforeMount(async () => {
 
     <div class="mt-4 text-end">
       <RouterLink :to="`/student/edit?id=${route.query.id}`">
-        <button
-          type="button"
-          class="text-white bg-bluebtn hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        >
-          แก้ไขรายละเอียด
-        </button>
+        <ButtonMain text="แก้ไขรายละเอียด" />
       </RouterLink>
     </div>
 
