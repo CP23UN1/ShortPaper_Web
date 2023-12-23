@@ -23,7 +23,8 @@ onBeforeMount(async () => {
   <div>
     <Header header="คณะกรรมการ" />
 
-    <div
+    <!-- Excel -->
+    <!-- <div
       class="w-full bg-white shadow-md mt-[24px] py-[8px] px-[16px flex justify-center"
     >
       <div>
@@ -38,6 +39,7 @@ onBeforeMount(async () => {
         </p>
         <div></div>
       </div>
+
       <button
         class="bg-bluebtn p-[20px] text-white hover:bg-white fill-white hover:text-bluemain hover:fill-bluemain rounded-sm text-sm font-medium flex justify-evenly items-center shadow-md"
       >
@@ -53,9 +55,10 @@ onBeforeMount(async () => {
         </svg>
         ค้นหา
       </button>
-    </div>
+    </div> -->
 
-    <div class="mt-[24px] flex justify-center">
+    <!-- committee list -->
+    <!-- <div class="mt-[24px] flex justify-center">
       <table
         class="text-sm text-center rtl:text-right text-gray-500 dark:text-gray-400 rounded-md w-full"
       >
@@ -112,6 +115,55 @@ onBeforeMount(async () => {
                   : ''
               }}
             </td>
+          </tr>
+        </tbody>
+      </table>
+    </div> -->
+
+    <div
+      class="relative overflow-x-auto shadow-md sm:rounded-lg mt-6"
+      v-if="projects.length !== 0"
+    >
+      <table
+        class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+      >
+        <thead
+          class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+        >
+          <tr>
+            <th scope="col" class="px-6 py-3">รหัสนักศึกษา</th>
+            <th scope="col" class="px-6 py-3">กรรมการคนที่ 1</th>
+            <th scope="col" class="px-6 py-3">กรรมการคนที่ 2</th>
+            <th scope="col" class="px-6 py-3">กรรมการคนที่ 3</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+            v-for="proj in projects"
+            :key="proj.projectId"
+          >
+            <th
+              scope="row"
+              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+            >
+              {{ proj.student.studentId }}
+            </th>
+            <td class="px-6 py-4" v-if="proj.committeeFirst !== null">
+              {{ proj.committeeFirst.firstname }}
+              {{ proj.committeeFirst.lastname }}
+            </td>
+            <td v-else></td>
+            <td class="px-6 py-4" v-if="proj.committeeSecond !== null">
+              {{ proj.committeeSecond.firstname }}
+              {{ proj.committeeSecond.lastname }}
+            </td>
+            <td v-else></td>
+            <td class="px-6 py-4" v-if="proj.committeeThird !== null">
+              {{ proj.committeeThird.firstname }}
+              {{ proj.committeeThird.lastname }}
+            </td>
+            <td v-else></td>
           </tr>
         </tbody>
       </table>
