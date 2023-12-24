@@ -2,6 +2,8 @@
 import { onBeforeMount, ref } from 'vue'
 import ApiService from '../../composables/apiService'
 import Header from '../../components/Header.vue'
+import SearchInput from '../../components/SearchInput.vue'
+import SelectInput from '../../components/SelectInput.vue'
 
 const projects = ref({})
 
@@ -13,6 +15,13 @@ const getProjects = async () => {
     projects.value = data
   }
 }
+
+const subjects = [
+  'INT100 Computer programming',
+  'INT421 Applied Machine Learning',
+]
+
+const years = ['1/2565', '2/2565', '1/2566', '2/2566']
 
 onBeforeMount(async () => {
   await getProjects()
@@ -57,68 +66,13 @@ onBeforeMount(async () => {
       </button>
     </div> -->
 
-    <!-- committee list -->
-    <!-- <div class="mt-[24px] flex justify-center">
-      <table
-        class="text-sm text-center rtl:text-right text-gray-500 dark:text-gray-400 rounded-md w-full"
-      >
-        <thead
-          class="text-xs text-white uppercase bg-bluemain dark:bg-gray-700 dark:text-gray-400"
-        >
-          <tr>
-            <th scope="col" class="px-6 py-3">รหัสนักศึกษา</th>
-            <th scope="col" class="px-6 py-3">กรรมการคนที่ 1</th>
-            <th scope="col" class="px-6 py-3">กรรมการคนที่ 2</th>
-            <th scope="col" class="px-6 py-3">กรรมการคนที่ 3</th>
-          </tr>
-        </thead>
-        <tbody class="bg-slate-200">
-          <tr
-            class="px-6 py-3"
-            v-for="project in projects"
-            :key="project.projectId"
-          >
-            <td>{{ project.student.studentId }}</td>
-            <td>
-              {{
-                project.committeeFirst != null
-                  ? project.committeeFirst.firstname
-                  : '-'
-              }}
-              {{
-                project.committeeFirst != null
-                  ? project.committeeFirst.lastname
-                  : ''
-              }}
-            </td>
-            <td>
-              {{
-                project.committeeSecond != null
-                  ? project.committeeSecond.firstname
-                  : '-'
-              }}
-              {{
-                project.committeeSecond != null
-                  ? project.committeeSecond.lastname
-                  : ''
-              }}
-            </td>
-            <td>
-              {{
-                project.committeeThird != null
-                  ? project.committeeThird.firstname
-                  : '-'
-              }}
-              {{
-                project.committeeThird != null
-                  ? project.committeeThird.firstname
-                  : ''
-              }}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div> -->
+    <div class="p-5 shadow-md">
+      <SearchInput label="ค้นหานักศึกษา" placeholder="กรอกรหัสนักศึกษา" />
+      <div class="grid grid-cols-2 gap-10">
+        <SelectInput class="mt-2" :options="subjects" label="รหัสวิชา" />
+        <SelectInput class="mt-2" :options="years" label="ปีการศึกษา" />
+      </div>
+    </div>
 
     <div
       class="relative overflow-x-auto shadow-md sm:rounded-lg mt-6"

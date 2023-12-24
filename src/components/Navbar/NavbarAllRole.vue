@@ -28,29 +28,6 @@ import { RouterLink } from 'vue-router'
   <div
     class="flex flex-nowrap justify-between text-xs font-medium text-center shadow-lg w-full"
   >
-    <div
-      class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5"
-    >
-      ตรวจสอบการส่งโครงงาน
-    </div>
-    <div
-      class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5"
-    >
-      รายงานสรุปผลโครงงาน
-    </div>
-
-    <RouterLink
-      to="/committees"
-      class="w-[233px] p-5"
-      :class="{
-        'bg-white text-bluemain': $route.name === 'Committees',
-        'bg-bluemain hover:bg-white hover:text-bluemain text-white':
-          $route.name !== 'Committees',
-      }"
-    >
-      <p>คณะกรรมการ</p>
-    </RouterLink>
-
     <RouterLink
       to="/"
       class="w-[233px] p-5"
@@ -67,6 +44,29 @@ import { RouterLink } from 'vue-router'
     >
       <p>ข้อมูลนักศึกษา</p>
     </RouterLink>
+
+    <RouterLink
+      to="/committees"
+      class="w-[233px] p-5"
+      :class="{
+        'bg-white text-bluemain': $route.name === 'Committees',
+        'bg-bluemain hover:bg-white hover:text-bluemain text-white':
+          $route.name !== 'Committees',
+      }"
+    >
+      <p>คณะกรรมการ</p>
+    </RouterLink>
+
+    <div
+      class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5"
+    >
+      ตรวจสอบการส่งโครงงาน
+    </div>
+    <div
+      class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5"
+    >
+      รายงานสรุปผลโครงงาน
+    </div>
 
     <div
       class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5"

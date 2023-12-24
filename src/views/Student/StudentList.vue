@@ -71,11 +71,13 @@ onMounted(async () => {
 <template>
   <div>
     <Header header="ข้อมูลนักศึกษา" />
-    <SearchInput
-      @searchKeyword="searchKeyword"
-      placeholder="กรอกรหัสนักศึกษา ชื่อ นามสกุล หรืออีเมล"
-      label="ค้นหานักศึกษา"
-    />
+    <div class="p-5 shadow-md">
+      <SearchInput
+        @searchKeyword="searchKeyword"
+        placeholder="กรอกรหัสนักศึกษา ชื่อ นามสกุล หรืออีเมล"
+        label="ค้นหานักศึกษา"
+      />
+    </div>
 
     <div
       class="relative overflow-x-auto shadow-md sm:rounded-lg mt-6"
