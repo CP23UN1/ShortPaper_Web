@@ -22,7 +22,7 @@ const getStudent = async () => {
 }
 
 const wrongIconSvg = `<svg
-                    class="w-[15px] h-[15px] text-red-600 dark:text-white"
+                    class="w-[15px] h-[15px] text-red-600"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -38,7 +38,7 @@ const wrongIconSvg = `<svg
                   </svg>`
 
 const correctIconSvg = `<svg
-                    class="w-[17px] h-[17px] text-teal-700 dark:text-white"
+                    class="w-[17px] h-[17px] text-teal-700"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"

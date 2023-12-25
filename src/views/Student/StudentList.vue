@@ -3,6 +3,7 @@ import { onMounted, ref } from 'vue'
 import ApiService from '../../composables/apiService'
 import SearchInput from '../../components/SearchInput.vue'
 import Header from '../../components/Header.vue'
+import EmptyData from '../../components/EmptyData.vue'
 
 const students = ref([])
 
@@ -16,7 +17,7 @@ const getStudents = async () => {
 }
 
 const wrongIconSvg = `<svg
-                    class="w-[15px] h-[15px] text-red-600 dark:text-white"
+                    class="w-[15px] h-[15px] text-red-600"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -32,7 +33,7 @@ const wrongIconSvg = `<svg
                   </svg>`
 
 const correctIconSvg = `<svg
-                    class="w-[17px] h-[17px] text-teal-700 dark:text-white"
+                    class="w-[17px] h-[17px] text-teal-700"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -200,11 +201,7 @@ onMounted(async () => {
         </tbody>
       </table>
     </div>
-    <div class="text-center" v-else>
-      <h1 class="text-lg font-bold text-bluemain bg-slate-200 p-4 rounded-lg">
-        ไม่มีข้อมูลนักศึกษา
-      </h1>
-    </div>
+    <EmptyData message="ไม่มีข้อมูลนักศึกษา" v-else />
   </div>
 </template>
 

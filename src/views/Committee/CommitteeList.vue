@@ -4,6 +4,7 @@ import ApiService from '../../composables/apiService'
 import Header from '../../components/Header.vue'
 import SearchInput from '../../components/SearchInput.vue'
 import SelectInput from '../../components/SelectInput.vue'
+import EmptyData from '../../components/EmptyData.vue'
 
 const projects = ref({})
 
@@ -122,6 +123,7 @@ onBeforeMount(async () => {
         </tbody>
       </table>
     </div>
+    <EmptyData v-else />
   </div>
 </template>
 
