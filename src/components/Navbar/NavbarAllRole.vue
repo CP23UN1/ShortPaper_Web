@@ -32,6 +32,17 @@ import { RouterLink } from 'vue-router'
       to="/"
       class="w-[233px] p-5"
       :class="{
+        'bg-white text-bluemain': $route.name === 'Home',
+        'bg-bluemain hover:bg-white hover:text-bluemain text-white':
+          $route.name !== 'Home',
+      }"
+      ><p>หน้าแรก</p></RouterLink
+    >
+
+    <RouterLink
+      to="/students"
+      class="w-[233px] p-5"
+      :class="{
         'bg-white text-bluemain':
           $route.name === 'Student List' ||
           $route.name === 'Student information' ||

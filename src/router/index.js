@@ -10,13 +10,13 @@ import CommitteeList from '../views/Committee/CommitteeList.vue'
 const history = createWebHashHistory();
 
 const routes = [
-    // {
-    //   path: '/',
-    //   name: 'home',
-    //   component: Home
-    // },
     {
       path: '/',
+      name: 'Home',
+      component: Home
+    },
+    {
+      path: '/students',
       name: 'Student List',
       component: StudentList
     },
