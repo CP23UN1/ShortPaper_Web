@@ -25,7 +25,7 @@ class ApiService {
   }
 
   //Announcements
-  async getAnnouncement() {
+  async getAnnouncements() {
     return await api.get(`/announcements`)
   }
 

@@ -9,7 +9,8 @@ module.exports = {
     extend: {
       colors: {
         bluemain: '#336799',
-        bluebtn: '#3873C1'
+        bluebtn: '#3873C1',
+        blueheader: '#729AC8',
       },
       fontFamily: {
         'sarabun': ['Sarabun', 'sans-serif']

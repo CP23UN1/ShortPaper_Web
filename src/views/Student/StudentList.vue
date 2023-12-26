@@ -1,6 +1,8 @@
 <script setup>
 import { onMounted, ref } from 'vue'
+
 import ApiService from '../../composables/apiService'
+
 import SearchInput from '../../components/SearchInput.vue'
 import Header from '../../components/Header.vue'
 import EmptyData from '../../components/EmptyData.vue'
