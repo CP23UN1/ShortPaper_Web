@@ -6,6 +6,7 @@ import ApiService from '../../composables/apiService'
 import SearchInput from '../../components/SearchInput.vue'
 import Header from '../../components/Header.vue'
 import EmptyData from '../../components/EmptyData.vue'
+import ButtonMain from '../../components/ButtonMain.vue'
 
 const students = ref([])
 
@@ -86,12 +87,8 @@ onMounted(async () => {
       class="relative overflow-x-auto shadow-md sm:rounded-lg mt-6"
       v-if="students.length !== 0"
     >
-      <table
-        class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
-      >
-        <thead
-          class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
-        >
+      <table class="w-full text-sm text-left rtl:text-right text-gray-500">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
           <tr>
             <th scope="col" class="px-6 py-3">รหัสนักศึกษา</th>
             <th scope="col" class="px-6 py-3">ชื่อ - นามสกุล</th>
@@ -110,14 +107,13 @@ onMounted(async () => {
         </thead>
         <tbody>
           <tr
-            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+            class="bg-white border-b hover:bg-gray-50"
             v-for="student in students"
             :key="student.userId"
           >
-            <!-- <RouterLink :to="'/student'" class="px-6 py-3"> -->
             <th
               scope="row"
-              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
             >
               {{ student.studentId }}
             </th>
@@ -191,12 +187,11 @@ onMounted(async () => {
                 <div v-else v-html="correctIconSvg"></div>
               </div>
             </td>
-            <!-- </RouterLink> -->
             <td class="px-6 py-4 text-right">
               <RouterLink
                 :to="`/student?id=${student.userId}`"
                 class="font-medium text-bluemain hover:underline"
-                >รายละเอียด</RouterLink
+                ><ButtonMain text="รายละเอียด" /></RouterLink
               >
             </td>
           </tr>

@@ -3,6 +3,8 @@ import { onMounted, ref } from 'vue'
 
 import ApiService from '../composables/apiService'
 
+import Header from '../components/Header.vue';
+
 const announcements = ref([])
 
 const getAnnouncements = async () => {
@@ -21,6 +23,7 @@ onMounted(async () => {
 
 <template>
   <div>
+    <Header header="ประกาศกำหนดการ" />
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-5">
       <table class="w-full text-sm text-left rtl:text-right">
         <thead class="text-xs text-white bg-blueheader">

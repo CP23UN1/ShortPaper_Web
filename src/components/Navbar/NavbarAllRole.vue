@@ -68,22 +68,31 @@ import { RouterLink } from 'vue-router'
       <p>คณะกรรมการ</p>
     </RouterLink>
 
-    <div
+    <!-- <div
       class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5"
     >
       ตรวจสอบการส่งโครงงาน
-    </div>
-    <div
+    </div> -->
+
+    <!-- <div
       class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5"
     >
       รายงานสรุปผลโครงงาน
-    </div>
-
-    <div
-      class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5"
+    </div> -->
+    <RouterLink
+      to="/file"
+      class="w-[233px] p-5"
+      :class="{
+        'bg-white text-bluemain':
+          $route.name === 'ShortPaper File' ||
+          $route.name === 'Uploading ShortPaper',
+        'bg-bluemain hover:bg-white hover:text-bluemain text-white':
+          $route.name !== 'ShortPaper File' &&
+          $route.name !== 'Uploading ShortPaper',
+      }"
+      ><p>เอกสารโครงงาน</p></RouterLink
     >
-      ส่งเอกสารโครงงาน
-    </div>
+
     <div
       class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5"
     >

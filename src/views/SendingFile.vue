@@ -1,0 +1,67 @@
+<script setup>
+import { ref } from 'vue'
+import ButtonMain from '../components/ButtonMain.vue'
+import Header from '../components/Header.vue'
+
+const uploadIconSvg = `<svg class="w-[15px] h-[15px] text-bluemain hover:text-red-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 19">
+    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15h.01M4 12H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-3m-5.5 0V1.07M5.5 5l4-4 4 4"/>
+  </svg>`
+
+const downloadIconSvg = `<svg class="w-[15px] h-[15px] text-bluemain hover:text-red-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 19">
+    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15h.01M4 12H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-3M9.5 1v10.93m4-3.93-4 4-4-4"/>
+  </svg>`
+
+const doneIconSvg = `<svg class="w-[15px] h-[15px] text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m7 10 2 2 4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+  </svg>`
+</script>
+
+<template>
+  <div>
+    <Header header="เอกสารโครงงาน" />
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-6">
+      <table class="w-full text-sm text-left rtl:text-right text-gray-500">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+          <tr>
+            <th scope="col" class="px-6 py-3">ลำดับการส่ง</th>
+            <th scope="col" class="px-6 py-3">กำหนดการ</th>
+            <th scope="col" class="px-6 py-3">วันที่ส่ง</th>
+            <th scope="col" class="px-6 py-3">รายการ</th>
+            <th scope="col" class="px-6 py-3">อัปโหลด</th>
+            <th scope="col" class="px-6 py-3">ดาวน์โหลด</th>
+            <th scope="col" class="px-6 py-3">รายละเอียด</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="bg-white border-b hover:bg-gray-50 text-gray-900">
+            <td class="px-6 py-4 font-medium whitespace-nowrap">1</td>
+            <td class="px-6 py-4 font-medium whitespace-nowrap">
+              25 ธันวาคม 2566
+            </td>
+            <td class="px-6 py-4 font-medium whitespace-nowrap">
+              23 ธันวาคม 2566
+            </td>
+            <td class="px-6 py-4 font-medium whitespace-nowrap">ใบ บ.1</td>
+            <td class="px-6 py-4 font-medium whitespace-nowrap">
+              <RouterLink :to="`/upload`"
+                ><div v-html="uploadIconSvg"></div
+              ></RouterLink>
+
+              <!-- <div v-html="doneIconSvg"></div> -->
+            </td>
+            <td class="px-6 py-4 font-medium whitespace-nowrap">
+              <div v-html="downloadIconSvg"></div>
+            </td>
+            <td class="px-6 py-4 font-medium whitespace-nowrap">
+              <!-- <RouterLink :to="`/filedetails`"> -->
+              <ButtonMain text="รายละเอียด" />
+              <!-- </RouterLink> -->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</template>
+
+<style></style>
