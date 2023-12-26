@@ -3,6 +3,7 @@ import { onMounted, ref, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import ApiService from '../../composables/apiService'
 import Header from '../../components/Header.vue'
+import SaveButton from '../../components/SaveButton.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -273,14 +274,10 @@ onMounted(async () => {
       </div>
 
       <div class="text-sm font-medium space-x-4 mt-[24px] text-end">
-        <button
+        <SaveButton
           data-modal-target="popup-modal"
           data-modal-toggle="popup-modal"
-          class="text-teal-700 border border-teal-700 rounded-[4px] px-[40px] py-[5px] hover:bg-teal-700 hover:text-white disabled:bg-red-500"
-          type="submit"
-        >
-          บันทึก
-        </button>
+        />
       </div>
     </form>
 
