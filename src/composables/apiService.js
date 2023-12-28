@@ -1,6 +1,7 @@
 import api from './api'
 
 class ApiService {
+  
   // Announcements
   async getAnnouncements() {
     return await api.get(`/announcements`)

@@ -6,26 +6,32 @@ import SearchInput from '../../components/SearchInput.vue'
 import SelectInput from '../../components/SelectInput.vue'
 import EmptyData from '../../components/EmptyData.vue'
 
-const projects = ref({})
+const shortpapers = ref([])
+const subjects = ref([])
 
-const getCommittees = async () => {
-  const res = await ApiService.getCommittees()
+const getShortPapers = async () => {
+  const res = await ApiService.getShortPapers()
 
   if (res.status === 200) {
     const data = await res.data
-    projects.value = data
+    shortpapers.value = data.data
   }
 }
 
-const subjects = [
-  'INT100 Computer programming',
-  'INT421 Applied Machine Learning',
-]
+// const getSubjects = async () => {
+//   const res = await ApiService.getSubjects()
+
+//   if (res.status === 200) {
+//     const data = await res.data
+//     subjects.value = data.data
+//   }
+// }
 
 const years = ['1/2565', '2/2565', '1/2566', '2/2566']
 
 onBeforeMount(async () => {
-  await getCommittees()
+  await getShortPapers()
+  // await getSubjects()
 })
 </script>
 
@@ -77,7 +83,7 @@ onBeforeMount(async () => {
 
     <div
       class="relative overflow-x-auto shadow-md rounded-lg mt-6"
-      v-if="projects.length !== 0"
+      v-if="shortpapers.length !== 0"
     >
       <table class="w-full text-sm text-left rtl:text-right text-gray-500">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
@@ -91,18 +97,18 @@ onBeforeMount(async () => {
         <tbody>
           <tr
             class="bg-white border-b"
-            v-for="proj in projects"
-            :key="proj.projectId"
+            v-for="shortpaper in shortpapers"
+            :key="shortpaper.shortpaperId"
           >
             <th
               scope="row"
               class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
             >
-              {{ proj.student.studentId }}
+              {{ shortpaper.studentForShortpaper.studentId }}
             </th>
-            <td class="px-6 py-4" v-if="proj.committeeFirst !== null">
-              {{ proj.committeeFirst.firstname }}
-              {{ proj.committeeFirst.lastname }}
+            <td class="px-6 py-4" v-if="shortpaper.committeeForShortpaper !== null">
+              {{ shortpaper.committeeForShortpaper.firstname }}
+              {{ shortpaper.committeeForShortpaper.lastname }}
             </td>
             <td v-else></td>
             <td class="px-6 py-4" v-if="proj.committeeSecond !== null">

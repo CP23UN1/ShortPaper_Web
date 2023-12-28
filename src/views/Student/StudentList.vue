@@ -9,15 +9,7 @@ import EmptyData from '../../components/EmptyData.vue'
 import ButtonMain from '../../components/ButtonMain.vue'
 
 const students = ref([])
-
-const getStudents = async () => {
-  const res = await ApiService.getStudents()
-
-  if (res.status === 200) {
-    const data = await res.data
-    students.value = data.data
-  }
-}
+const fileType = ref([])
 
 const wrongIconSvg = `<svg
                     class="w-[15px] h-[15px] text-red-600"
@@ -55,6 +47,24 @@ const isFileStatusValid = (fileStatus) => {
   return fileStatus !== undefined && fileStatus !== null
 }
 
+const getStudents = async () => {
+  const res = await ApiService.getStudents()
+
+  if (res.status === 200) {
+    const data = await res.data
+    students.value = data.data
+  }
+}
+
+const getFileType = async () => {
+  const res = await ApiService.getFileType()
+
+  if (res.status === 200) {
+    const data = await res.data
+    fileType.value = data.data
+  }
+}
+
 const searchKeyword = async (keyword) => {
   if (keyword == null || keyword == undefined || keyword == '') {
     await getStudents()
@@ -69,6 +79,7 @@ const searchKeyword = async (keyword) => {
 
 onMounted(async () => {
   await getStudents()
+  await getFileType()
 })
 </script>
 
@@ -93,18 +104,21 @@ onMounted(async () => {
             <th scope="col" class="px-6 py-3">รหัสนักศึกษา</th>
             <th scope="col" class="px-6 py-3">ชื่อ - นามสกุล</th>
             <th scope="col" class="px-6 py-3">รายวิชา</th>
-            <th scope="col" class="px-6 py-3">ใบ บ.1</th>
-            <th scope="col" class="px-6 py-3">ส่งครั้งที่ 1</th>
-            <th scope="col" class="px-6 py-3">ส่งครั้งที่ 2</th>
-            <th scope="col" class="px-6 py-3">รูปเล่มบทความ</th>
-            <th scope="col" class="px-6 py-3">ฉบับสมบูรณ์</th>
-            <th scope="col" class="px-6 py-3">ใบโอนลิขสิทธิ์</th>
-            <th scope="col" class="px-6 py-3">ใบโจรกรรม</th>
+
+            <th
+              scope="col"
+              class="px-6 py-3"
+              v-for="type in fileType"
+              :key="type.typeId"
+            >
+              {{ type.typeId }} {{ type.typeName }}
+            </th>
             <th scope="col" class="px-6 py-3">
               <span class="sr-only">รายละเอียด</span>
             </th>
           </tr>
         </thead>
+
         <tbody>
           <tr
             class="bg-white border-b hover:bg-gray-50"
@@ -126,15 +140,15 @@ onMounted(async () => {
             </td>
             <td v-else>-</td>
             <td class="px-6 py-4">
-              <div v-if="isFileStatusValid(student.fileStatus)">
+              <div v-if="student.shortpaperFile !== null">
                 <div
-                  v-if="student.fileStatus.bOne === 0"
-                  v-html="wrongIconSvg"
+                  v-if="student.shortpaperFile.shortpaperFileId === 1"
+                  v-html="correctIconSvg"
                 ></div>
-                <div v-else v-html="correctIconSvg"></div>
+                <div v-else v-html="wrongIconSvg"></div>
               </div>
             </td>
-            <td class="px-6 py-4">
+            <!-- <td class="px-6 py-4">
               <div v-if="isFileStatusValid(student.fileStatus)">
                 <div
                   v-if="student.fileStatus.paperOne === 0"
@@ -187,11 +201,11 @@ onMounted(async () => {
                 ></div>
                 <div v-else v-html="correctIconSvg"></div>
               </div>
-            </td>
+            </td> -->
             <td class="px-6 py-4 text-right">
               <RouterLink
                 :to="`/student?id=${student.studentId}`"
-                class="font-medium text-bluemain hover:underline"
+                class="font-medium text-bluemain"
                 ><ButtonMain text="รายละเอียด"
               /></RouterLink>
             </td>
