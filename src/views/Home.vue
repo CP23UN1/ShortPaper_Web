@@ -24,7 +24,7 @@ onMounted(async () => {
 <template>
   <div>
     <Header header="ประกาศกำหนดการ" />
-    <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-5">
+    <div class="relative overflow-x-auto shadow-md rounded-lg mt-5">
       <table class="w-full text-sm text-left rtl:text-right">
         <thead class="text-xs text-white bg-blueheader">
           <tr>

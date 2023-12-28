@@ -19,7 +19,7 @@ const doneIconSvg = `<svg class="w-[20px] h-[20px] text-teal-700" aria-hidden="t
 <template>
   <div>
     <Header header="เอกสารโครงงาน" />
-    <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-6">
+    <div class="relative overflow-x-auto shadow-md rounded-lg mt-6">
       <table class="w-full text-sm text-left rtl:text-right text-gray-500">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
           <tr>

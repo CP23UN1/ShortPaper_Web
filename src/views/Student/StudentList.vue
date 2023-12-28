@@ -84,7 +84,7 @@ onMounted(async () => {
     </div>
 
     <div
-      class="relative overflow-x-auto shadow-md sm:rounded-lg mt-6"
+      class="relative overflow-x-auto shadow-md rounded-lg mt-6"
       v-if="students.length !== 0"
     >
       <table class="w-full text-sm text-left rtl:text-right text-gray-500">

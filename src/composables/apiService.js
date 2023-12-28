@@ -34,12 +34,9 @@ class ApiService {
     return await api.get(`/announcements`)
   }
 
-  //Projects
-  async getProjects() {
-    return await api.get(`/projects`)
-  }
-  async getProject() {
-    return await api.get(`/project`)
+  //Committees
+  async getCommittees() {
+    return await api.get(`/committees`)
   }
   async addCommittee(committeeList) {
     return await api.post(`/project/committee`, committeeList)

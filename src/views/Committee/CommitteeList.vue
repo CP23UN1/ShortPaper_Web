@@ -8,8 +8,8 @@ import EmptyData from '../../components/EmptyData.vue'
 
 const projects = ref({})
 
-const getProjects = async () => {
-  const res = await ApiService.getProjects()
+const getCommittees = async () => {
+  const res = await ApiService.getCommittees()
 
   if (res.status === 200) {
     const data = await res.data
@@ -25,7 +25,7 @@ const subjects = [
 const years = ['1/2565', '2/2565', '1/2566', '2/2566']
 
 onBeforeMount(async () => {
-  await getProjects()
+  await getCommittees()
 })
 </script>
 
@@ -76,7 +76,7 @@ onBeforeMount(async () => {
     </div>
 
     <div
-      class="relative overflow-x-auto shadow-md sm:rounded-lg mt-6"
+      class="relative overflow-x-auto shadow-md rounded-lg mt-6"
       v-if="projects.length !== 0"
     >
       <table class="w-full text-sm text-left rtl:text-right text-gray-500">
