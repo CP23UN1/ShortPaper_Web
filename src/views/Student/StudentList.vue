@@ -15,7 +15,7 @@ const getStudents = async () => {
 
   if (res.status === 200) {
     const data = await res.data
-    students.value = data
+    students.value = data.data
   }
 }
 
@@ -62,7 +62,7 @@ const searchKeyword = async (keyword) => {
     const res = await ApiService.searchStudent(keyword)
     if (res.status === 200) {
       const data = await res.data
-      students.value = data
+      students.value = data.data
     }
   }
 }
@@ -74,6 +74,7 @@ onMounted(async () => {
 
 <template>
   <div>
+    {{ students }}
     <Header header="ข้อมูลนักศึกษา" />
     <div class="p-5 shadow-md">
       <SearchInput
@@ -109,7 +110,7 @@ onMounted(async () => {
           <tr
             class="bg-white border-b hover:bg-gray-50"
             v-for="student in students"
-            :key="student.userId"
+            :key="student.studentId"
           >
             <th
               scope="row"
@@ -120,10 +121,10 @@ onMounted(async () => {
             <td class="px-6 py-4">
               {{ student.firstname }} {{ student.lastname }}
             </td>
-            <td>
+            <!-- <td>
               {{ student.registeredSubject.subjectId }}
               {{ student.registeredSubject.subjectName }}
-            </td>
+            </td> -->
             <td class="px-6 py-4">
               <div v-if="isFileStatusValid(student.fileStatus)">
                 <div
@@ -189,7 +190,7 @@ onMounted(async () => {
             </td>
             <td class="px-6 py-4 text-right">
               <RouterLink
-                :to="`/student?id=${student.userId}`"
+                :to="`/student?id=${student.studentId}`"
                 class="font-medium text-bluemain hover:underline"
                 ><ButtonMain text="รายละเอียด" /></RouterLink
               >

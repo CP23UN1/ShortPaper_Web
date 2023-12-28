@@ -18,7 +18,7 @@ const getStudent = async () => {
 
     if (res.status === 200) {
       const data = await res.data
-      student.value = data
+      student.value = data.data
     }
   }
 }
