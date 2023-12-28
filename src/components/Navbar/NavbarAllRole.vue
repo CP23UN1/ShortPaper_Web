@@ -80,7 +80,7 @@ import { RouterLink } from 'vue-router'
       รายงานสรุปผลโครงงาน
     </div> -->
     <RouterLink
-      to="/file"
+      to="/files"
       class="w-[233px] p-5"
       :class="{
         'bg-white text-bluemain':

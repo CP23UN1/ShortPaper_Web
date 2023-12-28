@@ -43,7 +43,7 @@ const routes = [
     component: Announcement,
   },
   {
-    path: '/file',
+    path: '/files',
     name: 'ShortPaper File',
     component: SendingFile,
   },
