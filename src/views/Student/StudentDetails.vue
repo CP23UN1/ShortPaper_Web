@@ -80,7 +80,7 @@ onBeforeMount(async () => {
         </p>
       </div>
     </div>
-    
+
     <Header header="ข้อมูลนักศึกษา" />
 
     <div class="mt-4 text-end">
@@ -105,17 +105,31 @@ onBeforeMount(async () => {
             </tr>
             <tr>
               <td>เบอร์โทรศัพท์</td>
-              <td>{{ student.phoneNumber }}</td>
+              <td>
+                {{ student.phoneNumber == null ? '-' : student.phoneNumber }}
+              </td>
             </tr>
             <tr>
-              <td>Email</td>
+              <td>อีเมล</td>
               <td>{{ student.email }}</td>
             </tr>
             <tr>
-              <td>ชื่อหัวข้อโครงงาน</td>
-              <td>{{ student.projectName }}</td>
+              <td>อีเมลสำรอง</td>
+              <td>
+                {{
+                  student.alternativeEmail == null
+                    ? '-'
+                    : student.alternativeEmail
+                }}
+              </td>
             </tr>
             <tr>
+              <td class="pr-16">ชื่อหัวข้อโครงงาน</td>
+              <td>
+                {{ student.projectName == null ? '-' : student.projectName }}
+              </td>
+            </tr>
+            <!-- <tr>
               <td class="pr-16">รายวิชาจัดทำ IS Report</td>
               <td>
                 <div v-if="student.registeredSubject">
@@ -124,7 +138,7 @@ onBeforeMount(async () => {
                 </div>
                 <div v-else>-</div>
               </td>
-            </tr>
+            </tr> -->
           </tbody>
         </table>
       </div>
