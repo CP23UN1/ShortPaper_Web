@@ -74,7 +74,6 @@ onMounted(async () => {
 
 <template>
   <div>
-    {{ students }}
     <Header header="ข้อมูลนักศึกษา" />
     <div class="p-5 shadow-md">
       <SearchInput
