@@ -47,14 +47,7 @@ onMounted(async () => {
             </th>
             <th scope="row" class="px-6 py-4 font-medium">
               {{
-                new Date(announcement.createdDatetime).toLocaleDateString(
-                  'th-TH',
-                  {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                  }
-                )
+                announcement.createdDatetimeThai
               }}
             </th>
           </tr>

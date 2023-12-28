@@ -59,7 +59,7 @@ const searchKeyword = async (keyword) => {
   if (keyword == null || keyword == undefined || keyword == '') {
     await getStudents()
   } else {
-    const res = await ApiService.searchStudent(keyword)
+    const res = await ApiService.searchStudents(keyword)
     if (res.status === 200) {
       const data = await res.data
       students.value = data.data
@@ -120,10 +120,11 @@ onMounted(async () => {
             <td class="px-6 py-4">
               {{ student.firstname }} {{ student.lastname }}
             </td>
-            <!-- <td>
-              {{ student.registeredSubject.subjectId }}
-              {{ student.registeredSubject.subjectName }}
-            </td> -->
+            <td v-if="student.subject.length !== null">
+              {{ student.subject.subjectId }}
+              {{ student.subject.subjectName }}
+            </td>
+            <td v-else>-</td>
             <td class="px-6 py-4">
               <div v-if="isFileStatusValid(student.fileStatus)">
                 <div
@@ -191,8 +192,8 @@ onMounted(async () => {
               <RouterLink
                 :to="`/student?id=${student.studentId}`"
                 class="font-medium text-bluemain hover:underline"
-                ><ButtonMain text="รายละเอียด" /></RouterLink
-              >
+                ><ButtonMain text="รายละเอียด"
+              /></RouterLink>
             </td>
           </tr>
         </tbody>

@@ -3,7 +3,6 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import StudentList from '../views/Student/StudentList.vue'
 import StudentEditForm from '../views/Student/StudentEditForm.vue'
-import Announcement from '../views/Announcement.vue'
 import StudentDetails from '../views/Student/StudentDetails.vue'
 import CommitteeList from '../views/Committee/CommitteeList.vue'
 import SendingFile from '../views/SendingFile.vue'
@@ -38,11 +37,6 @@ const routes = [
     component: CommitteeList,
   },
   {
-    path: '/announcement',
-    name: 'Announcement',
-    component: Announcement,
-  },
-  {
     path: '/files',
     name: 'ShortPaper File',
     component: SendingFile,
@@ -50,8 +44,8 @@ const routes = [
   {
     path: '/upload',
     name: 'Uploading ShortPaper',
-    component: UploadingFile
-  }
+    component: UploadingFile,
+  },
 ]
 
 const router = createRouter({ history, routes })
