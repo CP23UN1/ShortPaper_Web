@@ -36,8 +36,17 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <div>
-    <Header header="คณะกรรมการ" />
+   <div class="mt-5 font-semibold">
+      <div class="text-bluemain text-left text-sm">
+        <p>
+          <RouterLink :to="'/committees'">
+            <span class="hover:text-blueheader">คณะกรรมการ</span>
+          </RouterLink>
+        </p>
+      </div>
+    </div>
+  <div class="text-sm">
+    <Header class="text-sm rounded-md" header="คณะกรรมการ" />
 
     <!-- Excel -->
     <!-- <div
@@ -73,8 +82,8 @@ onBeforeMount(async () => {
       </button>
     </div> -->
 
-    <div class="p-5 shadow-md">
-      <SearchInput label="ค้นหานักศึกษา" placeholder="กรอกรหัสนักศึกษา" />
+    <div class="p-4 shadow-md">
+      <SearchInput class="py-2" label="ค้นหานักศึกษา" placeholder="กรอกรหัสนักศึกษา" />
       <div class="grid grid-cols-2 gap-10">
         <SelectInput class="mt-2" :options="subjects" label="รหัสวิชา" />
         <SelectInput class="mt-2" :options="years" label="ปีการศึกษา" />

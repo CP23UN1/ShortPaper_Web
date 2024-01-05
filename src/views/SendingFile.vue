@@ -18,11 +18,20 @@ const doneIconSvg = `<svg class="w-[20px] h-[20px] text-teal-700" aria-hidden="t
 
 <template>
   <div>
-    <Header header="เอกสารโครงงาน" />
+    <div class="mt-5 font-semibold">
+      <div class="text-bluemain text-left text-sm">
+        <p>
+          <RouterLink :to="'/files'">
+            <span class="hover:text-blueheader">เอกสารโครงงานทั้งหมด</span>
+          </RouterLink>
+        </p>
+      </div>
+    </div>
+    <Header class="text-sm rounded-md" header="เอกสารโครงงาน" />
     <div class="relative overflow-x-auto shadow-md rounded-lg mt-6">
       <table class="w-full text-sm text-left rtl:text-right text-gray-500">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-          <tr>
+          <tr class="text-center">
             <th scope="col" class="px-6 py-3">ลำดับการส่ง</th>
             <th scope="col" class="px-6 py-3">กำหนดการ</th>
             <th scope="col" class="px-6 py-3">วันที่ส่ง</th>
@@ -32,24 +41,19 @@ const doneIconSvg = `<svg class="w-[20px] h-[20px] text-teal-700" aria-hidden="t
             <th scope="col" class="px-6 py-3 sr-only">รายละเอียด</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody class="text-center">
           <tr class="bg-white border-b hover:bg-gray-50 text-gray-900">
             <td class="px-6 py-4 font-medium whitespace-nowrap">1</td>
-            <td class="px-6 py-4 font-medium whitespace-nowrap">
-              25 ธันวาคม 2566
-            </td>
-            <td class="px-6 py-4 font-medium whitespace-nowrap">
-              23 ธันวาคม 2566
-            </td>
+            <td class="px-6 py-4 font-medium whitespace-nowrap">25 ธันวาคม 2566</td>
+            <td class="px-6 py-4 font-medium whitespace-nowrap">23 ธันวาคม 2566</td>
             <td class="px-6 py-4 font-medium whitespace-nowrap">ใบ บ.1</td>
-            <td class="px-6 py-4 font-medium whitespace-nowrap">
-              <RouterLink :to="`/upload`"
-                ><div v-html="uploadIconSvg"></div
-              ></RouterLink>
-
+            <td class="px-6 py-4 font-medium whitespace-nowrap ">
+              <RouterLink :to="`/upload`">
+                <div class="flex justify-center items-center" v-html="uploadIconSvg"></div>
+              </RouterLink>
               <!-- <div v-html="doneIconSvg"></div> -->
             </td>
-            <td class="px-6 py-4 font-medium whitespace-nowrap">
+            <td class="px-6 py-4 font-medium whitespace-nowrap flex justify-center items-center">
               <div v-html="downloadIconSvg"></div>
             </td>
             <td class="px-6 py-4 font-medium whitespace-nowrap">
@@ -60,22 +64,17 @@ const doneIconSvg = `<svg class="w-[20px] h-[20px] text-teal-700" aria-hidden="t
           </tr>
           <tr class="bg-white border-b hover:bg-gray-50 text-gray-900">
             <td class="px-6 py-4 font-medium whitespace-nowrap">2</td>
-            <td class="px-6 py-4 font-medium whitespace-nowrap">
-              28 ธันวาคม 2566
-            </td>
-            <td class="px-6 py-4 font-medium whitespace-nowrap">
-              25 ธันวาคม 2566
-            </td>
+            <td class="px-6 py-4 font-medium whitespace-nowrap">28 ธันวาคม 2566</td>
+            <td class="px-6 py-4 font-medium whitespace-nowrap">25 ธันวาคม 2566</td>
             <td class="px-6 py-4 font-medium whitespace-nowrap">ใบ บ.2</td>
-            <td class="px-6 py-4 font-medium whitespace-nowrap">
-              <!-- <RouterLink :to="`/upload`"
-                ><div v-html="uploadIconSvg"></div
-              ></RouterLink> -->
-
+            <td class="px-6 py-4 font-medium whitespace-nowrap flex justify-center items-center">
+              <!-- <RouterLink :to="`/upload`">
+                <div v-html="uploadIconSvg"></div>
+              </RouterLink> -->
               <div v-html="doneIconSvg"></div>
             </td>
-            <td class="px-6 py-4 font-medium whitespace-nowrap">
-              <div v-html="downloadIconSvg"></div>
+            <td class="font-medium whitespace-nowrap ">
+              <div class="flex justify-center items-center" v-html="downloadIconSvg"></div>
             </td>
             <td class="px-6 py-4 font-medium whitespace-nowrap">
               <!-- <RouterLink :to="`/filedetails`"> -->
@@ -88,5 +87,6 @@ const doneIconSvg = `<svg class="w-[20px] h-[20px] text-teal-700" aria-hidden="t
     </div>
   </div>
 </template>
+
 
 <style></style>

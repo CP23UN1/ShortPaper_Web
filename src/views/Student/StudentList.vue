@@ -84,8 +84,18 @@ onMounted(async () => {
 </script>
 
 <template>
+
+    <div class="mt-5 font-semibold">
+      <div class="text-bluemain text-left text-sm">
+        <p>
+          <RouterLink :to="'/students'">
+            <span class="hover:text-blueheader">ข้อมูลนักศึกษา</span>
+          </RouterLink>
+        </p>
+      </div>
+    </div>
   <div>
-    <Header class="text-sm" header="ข้อมูลนักศึกษา"/>
+    <Header class="text-sm rounded-md" header="ข้อมูลนักศึกษา"/>
     <div class="p-5 shadow-md text-sm">
       <SearchInput
         @searchKeyword="searchKeyword"
