@@ -8,8 +8,8 @@ import NavbarAllRole from './components/Navbar/NavbarAllRole.vue'
 </script>
 
 <template>
-  <!-- <NavbarAllRole /> -->
-  <NavBarStudent />
+  <NavbarAllRole />
+  <!-- <NavBarStudent /> -->
   <!-- <NavbarAdmin /> -->
   <!-- <NavbarAdvisor /> -->
   <RouterView />

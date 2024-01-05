@@ -14,29 +14,29 @@ const sendFile = () => {
 <template>
   <div>
     <div class="mt-5 font-semibold">
-      <div class="text-bluemain text-center">
+      <div class="text-bluemain text-left text-sm">
         <p>
           <RouterLink :to="'/files'">
             <span
-              class="hover:text-white hover:bg-bluemain hover:p-2 rounded-lg"
+              class="hover:text-blueheader"
               >เอกสารโครงงานทั้งหมด</span
             >
           </RouterLink>
           >
-          <span class="font-bold">อัปโหลดเอกสารโครงงาน</span>
+          <span class="font-bold text-sm">อัปโหลดเอกสารโครงงาน</span>
         </p>
       </div>
     </div>
 
-    <Header header="อัปโหลดเอกสาร" />
+    <Header class="text-sm rounded-md" header="อัปโหลดเอกสาร" />
 
-    <div class="relative overflow-x-auto shadow-md rounded-lg mt-6">
+    <div class="relative overflow-x-auto shadow-md rounded-lg text-center">
       <div class="m-8">
         <FileInput
           label="อัปโหลดเอกสาร: "
           describe="*** เอกสารแต่งตั้งคณะกรรมการสำหรับ Upload จะต้องเป็นไฟล์ .PDF เท่านั้น ***"
         />
-        <div class="grid grid-cols-3 mt-5 text-sm ml-32">
+        <div class="grid grid-cols-3 mt-12 ml-16 text-sm">
           <RadioButton
             name="filetype"
             id="bOne"
@@ -87,7 +87,7 @@ const sendFile = () => {
             <input
               type="text"
               id="input"
-              class="inline-flex w-96 p-4 border border-gray-300 rounded-lg bg-gray-50 focus:ring-bluemain focus:border-bluemain"
+              class="inline-flex w-72 py-2 mt-2  border border-gray-300 rounded-lg bg-gray-50 focus:ring-bluemain focus:border-bluemain"
               placeholder="กรุณาแนบลิงก์"
               v-model="link"
             />
