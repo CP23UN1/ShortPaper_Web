@@ -23,14 +23,14 @@ onMounted(async () => {
 
 <template>
   <div>
-    <Header header="ประกาศกำหนดการ" />
-    <div class="relative overflow-x-auto shadow-md rounded-lg mt-5">
+    <!-- <Header class="text-sm rounded-md" header="ประกาศกำหนดการ"/> -->
+    <div class="relative overflow-x-auto shadow-md rounded-md mt-5">
       <table class="w-full text-sm text-left rtl:text-right">
-        <thead class="text-xs text-white bg-blueheader">
+        <thead class="text-xs text-white">
           <tr>
-            <th scope="col" class="px-6 py-3">กำหนดการ</th>
-            <th scope="col" class="px-6 py-3">รายการ</th>
-            <th scope="col" class="px-6 py-3">วันที่ประกาศ</th>
+            <th scope="col" class="px-6 py-3 w-52 text-center bg-blueheader">กำหนดการ</th>
+            <th scope="col" class="px-6 py-3 bg-bluemain text-center">รายการ</th>
+            <!-- <th scope="col" class="px-6 py-3">วันที่ประกาศ</th> -->
           </tr>
         </thead>
         <tbody>
