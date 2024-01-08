@@ -60,9 +60,42 @@ onMounted(async () => {
           </tr>
         </thead>
         <tbody class="text-center">
-          <tr class="bg-white border-b hover:bg-gray-50 text-gray-900"
-          v-for="file in files" :key="file.shortpaperFileId">
-          <td class="px-6 py-4 font-medium whitespace-nowrap">{{ file.shortpaperFileId }}</td>
+          <tr
+            class="bg-white border-b hover:bg-gray-50 text-gray-900"
+            v-for="file in files"
+            :key="file.shortpaperFileId"
+          >
+            <td class="px-6 py-4 font-medium whitespace-nowrap">
+              {{ file.shortpaperFileId }}
+            </td>
+            <td class="px-6 py-4 font-medium whitespace-nowrap">
+              announcement schedule
+            </td>
+            <td class="px-6 py-4 font-medium whitespace-nowrap">
+              {{ new Date(file.updatedDatetime).toLocaleDateString() }}
+            </td>
+            <td class="px-6 py-4 font-medium whitespace-nowrap">
+              {{ file.shortpaperFileType.typeName }}
+            </td>
+            <td class="px-6 py-4 font-medium whitespace-nowrap">
+              <RouterLink :to="`/upload`">
+                <div
+                  class="flex justify-center items-center"
+                  v-html="uploadIconSvg"
+                ></div>
+              </RouterLink>
+              <!-- <div v-html="doneIconSvg"></div>  -->
+            </td>
+            <td
+              class="px-6 py-4 font-medium whitespace-nowrap flex justify-center items-center"
+            >
+              <div v-html="downloadIconSvg"></div>
+            </td>
+            <td class="px-6 py-4 font-medium whitespace-nowrap">
+              <RouterLink :to="`/filedetails`">
+                <ButtonMain text="รายละเอียด" />
+              </RouterLink>
+            </td>
           </tr>
           <!-- <tr class="bg-white border-b hover:bg-gray-50 text-gray-900">
             <td class="px-6 py-4 font-medium whitespace-nowrap">1</td>
