@@ -1,9 +1,9 @@
 <script setup>
 import { ref } from 'vue'
-import Header from '../components/Header.vue'
-import FileInput from '../components/FileInput.vue'
-import RadioButton from '../components/RadioButton.vue'
-import ButtonMain from '../components/ButtonMain.vue'
+import Header from '../../components/Header.vue'
+import FileInput from '../../components/FileInput.vue'
+import RadioButton from '../../components/RadioButton.vue'
+import ButtonMain from '../../components/ButtonMain.vue'
 
 const link = ref()
 const sendFile = () => {

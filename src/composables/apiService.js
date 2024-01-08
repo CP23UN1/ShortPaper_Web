@@ -28,6 +28,9 @@ class ApiService {
   }
 
   // File
+  async getFiles(){
+    return await api.get(`/files`)
+  }
   async getFileByShortpaper(shortpaperId){
     return await api.get(`/list/${shortpaperId}`)
   }
