@@ -7,6 +7,7 @@ import StudentDetails from '../views/Student/StudentDetails.vue'
 import CommitteeList from '../views/Committee/CommitteeList.vue'
 import FileList from '../views/File/FileList.vue'
 import FileUploading from '../views/File/FileUploading.vue'
+import ShortPaperList from '../views/ShortPaperList.vue'
 
 const history = createWebHashHistory()
 
@@ -45,6 +46,11 @@ const routes = [
     path: '/upload',
     name: 'Uploading ShortPaper',
     component: FileUploading,
+  },
+  {
+    path: '/history',
+    name: 'ShortPaper History',
+    component: ShortPaperList,
   },
 ]
 

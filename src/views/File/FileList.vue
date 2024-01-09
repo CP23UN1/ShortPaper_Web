@@ -40,7 +40,7 @@ onMounted(async () => {
       <div class="text-bluemain text-left text-sm">
         <p>
           <RouterLink :to="'/files'">
-            <span class="hover:text-blueheader">เอกสารโครงงานทั้งหมด</span>
+            <span class="hover:text-blueheader">เอกสารโครงงาน</span>
           </RouterLink>
         </p>
       </div>

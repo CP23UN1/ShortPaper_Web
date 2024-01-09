@@ -65,23 +65,18 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <div>
     <div class="mt-5 font-semibold">
-      <div class="text-bluemain text-center">
+      <div class="text-bluemain text-left text-sm">
         <p>
           <RouterLink :to="'/students'">
-            <span
-              class="hover:text-white hover:bg-bluemain hover:p-2 rounded-lg"
-              >ข้อมูลนักศึกษาทั้งหมด</span
-            >
+            <span class="hover:text-blueheader">ข้อมูลนักศึกษา</span>
           </RouterLink>
           >
-          <span class="font-bold">ข้อมูลนักศึกษา</span>
+          <span>{{  }}</span>
         </p>
       </div>
-    </div>
 
-    <Header header="ข้อมูลนักศึกษา" />
+    <Header class="text-sm rounded-md" header="ข้อมูลนักศึกษา"/>
 
     <div class="mt-4 text-end">
       <RouterLink :to="`/student/edit?id=${route.query.id}`">

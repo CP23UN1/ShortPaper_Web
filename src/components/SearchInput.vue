@@ -17,7 +17,7 @@ const keyword = ref()
 </script>
 
 <template>
-  <form @submit.prevent="$emit('searchKeyword', keyword)">
+  <form  @submit.prevent="$emit('searchKeyword', keyword)">
     <label for="search">{{ label }}</label>
     <div class="relative">
       <div
@@ -42,7 +42,7 @@ const keyword = ref()
       <input
         type="search"
         id="search"
-        class="block w-full p-4 ps-10 border border-gray-300 rounded-lg bg-gray-50 focus:ring-bluemain focus:border-bluemain"
+        class="block w-full mt-2 p-2 ps-10 border border-gray-300 rounded-lg bg-gray-50 focus:ring-bluemain focus:border-bluemain"
         :placeholder="placeholder"
         v-model="keyword"
       />

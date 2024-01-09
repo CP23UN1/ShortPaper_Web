@@ -83,7 +83,7 @@ onBeforeMount(async () => {
     </div> -->
 
     <div class="p-4 shadow-md">
-      <SearchInput class="py-2" label="ค้นหานักศึกษา" placeholder="กรอกรหัสนักศึกษา" />
+      <SearchInput label="ค้นหานักศึกษา" placeholder="กรอกรหัสนักศึกษา" />
       <div class="grid grid-cols-2 gap-10">
         <SelectInput class="mt-2" :options="subjects" label="รหัสวิชา" />
         <SelectInput class="mt-2" :options="years" label="ปีการศึกษา" />
