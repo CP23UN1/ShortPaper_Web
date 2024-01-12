@@ -78,24 +78,23 @@ const searchKeyword = async (keyword) => {
 }
 
 onMounted(async () => {
-  await getStudents()
+  await searchKeyword()
   await getFileType()
 })
 </script>
 
 <template>
-
-    <div class="mt-5 font-semibold">
-      <div class="text-bluemain text-left text-sm">
-        <p>
-          <RouterLink :to="'/students'">
-            <span class="hover:text-blueheader">ข้อมูลนักศึกษา</span>
-          </RouterLink>
-        </p>
-      </div>
+  <div class="mt-5 font-semibold">
+    <div class="text-bluemain text-left text-sm">
+      <p>
+        <RouterLink :to="'/students'">
+          <span class="hover:text-blueheader">ข้อมูลนักศึกษา</span>
+        </RouterLink>
+      </p>
     </div>
+  </div>
   <div>
-    <Header class="text-sm rounded-md" header="ข้อมูลนักศึกษา"/>
+    <Header class="text-sm rounded-md" header="ข้อมูลนักศึกษา" />
     <div class="p-5 shadow-md text-sm">
       <SearchInput
         @searchKeyword="searchKeyword"
@@ -103,7 +102,6 @@ onMounted(async () => {
         label="ค้นหานักศึกษา"
       />
     </div>
-
     <div
       class="relative overflow-x-auto shadow-md rounded-lg mt-6"
       v-if="students.length !== 0"
@@ -123,6 +121,7 @@ onMounted(async () => {
             >
               {{ type.typeId }} {{ type.typeName }}
             </th>
+
             <th scope="col" class="px-6 py-3">
               <span class="sr-only">รายละเอียด</span>
             </th>
@@ -144,12 +143,14 @@ onMounted(async () => {
             <td class="px-6 py-4">
               {{ student.firstname }} {{ student.lastname }}
             </td>
-            <td v-if="student.subject.length !== null">
+
+            <td v-if="student.subject !== null" class="text-center px-6 py-4">
               {{ student.subject.subjectId }}
               {{ student.subject.subjectName }}
             </td>
-            <td v-else>-</td>
-            <td class="px-6 py-4">
+            <td v-else class="text-center">-</td>
+
+            <!-- <td class="px-6 py-4">
               <div v-if="student.shortpaperFile !== null">
                 <div
                   v-if="student.shortpaperFile.shortpaperFileId === 1"
@@ -157,7 +158,8 @@ onMounted(async () => {
                 ></div>
                 <div v-else v-html="wrongIconSvg"></div>
               </div>
-            </td>
+            </td> -->
+
             <!-- <td class="px-6 py-4">
               <div v-if="isFileStatusValid(student.fileStatus)">
                 <div
@@ -212,13 +214,13 @@ onMounted(async () => {
                 <div v-else v-html="correctIconSvg"></div>
               </div>
             </td> -->
-            <td class="px-6 py-4 text-right">
+            <!-- <td class="px-6 py-4 text-right">
               <RouterLink
                 :to="`/student?id=${student.studentId}`"
                 class="font-medium text-bluemain"
                 ><ButtonMain text="รายละเอียด"
               /></RouterLink>
-            </td>
+            </td> -->
           </tr>
         </tbody>
       </table>
