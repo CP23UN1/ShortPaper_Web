@@ -35,11 +35,7 @@ onMounted(async () => {
             </tr>
           </thead>
           <tbody>
-            <tr
-              class="border-b"
-              v-for="announcement in announcements"
-              :key="announcement.announcementId"
-            >
+            <tr class="border-b" v-for="announcement in announcements" :key="announcement.announcementId">
               <th scope="row" class="px-6 py-4 font-medium">
                 {{ announcement.topic }}
               </th>
@@ -53,7 +49,19 @@ onMounted(async () => {
           </tbody>
         </table>
       </div>
+      <div class="bg-bluemain p-4 m-2 rounded-md text-white flex">
+        <div>ข่าวและกิจกรรม</div>
+        <p class="ml-auto underline">See All</p>
+      </div>
+      <div class="flex justify-center items-center">
+        <div class="grid grid-cols-3">
+          <div>1</div>
+          <div>2</div>
+          <div>3</div>
+        </div>
+      </div>
     </div>
+
   </div>
 </template>
 
