@@ -214,13 +214,13 @@ onMounted(async () => {
                 <div v-else v-html="correctIconSvg"></div>
               </div>
             </td> -->
-            <!-- <td class="px-6 py-4 text-right">
+            <td class="px-6 py-4 text-right">
               <RouterLink
                 :to="`/student?id=${student.studentId}`"
                 class="font-medium text-bluemain"
                 ><ButtonMain text="รายละเอียด"
               /></RouterLink>
-            </td> -->
+            </td>
           </tr>
         </tbody>
       </table>
