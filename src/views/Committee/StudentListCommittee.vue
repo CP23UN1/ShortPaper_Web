@@ -6,6 +6,7 @@ import ApiService from '../../composables/apiService'
 
 import Header from '../../components/Header.vue'
 import ButtonMain from '../../components/ButtonMain.vue'
+import SearchInput from '../../components/SearchInput.vue'
 
 const student = ref({})
 const route = useRoute()
@@ -65,15 +66,17 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-    <div class="mt-5 font-semibold">
-      <div class="text-bluemain text-left text-sm">
-        <p>
-          <RouterLink :to="'/studentinfo'">
-            <span class="hover:text-blueheader">ตรวจสอบข้อมูล(รายบุคคล)</span>
-          </RouterLink>
-        </p>
-      </div>
-
+  <div class="mt-5 font-semibold">
+    <div class="text-bluemain text-left text-sm">
+      <p>
+        <RouterLink :to="'/studentinfo'">
+          <span class="hover:text-blueheader">ตรวจสอบข้อมูล(รายบุคคล)</span>
+        </RouterLink>
+      </p>
+    </div>
+    <div class="bg-white p-2">
+      <SearchInput class="w-96" label="รหัสนักศึกษา"/>{{รหัสนักศึกษา}}
+    </div>
     <div class="mt-3 justify-center item-center mb-12 grid grid-cols-2 text-sm w-full">
       <div class="shadow-md">
         <h1 class="my-2 ml-2">ข้อมูลนักศึกษา</h1>
@@ -103,8 +106,8 @@ onBeforeMount(async () => {
               <td>
                 {{
                   student.alternativeEmail == null
-                    ? '-'
-                    : student.alternativeEmail
+                  ? '-'
+                  : student.alternativeEmail
                 }}
               </td>
             </tr>
@@ -135,30 +138,21 @@ onBeforeMount(async () => {
             <tr>
               <td>อัปโหลดเอกสาร ใบ บ.1</td>
               <td v-if="isFileStatusValid(student.fileStatus)">
-                <div
-                  v-if="student.fileStatus.bOne === 0"
-                  v-html="wrongIconSvg"
-                ></div>
+                <div v-if="student.fileStatus.bOne === 0" v-html="wrongIconSvg"></div>
                 <div v-else v-html="correctIconSvg"></div>
               </td>
             </tr>
             <tr>
               <td>อัปโหลดเอกสารโครงงานครั้งที่ 1</td>
               <td v-if="isFileStatusValid(student.fileStatus)">
-                <div
-                  v-if="student.fileStatus.paperOne === 0"
-                  v-html="wrongIconSvg"
-                ></div>
+                <div v-if="student.fileStatus.paperOne === 0" v-html="wrongIconSvg"></div>
                 <div v-else v-html="correctIconSvg"></div>
               </td>
             </tr>
             <tr>
               <td>อัปโหลดเอกสารโครงงานครั้งที่ 2</td>
               <td v-if="isFileStatusValid(student.fileStatus)">
-                <div
-                  v-if="student.fileStatus.paperTwo === 0"
-                  v-html="wrongIconSvg"
-                ></div>
+                <div v-if="student.fileStatus.paperTwo === 0" v-html="wrongIconSvg"></div>
                 <div v-else v-html="correctIconSvg"></div>
               </td>
             </tr>
@@ -168,30 +162,21 @@ onBeforeMount(async () => {
                 (ฉบับเกี่ยวข้องกับห้องสมุด)
               </td>
               <td v-if="isFileStatusValid(student.fileStatus)">
-                <div
-                  v-if="student.fileStatus.article === 0"
-                  v-html="wrongIconSvg"
-                ></div>
+                <div v-if="student.fileStatus.article === 0" v-html="wrongIconSvg"></div>
                 <div v-else v-html="correctIconSvg"></div>
               </td>
             </tr>
             <tr>
               <td>อัปโหลดเอกสารโครงงานฉบับสมบูรณ์</td>
               <td v-if="isFileStatusValid(student.fileStatus)">
-                <div
-                  v-if="student.fileStatus.final === 0"
-                  v-html="wrongIconSvg"
-                ></div>
+                <div v-if="student.fileStatus.final === 0" v-html="wrongIconSvg"></div>
                 <div v-else v-html="correctIconSvg"></div>
               </td>
             </tr>
             <tr>
               <td>อัปโหลดใบโอนลิขสิทธิ์</td>
               <td v-if="isFileStatusValid(student.fileStatus)">
-                <div
-                  v-if="student.fileStatus.copyright === 0"
-                  v-html="wrongIconSvg"
-                ></div>
+                <div v-if="student.fileStatus.copyright === 0" v-html="wrongIconSvg"></div>
                 <div v-else v-html="correctIconSvg"></div>
               </td>
             </tr>
@@ -200,10 +185,7 @@ onBeforeMount(async () => {
                 อัปโหลดเอกสารข้อตกลงเพื่อการหลีกเลี่ยงการโจรกรรมทางวรรณกรรม
               </td>
               <td v-if="isFileStatusValid(student.fileStatus)">
-                <div
-                  v-if="student.fileStatus.robbery === 0"
-                  v-html="wrongIconSvg"
-                ></div>
+                <div v-if="student.fileStatus.robbery === 0" v-html="wrongIconSvg"></div>
                 <div v-else v-html="correctIconSvg"></div>
               </td>
             </tr>
