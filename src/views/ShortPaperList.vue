@@ -1,16 +1,22 @@
-<script></script>
+<script>
+import { ref, onMounted } from 'vue'
+
+// import ApiService from '../../composables/apiService'
+
+// import ButtonMain from '../../components/ButtonMain.vue'
+import Header from '../components/Header.vue'</script>
 <template>
     <div>
         <div class="mt-5 font-semibold">
             <div class="text-bluemain text-left text-sm">
                 <p>
-                    <RouterLink :to="'/files'">
+                    <RouterLink :to="'/history'">
                         <span class="hover:text-blueheader">เอกสารโครงงานที่ผ่านมา</span>
                     </RouterLink>
                 </p>
             </div>
         </div>
-        <Header class="text-sm rounded-md" header="เอกสารโครงงาน" />
+        <Header header="เอกสารโครงงานที่ผ่านมา"/>
         <div class="relative overflow-x-auto shadow-md rounded-lg mt-6">
             <table class="w-full text-sm text-left rtl:text-right text-gray-500">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50">
@@ -19,7 +25,7 @@
                         <th scope="col" class="px-6 py-3">กำหนดการ</th>
                         <th scope="col" class="px-6 py-3">วันที่ส่ง</th>
                         <th scope="col" class="px-6 py-3">รายการ</th>
-                        <th scope="col" class="px-6 py-3">อัปโหลด</th>
+                        <!-- <th scope="col" class="px-6 py-3">อัปโหลด</th> -->
                         <th scope="col" class="px-6 py-3">ดาวน์โหลด</th>
                         <th scope="col" class="px-6 py-3 sr-only">รายละเอียด</th>
                     </tr>

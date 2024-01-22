@@ -104,18 +104,18 @@ onMounted(async () => {
 <template>
   <div>
     <div class="mt-5 font-semibold">
-      <div class="text-bluemain text-center">
+      <div class="text-bluemain text-left text-sm">
         <p>
           <RouterLink :to="'/students'">
             <span
-              class="hover:text-white hover:bg-bluemain hover:p-2 rounded-lg"
+              class="hover:text-blueheader"
               >ข้อมูลนักศึกษาทั้งหมด</span
             >
           </RouterLink>
           >
           <RouterLink :to="`/student?id=${student.studentId}`">
             <span
-              class="hover:text-white hover:bg-bluemain hover:p-2 rounded-lg"
+              class="hover:text-blueheader"
               >ข้อมูลนักศึกษา</span
             >
           </RouterLink>

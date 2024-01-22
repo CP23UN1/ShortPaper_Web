@@ -28,7 +28,7 @@ const sendFile = () => {
       </div>
     </div>
 
-    <Header class="text-sm rounded-md" header="อัปโหลดเอกสาร" />
+    <Header header="อัปโหลดเอกสาร" />
 
     <div class="relative overflow-x-auto shadow-md rounded-lg text-center">
       <div class="m-8">

@@ -134,7 +134,7 @@ onBeforeMount(async () => {
         </tbody>
       </table>
     </div>
-    <EmptyData v-else />
+    <EmptyData v-else class="mt-4" />
   </div>
 </template>
 
