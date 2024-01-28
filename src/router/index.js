@@ -10,6 +10,7 @@ import FileUploading from '../views/File/FileUploading.vue'
 import ShortPaperList from '../views/ShortPaperList.vue'
 import StudentListCommitee from '../views/Committee/StudentListCommittee.vue'
 import fileDetails from '../views/Advisor/FileDetails.vue'
+import ShortPaperEdit from '../views/ShortpaperEdit.vue'
 
 const history = createWebHashHistory()
 
@@ -63,7 +64,12 @@ const routes = [
     path: '/filedetail',
     name: 'filedetail',
     component: fileDetails,
-  }
+  },
+  {
+    path: '/shortpaper/edit',
+    name: 'shortpaper edit',
+    component: ShortPaperEdit,
+  },
 ]
 
 const router = createRouter({ history, routes })
