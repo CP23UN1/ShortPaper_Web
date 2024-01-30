@@ -29,20 +29,31 @@ onMounted(async () => {
           <!-- Added mx-auto for horizontal centering -->
           <thead class="text-white text-center">
             <tr>
-              <th scope="col" class="p-4 w-52 bg-blueheader  rounded-l-md">กำหนดการ</th>
-              <th scope="col" class="p-4 bg-bluemain w-96  rounded-r-md">รายการ</th>
-              <!-- <th scope="col" class="p-6 bg-bluemain text-center w-96">วันที่ประกาศ</th> -->
+              <th scope="col" class="p-4 w-52 bg-blueheader rounded-l-md">
+                กำหนดการ
+              </th>
+              <th scope="col" class="p-4 bg-bluemain w-72">รายการ</th>
+              <th
+                scope="col"
+                class="p-6 bg-bluemain text-center w-40 rounded-r-md"
+              >
+                วันที่ประกาศ
+              </th>
             </tr>
           </thead>
           <tbody>
-            <tr class="border-b" v-for="announcement in announcements" :key="announcement.announcementId">
-              <th scope="row" class="p-4 w-52 font-medium">
-                {{ announcement.topic }}
+            <tr
+              class="border-b"
+              v-for="announcement in announcements"
+              :key="announcement.announcementId"
+            >
+              <th scope="row" class="p-4 w-52 font-medium text-center">
+                {{ announcement.schedule }}
               </th>
-              <th scope="row" class="p-4 font-medium">
+              <th scope="row" class="p-4 font-medium w-72">
                 {{ announcement.content }}
               </th>
-              <th scope="row" class="p-4 font-medium">
+              <th scope="row" class="p-4 font-medium w-72 text-center">
                 {{ announcement.createdDatetimeThai }}
               </th>
             </tr>
@@ -61,7 +72,6 @@ onMounted(async () => {
         </div>
       </div> -->
     </div>
-
   </div>
 </template>
 
