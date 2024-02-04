@@ -154,7 +154,6 @@ onBeforeMount(async () => {
         <table class="table-auto my-2 ml-2">
           <tbody>
             <tr>
-              
               <td>อัปโหลดเอกสาร ใบ บ.1</td>
 
               <div
@@ -162,7 +161,6 @@ onBeforeMount(async () => {
                 v-html="correctIconSvg"
               ></div>
               <div v-else v-html="wrongIconSvg"></div>
-
             </tr>
 
             <tr>

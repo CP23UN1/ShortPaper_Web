@@ -66,7 +66,7 @@ class ApiService {
     return await api.post(`/student/create`, studentData)
   }
   async updateStudent(studentId, studentData) {
-    return await api.put(`/student/update/${studentId}`, studentData)
+    return await api.patch(`/student/update/${studentId}`, studentData)
   }
   async deleteStudent(studentId) {
     return await api.delete(`/student/delete/${studentId}`)
