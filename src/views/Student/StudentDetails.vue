@@ -59,24 +59,30 @@ const isFileStatusValid = (fileStatus) => {
   return fileStatus !== undefined && fileStatus !== null
 }
 
+const hasFileWithId = (filesArray, fileId) => {
+  return filesArray.some((file) => file.shortpaperFileTypeId === fileId)
+}
+
 onBeforeMount(async () => {
   await getStudent()
 })
 </script>
 
 <template>
-    <div class="mt-5 font-semibold">
-      <div class="text-bluemain text-left text-sm">
-        <p>
-          <RouterLink :to="'/students'">
-            <span class="hover:text-blueheader">ข้อมูลนักศึกษา</span>
-          </RouterLink>
-          >
-          <span>{{  }}</span>
-        </p>
-      </div>
+  <div class="mt-5 font-semibold">
+    <div class="text-bluemain text-left text-sm">
+      <p>
+        <RouterLink :to="'/students'">
+          <span class="hover:text-blueheader">ข้อมูลนักศึกษาทั้งหมด</span>
+        </RouterLink>
+        >
+        <RouterLink :to="`/student?id=${route.query.id}`">
+          <span class="hover:text-blueheader">ข้อมูลนักศึกษา</span>
+        </RouterLink>
+      </p>
+    </div>
 
-    <Header class="text-sm rounded-md" header="ข้อมูลนักศึกษา"/>
+    <Header class="text-sm rounded-md" header="ข้อมูลนักศึกษา" />
 
     <div class="mt-4 text-end">
       <RouterLink :to="`/student/edit?id=${route.query.id}`">
@@ -101,7 +107,7 @@ onBeforeMount(async () => {
             <tr>
               <td>เบอร์โทรศัพท์</td>
               <td>
-                {{ student.phoneNumber == null ? '-' : student.phoneNumber }}
+                {{ student.phonenumber == null ? '-' : student.phonenumber }}
               </td>
             </tr>
             <tr>
@@ -121,9 +127,14 @@ onBeforeMount(async () => {
             <tr>
               <td class="pr-16">ชื่อหัวข้อโครงงาน</td>
               <td>
-                {{ student.projectName == null ? '-' : student.projectName }}
+                {{
+                  student.shortpaper == null
+                    ? '-'
+                    : student.shortpaper.shortpaperTopic
+                }}
               </td>
             </tr>
+
             <!-- <tr>
               <td class="pr-16">รายวิชาจัดทำ IS Report</td>
               <td>
@@ -143,79 +154,79 @@ onBeforeMount(async () => {
         <table class="table-auto my-2 ml-2">
           <tbody>
             <tr>
+              
               <td>อัปโหลดเอกสาร ใบ บ.1</td>
-              <td v-if="isFileStatusValid(student.fileStatus)">
-                <div
-                  v-if="student.fileStatus.bOne === 0"
-                  v-html="wrongIconSvg"
-                ></div>
-                <div v-else v-html="correctIconSvg"></div>
-              </td>
+
+              <div
+                v-if="hasFileWithId(student.shortpaperFiles, 1)"
+                v-html="correctIconSvg"
+              ></div>
+              <div v-else v-html="wrongIconSvg"></div>
+
             </tr>
+
             <tr>
               <td>อัปโหลดเอกสารโครงงานครั้งที่ 1</td>
-              <td v-if="isFileStatusValid(student.fileStatus)">
-                <div
-                  v-if="student.fileStatus.paperOne === 0"
-                  v-html="wrongIconSvg"
-                ></div>
-                <div v-else v-html="correctIconSvg"></div>
-              </td>
+
+              <div
+                v-if="hasFileWithId(student.shortpaperFiles, 2)"
+                v-html="correctIconSvg"
+              ></div>
+              <div v-else v-html="wrongIconSvg"></div>
             </tr>
+
             <tr>
               <td>อัปโหลดเอกสารโครงงานครั้งที่ 2</td>
-              <td v-if="isFileStatusValid(student.fileStatus)">
-                <div
-                  v-if="student.fileStatus.paperTwo === 0"
-                  v-html="wrongIconSvg"
-                ></div>
-                <div v-else v-html="correctIconSvg"></div>
-              </td>
+
+              <div
+                v-if="hasFileWithId(student.shortpaperFiles, 3)"
+                v-html="correctIconSvg"
+              ></div>
+              <div v-else v-html="wrongIconSvg"></div>
             </tr>
+
             <tr>
               <td class="pr-16">
                 อัปโหลดเอกสารโครงงานในรูปแบบของบทความ
                 (ฉบับเกี่ยวข้องกับห้องสมุด)
               </td>
-              <td v-if="isFileStatusValid(student.fileStatus)">
-                <div
-                  v-if="student.fileStatus.article === 0"
-                  v-html="wrongIconSvg"
-                ></div>
-                <div v-else v-html="correctIconSvg"></div>
-              </td>
+
+              <div
+                v-if="hasFileWithId(student.shortpaperFiles, 4)"
+                v-html="correctIconSvg"
+              ></div>
+              <div v-else v-html="wrongIconSvg"></div>
             </tr>
+
             <tr>
               <td>อัปโหลดเอกสารโครงงานฉบับสมบูรณ์</td>
-              <td v-if="isFileStatusValid(student.fileStatus)">
-                <div
-                  v-if="student.fileStatus.final === 0"
-                  v-html="wrongIconSvg"
-                ></div>
-                <div v-else v-html="correctIconSvg"></div>
-              </td>
+              <div
+                v-if="hasFileWithId(student.shortpaperFiles, 5)"
+                v-html="correctIconSvg"
+              ></div>
+              <div v-else v-html="wrongIconSvg"></div>
             </tr>
+
             <tr>
               <td>อัปโหลดใบโอนลิขสิทธิ์</td>
-              <td v-if="isFileStatusValid(student.fileStatus)">
-                <div
-                  v-if="student.fileStatus.copyright === 0"
-                  v-html="wrongIconSvg"
-                ></div>
-                <div v-else v-html="correctIconSvg"></div>
-              </td>
+
+              <div
+                v-if="hasFileWithId(student.shortpaperFiles, 6)"
+                v-html="correctIconSvg"
+              ></div>
+              <div v-else v-html="wrongIconSvg"></div>
             </tr>
+
             <tr>
               <td>
                 อัปโหลดเอกสารข้อตกลงเพื่อการหลีกเลี่ยงการโจรกรรมทางวรรณกรรม
               </td>
-              <td v-if="isFileStatusValid(student.fileStatus)">
-                <div
-                  v-if="student.fileStatus.robbery === 0"
-                  v-html="wrongIconSvg"
-                ></div>
-                <div v-else v-html="correctIconSvg"></div>
-              </td>
+
+              <div
+                v-if="hasFileWithId(student.shortpaperFiles, 7)"
+                v-html="correctIconSvg"
+              ></div>
+              <div v-else v-html="wrongIconSvg"></div>
             </tr>
           </tbody>
         </table>
