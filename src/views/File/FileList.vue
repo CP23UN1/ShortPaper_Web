@@ -78,7 +78,7 @@ onMounted(async () => {
               {{ file.shortpaperFileType.typeName }}
             </td>
             <td class="px-6 py-4 font-medium whitespace-nowrap">
-              <RouterLink :to="`/upload`">
+              <RouterLink :to="`/upload?id=${file.shortpaperFileType.typeId}`">
                 <div
                   class="flex justify-center items-center"
                   v-html="uploadIconSvg"

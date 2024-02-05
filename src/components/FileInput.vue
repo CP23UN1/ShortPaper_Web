@@ -3,7 +3,7 @@ import { ref } from 'vue'
 
 import ButtonMain from './ButtonMain.vue'
 
-const emits = defineEmits(['fileInput'])
+const emits = defineEmits(['upload'])
 const props = defineProps({
   label: {
     type: String,
@@ -25,6 +25,7 @@ const props = defineProps({
         aria-describedby="file_type"
         id="file_input"
         type="file"
+        @change="$emit('upload')"
       />
     </div>
 

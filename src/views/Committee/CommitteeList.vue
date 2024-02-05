@@ -1,5 +1,6 @@
 <script setup>
-import { onBeforeMount, ref } from 'vue'
+import { onBeforeMount, onMounted, ref } from 'vue'
+
 import ApiService from '../../composables/apiService'
 import Header from '../../components/Header.vue'
 import SearchInput from '../../components/SearchInput.vue'
@@ -18,33 +19,33 @@ const getShortPapers = async () => {
   }
 }
 
-// const getSubjects = async () => {
-//   const res = await ApiService.getSubjects()
+const getSubjects = async () => {
+  const res = await ApiService.getSubjects()
 
-//   if (res.status === 200) {
-//     const data = await res.data
-//     subjects.value = data.data
-//   }
-// }
+  if (res.status === 200) {
+    const data = await res.data
+    subjects.value = data.data
+  }
+}
 
 const years = ['1/2565', '2/2565', '1/2566', '2/2566']
 
 onBeforeMount(async () => {
   await getShortPapers()
-  // await getSubjects()
+  await getSubjects()
 })
 </script>
 
 <template>
-   <div class="mt-5 font-semibold">
-      <div class="text-bluemain text-left text-sm">
-        <p>
-          <RouterLink :to="'/committees'">
-            <span class="hover:text-blueheader">คณะกรรมการ</span>
-          </RouterLink>
-        </p>
-      </div>
+  <div class="mt-5 font-semibold">
+    <div class="text-bluemain text-left text-sm">
+      <p>
+        <RouterLink :to="'/committees'">
+          <span class="hover:text-blueheader">คณะกรรมการ</span>
+        </RouterLink>
+      </p>
     </div>
+  </div>
   <div class="text-sm">
     <Header class="text-sm rounded-md" header="คณะกรรมการ" />
 
@@ -85,7 +86,26 @@ onBeforeMount(async () => {
     <div class="p-4 shadow-md">
       <SearchInput label="ค้นหานักศึกษา" placeholder="กรอกรหัสนักศึกษา" />
       <div class="grid grid-cols-2 gap-10">
-        <SelectInput class="mt-2" :options="subjects" label="รหัสวิชา" />
+        <div>
+          <label
+            for="selectKeyword"
+            class="block mb-2 font-medium text-gray-900"
+            >รหัสวิชา
+          </label>
+          <select
+            id="selectKeyword"
+            class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+          >
+            <option
+              selected
+              v-for="subject in subjects"
+              :key="subject.subjectId"
+            >
+              {{ subject.subjectId }} {{ subject.subjectName }}
+            </option>
+          </select>
+        </div>
+
         <SelectInput class="mt-2" :options="years" label="ปีการศึกษา" />
       </div>
     </div>
@@ -112,10 +132,35 @@ onBeforeMount(async () => {
             <th
               scope="row"
               class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+              v-for="student in shortpaper.student"
+              :key="student.studentId"
+            >
+              {{ student.studentId }}
+            </th>
+            <th
+              scope="row"
+              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+              v-for="committee in shortpaper.committees"
+              :key="committee.committeeId"
+            >
+              {{ committee.firstname }} {{ committee.lastname }}
+            </th>
+          </tr>
+          <!-- <tr
+            class="bg-white border-b"
+            v-for="shortpaper in shortpapers"
+            :key="shortpaper.shortpaperId"
+          >
+            <th
+              scope="row"
+              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
             >
               {{ shortpaper.studentForShortpaper.studentId }}
             </th>
-            <td class="px-6 py-4" v-if="shortpaper.committeeForShortpaper !== null">
+            <td
+              class="px-6 py-4"
+              v-if="shortpaper.committeeForShortpaper !== null"
+            >
               {{ shortpaper.committeeForShortpaper.firstname }}
               {{ shortpaper.committeeForShortpaper.lastname }}
             </td>
@@ -130,7 +175,7 @@ onBeforeMount(async () => {
               {{ proj.committeeThird.lastname }}
             </td>
             <td v-else></td>
-          </tr>
+          </tr> -->
         </tbody>
       </table>
     </div>

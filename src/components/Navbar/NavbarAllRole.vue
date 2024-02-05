@@ -93,11 +93,11 @@ import { RouterLink } from 'vue-router'
       ><p>เอกสารโครงงาน</p></RouterLink
     >
 
-    <div
+    <!-- <div
       class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5"
     >
       ความคิดเห็นคณะกรรมการ
-    </div>
+    </div> -->
     <RouterLink to="/history">
     <div
       class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5"

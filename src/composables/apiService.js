@@ -1,7 +1,6 @@
 import api from './api'
 
 class ApiService {
-  
   // Announcements
   async getAnnouncements() {
     return await api.get(`/announcements`)
@@ -28,27 +27,29 @@ class ApiService {
   }
 
   // File
-  async getFiles(){
+  async getFiles() {
     return await api.get(`/files`)
   }
-  async getFileByShortpaper(shortpaperId){
+  async getFileByShortpaper(shortpaperId) {
     return await api.get(`/list/${shortpaperId}`)
   }
-  async uploadFile(file){
-    return await api.post(`/upload`, file)
+  async uploadFile(file) {
+    return await api.post(`/upload`, file, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    })
   }
-  async downloadFile(fileId){
+  async downloadFile(fileId) {
     return await api.get(`/download/${fileId}`)
   }
-  async getFileType(){
+  async getFileType() {
     return await api.get(`/filetype`)
   }
 
   // Short Paper
-  async getShortPapers(){
+  async getShortPapers() {
     return await api.get(`/shortpapers`)
   }
-  async searchShortPapers(keyword){
+  async searchShortPapers(keyword) {
     return await api.get(`/shortpapers/${keyword}`)
   }
 
@@ -70,6 +71,11 @@ class ApiService {
   }
   async deleteStudent(studentId) {
     return await api.delete(`/student/delete/${studentId}`)
+  }
+
+  // Subjects
+  async getSubjects() {
+    return await api.get(`/subjects`)
   }
 }
 export default new ApiService()
