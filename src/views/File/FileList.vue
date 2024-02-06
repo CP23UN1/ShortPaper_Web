@@ -20,17 +20,28 @@ const doneIconSvg = `<svg class="w-[20px] h-[20px] text-teal-700" aria-hidden="t
 
 const files = ref()
 
-const getFiles = async () => {
-  const res = await ApiService.getFiles()
+// const getFiles = async () => {
+//   const res = await ApiService.getFiles()
+
+//   if (res.status === 200) {
+//     const data = await res.data
+//     files.value = data.data
+//   }
+// }
+
+const fileTypes = ref()
+const getFileType = async () => {
+  const res = await ApiService.getFileType()
 
   if (res.status === 200) {
     const data = await res.data
-    files.value = data.data
+    fileTypes.value = data.data
   }
 }
 
 onMounted(async () => {
-  await getFiles()
+  // await getFiles()
+  await getFileType()
 })
 </script>
 
@@ -51,8 +62,8 @@ onMounted(async () => {
         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
           <tr class="text-center">
             <th scope="col" class="px-6 py-3">ลำดับการส่ง</th>
-            <th scope="col" class="px-6 py-3">กำหนดการ</th>
-            <th scope="col" class="px-6 py-3">วันที่ส่ง</th>
+            <!-- <th scope="col" class="px-6 py-3">กำหนดการ</th> -->
+            <!-- <th scope="col" class="px-6 py-3">วันที่ส่ง</th> -->
             <th scope="col" class="px-6 py-3">รายการ</th>
             <th scope="col" class="px-6 py-3">อัปโหลด</th>
             <th scope="col" class="px-6 py-3">ดาวน์โหลด</th>
@@ -61,6 +72,32 @@ onMounted(async () => {
         </thead>
         <tbody class="text-center">
           <tr
+            class="bg-white border-b hover:bg-gray-50 text-gray-900"
+            v-for="fileType in fileTypes"
+          >
+            <td class="px-6 py-4 font-medium whitespace-nowrap">
+              {{ fileType.typeId }}
+            </td>
+            <td class="px-6 py-4 font-medium whitespace-nowrap">
+              {{ fileType.typeName }}
+            </td>
+            <td class="px-6 py-4 font-medium whitespace-nowrap">
+              <RouterLink :to="`/upload?id=${fileType.typeId}`">
+                <div
+                  class="flex justify-center items-center"
+                  v-html="uploadIconSvg"
+                ></div>
+              </RouterLink>
+              <!-- <div v-html="doneIconSvg"></div> -->
+            </td>
+            <td
+              class="px-6 py-4 font-medium whitespace-nowrap flex justify-center items-center"
+            >
+              <div v-html="downloadIconSvg"></div>
+            </td>
+          </tr>
+
+          <!-- <tr
             class="bg-white border-b hover:bg-gray-50 text-gray-900"
             v-for="file in files"
             :key="file.shortpaperFileId"
@@ -84,7 +121,7 @@ onMounted(async () => {
                   v-html="uploadIconSvg"
                 ></div>
               </RouterLink>
-              <!-- <div v-html="doneIconSvg"></div>  -->
+              <div v-html="doneIconSvg"></div>
             </td>
             <td
               class="px-6 py-4 font-medium whitespace-nowrap flex justify-center items-center"
@@ -96,7 +133,8 @@ onMounted(async () => {
                 <ButtonMain text="รายละเอียด" />
               </RouterLink>
             </td>
-          </tr>
+          </tr> -->
+
           <!-- <tr class="bg-white border-b hover:bg-gray-50 text-gray-900">
             <td class="px-6 py-4 font-medium whitespace-nowrap">1</td>
             <td class="px-6 py-4 font-medium whitespace-nowrap">
