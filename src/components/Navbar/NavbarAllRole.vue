@@ -80,7 +80,7 @@ import { RouterLink } from 'vue-router'
       รายงานสรุปผลโครงงาน
     </div> -->
     <RouterLink
-      to="/file"
+      to="/files"
       class="w-[233px] p-5"
       :class="{
         'bg-white text-bluemain':
@@ -93,15 +93,17 @@ import { RouterLink } from 'vue-router'
       ><p>เอกสารโครงงาน</p></RouterLink
     >
 
-    <div
+    <!-- <div
       class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5"
     >
-      ความคิดเห็นของกรรมการ
-    </div>
+      ความคิดเห็นคณะกรรมการ
+    </div> -->
+    <RouterLink to="/history">
     <div
       class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5"
     >
       เอกสารโครงงานที่ผ่านมา
     </div>
+  </RouterLink>
   </div>
 </template>

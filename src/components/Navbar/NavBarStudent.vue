@@ -6,10 +6,10 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 </script>
 <template>
   <div>
-    <nav class=" p-2 bg-white">
+    <nav class="p-2 bg-white ">
       <div class="flex flex-wrap justify-between items-center">
         <RouterLink to="/">
-          <img src="../assets/SIT-LOGO.png" class="h-12 mr-3" />
+          <img src="../../assets/SIT-LOGO.png" class="h-12 mr-3" />
         </RouterLink>
         <button class="flex items-center bg-white">
           <svg width="24" height="24" viewBox="0 0 33 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -21,14 +21,14 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
       </div>
     </nav>
   </div>
-  <div class="flex flex-nowrap justify-between text-xs font-medium text-center shadow-lg">
+  <div class="flex flex-nowrap justify-between text-xs font-medium text-center shadow-lg divide-x ">
     <RouterLink to="/studentform">
       <div class="
-       bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5 ">ข้อมูลนักศึกษา</div>
+       bg-bluemain hover:bg-white hover:text-bluemain text-white p-5 w-72 ">ข้อมูลนักศึกษา</div>
     </RouterLink>
-    <div class=" bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5 ">ส่งเอกสารโครงงาน
+    <div class=" bg-bluemain hover:bg-white hover:text-bluemain text-white p-5 w-[434px]">ส่งเอกสารโครงงาน
     </div>
-
+    <!-- 
     <Menu as="div" class="relative inline-block text-left">
       <div>
         <MenuButton class=" bg-bluemain w-[233px] p-5 text-white flex  hover:bg-white hover:text-bluemain fill-white  hover:fill-bluemain items-center justify-between">
@@ -61,12 +61,13 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
           </div>
         </MenuItems>
       </transition>
-    </Menu>
+    </Menu> -->
 
 
 
-  <div class=" bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5 ">(ฉบับแก้ไขตามคำแนะนำ)
+    <!-- <div class=" bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5 ">(ฉบับแก้ไขตามคำแนะนำ)
+  </div> -->
+    <div class=" bg-bluemain hover:bg-white hover:text-bluemain text-white w-[434px]  p-5 ">เอกสารโครงงานที่ผ่านมา</div>
+    <div class=" bg-bluemain hover:bg-red-700 text-white w-[434px] p-5">ออกจากระบบ</div>
   </div>
-  <div class=" bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5 ">เอกสารโครงงานที่ผ่านมา</div>
-  <div class=" bg-bluemain hover:bg-red-700 text-white w-[233px] p-5">ออกจากระบบ</div>
-</div></template>
+</template>

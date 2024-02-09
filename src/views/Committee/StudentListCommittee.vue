@@ -6,6 +6,7 @@ import ApiService from '../../composables/apiService'
 
 import Header from '../../components/Header.vue'
 import ButtonMain from '../../components/ButtonMain.vue'
+import SearchInput from '../../components/SearchInput.vue'
 
 const student = ref({})
 const route = useRoute()
@@ -59,10 +60,6 @@ const isFileStatusValid = (fileStatus) => {
   return fileStatus !== undefined && fileStatus !== null
 }
 
-const hasFileWithId = (filesArray, fileId) => {
-  return filesArray.some((file) => file.shortpaperFileTypeId === fileId)
-}
-
 onBeforeMount(async () => {
   await getStudent()
 })
@@ -72,25 +69,15 @@ onBeforeMount(async () => {
   <div class="mt-5 font-semibold">
     <div class="text-bluemain text-left text-sm">
       <p>
-        <RouterLink :to="'/students'">
-          <span class="hover:text-blueheader">ข้อมูลนักศึกษาทั้งหมด</span>
-        </RouterLink>
-        >
-        <RouterLink :to="`/student?id=${route.query.id}`">
-          <span class="hover:text-blueheader">ข้อมูลนักศึกษา</span>
+        <RouterLink :to="'/studentinfo'">
+          <span class="hover:text-blueheader">ตรวจสอบข้อมูล(รายบุคคล)</span>
         </RouterLink>
       </p>
     </div>
-
-    <Header class="text-sm rounded-md" header="ข้อมูลนักศึกษา" />
-
-    <div class="mt-4 text-end">
-      <RouterLink :to="`/student/edit?id=${route.query.id}`">
-        <ButtonMain text="แก้ไขรายละเอียด" />
-      </RouterLink>
+    <div class="bg-white p-2">
+      <SearchInput class="w-96" label="รหัสนักศึกษา"/>{{รหัสนักศึกษา}}
     </div>
-
-    <div class="mt-3 justify-center item-center mb-12 grid grid-cols-2 text-sm">
+    <div class="mt-3 justify-center item-center mb-12 grid grid-cols-2 text-sm w-full">
       <div class="shadow-md">
         <h1 class="my-2 ml-2">ข้อมูลนักศึกษา</h1>
         <hr />
@@ -107,7 +94,7 @@ onBeforeMount(async () => {
             <tr>
               <td>เบอร์โทรศัพท์</td>
               <td>
-                {{ student.phonenumber == null ? '-' : student.phonenumber }}
+                {{ student.phoneNumber == null ? '-' : student.phoneNumber }}
               </td>
             </tr>
             <tr>
@@ -119,22 +106,17 @@ onBeforeMount(async () => {
               <td>
                 {{
                   student.alternativeEmail == null
-                    ? '-'
-                    : student.alternativeEmail
+                  ? '-'
+                  : student.alternativeEmail
                 }}
               </td>
             </tr>
             <tr>
               <td class="pr-16">ชื่อหัวข้อโครงงาน</td>
               <td>
-                {{
-                  student.shortpaper == null
-                    ? '-'
-                    : student.shortpaper.shortpaperTopic
-                }}
+                {{ student.projectName == null ? '-' : student.projectName }}
               </td>
             </tr>
-
             <!-- <tr>
               <td class="pr-16">รายวิชาจัดทำ IS Report</td>
               <td>
@@ -155,76 +137,57 @@ onBeforeMount(async () => {
           <tbody>
             <tr>
               <td>อัปโหลดเอกสาร ใบ บ.1</td>
-
-              <div
-                v-if="hasFileWithId(student.shortpaperFiles, 1)"
-                v-html="correctIconSvg"
-              ></div>
-              <div v-else v-html="wrongIconSvg"></div>
+              <td v-if="isFileStatusValid(student.fileStatus)">
+                <div v-if="student.fileStatus.bOne === 0" v-html="wrongIconSvg"></div>
+                <div v-else v-html="correctIconSvg"></div>
+              </td>
             </tr>
-
             <tr>
               <td>อัปโหลดเอกสารโครงงานครั้งที่ 1</td>
-
-              <div
-                v-if="hasFileWithId(student.shortpaperFiles, 2)"
-                v-html="correctIconSvg"
-              ></div>
-              <div v-else v-html="wrongIconSvg"></div>
+              <td v-if="isFileStatusValid(student.fileStatus)">
+                <div v-if="student.fileStatus.paperOne === 0" v-html="wrongIconSvg"></div>
+                <div v-else v-html="correctIconSvg"></div>
+              </td>
             </tr>
-
             <tr>
               <td>อัปโหลดเอกสารโครงงานครั้งที่ 2</td>
-
-              <div
-                v-if="hasFileWithId(student.shortpaperFiles, 3)"
-                v-html="correctIconSvg"
-              ></div>
-              <div v-else v-html="wrongIconSvg"></div>
+              <td v-if="isFileStatusValid(student.fileStatus)">
+                <div v-if="student.fileStatus.paperTwo === 0" v-html="wrongIconSvg"></div>
+                <div v-else v-html="correctIconSvg"></div>
+              </td>
             </tr>
-
             <tr>
               <td class="pr-16">
                 อัปโหลดเอกสารโครงงานในรูปแบบของบทความ
                 (ฉบับเกี่ยวข้องกับห้องสมุด)
               </td>
-
-              <div
-                v-if="hasFileWithId(student.shortpaperFiles, 4)"
-                v-html="correctIconSvg"
-              ></div>
-              <div v-else v-html="wrongIconSvg"></div>
+              <td v-if="isFileStatusValid(student.fileStatus)">
+                <div v-if="student.fileStatus.article === 0" v-html="wrongIconSvg"></div>
+                <div v-else v-html="correctIconSvg"></div>
+              </td>
             </tr>
-
             <tr>
               <td>อัปโหลดเอกสารโครงงานฉบับสมบูรณ์</td>
-              <div
-                v-if="hasFileWithId(student.shortpaperFiles, 5)"
-                v-html="correctIconSvg"
-              ></div>
-              <div v-else v-html="wrongIconSvg"></div>
+              <td v-if="isFileStatusValid(student.fileStatus)">
+                <div v-if="student.fileStatus.final === 0" v-html="wrongIconSvg"></div>
+                <div v-else v-html="correctIconSvg"></div>
+              </td>
             </tr>
-
             <tr>
               <td>อัปโหลดใบโอนลิขสิทธิ์</td>
-
-              <div
-                v-if="hasFileWithId(student.shortpaperFiles, 6)"
-                v-html="correctIconSvg"
-              ></div>
-              <div v-else v-html="wrongIconSvg"></div>
+              <td v-if="isFileStatusValid(student.fileStatus)">
+                <div v-if="student.fileStatus.copyright === 0" v-html="wrongIconSvg"></div>
+                <div v-else v-html="correctIconSvg"></div>
+              </td>
             </tr>
-
             <tr>
               <td>
                 อัปโหลดเอกสารข้อตกลงเพื่อการหลีกเลี่ยงการโจรกรรมทางวรรณกรรม
               </td>
-
-              <div
-                v-if="hasFileWithId(student.shortpaperFiles, 7)"
-                v-html="correctIconSvg"
-              ></div>
-              <div v-else v-html="wrongIconSvg"></div>
+              <td v-if="isFileStatusValid(student.fileStatus)">
+                <div v-if="student.fileStatus.robbery === 0" v-html="wrongIconSvg"></div>
+                <div v-else v-html="correctIconSvg"></div>
+              </td>
             </tr>
           </tbody>
         </table>

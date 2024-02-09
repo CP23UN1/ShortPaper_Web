@@ -3,7 +3,7 @@ import { onMounted, ref } from 'vue'
 
 import ApiService from '../composables/apiService'
 
-import Header from '../components/Header.vue';
+import Header from '../components/Header.vue'
 
 const announcements = ref([])
 
@@ -20,46 +20,57 @@ onMounted(async () => {
   await getAnnouncements()
 })
 </script>
-
 <template>
-  <div>
-    <Header header="ประกาศกำหนดการ" />
-    <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-5">
-      <table class="w-full text-sm text-left rtl:text-right">
-        <thead class="text-xs text-white bg-blueheader">
-          <tr>
-            <th scope="col" class="px-6 py-3">กำหนดการ</th>
-            <th scope="col" class="px-6 py-3">รายการ</th>
-            <th scope="col" class="px-6 py-3">วันที่ประกาศ</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            class="border-b"
-            v-for="announcement in announcements"
-            :key="announcement.announcementId"
-          >
-            <th scope="row" class="px-6 py-4 font-medium">
-              {{ announcement.topic }}
-            </th>
-            <th scope="row" class="px-6 py-4 font-medium">
-              {{ announcement.content }}
-            </th>
-            <th scope="row" class="px-6 py-4 font-medium">
-              {{
-                new Date(announcement.createdDatetime).toLocaleDateString(
-                  'th-TH',
-                  {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                  }
-                )
-              }}
-            </th>
-          </tr>
-        </tbody>
-      </table>
+  <div class="flex justify-center h-screen">
+    <div class="w-full lg:w-3/4">
+      <!-- <Header class="text-sm rounded-md" header="ประกาศกำหนดการ"/> -->
+      <div class="relative overflow-x-auto rounded-md mt-5">
+        <table class="text-sm text-left rtl:text-right mx-auto">
+          <!-- Added mx-auto for horizontal centering -->
+          <thead class="text-white text-center">
+            <tr>
+              <th scope="col" class="p-4 w-52 bg-blueheader rounded-l-md">
+                กำหนดการ
+              </th>
+              <th scope="col" class="p-4 bg-bluemain w-72">รายการ</th>
+              <th
+                scope="col"
+                class="p-6 bg-bluemain text-center w-40 rounded-r-md"
+              >
+                วันที่ประกาศ
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              class="border-b"
+              v-for="announcement in announcements"
+              :key="announcement.announcementId"
+            >
+              <th scope="row" class="p-4 w-52 font-medium text-center">
+                {{ announcement.schedule }}
+              </th>
+              <th scope="row" class="p-4 font-medium w-72">
+                {{ announcement.content }}
+              </th>
+              <th scope="row" class="p-4 font-medium w-72 text-center">
+                {{ announcement.createdDatetimeThai }}
+              </th>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- <div class="bg-bluemain p-4 m-2 rounded-md text-white flex">
+        <div>ข่าวและกิจกรรม</div>
+        <p class="ml-auto underline">See All</p>
+      </div>
+      <div class="flex justify-center items-center">
+        <div class="grid grid-cols-3">
+          <div>1</div>
+          <div>2</div>
+          <div>3</div>
+        </div>
+      </div> -->
     </div>
   </div>
 </template>

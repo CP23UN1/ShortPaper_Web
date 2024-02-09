@@ -1,37 +1,53 @@
 <script setup>
-import { onBeforeMount, ref } from 'vue'
+import { onBeforeMount, onMounted, ref } from 'vue'
+
 import ApiService from '../../composables/apiService'
 import Header from '../../components/Header.vue'
 import SearchInput from '../../components/SearchInput.vue'
 import SelectInput from '../../components/SelectInput.vue'
 import EmptyData from '../../components/EmptyData.vue'
 
-const projects = ref({})
+const shortpapers = ref([])
+const subjects = ref([])
 
-const getProjects = async () => {
-  const res = await ApiService.getProjects()
+const getShortPapers = async () => {
+  const res = await ApiService.getShortPapers()
 
   if (res.status === 200) {
     const data = await res.data
-    projects.value = data
+    shortpapers.value = data.data
   }
 }
 
-const subjects = [
-  'INT100 Computer programming',
-  'INT421 Applied Machine Learning',
-]
+const getSubjects = async () => {
+  const res = await ApiService.getSubjects()
+
+  if (res.status === 200) {
+    const data = await res.data
+    subjects.value = data.data
+  }
+}
 
 const years = ['1/2565', '2/2565', '1/2566', '2/2566']
 
 onBeforeMount(async () => {
-  await getProjects()
+  await getShortPapers()
+  await getSubjects()
 })
 </script>
 
 <template>
-  <div>
-    <Header header="คณะกรรมการ" />
+  <div class="mt-5 font-semibold">
+    <div class="text-bluemain text-left text-sm">
+      <p>
+        <RouterLink :to="'/committees'">
+          <span class="hover:text-blueheader">คณะกรรมการ</span>
+        </RouterLink>
+      </p>
+    </div>
+  </div>
+  <div class="text-sm">
+    <Header class="text-sm rounded-md" header="คณะกรรมการ" />
 
     <!-- Excel -->
     <!-- <div
@@ -67,17 +83,36 @@ onBeforeMount(async () => {
       </button>
     </div> -->
 
-    <div class="p-5 shadow-md">
+    <div class="p-4 shadow-md">
       <SearchInput label="ค้นหานักศึกษา" placeholder="กรอกรหัสนักศึกษา" />
       <div class="grid grid-cols-2 gap-10">
-        <SelectInput class="mt-2" :options="subjects" label="รหัสวิชา" />
+        <div>
+          <label
+            for="selectKeyword"
+            class="block mb-2 font-medium text-gray-900"
+            >รหัสวิชา
+          </label>
+          <select
+            id="selectKeyword"
+            class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+          >
+            <option
+              selected
+              v-for="subject in subjects"
+              :key="subject.subjectId"
+            >
+              {{ subject.subjectId }} {{ subject.subjectName }}
+            </option>
+          </select>
+        </div>
+
         <SelectInput class="mt-2" :options="years" label="ปีการศึกษา" />
       </div>
     </div>
 
     <div
-      class="relative overflow-x-auto shadow-md sm:rounded-lg mt-6"
-      v-if="projects.length !== 0"
+      class="relative overflow-x-auto shadow-md rounded-lg mt-6"
+      v-if="shortpapers.length !== 0"
     >
       <table class="w-full text-sm text-left rtl:text-right text-gray-500">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
@@ -91,18 +126,43 @@ onBeforeMount(async () => {
         <tbody>
           <tr
             class="bg-white border-b"
-            v-for="proj in projects"
-            :key="proj.projectId"
+            v-for="shortpaper in shortpapers"
+            :key="shortpaper.shortpaperId"
+          >
+            <th
+              scope="row"
+              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+              v-for="student in shortpaper.student"
+              :key="student.studentId"
+            >
+              {{ student.studentId }}
+            </th>
+            <th
+              scope="row"
+              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+              v-for="committee in shortpaper.committees"
+              :key="committee.committeeId"
+            >
+              {{ committee.firstname }} {{ committee.lastname }}
+            </th>
+          </tr>
+          <!-- <tr
+            class="bg-white border-b"
+            v-for="shortpaper in shortpapers"
+            :key="shortpaper.shortpaperId"
           >
             <th
               scope="row"
               class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
             >
-              {{ proj.student.studentId }}
+              {{ shortpaper.studentForShortpaper.studentId }}
             </th>
-            <td class="px-6 py-4" v-if="proj.committeeFirst !== null">
-              {{ proj.committeeFirst.firstname }}
-              {{ proj.committeeFirst.lastname }}
+            <td
+              class="px-6 py-4"
+              v-if="shortpaper.committeeForShortpaper !== null"
+            >
+              {{ shortpaper.committeeForShortpaper.firstname }}
+              {{ shortpaper.committeeForShortpaper.lastname }}
             </td>
             <td v-else></td>
             <td class="px-6 py-4" v-if="proj.committeeSecond !== null">
@@ -115,11 +175,11 @@ onBeforeMount(async () => {
               {{ proj.committeeThird.lastname }}
             </td>
             <td v-else></td>
-          </tr>
+          </tr> -->
         </tbody>
       </table>
     </div>
-    <EmptyData v-else />
+    <EmptyData v-else class="mt-4" />
   </div>
 </template>
 

@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, computed } from 'vue'
+import { onMounted, ref, computed, onBeforeMount } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { Modal } from 'flowbite'
 
@@ -12,8 +12,7 @@ import ConfirmModal from '../../components/ConfirmModal.vue'
 const route = useRoute()
 const router = useRouter()
 const student = ref({})
-const combinedShortPaperSubject = ref()
-const combinedRegisSubject = ref()
+const combinedSubject = ref()
 
 const modal = ref()
 const toggleModal = () => {
@@ -27,7 +26,7 @@ const getStudent = async () => {
 
     if (res.status === 200) {
       const data = await res.data
-      student.value = data
+      student.value = data.data
     }
   }
 }
@@ -54,27 +53,29 @@ const validateData = () => {
     isValid = false
   }
 
-  if (student.value.email == '' || null) {
-    alert('กรุณาใส่อีเมล')
-    isValid = false
-  } else {
-    if (validateEmail(student.value.email) !== true) {
+  // if (student.value.alternativeEmail == '' || null) {
+  //   alert('กรุณาใส่อีเมล')
+  //   isValid = false
+  // } else {
+  if (student.value.alternativeEmail !== '' && null) {
+    if (validateEmail(student.value.alternativeEmail) !== true) {
       alert('กรุณาใส่อีเมลที่ถูกต้อง')
       isValid = false
     }
   }
+  // }
 
-  if (student.value.phoneNumber == '' || null) {
+  if (student.value.phonenumber == '' || null) {
     alert('กรุณาใส่เบอร์โทรศัพท์')
     isValid = false
   } else {
-    if (student.value.phoneNumber.length !== 10) {
+    if (student.value.phonenumber.length !== 10) {
       alert('กรุณาใส่เบอร์โทรศัพท์ที่ถูกต้อง')
       isValid = false
     }
   }
 
-  if (student.value.projectName == '' || null) {
+  if (student.value.shortpaper.shortpaperTopic == '' || null) {
     alert('กรุณาใส่หัวข้อโครงงาน')
     isValid = false
   }
@@ -84,25 +85,21 @@ const validateData = () => {
 
 const updateStudent = async () => {
   if (validateData() == true) {
-    await ApiService.updateStudent(student.value.userId, student.value)
+    await ApiService.updateStudent(student.value.studentId, student.value)
     modal.value.toggle()
     alert('บันทึกสำเร็จ')
-    router.push('/student?id=' + student.value.userId)
+    router.push('/student?id=' + student.value.studentId)
   }
 }
 
-onMounted(async () => {
+onBeforeMount(async () => {
   await getStudent()
 
-  combinedShortPaperSubject.value =
-    student.value.shortpaperSubject.subjectId +
+  // ยังจัดการไม่ดี
+  combinedSubject.value =
+    student.value.subjects[0].subjectId +
     ' ' +
-    student.value.shortpaperSubject.subjectName
-
-  combinedRegisSubject.value =
-    student.value.registeredSubject.subjectId +
-    ' ' +
-    student.value.registeredSubject.subjectName
+    student.value.subjects[0].subjectName
 
   const targetEl = document.getElementById('save-modal')
   modal.value = new Modal(targetEl)
@@ -112,23 +109,19 @@ onMounted(async () => {
 <template>
   <div>
     <div class="mt-5 font-semibold">
-      <div class="text-bluemain text-center">
+      <div class="text-bluemain text-left text-sm">
         <p>
-          <RouterLink :to="'/'">
-            <span
-              class="hover:text-white hover:bg-bluemain hover:p-2 rounded-lg"
-              >ข้อมูลนักศึกษาทั้งหมด</span
-            >
+          <RouterLink :to="'/students'">
+            <span class="hover:text-blueheader">ข้อมูลนักศึกษาทั้งหมด</span>
           </RouterLink>
           >
-          <RouterLink :to="`/student?id=${student.userId}`">
-            <span
-              class="hover:text-white hover:bg-bluemain hover:p-2 rounded-lg"
-              >ข้อมูลนักศึกษา</span
-            >
+          <RouterLink :to="`/student?id=${route.query.id}`">
+            <span class="hover:text-blueheader">ข้อมูลนักศึกษา</span>
           </RouterLink>
           >
-          <span class="font-bold">แก้ไขข้อมูลนักศึกษา</span>
+          <RouterLink :to="`/student/edit?id=${route.query.id}`">
+            <span class="font-bold">แก้ไขข้อมูลนักศึกษา</span>
+          </RouterLink>
         </p>
       </div>
     </div>
@@ -201,11 +194,23 @@ onMounted(async () => {
               type="email"
               id="email"
               v-model="student.email"
-              class="border border-gray-400 rounded-[4px] w-[400px]"
+              disabled
+              class="border border-gray-400 rounded-[4px] w-[280px] bg-gray-200 text-gray-500"
             />
-            <p v-if="student.email == ''" class="text-red-600 text-sm">
-              กรุณาใส่อีเมล
-            </p>
+          </div>
+        </div>
+
+        <div class="mt-3">
+          <div>
+            <label for="alternativeEmail">อีเมลสำรอง</label>
+          </div>
+          <div>
+            <input
+              type="email"
+              id="alternativeEmail"
+              v-model="student.alternativeEmail"
+              class="border border-gray-400 rounded-[4px] w-[280px]"
+            />
           </div>
         </div>
 
@@ -219,10 +224,10 @@ onMounted(async () => {
             <input
               type="text"
               id="phone"
-              v-model="student.phoneNumber"
+              v-model="student.phonenumber"
               class="border border-gray-400 rounded-[4px] w-[250px]"
             />
-            <p v-if="student.phoneNumber == ''" class="text-red-600 text-sm">
+            <p v-if="student.phonenumber == ''" class="text-red-600 text-sm">
               กรุณาใส่เบอร์โทรศัพท์
             </p>
           </div>
@@ -234,18 +239,21 @@ onMounted(async () => {
       <div class="grid grid-cols-3 bg-white p-[24px] rounded-[4px] shadow-md">
         <div>
           <div>
-            <label for="projectName"
+            <label for="shortpaperTopic"
               >ชื่อหัวข้อโครงงาน <span class="text-red-600">*</span></label
             >
           </div>
           <div>
             <input
               type="text"
-              id="projectName"
-              v-model="student.projectName"
+              id="shortpaperTopic"
+              v-model="student.shortpaper.shortpaperTopic"
               class="border border-gray-400 rounded-[4px] w-[400px]"
             />
-            <p v-if="student.projectName == ''" class="text-red-600 text-sm">
+            <p
+              v-if="student.shortpaper.shortpaperTopic == '' || null"
+              class="text-red-600 text-sm"
+            >
               กรุณาใส่หัวข้อโครงงาน
             </p>
           </div>
@@ -261,24 +269,7 @@ onMounted(async () => {
             <input
               type="text"
               id="shortpapersubject"
-              v-model="combinedShortPaperSubject"
-              disabled
-              class="border border-gray-400 rounded-[4px] w-[330px] bg-gray-200 text-gray-500"
-            />
-          </div>
-        </div>
-
-        <div>
-          <div>
-            <label for="registerSubject"
-              >วิชาเลือก IS Report / Thesis / Project</label
-            >
-          </div>
-          <div>
-            <input
-              type="text"
-              id="registerSubject"
-              v-model="combinedRegisSubject"
+              v-model="combinedSubject"
               disabled
               class="border border-gray-400 rounded-[4px] w-[330px] bg-gray-200 text-gray-500"
             />
@@ -293,7 +284,7 @@ onMounted(async () => {
 
     <ConfirmModal
       id="save-modal"
-      @save="updateStudent(student.userId, student)"
+      @save="updateStudent(student.studentId, student)"
       @toggle="toggleModal"
       message="ต้องการแก้ไขหรือไม่"
       buttonColor="bg-amber-500 hover:bg-amber-600"

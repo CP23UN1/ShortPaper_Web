@@ -1,43 +1,81 @@
 import api from './api'
 
 class ApiService {
-  // Users
+  // Announcements
+  async getAnnouncements() {
+    return await api.get(`/announcements`)
+  }
+  async createAnnouncement(announcementData) {
+    return await api.post(`/announcement/create`, announcementData)
+  }
+  async updateAnnouncement(announcementId, announcementData) {
+    return await api.put(
+      `/announcement/update/${announcementId}`,
+      announcementData
+    )
+  }
+  async deleteAnnouncement(announcementId) {
+    return await api.delete(`/announcement/delete/${announcementId}`)
+  }
+
+  // Committees
+  async getCommittees() {
+    return await api.get(`/committees`)
+  }
+  async addCommittee(file) {
+    return await api.post(`/add-from-csv`, file)
+  }
+
+  // File
+  async getFiles() {
+    return await api.get(`/files`)
+  }
+  async getFileByShortpaper(shortpaperId) {
+    return await api.get(`/list/${shortpaperId}`)
+  }
+  async uploadFile(file) {
+    return await api.post(`/upload`, file, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    })
+  }
+  async downloadFile(fileId) {
+    return await api.get(`/download/${fileId}`)
+  }
+  async getFileType() {
+    return await api.get(`/filetype`)
+  }
+
+  // Short Paper
+  async getShortPapers() {
+    return await api.get(`/shortpapers`)
+  }
+  async searchShortPapers(keyword) {
+    return await api.get(`/shortpapers/${keyword}`)
+  }
+
+  // Students
   async getStudents() {
     return await api.get(`/students`)
+  }
+  async searchStudents(keyword) {
+    return await api.get(`/students/${keyword}`)
   }
   async getStudentById(studentId) {
     return await api.get(`/student/${studentId}`)
   }
-  async updateStudent(studentId, newData){
-    return await api.put(`/user/update/student/${studentId}`, newData)
+  async createStudent(studentData) {
+    return await api.post(`/student/create`, studentData)
   }
-
-  async searchStudent(keyword){
-    return await api.get(`/user/student/${keyword}`)
+  async updateStudent(studentId, studentData) {
+    return await api.patch(`/student/update/${studentId}`, studentData)
+  }
+  async deleteStudent(studentId) {
+    return await api.delete(`/student/delete/${studentId}`)
   }
 
   // Subjects
   async getSubjects() {
     return await api.get(`/subjects`)
-  }
-  async getSubject(subjectId){
-    return await api.get(`/subject/${subjectId}`)
-  }
-
-  //Announcements
-  async getAnnouncements() {
-    return await api.get(`/announcements`)
-  }
-
-  //Projects
-  async getProjects() {
-    return await api.get(`/projects`)
-  }
-  async getProject(){
-    return await api.get(`/project`)
-  }
-  async addCommittee(committeeList){
-    return await api.post(`/project/committee`, committeeList)
   }
 }
 export default new ApiService()

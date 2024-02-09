@@ -10,7 +10,7 @@ const props = defineProps({
 
 <template>
   <div class="text-center">
-    <h1 class="text-lg font-bold text-bluemain bg-slate-200 p-4 rounded-lg">
+    <h1 class="text-md font-bold text-bluemain bg-slate-200 p-4 rounded-lg">
       {{ message }}
     </h1>
   </div>
