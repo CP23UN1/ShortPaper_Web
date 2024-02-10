@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 import ApiService from '../../composables/apiService'
 
@@ -10,6 +10,7 @@ import RadioButton from '../../components/RadioButton.vue'
 import ButtonMain from '../../components/ButtonMain.vue'
 
 const route = useRoute()
+const router = useRouter()
 const fileTypes = ref()
 
 const shortPaperId = ref(1)
@@ -33,9 +34,6 @@ const handleUpload = async () => {
     return
   }
 
-  console.log(choseFileTypeId.value);
-  
-
   const formData = new FormData()
   formData.append('shortpaperId', shortPaperId.value)
   formData.append('file', file.value)
@@ -47,6 +45,7 @@ const handleUpload = async () => {
     const res = await ApiService.uploadFile(formData)
     if (res.status === 200) {
       alert(`บันทึกสำเร็จ`)
+      router.push('/files')
     } else {
       alert(`Failed to upload file. Please try again later.`)
     }
