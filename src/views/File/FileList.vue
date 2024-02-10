@@ -3,7 +3,6 @@ import { ref, onMounted } from 'vue'
 
 import ApiService from '../../composables/apiService'
 
-import ButtonMain from '../../components/ButtonMain.vue'
 import Header from '../../components/Header.vue'
 
 const uploadIconSvg = `<svg class="w-[20px] h-[20px] text-bluemain hover:text-red-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 19">
@@ -18,17 +17,6 @@ const doneIconSvg = `<svg class="w-[20px] h-[20px] text-teal-700" aria-hidden="t
     <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
   </svg>`
 
-const files = ref()
-
-// const getFiles = async () => {
-//   const res = await ApiService.getFiles()
-
-//   if (res.status === 200) {
-//     const data = await res.data
-//     files.value = data.data
-//   }
-// }
-
 const fileTypes = ref()
 const getFileType = async () => {
   const res = await ApiService.getFileType()
@@ -40,7 +28,6 @@ const getFileType = async () => {
 }
 
 onMounted(async () => {
-  // await getFiles()
   await getFileType()
 })
 </script>
@@ -62,10 +49,9 @@ onMounted(async () => {
         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
           <tr class="text-center">
             <th scope="col" class="px-6 py-3">ลำดับการส่ง</th>
-            <!-- <th scope="col" class="px-6 py-3">กำหนดการ</th> -->
-            <!-- <th scope="col" class="px-6 py-3">วันที่ส่ง</th> -->
             <th scope="col" class="px-6 py-3">รายการ</th>
             <th scope="col" class="px-6 py-3">อัปโหลด</th>
+            <th scope="col" class="px-6 py-3">สถานะ</th>
             <th scope="col" class="px-6 py-3">ดาวน์โหลด</th>
             <th scope="col" class="px-6 py-3 sr-only">รายละเอียด</th>
           </tr>
@@ -88,7 +74,9 @@ onMounted(async () => {
                   v-html="uploadIconSvg"
                 ></div>
               </RouterLink>
-              <!-- <div v-html="doneIconSvg"></div> -->
+            </td>
+            <td class="px-6 py-4 font-medium whitespace-nowrap">
+              ยังไม่ได้อัปโหลด
             </td>
             <td
               class="px-6 py-4 font-medium whitespace-nowrap flex justify-center items-center"
@@ -96,103 +84,6 @@ onMounted(async () => {
               <div v-html="downloadIconSvg"></div>
             </td>
           </tr>
-
-          <!-- <tr
-            class="bg-white border-b hover:bg-gray-50 text-gray-900"
-            v-for="file in files"
-            :key="file.shortpaperFileId"
-          >
-            <td class="px-6 py-4 font-medium whitespace-nowrap">
-              {{ file.shortpaperFileId }}
-            </td>
-            <td class="px-6 py-4 font-medium whitespace-nowrap">
-              announcement schedule
-            </td>
-            <td class="px-6 py-4 font-medium whitespace-nowrap">
-              {{ new Date(file.updatedDatetime).toLocaleDateString() }}
-            </td>
-            <td class="px-6 py-4 font-medium whitespace-nowrap">
-              {{ file.shortpaperFileType.typeName }}
-            </td>
-            <td class="px-6 py-4 font-medium whitespace-nowrap">
-              <RouterLink :to="`/upload?id=${file.shortpaperFileType.typeId}`">
-                <div
-                  class="flex justify-center items-center"
-                  v-html="uploadIconSvg"
-                ></div>
-              </RouterLink>
-              <div v-html="doneIconSvg"></div>
-            </td>
-            <td
-              class="px-6 py-4 font-medium whitespace-nowrap flex justify-center items-center"
-            >
-              <div v-html="downloadIconSvg"></div>
-            </td>
-            <td class="px-6 py-4 font-medium whitespace-nowrap">
-              <RouterLink :to="`/filedetails`">
-                <ButtonMain text="รายละเอียด" />
-              </RouterLink>
-            </td>
-          </tr> -->
-
-          <!-- <tr class="bg-white border-b hover:bg-gray-50 text-gray-900">
-            <td class="px-6 py-4 font-medium whitespace-nowrap">1</td>
-            <td class="px-6 py-4 font-medium whitespace-nowrap">
-              25 ธันวาคม 2566
-            </td>
-            <td class="px-6 py-4 font-medium whitespace-nowrap">
-              23 ธันวาคม 2566
-            </td>
-            <td class="px-6 py-4 font-medium whitespace-nowrap">ใบ บ.1</td>
-            <td class="px-6 py-4 font-medium whitespace-nowrap">
-              <RouterLink :to="`/upload`">
-                <div
-                  class="flex justify-center items-center"
-                  v-html="uploadIconSvg"
-                ></div>
-              </RouterLink>
-             <div v-html="doneIconSvg"></div> 
-            </td>
-            <td
-              class="px-6 py-4 font-medium whitespace-nowrap flex justify-center items-center"
-            >
-              <div v-html="downloadIconSvg"></div>
-            </td>
-            <td class="px-6 py-4 font-medium whitespace-nowrap">
-              <RouterLink :to="`/filedetails`"> 
-              <ButtonMain text="รายละเอียด" />
-             </RouterLink> 
-            </td>
-          </tr> 
-          <tr class="bg-white border-b hover:bg-gray-50 text-gray-900">
-            <td class="px-6 py-4 font-medium whitespace-nowrap">2</td>
-            <td class="px-6 py-4 font-medium whitespace-nowrap">
-              28 ธันวาคม 2566
-            </td>
-            <td class="px-6 py-4 font-medium whitespace-nowrap">
-              25 ธันวาคม 2566
-            </td>
-            <td class="px-6 py-4 font-medium whitespace-nowrap">ใบ บ.2</td>
-            <td
-              class="px-6 py-4 font-medium whitespace-nowrap flex justify-center items-center"
-            >
-              <RouterLink :to="`/upload`">
-                <div v-html="uploadIconSvg"></div>
-              </RouterLink>
-              <div v-html="doneIconSvg"></div>
-            </td>
-            <td class="font-medium whitespace-nowrap">
-              <div
-                class="flex justify-center items-center"
-                v-html="downloadIconSvg"
-              ></div>
-            </td>
-            <td class="px-6 py-4 font-medium whitespace-nowrap">
-            <RouterLink :to="`/filedetails`"> 
-              <ButtonMain text="รายละเอียด" />
-              </RouterLink>
-            </td>
-          </tr> -->
         </tbody>
       </table>
     </div>
