@@ -123,9 +123,10 @@ onBeforeMount(async () => {
             <th scope="col" class="px-6 py-3">กรรมการคนที่ 3</th>
           </tr>
         </thead>
+
         <tbody>
           <tr
-            class="bg-white border-b"
+            class="bg-white border-b hover:bg-gray-50"
             v-for="shortpaper in shortpapers"
             :key="shortpaper.shortpaperId"
           >
@@ -137,45 +138,14 @@ onBeforeMount(async () => {
             >
               {{ student.studentId }}
             </th>
-            <th
-              scope="row"
-              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+            <td
+              class="px-6 py-4"
               v-for="committee in shortpaper.committees"
               :key="committee.committeeId"
             >
               {{ committee.firstname }} {{ committee.lastname }}
-            </th>
+            </td>
           </tr>
-          <!-- <tr
-            class="bg-white border-b"
-            v-for="shortpaper in shortpapers"
-            :key="shortpaper.shortpaperId"
-          >
-            <th
-              scope="row"
-              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-            >
-              {{ shortpaper.studentForShortpaper.studentId }}
-            </th>
-            <td
-              class="px-6 py-4"
-              v-if="shortpaper.committeeForShortpaper !== null"
-            >
-              {{ shortpaper.committeeForShortpaper.firstname }}
-              {{ shortpaper.committeeForShortpaper.lastname }}
-            </td>
-            <td v-else></td>
-            <td class="px-6 py-4" v-if="proj.committeeSecond !== null">
-              {{ proj.committeeSecond.firstname }}
-              {{ proj.committeeSecond.lastname }}
-            </td>
-            <td v-else></td>
-            <td class="px-6 py-4" v-if="proj.committeeThird !== null">
-              {{ proj.committeeThird.firstname }}
-              {{ proj.committeeThird.lastname }}
-            </td>
-            <td v-else></td>
-          </tr> -->
         </tbody>
       </table>
     </div>
