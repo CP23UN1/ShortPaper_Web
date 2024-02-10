@@ -85,11 +85,11 @@ onBeforeMount(async () => {
 
     <div class="p-4 shadow-md">
       <SearchInput label="ค้นหานักศึกษา" placeholder="กรอกรหัสนักศึกษา" />
-      <div class="grid grid-cols-2 gap-10">
+      <div class="grid grid-cols-2 gap-10 items-center mt-2">
         <div>
           <label
             for="selectKeyword"
-            class="block mb-2 font-medium text-gray-900"
+            class="block font-medium text-gray-900"
             >รหัสวิชา
           </label>
           <select
@@ -105,8 +105,8 @@ onBeforeMount(async () => {
             </option>
           </select>
         </div>
+        <SelectInput  :options="years" label="ปีการศึกษา" />
 
-        <SelectInput class="mt-2" :options="years" label="ปีการศึกษา" />
       </div>
     </div>
 

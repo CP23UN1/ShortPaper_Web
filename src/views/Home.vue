@@ -25,28 +25,21 @@ onMounted(async () => {
     <div class="w-full lg:w-3/4">
       <!-- <Header class="text-sm rounded-md" header="ประกาศกำหนดการ"/> -->
       <div class="relative overflow-x-auto rounded-md mt-5">
-        <table class="text-sm text-left rtl:text-right mx-auto">
-          <!-- Added mx-auto for horizontal centering -->
+        <table class="text-sm text-left rtl:text-right mx-auto w-full">
+
           <thead class="text-white text-center">
             <tr>
-              <th scope="col" class="p-4 w-52 bg-blueheader rounded-l-md">
+              <th scope="col" class="p-4  bg-blueheader rounded-l-md">
                 กำหนดการ
               </th>
-              <th scope="col" class="p-4 bg-bluemain w-72">รายการ</th>
-              <th
-                scope="col"
-                class="p-6 bg-bluemain text-center w-40 rounded-r-md"
-              >
+              <th scope="col" class="p-4 bg-bluemain">รายการ</th>
+              <th scope="col" class="p-4 bg-bluemain text-center rounded-r-md">
                 วันที่ประกาศ
               </th>
             </tr>
           </thead>
           <tbody>
-            <tr
-              class="border-b"
-              v-for="announcement in announcements"
-              :key="announcement.announcementId"
-            >
+            <tr class="border-b" v-for="announcement in announcements" :key="announcement.announcementId">
               <th scope="row" class="p-4 w-52 font-medium text-center">
                 {{ announcement.schedule }}
               </th>

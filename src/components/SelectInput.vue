@@ -22,7 +22,7 @@ const keyword = ref()
 
 <template>
   <div>
-    <label for="selectKeyword" class="block mb-2 font-medium text-gray-900">{{
+    <label for="selectKeyword" class="block font-medium text-gray-900">{{
       label
     }}</label>
     <select
