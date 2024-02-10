@@ -12,32 +12,48 @@ import ButtonMain from '../../components/ButtonMain.vue'
 const route = useRoute()
 const fileTypes = ref()
 
-const link = ref()
-const sendFile = () => {
-  console.log(link.value)
+const shortPaperId = ref(1)
+const file = ref(null)
+const choseFileTypeId = ref(route.query.id)
+const explanationVideo = ref('')
+const remark = ref()
+
+const handleFileSelected = (selectedFile) => {
+  console.log('Selected file:', selectedFile)
+  file.value = selectedFile
 }
 
-const handleUpload = async (event) => {
-  const file = event.target.files[0]
-  const formData = new FormData()
-  formData.append('file', file)
+const handleTypeId = (id) => {
+  choseFileTypeId.value = id
+}
 
-  const res = await ApiService.uploadFile(formData)
-  if (res.status === 200) {
-    alert(`บันทึกสำเร็จ`)
+const handleUpload = async () => {
+  if (!file.value) {
+    alert('Please select a file to upload.')
+    return
   }
 
-  // try {
-  //   const response = await axios.post('/upload', formData, {
-  //     headers: {
-  //       'Content-Type': 'multipart/form-data'
-  //     }
-  //   });
+  console.log(choseFileTypeId.value);
+  
 
-  //   emits.upload(response.data);
-  // } catch (error) {
-  //   console.error('Error uploading file:', error);
-  // }
+  const formData = new FormData()
+  formData.append('shortpaperId', shortPaperId.value)
+  formData.append('file', file.value)
+  formData.append('fileTypeId', choseFileTypeId.value)
+  formData.append('explanationVideo', explanationVideo.value)
+  //formData.append('remark', remark.value)
+
+  try {
+    const res = await ApiService.uploadFile(formData)
+    if (res.status === 200) {
+      alert(`บันทึกสำเร็จ`)
+    } else {
+      alert(`Failed to upload file. Please try again later.`)
+    }
+  } catch (error) {
+    console.error('Error uploading file:', error)
+    alert(`An error occurred while uploading the file.`)
+  }
 }
 
 const getFileType = async () => {
@@ -75,7 +91,7 @@ onMounted(async () => {
         <FileInput
           label="อัปโหลดเอกสาร: "
           describe="*** เอกสารแต่งตั้งคณะกรรมการสำหรับ Upload จะต้องเป็นไฟล์ .PDF เท่านั้น ***"
-          @upload="handleUpload"
+          @fileSelected="handleFileSelected"
         />
 
         <div class="grid grid-cols-3 mt-12 ml-16 text-sm">
@@ -85,10 +101,10 @@ onMounted(async () => {
               :value="fileType.typeId"
               :label="fileType.typeName"
               :isChecked="fileType.typeId == route.query.id"
+              @change="handleTypeId(fileType.typeId)"
             />
           </div>
         </div>
-
         <form class="mt-1">
           <label for="input">วิดีโอคำอธิบายเพิ่มเติม</label>
           <div class="relative">
@@ -97,9 +113,9 @@ onMounted(async () => {
               id="input"
               class="inline-flex w-72 py-2 mt-2 border border-gray-300 rounded-lg bg-gray-50 focus:ring-bluemain focus:border-bluemain"
               placeholder="กรุณาแนบลิงก์"
-              v-model="link"
+              v-model="explanationVideo"
             />
-            <ButtonMain text="บันทึก" @click="sendFile" class="ml-3" />
+            <ButtonMain text="บันทึก" @click="handleUpload" class="ml-3" />
           </div>
         </form>
       </div>

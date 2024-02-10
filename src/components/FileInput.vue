@@ -1,9 +1,7 @@
 <script setup>
-import { ref } from 'vue'
+import { defineProps, defineEmits } from 'vue'
 
-import ButtonMain from './ButtonMain.vue'
-
-const emits = defineEmits(['upload'])
+const emits = defineEmits(['fileSelected'])
 const props = defineProps({
   label: {
     type: String,
@@ -14,6 +12,20 @@ const props = defineProps({
     default: '',
   },
 })
+
+const handleFileChange = (event) => {
+  if (
+    event &&
+    event.target &&
+    event.target.files &&
+    event.target.files.length > 0
+  ) {
+    const file = event.target.files[0]
+    emits('fileSelected', file)
+  } else {
+    console.error('Invalid file input event.')
+  }
+}
 </script>
 
 <template>
@@ -25,7 +37,7 @@ const props = defineProps({
         aria-describedby="file_type"
         id="file_input"
         type="file"
-        @change="$emit('upload')"
+        @change="handleFileChange"
       />
     </div>
 
