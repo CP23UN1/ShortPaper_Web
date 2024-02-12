@@ -59,30 +59,30 @@
             <div class="font-bold">แบบไฟล์แสดงความคิดเห็น</div>
 
             <div class="space-x-2">
-                <input type="text" class="w-96 h-10 rounded-sm border-gray-200" />
-                <button class="bg-[#3873C1] text-white py-2 px-4 rounded-sm">ค้นหา</button>
+                <input type="text" class="w-96 h-10 rounded-[4px] border-gray-200" />
+                <button class="bg-[#3873C1] text-white py-2 px-4 rounded-[4px]">ค้นหา</button>
             </div>
             <div class="font-bold">ผลการตรวจบทความ</div>
 
             <div class="relative inline-block ">
                 <button
-                    class="w-96 h-12 rounded-sm border-2 border-gray-200 text-gray-800 font-semibold py-2 px-4 inline-flex items-center justify-between">
+                    class="w-96 h-12 rounded-[4px] border-2 border-gray-200 text-gray-800 font-semibold py-2 px-4 inline-flex items-center justify-between">
                     <span>ไม่ผ่าน (แก้ไข)</span>
                     <svg class="fill-current h-4 w-4 ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                         <path d="M10 12l-6-6 1.41-1.41L10 9.17l4.59-4.58L16 6z" />
                     </svg>
                 </button>
 
-                <div class="absolute hidden bg-white text-gray-700 py-2 mt-1 rounded-md shadow-lg">
+                <div class="absolute hidden bg-white text-gray-700 py-2 mt-1 rounded-[4px] shadow-lg">
                     <a href="#" class="block px-4 py-2 text-sm">Option 1</a>
                     <a href="#" class="block px-4 py-2 text-sm">Option 2</a>
                     <a href="#" class="block px-4 py-2 text-sm">Option 3</a>
                 </div>
                 <div class="space-x-2 mt-[32px]">
                     <button
-                        class="py-2 px-4 bg-[#BABCBF] text-white text-sm rounded-sm">ย้อนกลับ</button>
+                        class="py-2 px-4 bg-[#BABCBF] text-white text-sm rounded-[4px]">ย้อนกลับ</button>
                     <button
-                        class="py-2 px-4 bg-[#0A7373] text-white text-sm rounded-sm">บันทึก</button>
+                        class="py-2 px-4 bg-[#0A7373] text-white text-sm rounded-[4px]">บันทึก</button>
 
                 </div>
 
