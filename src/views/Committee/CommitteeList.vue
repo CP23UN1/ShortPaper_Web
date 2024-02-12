@@ -87,9 +87,7 @@ onBeforeMount(async () => {
       <SearchInput label="ค้นหานักศึกษา" placeholder="กรอกรหัสนักศึกษา" />
       <div class="grid grid-cols-2 gap-10 items-center mt-2">
         <div>
-          <label
-            for="selectKeyword"
-            class="block font-medium text-gray-900"
+          <label for="selectKeyword" class="block font-medium text-gray-900"
             >รหัสวิชา
           </label>
           <select
@@ -105,8 +103,7 @@ onBeforeMount(async () => {
             </option>
           </select>
         </div>
-        <SelectInput  :options="years" label="ปีการศึกษา" />
-
+        <SelectInput :options="years" label="ปีการศึกษา" />
       </div>
     </div>
 
@@ -133,10 +130,8 @@ onBeforeMount(async () => {
             <th
               scope="row"
               class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-              v-for="student in shortpaper.student"
-              :key="student.studentId"
             >
-              {{ student.studentId }}
+              {{ shortpaper.student.studentId }}
             </th>
             <td
               class="px-6 py-4"

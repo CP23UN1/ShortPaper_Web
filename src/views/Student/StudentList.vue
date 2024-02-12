@@ -151,7 +151,7 @@ onMounted(async () => {
             <td
               v-for="subject in student.subjects"
               class="px-6 py-4"
-              v-if="student.subjects !== null"
+              v-if="student.subjects.length !== 0"
             >
               {{ subject.subjectId }} {{ subject.subjectName }}
             </td>
