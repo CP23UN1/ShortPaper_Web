@@ -13,7 +13,7 @@ const route = useRoute()
 const router = useRouter()
 const fileTypes = ref()
 
-const shortPaperId = ref(1)
+const shortPaperId = ref(63130500135)
 const file = ref(null)
 const choseFileTypeId = ref(route.query.id)
 const explanationVideo = ref('')

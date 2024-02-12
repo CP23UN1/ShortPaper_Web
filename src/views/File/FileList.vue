@@ -27,8 +27,18 @@ const getFileType = async () => {
   }
 }
 
+const getFileById = async () => {
+  const res = await ApiService.getFileById(63130500135)
+
+  if (res.status === 200) {
+    const data = await res.data
+    return data.data
+  }
+}
+
 onMounted(async () => {
   await getFileType()
+  await getFileById()
 })
 </script>
 
@@ -53,7 +63,7 @@ onMounted(async () => {
             <th scope="col" class="px-6 py-3">อัปโหลด</th>
             <th scope="col" class="px-6 py-3">สถานะ</th>
             <th scope="col" class="px-6 py-3">ดาวน์โหลด</th>
-            <th scope="col" class="px-6 py-3 sr-only">รายละเอียด</th>
+            <!-- <th scope="col" class="px-6 py-3 sr-only">รายละเอียด</th> -->
           </tr>
         </thead>
         <tbody class="text-center">

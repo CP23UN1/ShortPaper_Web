@@ -31,7 +31,7 @@ class ApiService {
     return await api.get(`/files`)
   }
   async getFileByShortpaper(shortpaperId) {
-    return await api.get(`/list/${shortpaperId}`)
+    return await api.get(`/files/${shortpaperId}`)
   }
   async uploadFile(file) {
     return await api.post(`/upload`, file, {
@@ -43,6 +43,9 @@ class ApiService {
   }
   async getFileType() {
     return await api.get(`/filetype`)
+  }
+  async getFileById(studentId) {
+    return await api.get(`/files/${studentId}`)
   }
 
   // Short Paper
