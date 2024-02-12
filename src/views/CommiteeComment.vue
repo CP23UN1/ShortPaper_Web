@@ -4,10 +4,10 @@ import ConfirmButton from '../components/ConfirmButton.vue';
 
 </script>
 <template>
-    <div class="grid grid-cols-2 mt-[24px]">
+    <div class="grid grid-cols-2 mt-[24px] space-x-2">
 
         <!-- First Column -->
-        <div class="bg-white shadow-md p-2 text-sm h-fit w-[550px] space-y-4">
+        <div class="bg-white shadow-md p-2 text-sm h-fit space-y-4">
             <div class="font-bold">ความคิดเห็นคณะกรรมการ</div>
             <hr />
             <div>ความคิดเห็นครั้งที่ 1</div>
@@ -17,17 +17,20 @@ import ConfirmButton from '../components/ConfirmButton.vue';
         </div>
 
         <!-- Second Column -->
-        <div class="bg-white shadow-md p-2 text-sm h-fit w-[550px] space-y-4 mt-4">
+        <div class="bg-white shadow-md p-2 text-sm h-fit space-y-4">
             <div class="font-bold">คำชี้แจงของส่งคณะกรรมการ</div>
             <hr />
             <form>
                 <textarea type="text" class="w-full rounded-sm border-gray-200 h-24" placeholder=""></textarea>
             </form>
-            <label class="text-xs font-bold text-red-600">***หน้าจอนี้มิใช่การส่งบทความฉบับแก้ไขเป็นเพียงการส่งข้อความถึงคณะกรรมการเท่านั้น***</label>
+            <label
+                class="text-xs font-bold text-red-600">***หน้าจอนี้มิใช่การส่งบทความฉบับแก้ไขเป็นเพียงการส่งข้อความถึงคณะกรรมการเท่านั้น***</label>
         </div>
+    </div>
+    <div class="grid grid-cols-2 mt-[8px] space-x-2">
 
         <!-- Third Column -->
-        <div class="bg-white shadow-md p-2 text-sm h-fit w-[550px] space-y-4 mt-4">
+        <div class="bg-white shadow-md p-2 text-sm h-fit space-y-4 mt-4">
             <div class="font-bold">คำชี้แจงของนักศึกษา</div>
             <hr />
             <form>
@@ -35,8 +38,9 @@ import ConfirmButton from '../components/ConfirmButton.vue';
             </form>
         </div>
 
-        <div>
-        <ConfirmButton />
+        <div class="text-right">
+            <!-- <ConfirmButton /> -->
+            <button class="py-2 px-6 border-green-700 text-green-700 text-sm rounded-lg border-2 mt-2">บันทึก</button>
         </div>
 
     </div>
