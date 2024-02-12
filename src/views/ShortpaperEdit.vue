@@ -80,9 +80,9 @@
                 </div>
                 <div class="space-x-2 mt-[32px]">
                     <button
-                        class="py-2 px-6 bg-[#BABCBF] text-white text-sm rounded-lg ">ย้อนกลับ</button>
+                        class="py-2 px-4 bg-[#BABCBF] text-white text-sm rounded-sm">ย้อนกลับ</button>
                     <button
-                        class="py-2 px-6 bg-[#0A7373] text-white text-sm rounded-lg ">บันทึก</button>
+                        class="py-2 px-4 bg-[#0A7373] text-white text-sm rounded-sm">บันทึก</button>
 
                 </div>
 
