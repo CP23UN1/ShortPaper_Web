@@ -4,6 +4,7 @@ import { ref, onMounted } from 'vue'
 import ApiService from '../../composables/apiService'
 
 import Header from '../../components/Header.vue'
+import ButtonMain from '../../components/ButtonMain.vue'
 
 const uploadIconSvg = `<svg class="w-[20px] h-[20px] text-bluemain hover:text-red-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 19">
     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15h.01M4 12H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-3m-5.5 0V1.07M5.5 5l4-4 4 4"/>
@@ -58,12 +59,12 @@ onMounted(async () => {
       <table class="w-full text-sm text-left rtl:text-right text-gray-500">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
           <tr class="text-center">
-            <th scope="col" class="px-6 py-3">ลำดับการส่ง</th>
+            <th scope="col" class="py-3">ลำดับ</th>
             <th scope="col" class="px-6 py-3">รายการ</th>
-            <th scope="col" class="px-6 py-3">อัปโหลด</th>
+            <th scope="col" class="py-3">อัปโหลด</th>
             <th scope="col" class="px-6 py-3">สถานะ</th>
-            <th scope="col" class="px-6 py-3">ดาวน์โหลด</th>
-            <!-- <th scope="col" class="px-6 py-3 sr-only">รายละเอียด</th> -->
+            <th scope="col" class="py-3">ดาวน์โหลด</th>
+            <th scope="col" class="px-6 py-3 sr-only">รายละเอียด</th>
           </tr>
         </thead>
         <tbody class="text-center">
@@ -71,13 +72,13 @@ onMounted(async () => {
             class="bg-white border-b hover:bg-gray-50 text-gray-900"
             v-for="fileType in fileTypes"
           >
-            <td class="px-6 py-4 font-medium whitespace-nowrap">
+            <td class="py-4 font-medium whitespace-nowrap">
               {{ fileType.typeId }}
             </td>
-            <td class="px-6 py-4 font-medium whitespace-nowrap">
+            <td class="font-medium whitespace-nowrap">
               {{ fileType.typeName }}
             </td>
-            <td class="px-6 py-4 font-medium whitespace-nowrap">
+            <td class="font-medium whitespace-nowrap">
               <RouterLink :to="`/upload?id=${fileType.typeId}`">
                 <div
                   class="flex justify-center items-center"
@@ -85,13 +86,17 @@ onMounted(async () => {
                 ></div>
               </RouterLink>
             </td>
-            <td class="px-6 py-4 font-medium whitespace-nowrap">
-              ยังไม่ได้อัปโหลด
+            <td class="font-medium whitespace-nowrap">status</td>
+            <td class="font-medium whitespace-nowrap">
+              <div
+                class="flex justify-center items-center"
+                v-html="downloadIconSvg"
+              ></div>
             </td>
-            <td
-              class="px-6 py-4 font-medium whitespace-nowrap flex justify-center items-center"
-            >
-              <div v-html="downloadIconSvg"></div>
+            <td class="font-medium whitespace-nowrap">
+              <RouterLink :to="`/file?id=${fileType.typeId}`">
+                <ButtonMain text="รายละเอียด" />
+              </RouterLink>
             </td>
           </tr>
         </tbody>

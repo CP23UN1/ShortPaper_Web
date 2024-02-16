@@ -11,7 +11,7 @@ import ShortPaperList from '../views/ShortPaperList.vue'
 import StudentListCommitee from '../views/Committee/StudentListCommittee.vue'
 import fileDetails from '../views/Advisor/FileDetails.vue'
 import ShortPaperEdit from '../views/ShortpaperEdit.vue'
-import CommitteeComment from '../views/CommiteeComment.vue'
+import FileComment from '../views/File/FileComment.vue'
 
 const history = createWebHashHistory()
 
@@ -62,8 +62,8 @@ const routes = [
     component: StudentListCommitee,
   },
   {
-    path: '/filedetail',
-    name: 'filedetail',
+    path: '/file',
+    name: 'file',
     component: fileDetails,
   },
   {
@@ -72,9 +72,9 @@ const routes = [
     component: ShortPaperEdit,
   },
   {
-    path: '/student/comment',
-    name: 'committee comment',
-    component: CommitteeComment,
+    path: '/file/comment',
+    name: 'File comment',
+    component: FileComment,
   },
 ]
 
