@@ -40,7 +40,7 @@ import ConfirmButton from '../components/ConfirmButton.vue';
 
         <div class="text-right">
             <!-- <ConfirmButton /> -->
-            <button class="py-2 px-6 border-green-700 text-green-700 text-sm rounded-lg border-2 mt-2">บันทึก</button>
+            <button class="py-2 px-4 border-[#0A7373] text-[#0A7373] text-sm rounded-[4px] border-2 mt-2">บันทึก</button>
         </div>
 
     </div>
