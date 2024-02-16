@@ -21,9 +21,17 @@ const handleFileChange = (event) => {
     event.target.files.length > 0
   ) {
     const file = event.target.files[0]
+    const allowedTypes = ['application/pdf']
+
+    if (!allowedTypes.includes(file.type)) {
+      event.target.value = null
+      alert('Please select a PDF file.')
+      return
+    }
+
     emits('fileSelected', file)
   } else {
-    console.error('Invalid file input event.')
+    alert('Invalid file input event.')
   }
 }
 </script>
@@ -38,6 +46,7 @@ const handleFileChange = (event) => {
         id="file_input"
         type="file"
         @change="handleFileChange"
+        accept=".pdf"
       />
     </div>
 
