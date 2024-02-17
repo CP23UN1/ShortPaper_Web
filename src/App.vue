@@ -5,21 +5,26 @@ import NavbarAllRole from './components/Navbar/NavbarAllRole.vue'
 
 const route = useRoute()
 const showNavbar = ref(true)
+const isMaxWidth = ref(true)
 
 watch(() => {
   if (route.name == 'Login') {
     showNavbar.value = false
-  }else{
+    isMaxWidth.value = false
+  } else {
     showNavbar.value = true
+    isMaxWidth.value = true
   }
 })
 </script>
 
 <template>
-  <template v-if="showNavbar">
-    <NavbarAllRole />
-  </template>
-  <RouterView />
+  <div :class="{ 'mx-14': isMaxWidth }">
+    <template v-if="showNavbar">
+      <NavbarAllRole />
+    </template>
+    <RouterView />
+  </div>
 </template>
 
 <style scoped></style>
