@@ -80,5 +80,10 @@ class ApiService {
   async getSubjects() {
     return await api.get(`/subjects`)
   }
+  // Auth
+  async login(info) {
+    
+    return await api.post('/login', info)
+  }
 }
 export default new ApiService()

@@ -1,12 +1,26 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
+import { useAuthStore } from '../stores/auth'
+import { useRoute, useRouter } from 'vue-router'
+
 import ButtonMain from '../components/ButtonMain.vue'
+
+const store = useAuthStore()
+const route = useRoute()
+const router = useRouter()
 
 const email = ref()
 const password = ref()
 
-const login = () => {
-  console.log('logged in')
+const login = async () => {
+  try {
+    await store.login({ email: email.value, password: password.value })
+    if (store.isLoggedIn == true) {
+      router.push('/')
+    }
+  } catch (err) {
+    console.error(err)
+  }
 }
 </script>
 
@@ -94,11 +108,11 @@ const login = () => {
               required
             />
           </div>
-            <ButtonMain
-              :type-button="submit"
-              class-name="w-52"
-              text="เข้าสู่ระบบ"
-            />
+          <ButtonMain
+            type-button="submit"
+            class-name="w-52"
+            text="เข้าสู่ระบบ"
+          />
         </form>
         <!-- <div class="text-right mt-1">
           <a href="#" class="text-bluemain text-sm">Forgot Password?</a>
