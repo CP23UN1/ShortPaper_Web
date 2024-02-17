@@ -1,7 +1,8 @@
 <script setup>
-import { onMounted, ref, computed, onBeforeMount } from 'vue'
+import { ref, onBeforeMount } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { Modal } from 'flowbite'
+import { useValidateStore } from '../../stores/validate'
 
 import ApiService from '../../composables/apiService'
 
@@ -11,6 +12,8 @@ import ConfirmModal from '../../components/ConfirmModal.vue'
 
 const route = useRoute()
 const router = useRouter()
+const store = useValidateStore()
+
 const student = ref({})
 const combinedSubject = ref()
 
@@ -27,56 +30,44 @@ const getStudent = async () => {
     if (res.status === 200) {
       const data = await res.data
       student.value = data.data
-    }
-  }
-}
 
-const validateEmail = (email) => {
-  var validRegex =
-    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-  if (email.match(validRegex)) {
-    return true
-  } else {
-    return false
+      combinedSubject.value = `${data.data.subjects.subjectId} ${data.data.subjects.subjectName}`
+    }
   }
 }
 
 const validateData = () => {
   let isValid = true
-  if (student.value.firstname == '' || null) {
+
+  // Validation for required fields
+  if (!student.value.firstname) {
     alert('กรุณาใส่ชื่อ')
     isValid = false
   }
 
-  if (student.value.lastname == '' || null) {
+  if (!student.value.lastname) {
     alert('กรุณาใส่นามสกุล')
     isValid = false
   }
 
-  // if (student.value.alternativeEmail == '' || null) {
-  //   alert('กรุณาใส่อีเมล')
-  //   isValid = false
-  // } else {
-  if (student.value.alternativeEmail !== '' && null) {
-    if (validateEmail(student.value.alternativeEmail) !== true) {
-      alert('กรุณาใส่อีเมลที่ถูกต้อง')
-      isValid = false
-    }
-  }
-  // }
-
-  if (student.value.phonenumber == '' || null) {
+  if (!student.value.phonenumber) {
     alert('กรุณาใส่เบอร์โทรศัพท์')
     isValid = false
-  } else {
-    if (student.value.phonenumber.length !== 10) {
-      alert('กรุณาใส่เบอร์โทรศัพท์ที่ถูกต้อง')
-      isValid = false
-    }
+  } else if (student.value.phonenumber.length !== 10) {
+    alert('กรุณาใส่เบอร์โทรศัพท์ที่ถูกต้อง')
+    isValid = false
   }
 
-  if (student.value.shortpaper.shortpaperTopic == '' || null) {
+  if (!student.value.shortpaper.shortpaperTopic) {
     alert('กรุณาใส่หัวข้อโครงงาน')
+    isValid = false
+  }
+
+  if (
+    student.value.alternativeEmail &&
+    !store.validateEmail(student.value.alternativeEmail)
+  ) {
+    alert('กรุณาใส่อีเมลที่ถูกต้อง')
     isValid = false
   }
 
@@ -84,7 +75,7 @@ const validateData = () => {
 }
 
 const updateStudent = async () => {
-  if (validateData() == true) {
+  if (validateData()) {
     await ApiService.updateStudent(student.value.studentId, student.value)
     modal.value.toggle()
     alert('บันทึกสำเร็จ')
@@ -94,12 +85,6 @@ const updateStudent = async () => {
 
 onBeforeMount(async () => {
   await getStudent()
-
-  // ยังจัดการไม่ดี
-  combinedSubject.value =
-    student.value.subjects[0].subjectId +
-    ' ' +
-    student.value.subjects[0].subjectName
 
   const targetEl = document.getElementById('save-modal')
   modal.value = new Modal(targetEl)

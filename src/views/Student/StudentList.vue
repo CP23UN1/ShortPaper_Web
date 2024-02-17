@@ -148,12 +148,9 @@ onMounted(async () => {
             <td class="px-6 py-4">
               {{ student.firstname }} {{ student.lastname }}
             </td>
-            <td
-              v-for="subject in student.subjects"
-              class="px-6 py-4"
-              v-if="student.subjects.length !== 0"
-            >
-              {{ subject.subjectId }} {{ subject.subjectName }}
+            <td class="px-6 py-4" v-if="student.subjects">
+              {{ student.subjects.subjectId }}
+              {{ student.subjects.subjectName }}
             </td>
             <td v-else class="text-center">-</td>
 

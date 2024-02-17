@@ -118,9 +118,9 @@ onBeforeMount(async () => {
               <td>อีเมลสำรอง</td>
               <td>
                 {{
-                  student.alternativeEmail == null
-                    ? '-'
-                    : student.alternativeEmail
+                  student.alternativeEmail !== ""
+                    ? student.alternativeEmail
+                    : '-'
                 }}
               </td>
             </tr>
@@ -135,16 +135,16 @@ onBeforeMount(async () => {
               </td>
             </tr>
 
-            <!-- <tr>
+            <tr>
               <td class="pr-16">รายวิชาจัดทำ IS Report</td>
               <td>
-                <div v-if="student.registeredSubject">
-                  {{ student.registeredSubject.subjectId }}
-                  {{ student.registeredSubject.subjectName }}
+                <div v-if="student.subjects">
+                  {{ student.subjects.subjectId }}
+                  {{ student.subjects.subjectName }}
                 </div>
                 <div v-else>-</div>
               </td>
-            </tr> -->
+            </tr>
           </tbody>
         </table>
       </div>
