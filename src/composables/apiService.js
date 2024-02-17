@@ -28,7 +28,7 @@ class ApiService {
     return await api.get(`/comments/${fileId}`)
   }
   async addComment(comment) {
-    return await api.post('/add-comment', comment)
+    return await api.post('/comment/create', comment)
   }
 
   // Committees
@@ -36,12 +36,12 @@ class ApiService {
     return await api.get(`/committees`)
   }
   async addCommittee(file) {
-    return await api.post(`/add-from-csv`, file, {
+    return await api.post(`/committee/add-from-csv`, file, {
       headers: { 'Content-Type': 'multipart/form-data' },
     })
   }
   async assignCommittee(file) {
-    return await api.post(`/assign-from-csv-for-student`, file, {
+    return await api.post(`/committee/assign-from-csv-for-student`, file, {
       headers: { 'Content-Type': 'multipart/form-data' },
     })
   }
@@ -51,12 +51,12 @@ class ApiService {
     return await api.get(`/files/${shortpaperId}`)
   }
   async uploadFile(file) {
-    return await api.post(`/upload`, file, {
+    return await api.post(`/file/upload`, file, {
       headers: { 'Content-Type': 'multipart/form-data' },
     })
   }
   async downloadFile(fileId) {
-    return await api.get(`/download/${fileId}`)
+    return await api.get(`/file/download/${fileId}`)
   }
   async getFileType() {
     return await api.get(`/filetype`)
@@ -65,10 +65,10 @@ class ApiService {
     return await api.get(`/files`)
   }
   async getFilesByStudent(studentId) {
-    return await api.get(`/file-by-student/${studentId}`)
+    return await api.get(`/file/search-by-student/${studentId}`)
   }
   async getFileByTypeAndStudent(typeId, studentId) {
-    return await api.get(`/file-by-id-and-student/${typeId}/${studentId}`)
+    return await api.get(`/file/search-by-id-and-student/${typeId}/${studentId}`)
   }
 
   // Short Paper
@@ -76,7 +76,7 @@ class ApiService {
     return await api.get(`/shortpapers`)
   }
   async searchShortPapers(keyword) {
-    return await api.get(`/shortpaper-by-filter/${keyword}`)
+    return await api.get(`/shortpaper/search-by-filter/${keyword}`)
   }
 
   // Students
@@ -84,10 +84,10 @@ class ApiService {
     return await api.get(`/students`)
   }
   async searchStudents(keyword) {
-    return await api.get(`/students-by-filter/${keyword}`)
+    return await api.get(`/student/search-by-filter/${keyword}`)
   }
   async getStudentById(studentId) {
-    return await api.get(`/student-by-id/${studentId}`)
+    return await api.get(`/student/search-by-id/${studentId}`)
   }
   async createStudent(studentData) {
     return await api.post(`/student/create`, studentData)
@@ -104,7 +104,7 @@ class ApiService {
     return await api.get(`/subjects`)
   }
   async searchSubjects(keyword) {
-    return await api.get(`/subjects-by-filter/${keyword}`)
+    return await api.get(`/subjects/search-by-filter/${keyword}`)
   }
 }
 export default new ApiService()
