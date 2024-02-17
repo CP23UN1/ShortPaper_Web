@@ -1,6 +1,22 @@
 <script setup>
 import { RouterLink } from 'vue-router'
+import { useAuthStore } from '../../stores/auth'
+import { useRoute, useRouter } from 'vue-router'
+
+const store = useAuthStore()
+const route = useRoute()
+const router = useRouter()
+
+const logout = () => {
+  try {
+    store.logout()
+    router.push('/login')
+  } catch (err) {
+    console.error(err)
+  }
+}
 </script>
+
 <template>
   <div>
     <nav class="p-2 bg-white">
@@ -8,7 +24,7 @@ import { RouterLink } from 'vue-router'
         <RouterLink to="/">
           <img src="/images/SIT-LOGO.png" class="h-12 mr-3" />
         </RouterLink>
-        <button class="flex items-center bg-white">
+        <!-- <button class="flex items-center bg-white">
           <svg
             width="24"
             height="24"
@@ -21,6 +37,9 @@ import { RouterLink } from 'vue-router'
               fill="black"
             />
           </svg>
+        </button> -->
+        <button class="flex items-center hover:text-bluemain" @click="logout">
+          ออกจากระบบ
         </button>
       </div>
     </nav>
@@ -99,11 +118,11 @@ import { RouterLink } from 'vue-router'
       ความคิดเห็นคณะกรรมการ
     </div> -->
     <RouterLink to="/history">
-    <div
-      class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5"
-    >
-      เอกสารโครงงานที่ผ่านมา
-    </div>
-  </RouterLink>
+      <div
+        class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5"
+      >
+        เอกสารโครงงานที่ผ่านมา
+      </div>
+    </RouterLink>
   </div>
 </template>

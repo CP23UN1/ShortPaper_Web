@@ -90,18 +90,32 @@ const routes = [
 
 const router = createRouter({
   history: createWebHashHistory(),
-  routes
+  routes,
 })
 
-// router.beforeEach((to, from, next) => {
-//   const authStore = useAuthStore();
-//   const isLoggedIn = authStore.isLoggedIn;
+function getTokenFromCookie(cookieName) {
+  const cookies = document.cookie.split(';')
 
-//   if (to.path !== '/login' && !isLoggedIn) {
-//     next('/login');
-//   } else {
-//     next();
-//   }
-// })
+  for (let cookie of cookies) {
+    cookie = cookie.trim()
+
+    if (cookie.startsWith(cookieName + '=')) {
+      return cookie.substring(cookieName.length + 1)
+    }
+  }
+  return null
+}
+
+router.beforeEach((to, from, next) => {
+  const isLoggedIn = getTokenFromCookie('token')
+
+  if (to.path !== '/login' && !isLoggedIn) {
+    next('/login')
+  } else if (to.path === '/login' && isLoggedIn) {
+    next('/')
+  } else {
+    next()
+  }
+})
 
 export default router

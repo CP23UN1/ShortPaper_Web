@@ -28,8 +28,8 @@ const getFileType = async () => {
   }
 }
 
-const getFileById = async () => {
-  const res = await ApiService.getFileById(63130500135)
+const getFilesByStudent = async () => {
+  const res = await ApiService.getFilesByStudent(63130500135)
 
   if (res.status === 200) {
     const data = await res.data
@@ -39,7 +39,7 @@ const getFileById = async () => {
 
 onMounted(async () => {
   await getFileType()
-  await getFileById()
+  await getFilesByStudent()
 })
 </script>
 
