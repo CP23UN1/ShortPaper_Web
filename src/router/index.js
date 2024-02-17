@@ -1,19 +1,24 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
+import { useAuthStore } from '../stores/auth'
 
 import Home from '../views/Home.vue'
+import Login from '../views/Login.vue'
+
 import StudentList from '../views/Student/StudentList.vue'
 import StudentEditForm from '../views/Student/StudentEditForm.vue'
 import StudentDetails from '../views/Student/StudentDetails.vue'
-import CommitteeList from '../views/Committee/CommitteeList.vue'
-import FileList from '../views/File/FileList.vue'
-import FileUploading from '../views/File/FileUploading.vue'
-import ShortPaperList from '../views/ShortPaperList.vue'
-import StudentListCommitee from '../views/Committee/StudentListCommittee.vue'
-import fileDetails from '../views/Advisor/FileDetails.vue'
-import ShortPaperEdit from '../views/ShortpaperEdit.vue'
-import FileComment from '../views/File/FileComment.vue'
 
-const history = createWebHashHistory()
+import CommitteeList from '../views/Committee/CommitteeList.vue'
+
+import FileList from '../views/File/FileList.vue'
+import fileDetails from '../views/Advisor/FileDetails.vue'
+import FileComment from '../views/File/FileComment.vue'
+import FileUploading from '../views/File/FileUploading.vue'
+
+import ShortPaperList from '../views/ShortPaperList.vue'
+import ShortPaperEdit from '../views/ShortpaperEdit.vue'
+
+import StudentListCommitee from '../views/Committee/StudentListCommittee.vue'
 
 const routes = [
   {
@@ -76,8 +81,27 @@ const routes = [
     name: 'File comment',
     component: FileComment,
   },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login,
+  },
 ]
 
-const router = createRouter({ history, routes })
+const router = createRouter({
+  history: createWebHashHistory(),
+  routes
+})
+
+// router.beforeEach((to, from, next) => {
+//   const authStore = useAuthStore();
+//   const isLoggedIn = authStore.isLoggedIn;
+
+//   if (to.path !== '/login' && !isLoggedIn) {
+//     next('/login');
+//   } else {
+//     next();
+//   }
+// })
 
 export default router

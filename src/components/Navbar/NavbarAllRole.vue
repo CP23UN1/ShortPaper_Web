@@ -6,7 +6,7 @@ import { RouterLink } from 'vue-router'
     <nav class="p-2 bg-white">
       <div class="flex flex-wrap justify-between items-center">
         <RouterLink to="/">
-          <img src="../../assets/SIT-LOGO.png" class="h-12 mr-3" />
+          <img src="/images/SIT-LOGO.png" class="h-12 mr-3" />
         </RouterLink>
         <button class="flex items-center bg-white">
           <svg
