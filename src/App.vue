@@ -1,17 +1,24 @@
 <script setup>
-import { RouterView } from 'vue-router'
-import NavBarStudent from './components/Navbar/NavBarStudent.vue';
-import NavbarAdmin from './components/Navbar/NavbarAdmin.vue';
-import NavbarAdvisor from './components/Navbar/NavbarAdvisor.vue';
+import { ref, watch } from 'vue'
+import { RouterView, useRoute } from 'vue-router'
 import NavbarAllRole from './components/Navbar/NavbarAllRole.vue'
 
+const route = useRoute()
+const showNavbar = ref(true)
+
+watch(() => {
+  if (route.name == 'Login') {
+    showNavbar.value = false
+  }else{
+    showNavbar.value = true
+  }
+})
 </script>
 
 <template>
-  <NavbarAllRole />
-  <!-- <NavBarStudent /> -->
-  <!-- <NavbarAdmin /> -->
-  <!-- <NavbarAdvisor /> -->
+  <template v-if="showNavbar">
+    <NavbarAllRole />
+  </template>
   <RouterView />
 </template>
 
