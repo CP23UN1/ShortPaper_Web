@@ -18,7 +18,9 @@ const doneIconSvg = `<svg class="w-[20px] h-[20px] text-teal-700" aria-hidden="t
     <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
   </svg>`
 
-const fileTypes = ref()
+const fileTypes = ref([])
+const studentFiles = ref([])
+
 const getFileType = async () => {
   const res = await ApiService.getFileType()
 
@@ -28,13 +30,25 @@ const getFileType = async () => {
   }
 }
 
+const id = ref(63130500135)
+
 const getFilesByStudent = async () => {
-  const res = await ApiService.getFilesByStudent(63130500135)
+  const res = await ApiService.getFilesByStudent(id.value)
 
   if (res.status === 200) {
-    const data = await res.data
-    return data.data
+    studentFiles.value = res.data.data
   }
+}
+
+const getFileStatus = (typeId) => {
+  const file = studentFiles.value.find(
+    (file) => file.shortpaperFileId === typeId
+  )
+  return file ? file.status : 'ยังไม่มีการอัปโหลด'
+}
+
+const hasFile = (typeId) => {
+  return studentFiles.value.some((file) => file.shortpaperFileId === typeId)
 }
 
 onMounted(async () => {
@@ -55,6 +69,10 @@ onMounted(async () => {
       </div>
     </div>
     <Header header="เอกสารโครงงาน" />
+    <!-- <div>
+      <p>{{ id }}</p>
+      <p>{{ studentFiles }}</p>
+    </div> -->
     <div class="relative overflow-x-auto shadow-md rounded-lg mt-6">
       <table class="w-full text-sm text-left rtl:text-right text-gray-500">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
@@ -71,6 +89,7 @@ onMounted(async () => {
           <tr
             class="bg-white border-b hover:bg-gray-50 text-gray-900"
             v-for="fileType in fileTypes"
+            :key="fileType.typeId"
           >
             <td class="py-4 font-medium whitespace-nowrap">
               {{ fileType.typeId }}
@@ -86,15 +105,21 @@ onMounted(async () => {
                 ></div>
               </RouterLink>
             </td>
-            <td class="font-medium whitespace-nowrap">status</td>
+            <td class="font-medium whitespace-nowrap">
+              {{ getFileStatus(fileType.typeId) }}
+            </td>
             <td class="font-medium whitespace-nowrap">
               <div
+                v-if="hasFile(fileType.typeId)"
                 class="flex justify-center items-center"
                 v-html="downloadIconSvg"
               ></div>
             </td>
             <td class="font-medium whitespace-nowrap">
-              <RouterLink :to="`/file?id=${fileType.typeId}`">
+              <RouterLink
+                v-if="hasFile(fileType.typeId)"
+                :to="`/file?id=${fileType.typeId}`"
+              >
                 <ButtonMain text="รายละเอียด" />
               </RouterLink>
             </td>
