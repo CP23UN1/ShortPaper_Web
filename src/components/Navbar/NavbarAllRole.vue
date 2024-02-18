@@ -76,12 +76,12 @@ const logout = () => {
     </RouterLink>
 
     <RouterLink
-      to="/committees"
+      to="/shortpapers"
       class="w-[233px] p-5"
       :class="{
-        'bg-white text-bluemain': $route.name === 'Committees',
+        'bg-white text-bluemain': $route.name === 'ShortPapers',
         'bg-bluemain hover:bg-white hover:text-bluemain text-white':
-          $route.name !== 'Committees',
+          $route.name !== 'ShortPapers',
       }"
     >
       <p>คณะกรรมการ</p>

@@ -28,11 +28,23 @@ const getSubjects = async () => {
   }
 }
 
+const searchShortPapers = async (keyword) => {
+  if (!keyword) {
+    await getShortPapers()
+  } else {
+    const res = await ApiService.searchShortPapers(keyword)
+    if (res.status === 200) {
+      const data = await res.data
+      shortpapers.value = data.data
+    }
+  }
+}
+
 const years = ['1/2565', '2/2565', '1/2566', '2/2566']
 
 onBeforeMount(async () => {
-  await getShortPapers()
   await getSubjects()
+  await searchShortPapers()
 })
 </script>
 
@@ -84,8 +96,12 @@ onBeforeMount(async () => {
     </div> -->
 
     <div class="p-4 shadow-md">
-      <SearchInput label="ค้นหานักศึกษา" placeholder="กรอกรหัสนักศึกษา" />
-      <div class="grid grid-cols-2 gap-10 items-center mt-2">
+      <SearchInput
+        label="ค้นหานักศึกษา"
+        placeholder="กรอกรหัสนักศึกษา รหัสวิชา หรือปีการศึกษา"
+        @searchKeyword="searchShortPapers"
+      />
+      <!-- <div class="grid grid-cols-2 gap-10 items-center mt-2">
         <div>
           <label for="selectKeyword" class="block font-medium text-gray-900"
             >รหัสวิชา
@@ -104,7 +120,7 @@ onBeforeMount(async () => {
           </select>
         </div>
         <SelectInput :options="years" label="ปีการศึกษา" />
-      </div>
+      </div> -->
     </div>
 
     <div
@@ -137,9 +153,11 @@ onBeforeMount(async () => {
               class="px-6 py-4"
               v-for="committee in shortpaper.committees"
               :key="committee.committeeId"
+              v-if="committee !== null"
             >
               {{ committee.firstname }} {{ committee.lastname }}
             </td>
+            <td class="text-center">-</td>
           </tr>
         </tbody>
       </table>

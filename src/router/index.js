@@ -8,17 +8,15 @@ import StudentList from '../views/Student/StudentList.vue'
 import StudentEditForm from '../views/Student/StudentEditForm.vue'
 import StudentDetails from '../views/Student/StudentDetails.vue'
 
-import CommitteeList from '../views/Committee/CommitteeList.vue'
-
 import FileList from '../views/File/FileList.vue'
 import fileDetails from '../views/Advisor/FileDetails.vue'
 import FileComment from '../views/File/FileComment.vue'
 import FileUploading from '../views/File/FileUploading.vue'
 
-import ShortPaperList from '../views/ShortPaperList.vue'
-import ShortPaperEdit from '../views/ShortpaperEdit.vue'
+import ShortPaperList from '../views/ShortPaper/ShortPaperList.vue'
 
-import StudentListCommitee from '../views/Committee/StudentListCommittee.vue'
+import ShortPaperEdit from '../views/ShortpaperEdit.vue'
+import StudentListCommitee from '../views/ShortPaper/StudentListCommittee.vue'
 
 const routes = [
   {
@@ -42,9 +40,9 @@ const routes = [
     component: StudentDetails,
   },
   {
-    path: '/committees',
-    name: 'Committees',
-    component: CommitteeList,
+    path: '/shortpapers',
+    name: 'ShortPapers',
+    component: ShortPaperList,
   },
   {
     path: '/files',
