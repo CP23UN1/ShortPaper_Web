@@ -1,22 +1,43 @@
 <script setup>
 import { ref } from 'vue'
 import { useAuthStore } from '../stores/auth'
+import { useValidateStore } from '../stores/validate'
 import { useRoute, useRouter } from 'vue-router'
 
 import ButtonMain from '../components/ButtonMain.vue'
 
-const store = useAuthStore()
+const authStore = useAuthStore()
+const validateStore = useValidateStore()
+
 const route = useRoute()
 const router = useRouter()
 
 const email = ref()
 const password = ref()
 
+const validateData = () => {
+  let isValid = true
+
+  if (!email.value && !validateStore.validateEmail(email.value)) {
+    alert('กรุณาใส่อีเมลที่ถูกต้อง')
+    isValid = false
+  }
+
+  if (!password.value) {
+    alert('กรุณาใส่รหัสผ่าน')
+    isValid = false
+  }
+
+  return isValid
+}
+
 const login = async () => {
   try {
-    await store.login({ email: email.value, password: password.value })
-    if (store.isLoggedIn == true) {
-      router.push('/')
+    if (validateData()) {
+      await authStore.login({ email: email.value, password: password.value })
+      if (authStore.isLoggedIn == true) {
+        router.push('/')
+      }
     }
   } catch (err) {
     console.error(err)
@@ -54,8 +75,8 @@ const login = async () => {
           <h1 class="text-bluemain font-bold">ขั้นตอนการอัปโหลด IS Report</h1>
           <ol>
             <li>
-              1. อัปโหลดไฟล์นามสกุล pdf เท่านั้น โดยตั้งชื่อไฟล์ตามรหัสนักศึกษา เช่น
-              6644xxxxxxx.pdf เป็นต้น
+              1. อัปโหลดไฟล์นามสกุล pdf เท่านั้น โดยตั้งชื่อไฟล์ตามรหัสนักศึกษา
+              เช่น 6644xxxxxxx.pdf เป็นต้น
             </li>
             <li>
               2. ให้รวมไฟล์ให้อยู่ในรูปแบบไฟล์เดียว ไม่ต้องแยกบท หรือเนื้อหา
@@ -69,9 +90,9 @@ const login = async () => {
               แก้ไขได้ที่หน้าแก้ไขข้อมูล
             </li>
             <li>
-              5. ถ้าไม่สามารถอัปโหลดไฟล์ หรือใช้งานระบบไม่ได้ ให้ส่งไฟล์ IS Report
-              มาที่ webadmin@sit.kmutt.ac.th พร้อมทั้งแจ้งอีเมล และเบอร์โทร
-              ติดต่อกลับ
+              5. ถ้าไม่สามารถอัปโหลดไฟล์ หรือใช้งานระบบไม่ได้ ให้ส่งไฟล์ IS
+              Report มาที่ webadmin@sit.kmutt.ac.th พร้อมทั้งแจ้งอีเมล
+              และเบอร์โทร ติดต่อกลับ
             </li>
             <li>
               6. ในการเข้าใช้งานระบบเป็นครั้งแรก ให้นักศึกษากรอกข้อมูลส่วนตัว

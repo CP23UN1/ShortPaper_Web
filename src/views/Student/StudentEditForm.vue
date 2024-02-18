@@ -39,7 +39,6 @@ const getStudent = async () => {
 const validateData = () => {
   let isValid = true
 
-  // Validation for required fields
   if (!student.value.firstname) {
     alert('กรุณาใส่ชื่อ')
     isValid = false
