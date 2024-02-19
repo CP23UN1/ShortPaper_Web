@@ -143,7 +143,7 @@ onMounted(async () => {
             <th scope="col" class="py-3">อัปโหลด</th>
             <th scope="col" class="px-6 py-3">สถานะ</th>
             <th scope="col" class="py-3">ดาวน์โหลด</th>
-            <th scope="col" class="px-6 py-3"></th>
+            <!-- <th scope="col" class="px-6 py-3"></th> -->
           </tr>
         </thead>
         <tbody class="text-center">
@@ -181,14 +181,14 @@ onMounted(async () => {
                 "
               ></div>
             </td>
-            <td class="font-medium whitespace-nowrap">
+            <!-- <td class="font-medium whitespace-nowrap">
               <RouterLink
                 v-if="hasFile(fileType.typeId)"
                 :to="`/file?id=${getFileIdByType(fileType.typeId)}`"
               >
                 <ButtonMain text="รายละเอียด" />
               </RouterLink>
-            </td>
+            </td> -->
           </tr>
         </tbody>
       </table>

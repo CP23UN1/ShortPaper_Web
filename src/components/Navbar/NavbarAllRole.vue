@@ -45,7 +45,7 @@ const logout = () => {
     </nav>
   </div>
   <div
-    class="flex flex-nowrap justify-between text-xs font-medium text-center shadow-lg w-full"
+    class="flex flex-nowrap justify-between text-xs font-medium text-center shadow-lg w-full bg-bluemain"
   >
     <RouterLink
       to="/"
@@ -118,12 +118,13 @@ const logout = () => {
     >
       ความคิดเห็นคณะกรรมการ
     </div> -->
-    <RouterLink to="/history">
+    
+    <!-- <RouterLink to="/history">
       <div
         class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5"
       >
         เอกสารโครงงานที่ผ่านมา
       </div>
-    </RouterLink>
+    </RouterLink> -->
   </div>
 </template>
