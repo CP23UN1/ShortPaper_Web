@@ -153,11 +153,15 @@ onBeforeMount(async () => {
               class="px-6 py-4"
               v-for="committee in shortpaper.committees"
               :key="committee.committeeId"
-              v-if="committee !== null"
             >
               {{ committee.firstname }} {{ committee.lastname }}
             </td>
-            <td class="text-center">-</td>
+            <td v-if="shortpaper.committees.length < 2" class="text-center">
+              -
+            </td>
+            <td v-if="shortpaper.committees.length < 3" class="text-center">
+              -
+            </td>
           </tr>
         </tbody>
       </table>
