@@ -45,17 +45,6 @@ const getFilesByStudent = async () => {
   }
 }
 
-const getFileStatus = (typeId) => {
-  const file = studentFiles.value.find(
-    (file) => file.shortpaperFileId === typeId
-  )
-  return file ? file.status : 'ยังไม่มีการอัปโหลด'
-}
-
-const hasFile = (typeId) => {
-  return studentFiles.value.some((file) => file.shortpaperFileId === typeId)
-}
-
 const getShortPaper = async () => {
   const res = await ApiService.getShortPaper(id.value)
   if (res.status === 200) {
@@ -69,6 +58,57 @@ const uploadPage = (typeId, shortpaperId) => {
     path: '/upload',
     query: { typeId, shortpaperId },
   })
+}
+
+const downloadFile = async (fileId, filename) => {
+  try {
+    const res = await ApiService.downloadFile(fileId)
+    const blob = new Blob([res.data], { type: 'application/pdf' })
+    const url = window.URL.createObjectURL(blob)
+    const link = document.createElement('a')
+
+    if (res.status === 200) {
+      link.href = url
+      link.download = filename
+      link.style.display = 'none'
+
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      window.URL.revokeObjectURL(url)
+    } else {
+      console.error('Failed to download file:', res.statusText)
+    }
+  } catch (error) {
+    console.error('Error downloading file:', error)
+  }
+}
+
+const getFileStatus = (typeId) => {
+  const file = studentFiles.value.find(
+    (file) => file.shortpaperFileType.typeId === typeId
+  )
+  return file ? file.status : 'ยังไม่มีการอัปโหลด'
+}
+
+const hasFile = (typeId) => {
+  return studentFiles.value.some(
+    (file) => file.shortpaperFileType.typeId === typeId
+  )
+}
+
+const getFileIdByType = (typeId) => {
+  const file = studentFiles.value.find(
+    (file) => file.shortpaperFileType.typeId === typeId
+  )
+  return file ? file.shortpaperFileId : null
+}
+
+const getNameByStudent = (typeId) => {
+  const file = studentFiles.value.find(
+    (file) => file.shortpaperFileType.typeId === typeId
+  )
+  return file ? file.fileName : typeId
 }
 
 onMounted(async () => {
@@ -133,12 +173,18 @@ onMounted(async () => {
                 v-if="hasFile(fileType.typeId)"
                 class="flex justify-center items-center"
                 v-html="downloadIconSvg"
+                @click="
+                  downloadFile(
+                    getFileIdByType(fileType.typeId),
+                    getNameByStudent(fileType.typeId)
+                  )
+                "
               ></div>
             </td>
             <td class="font-medium whitespace-nowrap">
               <RouterLink
                 v-if="hasFile(fileType.typeId)"
-                :to="`/file?id=${fileType.typeId}`"
+                :to="`/file?id=${getFileIdByType(fileType.typeId)}`"
               >
                 <ButtonMain text="รายละเอียด" />
               </RouterLink>

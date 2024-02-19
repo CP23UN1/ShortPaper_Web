@@ -56,7 +56,9 @@ class ApiService {
     })
   }
   async downloadFile(fileId) {
-    return await api.get(`/file/download/${fileId}`)
+    return await api.get(`/file/download/${fileId}`, {
+      responseType: 'blob',
+    })
   }
   async getFileType() {
     return await api.get(`/filetype`)
@@ -68,7 +70,9 @@ class ApiService {
     return await api.get(`/file/search-by-student/${studentId}`)
   }
   async getFileByTypeAndStudent(typeId, studentId) {
-    return await api.get(`/file/search-by-id-and-student/${typeId}/${studentId}`)
+    return await api.get(
+      `/file/search-by-id-and-student/${typeId}/${studentId}`
+    )
   }
 
   // Short Paper
