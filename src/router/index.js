@@ -14,16 +14,24 @@ import FileComment from '../views/File/FileComment.vue'
 import FileUploading from '../views/File/FileUploading.vue'
 
 import CommitteeList from '../views/Committee/CommitteeList.vue'
+import CommitteeEdit from '../views/Committee/CommitteeEdit.vue'
 
 import ShortPaperEdit from '../views/ShortpaperEdit.vue'
 import StudentListCommitee from '../views/Committee/StudentListCommittee.vue'
 
 const routes = [
+  // Other
   {
     path: '/',
     name: 'Home',
     component: Home,
   },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login,
+  },
+  // Student
   {
     path: '/students',
     name: 'Student List',
@@ -39,15 +47,27 @@ const routes = [
     name: 'Student information',
     component: StudentDetails,
   },
+  // Committee
   {
     path: '/committees',
     name: 'Committees',
     component: CommitteeList,
   },
   {
+    path: '/committees/edit',
+    name: 'Editing All Committees',
+    component: CommitteeEdit,
+  },
+  // File
+  {
     path: '/files',
     name: 'ShortPaper File',
     component: FileList,
+  },
+  {
+    path: '/file',
+    name: 'file',
+    component: fileDetails,
   },
   {
     path: '/upload',
@@ -64,26 +84,17 @@ const routes = [
   //   name: 'studentinfo',
   //   component: StudentListCommitee,
   // },
-  {
-    path: '/file',
-    name: 'file',
-    component: fileDetails,
-  },
-  {
-    path: '/shortpaper/edit',
-    name: 'shortpaper edit',
-    component: ShortPaperEdit,
-  },
-  {
-    path: '/file/comment',
-    name: 'File comment',
-    component: FileComment,
-  },
-  {
-    path: '/login',
-    name: 'Login',
-    component: Login,
-  },
+
+  // {
+  //   path: '/shortpaper/edit',
+  //   name: 'shortpaper edit',
+  //   component: ShortPaperEdit,
+  // },
+  // {
+  //   path: '/file/comment',
+  //   name: 'File comment',
+  //   component: FileComment,
+  // },
 ]
 
 const router = createRouter({
