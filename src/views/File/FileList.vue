@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 import ApiService from '../../composables/apiService'
 
@@ -20,6 +21,11 @@ const doneIconSvg = `<svg class="w-[20px] h-[20px] text-teal-700" aria-hidden="t
 
 const fileTypes = ref([])
 const studentFiles = ref([])
+const id = ref(63130500135)
+const shortpaper = ref()
+
+const route = useRoute()
+const router = useRouter()
 
 const getFileType = async () => {
   const res = await ApiService.getFileType()
@@ -30,13 +36,12 @@ const getFileType = async () => {
   }
 }
 
-const id = ref(63130500135)
-
 const getFilesByStudent = async () => {
   const res = await ApiService.getFilesByStudent(id.value)
 
   if (res.status === 200) {
-    studentFiles.value = res.data.data
+    const data = await res.data
+    studentFiles.value = data.data
   }
 }
 
@@ -51,9 +56,25 @@ const hasFile = (typeId) => {
   return studentFiles.value.some((file) => file.shortpaperFileId === typeId)
 }
 
+const getShortPaper = async () => {
+  const res = await ApiService.getShortPaper(id.value)
+  if (res.status === 200) {
+    const data = await res.data
+    shortpaper.value = data.data
+  }
+}
+
+const uploadPage = (typeId, shortpaperId) => {
+  router.push({
+    path: '/upload',
+    query: { typeId, shortpaperId },
+  })
+}
+
 onMounted(async () => {
   await getFileType()
   await getFilesByStudent()
+  await getShortPaper()
 })
 </script>
 
@@ -82,7 +103,7 @@ onMounted(async () => {
             <th scope="col" class="py-3">อัปโหลด</th>
             <th scope="col" class="px-6 py-3">สถานะ</th>
             <th scope="col" class="py-3">ดาวน์โหลด</th>
-            <th scope="col" class="px-6 py-3 sr-only">รายละเอียด</th>
+            <th scope="col" class="px-6 py-3"></th>
           </tr>
         </thead>
         <tbody class="text-center">
@@ -98,12 +119,11 @@ onMounted(async () => {
               {{ fileType.typeName }}
             </td>
             <td class="font-medium whitespace-nowrap">
-              <RouterLink :to="`/upload?id=${fileType.typeId}`">
-                <div
-                  class="flex justify-center items-center"
-                  v-html="uploadIconSvg"
-                ></div>
-              </RouterLink>
+              <div
+                class="flex justify-center items-center"
+                v-html="uploadIconSvg"
+                @click="uploadPage(fileType.typeId, shortpaper.shortpaperId)"
+              ></div>
             </td>
             <td class="font-medium whitespace-nowrap">
               {{ getFileStatus(fileType.typeId) }}

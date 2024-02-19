@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 import ApiService from '../../composables/apiService'
@@ -11,13 +11,13 @@ import ButtonMain from '../../components/ButtonMain.vue'
 
 const route = useRoute()
 const router = useRouter()
-const fileTypes = ref()
+const fileTypes = ref([])
 
-const shortPaperId = ref(63130500135)
+const shortpaperId = ref(route.query.shortpaperId)
 const file = ref(null)
-const choseFileTypeId = ref(route.query.id)
+const typeId = ref(route.query.typeId)
 const explanationVideo = ref('')
-const remark = ref()
+const remark = ref('')
 
 const handleFileSelected = (selectedFile) => {
   console.log('Selected file:', selectedFile)
@@ -25,7 +25,7 @@ const handleFileSelected = (selectedFile) => {
 }
 
 const handleTypeId = (id) => {
-  choseFileTypeId.value = id
+  typeId.value = id
 }
 
 const handleUpload = async () => {
@@ -34,12 +34,15 @@ const handleUpload = async () => {
     return
   }
 
+  console.log('shortpaperId', shortpaperId.value)
+  console.log('fileTypeId', typeId.value)
+
   const formData = new FormData()
-  formData.append('shortpaperId', shortPaperId.value)
+  formData.append('shortpaperId', shortpaperId.value)
   formData.append('file', file.value)
-  formData.append('fileTypeId', choseFileTypeId.value)
+  formData.append('fileTypeId', typeId.value)
   formData.append('explanationVideo', explanationVideo.value)
-  //formData.append('remark', remark.value)
+  // formData.append('remark', remark.value)
 
   try {
     const res = await ApiService.uploadFile(formData)
@@ -56,17 +59,26 @@ const handleUpload = async () => {
 }
 
 const getFileType = async () => {
-  const res = await ApiService.getFileType()
+  try {
+    const res = await ApiService.getFileType()
 
-  if (res.status === 200) {
-    const data = await res.data
-    fileTypes.value = data.data
+    if (res.status === 200) {
+      const data = await res.data
+      fileTypes.value = data.data
+    }
+  } catch (error) {
+    console.error('Error fetching file types:', error)
+    alert(`An error occurred while fetching file types.`)
   }
 }
 
 onMounted(async () => {
   await getFileType()
+  
+  //shortpaperId.value = route.query.shortpaperId
+  //typeId.value = route.query.typeId
 })
+
 </script>
 
 <template>
@@ -99,7 +111,7 @@ onMounted(async () => {
               name="fileType"
               :value="fileType.typeId"
               :label="fileType.typeName"
-              :isChecked="fileType.typeId == route.query.id"
+              :isChecked="fileType.typeId == route.query.typeId"
               @change="handleTypeId(fileType.typeId)"
             />
           </div>

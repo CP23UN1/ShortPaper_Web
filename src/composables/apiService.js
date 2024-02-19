@@ -75,6 +75,9 @@ class ApiService {
   async getShortPapers() {
     return await api.get(`/shortpapers`)
   }
+  async getShortPaper(studentId) {
+    return await api.get(`/shortpaper/search-by-student/${studentId}`)
+  }
   async searchShortPapers(keyword) {
     return await api.get(`/shortpaper/search-by-filter/${keyword}`)
   }
