@@ -130,25 +130,47 @@ onBeforeMount(async () => {
       <table class="w-full text-sm text-left rtl:text-right text-gray-500">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
           <tr>
+            <th scope="col" class="px-6 py-3">ลำดับ</th>
+            <th scope="col" class="px-6 py-3">ชื่อ - นามสกุล</th>
             <th scope="col" class="px-6 py-3">รหัสนักศึกษา</th>
-            <th scope="col" class="px-6 py-3">กรรมการคนที่ 1</th>
-            <th scope="col" class="px-6 py-3">กรรมการคนที่ 2</th>
-            <th scope="col" class="px-6 py-3">กรรมการคนที่ 3</th>
+            <th scope="col" class="px-6 py-3">รหัสวิชา</th>
+            <th scope="col" class="px-6 py-3">ประธาน</th>
+            <th scope="col" class="px-6 py-3">ที่ปรึกษา</th>
+            <th scope="col" class="px-6 py-3">กรรมการ</th>
           </tr>
         </thead>
 
         <tbody>
           <tr
             class="bg-white border-b hover:bg-gray-50"
-            v-for="shortpaper in shortpapers"
+            v-for="(shortpaper, index) in shortpapers"
             :key="shortpaper.shortpaperId"
           >
-            <th
+            <td
+              scope="row"
+              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+            >
+              {{ index + 1 }}
+            </td>
+            <td
               scope="row"
               class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
             >
               {{ shortpaper.student.studentId }}
-            </th>
+            </td>
+            <td
+              scope="row"
+              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+            >
+              {{ shortpaper.student.firstname }}
+              {{ shortpaper.student.lastname }}
+            </td>
+            <td
+              scope="row"
+              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+            >
+              {{ shortpaper.subjects.subjectId }}
+            </td>
             <td
               class="px-6 py-4"
               v-for="committee in shortpaper.committees"

@@ -13,10 +13,10 @@ import fileDetails from '../views/Advisor/FileDetails.vue'
 import FileComment from '../views/File/FileComment.vue'
 import FileUploading from '../views/File/FileUploading.vue'
 
-import ShortPaperList from '../views/ShortPaper/ShortPaperList.vue'
+import CommitteeList from '../views/Committee/CommitteeList.vue'
 
 import ShortPaperEdit from '../views/ShortpaperEdit.vue'
-import StudentListCommitee from '../views/ShortPaper/StudentListCommittee.vue'
+import StudentListCommitee from '../views/Committee/StudentListCommittee.vue'
 
 const routes = [
   {
@@ -40,9 +40,9 @@ const routes = [
     component: StudentDetails,
   },
   {
-    path: '/shortpapers',
-    name: 'ShortPapers',
-    component: ShortPaperList,
+    path: '/committees',
+    name: 'Committees',
+    component: CommitteeList,
   },
   {
     path: '/files',
@@ -54,16 +54,16 @@ const routes = [
     name: 'Uploading ShortPaper',
     component: FileUploading,
   },
-  {
-    path: '/history',
-    name: 'ShortPaper History',
-    component: ShortPaperList,
-  },
-  {
-    path: '/studentinfo',
-    name: 'studentinfo',
-    component: StudentListCommitee,
-  },
+  // {
+  //   path: '/history',
+  //   name: 'ShortPaper History',
+  //   component: ShortPaperList,
+  // },
+  // {
+  //   path: '/studentinfo',
+  //   name: 'studentinfo',
+  //   component: StudentListCommitee,
+  // },
   {
     path: '/file',
     name: 'file',
