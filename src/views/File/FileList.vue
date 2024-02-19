@@ -111,6 +111,17 @@ const getNameByStudent = (typeId) => {
   return file ? file.fileName : typeId
 }
 
+const mapFileStatus = (status) => {
+  switch (status) {
+    case 'not_approve':
+      return 'ยังไม่ได้รับการอนุมัติ';
+    case 'approved':
+      return 'อนุมัติเรียบร้อย';
+    default:
+      return 'ยังไม่มีการอัปโหลด';
+  }
+};
+
 onMounted(async () => {
   await getFileType()
   await getFilesByStudent()
@@ -166,7 +177,7 @@ onMounted(async () => {
               ></div>
             </td>
             <td class="font-medium whitespace-nowrap">
-              {{ getFileStatus(fileType.typeId) }}
+              {{ mapFileStatus(getFileStatus(fileType.typeId)) }}
             </td>
             <td class="font-medium whitespace-nowrap">
               <div
