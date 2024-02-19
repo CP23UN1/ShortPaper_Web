@@ -174,19 +174,104 @@ onBeforeMount(async () => {
             >
               {{ shortpaper.subjects.subjectId }}
             </td>
+
             <td
               class="px-6 py-4"
-              v-for="committee in shortpaper.committees"
-              :key="committee.committeeId"
+              :class="
+                !shortpaper.committees ||
+                !shortpaper.committees.some(
+                  (committee) => committee.isPrincipal
+                )
+                  ? 'text-center'
+                  : ''
+              "
             >
-              {{ committee.firstname }} {{ committee.lastname }}
+              <span
+                v-if="
+                  !shortpaper.committees ||
+                  !shortpaper.committees.some(
+                    (committee) => committee.isPrincipal
+                  )
+                "
+              >
+                -
+              </span>
+              <span v-else>
+                <span
+                  v-for="committee in shortpaper.committees"
+                  :key="committee.committeeId"
+                >
+                  <span v-if="committee.isPrincipal">
+                    {{ committee.firstname }} {{ committee.lastname }}
+                  </span>
+                </span>
+              </span>
             </td>
-            <td v-if="shortpaper.committees.length < 2" class="text-center">
-              -
+
+            <td
+              class="px-6 py-4"
+              :class="
+                !shortpaper.committees ||
+                !shortpaper.committees.some((committee) => committee.isAdvisor)
+                  ? 'text-center'
+                  : ''
+              "
+            >
+              <span
+                v-if="
+                  !shortpaper.committees ||
+                  !shortpaper.committees.some(
+                    (committee) => committee.isAdvisor
+                  )
+                "
+              >
+                -
+              </span>
+              <span v-else>
+                <span
+                  v-for="committee in shortpaper.committees"
+                  :key="committee.committeeId"
+                >
+                  <span v-if="committee.isAdvisor">
+                    {{ committee.firstname }} {{ committee.lastname }}
+                  </span>
+                </span>
+              </span>
             </td>
-            <td v-if="shortpaper.committees.length < 3" class="text-center">
-              -
+
+            <td
+              class="px-6 py-4"
+              :class="
+                !shortpaper.committees ||
+                !shortpaper.committees.some(
+                  (committee) => committee.isCommittee
+                )
+                  ? 'text-center'
+                  : ''
+              "
+            >
+              <span
+                v-if="
+                  !shortpaper.committees ||
+                  !shortpaper.committees.some(
+                    (committee) => committee.isCommittee
+                  )
+                "
+              >
+                -
+              </span>
+              <span v-else>
+                <span
+                  v-for="committee in shortpaper.committees"
+                  :key="committee.committeeId"
+                >
+                  <span v-if="committee.isCommittee">
+                    {{ committee.firstname }} {{ committee.lastname }}
+                  </span>
+                </span>
+              </span>
             </td>
+
             <td
               scope="row"
               class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
