@@ -127,10 +127,10 @@ onBeforeMount(async () => {
       </div> -->
       <div class="mt-3 text-center">
         <!-- <ButtonMain text="กำหนดกรรมการจากไฟล์ Excel" class="mr-2" /> -->
-        <RouterLink :to="`/committees/edit`">
-
+       
+        <!-- <RouterLink :to="`/committees/edit`">
           <ButtonMain text="แก้ไขคณะกรรมการทั้งหมด" />
-        </RouterLink>
+        </RouterLink> -->
       </div>
     </div>
 

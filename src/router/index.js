@@ -55,7 +55,7 @@ const routes = [
   },
   {
     path: '/committees/edit',
-    name: 'Editing All Committees',
+    name: 'Editing Committees',
     component: CommitteeEdit,
   },
   // File
