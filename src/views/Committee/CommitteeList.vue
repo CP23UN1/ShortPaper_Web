@@ -1,11 +1,13 @@
 <script setup>
 import { onBeforeMount, onMounted, ref } from 'vue'
+import { RouterLink } from 'vue-router'
 
 import ApiService from '../../composables/apiService'
 import Header from '../../components/Header.vue'
 import SearchInput from '../../components/SearchInput.vue'
 import SelectInput from '../../components/SelectInput.vue'
 import EmptyData from '../../components/EmptyData.vue'
+import ButtonMain from '../../components/ButtonMain.vue'
 
 const shortpapers = ref([])
 const subjects = ref([])
@@ -137,6 +139,7 @@ onBeforeMount(async () => {
             <th scope="col" class="px-6 py-3">ประธาน</th>
             <th scope="col" class="px-6 py-3">ที่ปรึกษา</th>
             <th scope="col" class="px-6 py-3">กรรมการ</th>
+            <th scope="col" class="px-6 py-3 sr-only">รายละเอียด</th>
           </tr>
         </thead>
 
@@ -183,6 +186,14 @@ onBeforeMount(async () => {
             </td>
             <td v-if="shortpaper.committees.length < 3" class="text-center">
               -
+            </td>
+            <td
+              scope="row"
+              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+            >
+              <RouterLink :to="`/student?id=${shortpaper.student.studentId}`">
+                <ButtonMain text="รายละเอียด" />
+              </RouterLink>
             </td>
           </tr>
         </tbody>
