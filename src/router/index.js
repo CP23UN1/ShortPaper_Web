@@ -18,6 +18,7 @@ import CommitteeEdit from '../views/Committee/CommitteeEdit.vue'
 
 import ShortPaperEdit from '../views/ShortpaperEdit.vue'
 import StudentListCommitee from '../views/Committee/StudentListCommittee.vue'
+import AssignAdvisorToStudent from '../views/Admin/AssignAdvisorToStudent.vue'
 
 const routes = [
   // Other
@@ -74,6 +75,11 @@ const routes = [
     name: 'Uploading ShortPaper',
     component: FileUploading,
   },
+  {
+    path: '/assign/advisor',
+    name: 'AssignAdvisor',
+    component: AssignAdvisorToStudent
+  }
   // {
   //   path: '/history',
   //   name: 'ShortPaper History',

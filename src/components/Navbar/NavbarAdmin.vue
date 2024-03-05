@@ -158,7 +158,7 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
       <RouterLink to="/student"> ตรวจสอบข้อมูล(รายบุคคล) </RouterLink>
     </div>
     <div class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5">
-      แต่งตั้งคณะกรรมการ
+      <RouterLink to="/assign/advisor">แต่งตั้งคณะกรรมการ</RouterLink>
     </div>
     <div class="bg-bluemain hover:bg-red-700 text-white w-[233px] p-5">
       ออกจากระบบ

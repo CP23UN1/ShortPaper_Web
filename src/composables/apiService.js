@@ -41,9 +41,23 @@ class ApiService {
     })
   }
   async assignCommittee(file) {
-    return await api.post(`/committee/assign-from-csv-for-student`, file, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    })
+    try {
+      const formData = new FormData();
+      formData.append('csvFile', file); // Ensure the file is appended with the correct field name
+  
+      console.log('FormData:', formData); // Log FormData object for debugging
+  
+      const response = await api.post('/committee/assign-from-csv-for-student', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+  
+      console.log('Response:', response.data); // Log response data for debugging
+  
+      return response.data;
+    } catch (error) {
+      console.error('Error assigning committee:', error);
+      throw error; // Propagate the error for handling in the calling code
+    }
   }
 
   // File
