@@ -40,8 +40,11 @@ const login = async () => {
     if (validateData()) {
       await authStore.login({ email: email.value, password: password.value })
       if (authStore.isLoggedIn == true) {
-        toggleModal()
+        //toggleModal()
         router.push('/')
+      }
+      if (authStore.isPasswordWrong == true) {
+        alert('กรุณาใส่รหัสผ่านที่ถูกต้อง')
       }
     }
   } catch (err) {
@@ -60,8 +63,112 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex items-center justify-center h-screen bg-gray-200">
-    <!-- Login Form -->
+  <div class="flex justify-center">
+    <div
+    class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center justify-center mx-4 md:mx-0 shadow-lg my-10 md:my-20 rounded-lg"
+    >
+      <div
+        class="bg-cover bg-center bg-no-repeat"
+        style="
+          background-image: url('/images/kmutt.png');
+          width: 400px;
+          height: 400px;
+        "
+      ></div>
+      <div>
+        <div class="m-10 items-center">
+          <div class="mb-4">
+            <label for="email" class="block font-bold mb-2">อีเมล</label>
+            <input
+              type="email"
+              id="email"
+              v-model="email"
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              placeholder="อีเมล"
+              required
+            />
+          </div>
+          <div class="mb-4">
+            <label for="password" class="block font-bold mb-2">รหัสผ่าน</label>
+            <input
+              type="password"
+              id="password"
+              v-model="password"
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              placeholder="รหัสผ่าน"
+              required
+            />
+          </div>
+          <hr class="my-5" />
+          <div class="flex justify-center items-center">
+            <ButtonMain
+              type-button="submit"
+              class-name="w-52 bg-greenbtn text-white hover:bg-white hover:text-greenbtn outline outline-2 outline-greenbtn"
+              text="เข้าสู่ระบบ"
+            />
+          </div>
+          <p
+            class="text-sm underline text-center cursor-pointer mt-5"
+            @click="toggleModal"
+          >
+            กำหนดการ และขั้นตอนการอัปโหลด IS Report
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="flex justify-center">
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center justify-center mx-4 md:mx-0 shadow-lg my-10 md:my-20 rounded-lg"
+    >
+      <div
+        class="bg-cover bg-center bg-no-repeat"
+        style="background-image: url('/images/kmutt.png'); min-height: 300px"
+      ></div>
+      <div class="p-6">
+        <div class="mb-4">
+          <label for="email" class="block font-bold mb-2">Email</label>
+          <input
+            type="email"
+            id="email"
+            v-model="email"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            placeholder="Email"
+            required
+          />
+        </div>
+        <div class="mb-4">
+          <label for="password" class="block font-bold mb-2">Password</label>
+          <input
+            type="password"
+            id="password"
+            v-model="password"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            placeholder="Password"
+            required
+          />
+        </div>
+        <hr class="my-5" />
+        <div class="flex justify-center">
+          <ButtonMain
+            type-button="submit"
+            class-name="w-52 bg-green-500 text-white hover:bg-green-700 hover:text-white outline outline-2 outline-green-500"
+            text="Login"
+          />
+        </div>
+        <p
+          class="text-sm underline text-center cursor-pointer mt-5"
+          @click="toggleModal"
+        >
+          Schedule and Steps for Uploading IS Report
+        </p>
+      </div>
+    </div>
+  </div> -->
+
+  <!-- <div class="flex items-center justify-center h-screen bg-gray-200">
+    Login Form
     <div class="w-3/4">
       <div class="max-w-lg mx-auto p-8 bg-white rounded-lg shadow-md">
         <div>
@@ -103,16 +210,17 @@ onMounted(() => {
             text="เข้าสู่ระบบ"
           />
         </form>
-        <!-- <div class="text-right mt-1">
+
+         <div class="text-right mt-1">
           <a href="#" class="text-bluemain text-sm">Forgot Password?</a>
-        </div> -->
+        </div>
         <div class="mt-4">
-          <!-- <p
+           <p
             class="text-sm text-bluemain underline text-center cursor-pointer"
             @click="toggleModal"
           >
             กำหนดการ และขั้นตอนการอัปโหลด IS Report
-          </p> -->
+          </p> 
           <p
             class="text-sm text-bluemain underline text-center cursor-pointer"
             @click="toggleModal"
@@ -124,7 +232,7 @@ onMounted(() => {
     </div>
   </div>
 
-  <!-- Description Modal -->
+  Description Modal
   <div
     class="fixed top-0 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50"
     :class="{ hidden: !isModalOpen }"
@@ -198,7 +306,7 @@ onMounted(() => {
         </ol>
       </div>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <style></style>

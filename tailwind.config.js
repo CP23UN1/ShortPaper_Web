@@ -11,6 +11,7 @@ module.exports = {
         bluemain: '#336799',
         bluebtn: '#3873C1',
         blueheader: '#729AC8',
+        greenbtn: '#0A7373'
       },
       fontFamily: {
         'sarabun': ['Sarabun', 'sans-serif']
