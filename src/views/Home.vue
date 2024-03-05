@@ -21,9 +21,24 @@ onMounted(async () => {
 })
 </script>
 <template>
-  <div class="flex justify-center h-screen">
+  <Header class="text-sm rounded-md" header="ประกาศกำหนดการ" />
+  
+  <div>
+    <div
+      class="rounded-md p-5 border-2 my-3 text-bluemain border-bluemain w-2/4 mx-auto"
+      v-for="announcement in announcements"
+      :key="announcement.announcementId"
+    >
+      <h1 class="font-bold">
+        {{ announcement.schedule }}
+      </h1>
+      <p>{{ announcement.content }}</p>
+    </div>
+  </div>
+
+  <!-- <div class="flex justify-center h-screen">
     <div class="w-full lg:w-3/4">
-      <!-- <Header class="text-sm rounded-md" header="ประกาศกำหนดการ"/> -->
+      <Header class="text-sm rounded-md" header="ประกาศกำหนดการ"/> 
       <div class="relative overflow-x-auto rounded-md mt-5">
         <table class="text-sm text-left rtl:text-right mx-auto w-full">
 
@@ -53,7 +68,7 @@ onMounted(async () => {
           </tbody>
         </table>
       </div>
-      <!-- <div class="bg-bluemain p-4 m-2 rounded-md text-white flex">
+       <div class="bg-bluemain p-4 m-2 rounded-md text-white flex">
         <div>ข่าวและกิจกรรม</div>
         <p class="ml-auto underline">See All</p>
       </div>
@@ -63,9 +78,9 @@ onMounted(async () => {
           <div>2</div>
           <div>3</div>
         </div>
-      </div> -->
-    </div>
-  </div>
+      </div>
+    </div> 
+  </div>-->
 </template>
 
 <style></style>
