@@ -119,6 +119,11 @@ class ApiService {
   async deleteStudent(studentId) {
     return await api.delete(`/student/delete/${studentId}`)
   }
+  async addStudent(file) {
+    return await api.post(`/student/add-from-csv`, file, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    })
+  }
 
   // Subjects
   async getSubjects() {

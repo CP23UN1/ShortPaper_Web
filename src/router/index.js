@@ -20,6 +20,8 @@ import ShortPaperEdit from '../views/ShortpaperEdit.vue'
 import StudentListCommitee from '../views/Committee/StudentListCommittee.vue'
 import AssignAdvisorToStudent from '../views/Admin/AssignAdvisorToStudent.vue'
 import CreateAnnouncement from '../views/Admin/CreateAnnouncement.vue'
+import AddStudentData from '../views/Admin/AddStudentData.vue'
+import AnnouncementList from '../views/Admin/AnnouncementList.vue'
 
 const routes = [
   // Other
@@ -85,6 +87,16 @@ const routes = [
     path: '/create/announcement',
     name: 'CreateAnnouncement',
     component: CreateAnnouncement
+  },
+  {
+    path: '/add/student',
+    name: 'AddStudentData',
+    component: AddStudentData
+  },
+  {
+    path: '/annoncements',
+    name: 'AnnouncementList',
+    component: AnnouncementList
   }
   // {
   //   path: '/history',

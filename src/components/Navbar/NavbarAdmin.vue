@@ -31,13 +31,19 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
     class="flex flex-nowrap justify-between text-xs font-medium text-center shadow-lg w-full"
   >
     <div class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5">
-      <RouterLink to="/students"> ตรวจสอบข้อมูล(รายบุคคล) </RouterLink>
+      <RouterLink to="/students"> ตรวจสอบข้อมูลนักศึกษา </RouterLink>
+    </div>
+    <div class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5">
+      <RouterLink to="/add/student"> เพิ่มข้อมูลนักศึกษา </RouterLink>
     </div>
     <div class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5">
       <RouterLink to="/assign/advisor">แต่งตั้งคณะกรรมการ</RouterLink>
     </div>
     <div class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5">
       <RouterLink to="/create/announcement">สร้างกำหนดการใหม่</RouterLink>
+    </div>
+    <div class="bg-bluemain hover:bg-white hover:text-bluemain text-white w-[233px] p-5">
+      <RouterLink to="/annoncements"> ตรวจสอบตารางปฏิทิน </RouterLink>
     </div>
     <div class="bg-bluemain hover:bg-red-700 text-white w-[233px] p-5">
       ออกจากระบบ
