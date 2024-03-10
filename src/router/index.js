@@ -19,6 +19,7 @@ import CommitteeEdit from '../views/Committee/CommitteeEdit.vue'
 import ShortPaperEdit from '../views/ShortpaperEdit.vue'
 import StudentListCommitee from '../views/Committee/StudentListCommittee.vue'
 import AssignAdvisorToStudent from '../views/Admin/AssignAdvisorToStudent.vue'
+import CreateAnnouncement from '../views/Admin/CreateAnnouncement.vue'
 
 const routes = [
   // Other
@@ -79,6 +80,11 @@ const routes = [
     path: '/assign/advisor',
     name: 'AssignAdvisor',
     component: AssignAdvisorToStudent
+  },
+  {
+    path: '/create/announcement',
+    name: 'CreateAnnouncement',
+    component: CreateAnnouncement
   }
   // {
   //   path: '/history',
@@ -121,16 +127,16 @@ function getTokenFromCookie(cookieName) {
   return null
 }
 
-router.beforeEach((to, from, next) => {
-  const isLoggedIn = getTokenFromCookie('token')
+// router.beforeEach((to, from, next) => {
+//   const isLoggedIn = getTokenFromCookie('token')
 
-  if (to.path !== '/login' && !isLoggedIn) {
-    next('/login')
-  } else if (to.path === '/login' && isLoggedIn) {
-    next('/')
-  } else {
-    next()
-  }
-})
+//   if (to.path !== '/login' && !isLoggedIn) {
+//     next('/login')
+//   } else if (to.path === '/login' && isLoggedIn) {
+//     next('/')
+//   } else {
+//     next()
+//   }
+// })
 
 export default router
