@@ -22,6 +22,7 @@ import AssignAdvisorToStudent from '../views/Admin/AssignAdvisorToStudent.vue'
 import CreateAnnouncement from '../views/Admin/CreateAnnouncement.vue'
 import AddStudentData from '../views/Admin/AddStudentData.vue'
 import AnnouncementList from '../views/Admin/AnnouncementList.vue'
+import UploadB1File from '../views/Student/UploadB1File.vue'
 
 const routes = [
   // Other
@@ -97,6 +98,11 @@ const routes = [
     path: '/annoncements',
     name: 'AnnouncementList',
     component: AnnouncementList
+  },
+  {
+    path: '/upload/b1',
+    name: 'UploadB1File',
+    component: UploadB1File
   }
   // {
   //   path: '/history',
