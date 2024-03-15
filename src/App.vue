@@ -22,12 +22,13 @@ watch(() => {
 
 <template>
   <div :class="{ 'mx-14': isMaxWidth }">
-    <template v-if="showNavbar2">
-      <NavbarAllRole />
-    </template>
-    <template v-else>
+    <template v-if="showNavbar">
+      <!-- <NavbarAllRole /> -->
       <NavbarAdmin />
     </template>
+    <!-- <template v-else>
+      <NavbarAdmin />
+    </template> -->
     <RouterView />
   </div>
 </template>
