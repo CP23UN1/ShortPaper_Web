@@ -16,6 +16,8 @@ import FileUploading from '../views/File/FileUploading.vue'
 import CommitteeList from '../views/Committee/CommitteeList.vue'
 import CommitteeEdit from '../views/Committee/CommitteeEdit.vue'
 
+import Article from '../views/Article.vue'
+
 import ShortPaperEdit from '../views/ShortpaperEdit.vue'
 import StudentListCommitee from '../views/Committee/StudentListCommittee.vue'
 import AssignAdvisorToStudent from '../views/Admin/AssignAdvisorToStudent.vue'
@@ -103,6 +105,11 @@ const routes = [
     path: '/upload/b1',
     name: 'UploadB1File',
     component: UploadB1File
+  },
+  {
+    path: '/article',
+    name: 'Article',
+    component: Article
   }
   // {
   //   path: '/history',

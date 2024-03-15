@@ -23,12 +23,48 @@ const logout = () => {
         <img src="/images/SIT-LOGO.png" class="h-12 mr-3" />
       </RouterLink>
     </div>
-    <div class="flex items-center space-x-4 text-bluemain">
-      <RouterLink to="/"><span>หน้าหลัก</span></RouterLink>
-      <RouterLink to="/student"><span>ข้อมูลนักศึกษา</span></RouterLink>
-      <RouterLink to="/upload/b1"><span>เอกสารโครงงาน</span></RouterLink>
-      <RouterLink to="/upload"><span>เอกสารโครงงานที่ผ่านมา</span></RouterLink>
-      <button class="text-error underline" @click="logout">ออกจากระบบ</button>
+    <div class="flex items-center space-x-4 text-bluemain font-extrabold">
+      <RouterLink
+        to="/"
+        class="mx-2"
+        :class="{
+          'underline underline-offset-8 decoration-4': $route.name === 'Home',
+        }"
+        ><span>หน้าหลัก</span></RouterLink
+      >
+      <RouterLink
+        to="/students"
+        class="mx-2"
+        :class="{
+          'underline underline-offset-8 decoration-4':
+            $route.name === 'Student List' ||
+            $route.name === 'Student information' ||
+            $route.name === 'Editing student information',
+        }"
+        ><span>ข้อมูลนักศึกษา</span></RouterLink
+      >
+      <RouterLink
+        to="/files"
+        class="mx-2"
+        :class="{
+          'underline underline-offset-8 decoration-4':
+            $route.name === 'ShortPaper File' ||
+            $route.name === 'Uploading ShortPaper',
+        }"
+        ><span>เอกสารโครงงาน</span></RouterLink
+      >
+      <RouterLink
+        to="/article"
+        class="mx-2"
+        :class="{
+          'underline underline-offset-8 decoration-4':
+            $route.name === 'Article',
+        }"
+        ><span>เอกสารโครงงานที่ผ่านมา</span></RouterLink
+      >
+      <button class="text-error underline mx-2 hover:bg-error hover:text-white hover:no-underline rounded-lg" @click="logout">
+        ออกจากระบบ
+      </button>
     </div>
   </nav>
 </template>

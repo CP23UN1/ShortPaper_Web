@@ -114,7 +114,7 @@ onMounted(() => {
             <div class="flex justify-center items-center">
               <ButtonMain
                 type-button="submit"
-                class-name="w-52 bg-greenbtn text-white hover:bg-white hover:text-greenbtn outline outline-2 outline-greenbtn"
+                class-name="w-52 bg-correct text-white hover:bg-white hover:text-correct outline outline-2 outline-correct"
                 text="เข้าสู่ระบบ"
                 @click="login"
               />
