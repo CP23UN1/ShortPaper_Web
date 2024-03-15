@@ -3,6 +3,7 @@ import { ref, watch } from 'vue'
 import { RouterView, useRoute } from 'vue-router'
 import NavbarAllRole from './components/Navbar/NavbarAllRole.vue'
 import NavbarAdmin from './components/Navbar/NavbarAdmin.vue'
+import NavbarStudent from './components/Navbar/NavbarStudent.vue'
 
 const route = useRoute()
 const showNavbar = ref(true)
@@ -24,7 +25,8 @@ watch(() => {
   <div :class="{ 'mx-14': isMaxWidth }">
     <template v-if="showNavbar">
       <!-- <NavbarAllRole /> -->
-      <NavbarAdmin />
+      <!-- <NavbarAdmin /> -->
+      <NavbarStudent />
     </template>
     <!-- <template v-else>
       <NavbarAdmin />

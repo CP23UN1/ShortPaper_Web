@@ -11,10 +11,12 @@ module.exports = {
         bluemain: '#336799',
         bluebtn: '#3873C1',
         blueheader: '#729AC8',
-        greenbtn: '#0A7373'
+        correct: '#0A7373',
+        error: '#C43302',
+        choice: '#D97904',
       },
       fontFamily: {
-        'sarabun': ['Sarabun', 'sans-serif']
+        sarabun: ['Sarabun', 'sans-serif'],
       },
       backgroundImage: {
         kmutt: "url('src/assets/kmutt.png')",
@@ -22,6 +24,5 @@ module.exports = {
     },
   },
   plugins: [require('flowbite/plugin')],
-  
 }
 //bluemain

@@ -116,6 +116,7 @@ onMounted(() => {
                 type-button="submit"
                 class-name="w-52 bg-greenbtn text-white hover:bg-white hover:text-greenbtn outline outline-2 outline-greenbtn"
                 text="เข้าสู่ระบบ"
+                @click="login"
               />
             </div>
             <p

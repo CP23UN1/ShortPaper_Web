@@ -145,16 +145,16 @@ function getTokenFromCookie(cookieName) {
   return null
 }
 
-// router.beforeEach((to, from, next) => {
-//   const isLoggedIn = getTokenFromCookie('token')
+router.beforeEach((to, from, next) => {
+  const isLoggedIn = getTokenFromCookie('token')
 
-//   if (to.path !== '/login' && !isLoggedIn) {
-//     next('/login')
-//   } else if (to.path === '/login' && isLoggedIn) {
-//     next('/')
-//   } else {
-//     next()
-//   }
-// })
+  if (to.path !== '/login' && !isLoggedIn) {
+    next('/login')
+  } else if (to.path === '/login' && isLoggedIn) {
+    next('/')
+  } else {
+    next()
+  }
+})
 
 export default router
