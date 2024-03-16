@@ -17,7 +17,7 @@ const logout = () => {
 }
 </script>
 <template>
-  <nav class="flex justify-between items-center p-2 bg-white top-[20px] rounded-lg relative">
+  <nav class="flex justify-between items-center p-2 bg-white  rounded-lg  shadow-lg">
     <div>
       <RouterLink to="/">
         <img src="/images/SIT-LOGO.png" class="h-12 mr-3" />

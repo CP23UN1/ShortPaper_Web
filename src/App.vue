@@ -25,7 +25,7 @@ watch(() => {
     <template v-if="showNavbar">
       <!-- <NavbarAllRole /> -->
       <!-- <NavbarAdmin /> -->
-      <NavbarStudent />
+      <NavbarStudent class="mt-[20px]" />
     </template>
     <RouterView />
   </div>

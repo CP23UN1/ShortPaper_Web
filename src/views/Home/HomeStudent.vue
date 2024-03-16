@@ -28,7 +28,7 @@ onMounted(async () => {
         class="bg-cover bg-center bg-no-repeat"
         style="background-image: url('/images/kmutt.png'); height: 200px"
       >
-        <NavbarStudent class="mx-14" />
+        <NavbarStudent class="mx-14 relative top-[20px]" />
       </div>
     </div>
   </div>
