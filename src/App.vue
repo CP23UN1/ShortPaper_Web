@@ -7,11 +7,10 @@ import NavbarStudent from './components/Navbar/NavbarStudent.vue'
 
 const route = useRoute()
 const showNavbar = ref(true)
-const showNavbar2 = ref(false)
 const isMaxWidth = ref(true)
 
 watch(() => {
-  if (route.name == 'Login') {
+  if (route.name == 'Login' || route.name == 'Home Student') {
     showNavbar.value = false
     isMaxWidth.value = false
   } else {
@@ -28,9 +27,6 @@ watch(() => {
       <!-- <NavbarAdmin /> -->
       <NavbarStudent />
     </template>
-    <!-- <template v-else>
-      <NavbarAdmin />
-    </template> -->
     <RouterView />
   </div>
 </template>

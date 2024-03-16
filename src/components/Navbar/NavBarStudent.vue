@@ -17,7 +17,7 @@ const logout = () => {
 }
 </script>
 <template>
-  <nav class="flex justify-between items-center p-2 bg-white">
+  <nav class="flex justify-between items-center p-2 bg-white top-[20px] rounded-lg relative">
     <div>
       <RouterLink to="/">
         <img src="/images/SIT-LOGO.png" class="h-12 mr-3" />
@@ -28,7 +28,7 @@ const logout = () => {
         to="/"
         class="mx-2"
         :class="{
-          'underline underline-offset-8 decoration-4': $route.name === 'Home',
+          'underline underline-offset-8 decoration-4': $route.name === 'Home Student',
         }"
         ><span>หน้าหลัก</span></RouterLink
       >

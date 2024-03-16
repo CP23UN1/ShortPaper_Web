@@ -1,7 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
 
-import Home from '../views/Home.vue'
+import HomeStudent from '../views/Home/HomeStudent.vue'
 import Login from '../views/Login.vue'
 
 import StudentList from '../views/Student/StudentList.vue'
@@ -30,8 +30,8 @@ const routes = [
   // Other
   {
     path: '/',
-    name: 'Home',
-    component: Home,
+    name: 'Home Student',
+    component: HomeStudent,
   },
   {
     path: '/login',

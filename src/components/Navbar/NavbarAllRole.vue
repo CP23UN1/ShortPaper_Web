@@ -51,9 +51,9 @@ const logout = () => {
       to="/"
       class="w-[233px] p-5"
       :class="{
-        'bg-white text-bluemain': $route.name === 'Home',
+        'bg-white text-bluemain': $route.name === 'Home Student',
         'bg-bluemain hover:bg-white hover:text-bluemain text-white':
-          $route.name !== 'Home',
+          $route.name !== 'Home Student',
       }"
       ><p>หน้าแรก</p></RouterLink
     >
