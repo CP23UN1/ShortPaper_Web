@@ -69,28 +69,81 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <div class="mt-5 font-semibold">
-    <div class="text-bluemain text-left text-sm">
-      <p>
-        <RouterLink :to="'/students'">
-          <span class="hover:text-blueheader">ข้อมูลนักศึกษาทั้งหมด</span>
-        </RouterLink>
-        >
-        <RouterLink :to="`/student?id=${route.query.id}`">
-          <span class="hover:text-blueheader">ข้อมูลนักศึกษา</span>
-        </RouterLink>
-      </p>
-    </div>
+  <div>
 
-    <Header class="text-sm rounded-md" header="ข้อมูลนักศึกษา" />
+    <div
+      class="justify-center item-center bg-bluemain p-10 rounded-lg shadow-lg mt-10"
+    >
+      <h1 class="text-white font-black text-xl">ข้อมูลส่วนตัว</h1>
+  
+      <div class="grid grid-cols-2 gap-16 mt-4">
+        <div class="bg-white p-5 rounded-lg">
+          <h1 class="text-lg font-black">ข้อมูลทั่วไป</h1>
+          <div class="mt-3">
+            <p>
+              <span class="font-extrabold">รหัสนักศึกษา:</span>
+              {{ student.studentId }}
+            </p>
+            <p>
+              <span class="font-extrabold">ชื่อ:</span> {{ student.firstname }}
+            </p>
+            <p>
+              <span class="font-extrabold">นามสกุล:</span> {{ student.lastname }}
+            </p>
+            <p><span class="font-extrabold">อีเมล:</span> {{ student.email }}</p>
+            <p>
+              <span class="font-extrabold">อีเมลสำรอง:</span>
+              {{
+                student.alternativeEmail !== null ? student.alternativeEmail : '-'
+              }}
+            </p>
+            <p>
+              <span class="font-extrabold">เบอร์โทรศัพท์:</span>
+              {{ student.phonenumber == null ? '-' : student.phonenumber }}
+            </p>
+          </div>
+        </div>
+        <div class="bg-white p-5 rounded-lg">
+          <h1 class="text-lg font-black">ข้อมูลโครงงาน</h1>
+          <div class="mt-3">
+            <p>
+              <span class="font-extrabold">ชื่อหัวข้อโครงงาน</span>
+              {{ student.shortpaper.shortpaperTopic }}
+            </p>
+            <p>
+              <span class="font-extrabold"
+                >วิชาจัดทำ IS Report / Thesis / Project</span
+              >
+              {{ student.subjects.subjectId }} {{ student.subjects.subjectName }}
+            </p>
+            <p>
+              <span class="font-extrabold"
+                >วิชาเลือก Workshop / Thesis / Project</span
+              >
+              {{ student.subjects.subjectId }} {{ student.subjects.subjectName }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="mt-4 text-end">
       <RouterLink :to="`/student/edit?id=${route.query.id}`">
+        <ButtonMain text="แก้ไขรายละเอียด" class="bg-bluemain" />
+      </RouterLink>
+    </div> 
+  </div>
+
+  <!-- <div class="mt-5 font-semibold">
+     <Header class="text-sm rounded-md" header="ข้อมูลนักศึกษา" /> 
+
+     <div class="mt-4 text-end">
+      <RouterLink :to="`/student/edit?id=${route.query.id}`">
         <ButtonMain text="แก้ไขรายละเอียด" />
       </RouterLink>
-    </div>
+    </div> 
 
-    <div class="mt-3 justify-center item-center mb-12 grid grid-cols-2 text-sm">
+   <div class="mt-3 justify-center item-center mb-12 grid grid-cols-2 text-sm">
       <div class="shadow-md">
         <h1 class="my-2 ml-2">ข้อมูลนักศึกษา</h1>
         <hr />
@@ -230,7 +283,7 @@ onBeforeMount(async () => {
         </table>
       </div>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <style></style>

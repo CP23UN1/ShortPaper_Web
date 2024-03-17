@@ -33,7 +33,7 @@ const logout = () => {
         ><span>หน้าหลัก</span></RouterLink
       >
       <RouterLink
-        to="/students"
+        to="/student?id=63130500135"
         class="mx-2"
         :class="{
           'underline underline-offset-8 decoration-4':
