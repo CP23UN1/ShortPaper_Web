@@ -63,13 +63,13 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="bg-[#F2F2F2] h-screen w-screen">
+  <div class="bg-white h-screen w-screen">
     <div class="flex justify-center items-center h-screen">
       <div
         class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center justify-center mx-4 md:mx-0 shadow-lg md:my-20 rounded-lg"
       >
         <div
-          class="bg-cover bg-center bg-no-repeat"
+          class="bg-cover bg-center bg-no-repeat rounded-l-md"
           style="
             background-image: url('/images/kmutt.png');
             width: 400px;
@@ -80,7 +80,7 @@ onMounted(() => {
           <div class="m-10 items-center">
             <div class="mb-4">
               <img src="/public/images/SIT-LOGO.png" width="250" class="" />
-              <h1 class="mt-1 font-black">
+              <h1 class="mt-2 font-black">
                 Short Paper for SIT Master's Degree Student
               </h1>
             </div>
@@ -92,7 +92,7 @@ onMounted(() => {
                 type="email"
                 id="email"
                 v-model="email"
-                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 border-gray-400 leading-tight focus:outline-none focus:shadow-outline text-sm"
                 placeholder="อีเมล"
                 required
               />
@@ -105,7 +105,7 @@ onMounted(() => {
                 type="password"
                 id="password"
                 v-model="password"
-                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 border-gray-400 leading-tight focus:outline-none focus:shadow-outline text-sm"
                 placeholder="รหัสผ่าน"
                 required
               />
