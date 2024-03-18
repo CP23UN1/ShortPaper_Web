@@ -88,6 +88,9 @@ class ApiService {
       `/file/search-by-id-and-student/${typeId}/${studentId}`
     )
   }
+  async getFilesByCommittee(committeeId) {
+    return await api.get(`/file/search-by-committee-id/${committeeId}`)
+  }
 
   // Short Paper
   async getShortPapers() {
