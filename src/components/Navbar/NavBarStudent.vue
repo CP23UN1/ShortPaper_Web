@@ -17,13 +17,13 @@ const logout = () => {
 }
 </script>
 <template>
-  <nav class="flex justify-between items-center p-2 bg-white  rounded-lg  shadow-lg">
+  <nav class="flex justify-between items-center p-2 bg-white rounded-lg  shadow-lg">
     <div>
       <RouterLink to="/">
-        <img src="/images/SIT-LOGO.png" class="h-12 mr-3" />
+        <img src="/images/SIT-LOGO.png" class="h-8 mr-3" />
       </RouterLink>
     </div>
-    <div class="flex items-center space-x-4 text-bluemain font-extrabold">
+    <div class="flex items-center space-x-16 text-bluemain font-extrabold text-sm">
       <RouterLink
         to="/"
         class="mx-2"
