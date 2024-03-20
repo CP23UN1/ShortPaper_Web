@@ -8,22 +8,25 @@ import ApiService from '../../composables/apiService'
 import Header from '../../components/Header.vue'
 import ButtonMain from '../../components/ButtonMain.vue'
 
-const student = ref({})
 const route = useRoute()
 const router = useRouter()
 const store = useAuthStore()
 
 const studentId = ref(store.userId)
+const student = ref({})
+const subjects = ref()
 
-const getStudent = async () => {
-  //const res = await ApiService.getStudentById(studentId.value)
-  console.log('route.params.id', route.params.id);
-  
-  const res = await ApiService.getStudentById(route.params.id)
+const getStudentAndSubjects = async () => {
+  const studentRes = await ApiService.getStudentById(studentId.value)
+  if (studentRes.status === 200) {
+    const studentData = await studentRes.data
+    student.value = studentData.data
+  }
 
-  if (res.status === 200) {
-    const data = await res.data
-    student.value = data.data
+  const subjectsRes = await ApiService.getSubjects()
+  if (subjectsRes.status === 200) {
+    const subjectsData = await subjectsRes.data
+    subjects.value = subjectsData.data
   }
 }
 
@@ -68,7 +71,7 @@ const hasFileWithId = (filesArray, fileId) => {
 }
 
 onBeforeMount(async () => {
-  await getStudent()
+  await getStudentAndSubjects()
 })
 </script>
 
@@ -83,215 +86,149 @@ onBeforeMount(async () => {
         <div class="bg-white p-5 rounded-lg">
           <h1 class="text-lg font-black">ข้อมูลทั่วไป</h1>
           <div class="mt-3">
-            <p>
-              <span class="font-extrabold">รหัสนักศึกษา:</span>
-              {{ student.studentId }}
-            </p>
-            <p>
-              <span class="font-extrabold">ชื่อ:</span> {{ student.firstname }}
-            </p>
-            <p>
-              <span class="font-extrabold">นามสกุล:</span>
-              {{ student.lastname }}
-            </p>
-            <p>
-              <span class="font-extrabold">อีเมล:</span> {{ student.email }}
-            </p>
-            <p>
-              <span class="font-extrabold">อีเมลสำรอง:</span>
-              {{
-                student.alternativeEmail !== null
-                  ? student.alternativeEmail
-                  : '-'
-              }}
-            </p>
-            <p>
-              <span class="font-extrabold">เบอร์โทรศัพท์:</span>
-              {{ student.phonenumber == null ? '-' : student.phonenumber }}
-            </p>
+            <div class="mb-1">
+              <label for="studentId" class="block font-extrabold"
+                >รหัสนักศึกษา:</label
+              >
+              <input
+                type="text"
+                id="studentId"
+                class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                :value="student.studentId"
+                disabled
+              />
+            </div>
+            <div class="mb-1">
+              <label for="firstname" class="block font-extrabold"
+                >ชื่อ: <span class="text-error">*</span></label
+              >
+              <input
+                type="text"
+                id="firstname"
+                class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                :value="student.firstname"
+                disabled
+              />
+            </div>
+            <div class="mb-1">
+              <label for="lastname" class="block font-extrabold"
+                >นามสกุล: <span class="text-error">*</span></label
+              >
+              <input
+                type="text"
+                id="lastname"
+                class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                :value="student.lastname"
+                disabled
+              />
+            </div>
+            <div class="mb-1">
+              <label for="email" class="block font-extrabold">อีเมล:</label>
+              <input
+                type="text"
+                id="email"
+                class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                :value="student.email"
+                disabled
+              />
+            </div>
+            <div class="mb-1">
+              <label for="alternativeEmail" class="block font-extrabold"
+                >อีเมลสำรอง:</label
+              >
+              <input
+                type="text"
+                id="alternativeEmail"
+                class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                :value="student.alternativeEmail"
+                disabled
+              />
+            </div>
+            <div class="mb-1">
+              <label for="phonenumber" class="block font-extrabold"
+                >เบอร์โทรศัพท์: <span class="text-error">*</span></label
+              >
+              <input
+                type="text"
+                id="phonenumber"
+                class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                :value="student.phonenumber"
+                disabled
+              />
+            </div>
           </div>
         </div>
         <div class="bg-white p-5 rounded-lg">
           <h1 class="text-lg font-black">ข้อมูลโครงงาน</h1>
           <div class="mt-3">
-            <p>
-              <span class="font-extrabold">ชื่อหัวข้อโครงงาน</span>
-              <!-- {{ student.shortpaper.shortpaperTopic }} -->
-            </p>
-            <p>
-              <span class="font-extrabold"
-                >วิชาจัดทำ IS Report / Thesis / Project</span
+            <div>
+              <div class="mb-1">
+                <label for="isTopic" class="block font-extrabold"
+                  >ชื่อหัวข้อโครงงาน</label
+                >
+                <input
+                  type="text"
+                  id="isTopic"
+                  class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  :value="student.shortpaper.shortpaperTopic"
+                  disabled
+                />
+              </div>
+            </div>
+            <div class="mb-1">
+              <label class="font-extrabold block" for="isSubject"
+                >วิชาจัดทำ IS Report / Thesis / Project</label
               >
-              <!-- {{ student.subjects.subjectId }} {{ student.subjects.subjectName }} -->
-            </p>
-            <p>
-              <span class="font-extrabold"
-                >วิชาเลือก Workshop / Thesis / Project</span
+              <select
+                id="isSubject"
+                class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                disabled
               >
-              <!-- {{ student.subjects.subjectId }} {{ student.subjects.subjectName }} -->
-            </p>
+                <option>ยังไม่ได้เลือกวิชา</option>
+                <option
+                  v-for="subject in subjects"
+                  :key="subject.subjectId"
+                  :value="subject.subjectId"
+                  :selected="subject.subjectId === student.subjects.subjectId"
+                >
+                  {{ subject.subjectId }} {{ subject.subjectName }}
+                </option>
+              </select>
+            </div>
+            <div class="mb-1">
+              <label class="font-extrabold block mb-2" for="workshopSubject"
+                >วิชาเลือก Workshop / Thesis / Project</label
+              >
+              <select
+                id="isSubject"
+                class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                disabled
+              >
+                <option>ยังไม่ได้เลือกวิชา</option>
+                <option
+                  v-for="subject in subjects"
+                  :key="subject.subjectId"
+                  :value="subject.subjectId"
+                  :selected="subject.subjectId === student.subjects.subjectId"
+                >
+                  {{ subject.subjectId }} {{ subject.subjectName }}
+                </option>
+              </select>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="mt-4 text-end">
+    <div class="text-sm font-medium mt-[24px] flex gap-5 justify-end">
       <RouterLink :to="`/student/edit/${studentId}`">
-        <ButtonMain text="แก้ไขรายละเอียด" class="bg-bluemain" />
+        <ButtonMain
+          text="แก้ไขรายละเอียด"
+          class="bg-bluemain border hover:bg-white hover:border-bluemain hover:text-bluemain"
+        />
       </RouterLink>
     </div>
   </div>
-
-  <!-- <div class="mt-5 font-semibold">
-     <Header class="text-sm rounded-md" header="ข้อมูลนักศึกษา" /> 
-
-     <div class="mt-4 text-end">
-      <RouterLink :to="`/student/edit?id=${route.query.id}`">
-        <ButtonMain text="แก้ไขรายละเอียด" />
-      </RouterLink>
-    </div> 
-
-   <div class="mt-3 justify-center item-center mb-12 grid grid-cols-2 text-sm">
-      <div class="shadow-md">
-        <h1 class="my-2 ml-2">ข้อมูลนักศึกษา</h1>
-        <hr />
-        <table class="table-auto my-2 ml-2">
-          <tbody>
-            <tr>
-              <td>รหัสนักศึกษา</td>
-              <td>{{ student.studentId }}</td>
-            </tr>
-            <tr>
-              <td>ชื่อ - นามสกุล</td>
-              <td>{{ student.firstname }} {{ student.lastname }}</td>
-            </tr>
-            <tr>
-              <td>เบอร์โทรศัพท์</td>
-              <td>
-                {{ student.phonenumber == null ? '-' : student.phonenumber }}
-              </td>
-            </tr>
-            <tr>
-              <td>อีเมล</td>
-              <td>{{ student.email }}</td>
-            </tr>
-            <tr>
-              <td>อีเมลสำรอง</td>
-              <td>
-                {{
-                  student.alternativeEmail !== ""
-                    ? student.alternativeEmail
-                    : '-'
-                }}
-              </td>
-            </tr>
-            <tr>
-              <td class="pr-16">ชื่อหัวข้อโครงงาน</td>
-              <td>
-                {{
-                  student.shortpaper == null
-                    ? '-'
-                    : student.shortpaper.shortpaperTopic
-                }}
-              </td>
-            </tr>
-
-            <tr>
-              <td class="pr-16">รายวิชาจัดทำ IS Report</td>
-              <td>
-                <div v-if="student.subjects">
-                  {{ student.subjects.subjectId }}
-                  {{ student.subjects.subjectName }}
-                </div>
-                <div v-else>-</div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="shadow-md">
-        <h1 class="my-2 ml-2">ข้อมูลการ Upload File</h1>
-        <hr />
-        <table class="table-auto my-2 ml-2">
-          <tbody>
-            <tr>
-              <td>อัปโหลดเอกสาร ใบ บ.1</td>
-
-              <div
-                v-if="hasFileWithId(student.shortpaperFiles, 1)"
-                v-html="correctIconSvg"
-              ></div>
-              <div v-else v-html="wrongIconSvg"></div>
-            </tr>
-
-            <tr>
-              <td>อัปโหลดเอกสารโครงงานครั้งที่ 1</td>
-
-              <div
-                v-if="hasFileWithId(student.shortpaperFiles, 2)"
-                v-html="correctIconSvg"
-              ></div>
-              <div v-else v-html="wrongIconSvg"></div>
-            </tr>
-
-            <tr>
-              <td>อัปโหลดเอกสารโครงงานครั้งที่ 2</td>
-
-              <div
-                v-if="hasFileWithId(student.shortpaperFiles, 3)"
-                v-html="correctIconSvg"
-              ></div>
-              <div v-else v-html="wrongIconSvg"></div>
-            </tr>
-
-            <tr>
-              <td class="pr-16">
-                อัปโหลดเอกสารโครงงานในรูปแบบของบทความ
-                (ฉบับเกี่ยวข้องกับห้องสมุด)
-              </td>
-
-              <div
-                v-if="hasFileWithId(student.shortpaperFiles, 4)"
-                v-html="correctIconSvg"
-              ></div>
-              <div v-else v-html="wrongIconSvg"></div>
-            </tr>
-
-            <tr>
-              <td>อัปโหลดเอกสารโครงงานฉบับสมบูรณ์</td>
-              <div
-                v-if="hasFileWithId(student.shortpaperFiles, 5)"
-                v-html="correctIconSvg"
-              ></div>
-              <div v-else v-html="wrongIconSvg"></div>
-            </tr>
-
-            <tr>
-              <td>อัปโหลดใบโอนลิขสิทธิ์</td>
-
-              <div
-                v-if="hasFileWithId(student.shortpaperFiles, 6)"
-                v-html="correctIconSvg"
-              ></div>
-              <div v-else v-html="wrongIconSvg"></div>
-            </tr>
-
-            <tr>
-              <td>
-                อัปโหลดเอกสารข้อตกลงเพื่อการหลีกเลี่ยงการโจรกรรมทางวรรณกรรม
-              </td>
-
-              <div
-                v-if="hasFileWithId(student.shortpaperFiles, 7)"
-                v-html="correctIconSvg"
-              ></div>
-              <div v-else v-html="wrongIconSvg"></div>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div> -->
 </template>
 
 <style></style>
