@@ -1,13 +1,16 @@
 <script setup>
 import { onMounted, ref } from 'vue'
+import { RouterLink } from 'vue-router'
+import { useAuthStore } from '../../stores/auth'
 
 import ApiService from '../../composables/apiService'
 
 import Header from '../../components/Header.vue'
 import NavbarStudent from '../../components/Navbar/NavbarStudent.vue'
-import { RouterLink } from 'vue-router'
 
 const announcements = ref([])
+const store = useAuthStore()
+const studentId = ref(store.userId)
 
 const getAnnouncements = async () => {
   const res = await ApiService.getAnnouncements()
@@ -40,7 +43,7 @@ onMounted(async () => {
         รายการ
       </h1>
       <div class="grid grid-cols-3 mt-7 gap-5 justify-items-center">
-        <RouterLink :to="`/student?id=63130500135`">
+        <RouterLink :to="`/student/${studentId}`">
           <div
             class="shadow-lg p-12 rounded-lg hover:bg-bluemain hover:text-white hover:fill-white"
           >

@@ -1,13 +1,20 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { onBeforeMount, onMounted, ref, watch } from 'vue'
 import { RouterView, useRoute } from 'vue-router'
+import { useAuthStore } from './stores/auth'
+
 import NavbarAllRole from './components/Navbar/NavbarAllRole.vue'
 import NavbarAdmin from './components/Navbar/NavbarAdmin.vue'
 import NavbarStudent from './components/Navbar/NavbarStudent.vue'
 
 const route = useRoute()
+const store = useAuthStore()
 const showNavbar = ref(true)
 const isMaxWidth = ref(true)
+
+onBeforeMount(async() => {
+  await store.initializeAuthState()
+})
 
 watch(() => {
   if (route.name == 'Login' || route.name == 'Home Student') {

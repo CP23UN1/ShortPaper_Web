@@ -9,6 +9,7 @@ import ApiService from '../../composables/apiService'
 import Header from '../../components/Header.vue'
 import ConfirmButton from '../../components/ConfirmButton.vue'
 import ConfirmModal from '../../components/ConfirmModal.vue'
+import ButtonMain from '../../components/ButtonMain.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -92,6 +93,171 @@ onBeforeMount(async () => {
 
 <template>
   <div>
+    <div
+      class="justify-center item-center bg-bluemain p-10 rounded-lg shadow-lg mt-10"
+    >
+      <h1 class="text-white font-black text-xl">ข้อมูลส่วนตัว</h1>
+
+      <div class="grid grid-cols-2 gap-16 mt-4">
+        <div class="bg-white p-5 rounded-lg">
+          <h1 class="text-lg font-black">ข้อมูลทั่วไป</h1>
+          <div class="mt-3">
+            <div class="my-2">
+              <label for="studentId" class="mr-[16px] font-extrabold"
+                >รหัสนักศึกษา:</label
+              >
+              <input
+                type="text"
+                id="studentId"
+                v-model="student.studentId"
+                disabled
+                class="border border-gray-400 rounded-lg w-[300px] disabled:bg-gray-200 disabled:text-gray-500 text-sm"
+              />
+            </div>
+
+            <div class="my-2">
+              <label for="firstName" class="mr-[16px] font-extrabold"
+                >ชื่อ<span class="text-red-600">*</span>:</label
+              >
+              <input
+                type="text"
+                id="firstName"
+                v-model="student.firstname"
+                class="border border-gray-400 rounded-lg w-[300px] disabled:bg-gray-200 disabled:text-gray-500 text-sm"
+              />
+              <p
+                v-if="student.firstname == ''"
+                class="text-red-600 text-sm mt-1"
+              >
+                กรุณาใส่ชื่อ
+              </p>
+            </div>
+
+            <div class="my-2">
+              <label for="lastname" class="mr-[16px] font-extrabold"
+                >นามสกุล<span class="text-red-600">*</span>:</label
+              >
+              <input
+                type="text"
+                id="lastname"
+                v-model="student.lastname"
+                class="border border-gray-400 rounded-lg w-[300px] disabled:bg-gray-200 disabled:text-gray-500 text-sm"
+              />
+              <p
+                v-if="student.lastname == ''"
+                class="text-red-600 text-sm mt-1"
+              >
+                กรุณาใส่นามสกุล
+              </p>
+            </div>
+
+            <div class="my-2">
+              <label for="email" class="mr-[16px] font-extrabold">อีเมล:</label>
+              <input
+                type="text"
+                id="email"
+                v-model="student.email"
+                disabled
+                class="border border-gray-400 rounded-lg w-[300px] disabled:bg-gray-200 disabled:text-gray-500 text-sm"
+              />
+            </div>
+
+            <div class="my-2">
+              <label for="alternativeEmail" class="mr-[16px] font-extrabold"
+                >อีเมลสำรอง:</label
+              >
+              <input
+                type="text"
+                id="alternativeEmail"
+                v-model="student.alternativeEmail"
+                class="border border-gray-400 rounded-lg w-[300px] disabled:bg-gray-200 disabled:text-gray-500 text-sm"
+              />
+            </div>
+
+            <div class="my-2">
+              <label for="phonenumber" class="mr-[16px] font-extrabold"
+                >เบอร์โทรศัพท์<span class="text-red-600">*</span>:</label
+              >
+              <input
+                type="text"
+                id="phonenumber"
+                v-model="student.phonenumber"
+                class="border border-gray-400 rounded-lg w-[300px] disabled:bg-gray-200 disabled:text-gray-500 text-sm"
+              />
+              <p
+                v-if="student.phonenumber == ''"
+                class="text-red-600 text-sm mt-1"
+              >
+                กรุณาใส่เบอร์โทรศัพท์
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-lg">
+          <h1 class="text-lg font-black">ข้อมูลโครงงาน</h1>
+          <div class="mt-3">
+            <div class="my-2">
+              <label for="shortpaperTopic" class="mr-[16px] font-extrabold"
+                >หัวข้อโครงงาน<span class="text-red-600">*</span>:</label
+              >
+              <input
+                type="text"
+                id="shortpaperTopic"
+                v-model="student.shortpaper.shortpaperTopic"
+                class="border border-gray-400 rounded-lg w-[300px] disabled:bg-gray-200 disabled:text-gray-500 text-sm"
+              />
+              <p
+                v-if="student.shortpaper.shortpaperTopic == ''"
+                class="text-red-600 text-sm mt-1"
+              >
+                กรุณาใส่หัวข้อโครงงาน
+              </p>
+            </div>
+
+            <p>
+              <span class="font-extrabold"
+                >วิชาจัดทำ IS Report / Thesis / Project</span
+              >
+              {{ student.subjects.subjectId }}
+              {{ student.subjects.subjectName }}
+            </p>
+            <p>
+              <span class="font-extrabold"
+                >วิชาเลือก Workshop / Thesis / Project</span
+              >
+              {{ student.subjects.subjectId }}
+              {{ student.subjects.subjectName }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-sm font-medium mt-[24px] flex gap-5 justify-end">
+      <ButtonMain
+        class="bg-error border hover:bg-white hover:border-error hover:text-error"
+        text="ยกเลิกการบันทึก"
+      />
+      <ButtonMain
+        class="bg-correct border hover:bg-white hover:border-correct hover:text-correct"
+        text="บันทึกการแก้ไข"
+        @click="toggleModal"
+      />
+      <!-- <ConfirmButton @click="toggleModal" /> -->
+    </div>
+
+    <ConfirmModal
+      id="save-modal"
+      @save="updateStudent(student.studentId, student)"
+      @toggle="toggleModal"
+      message="ต้องการแก้ไขหรือไม่"
+      buttonColor="bg-amber-500 hover:bg-amber-600"
+      iconColor="text-amber-500"
+    />
+  </div>
+
+  <!-- <div>
     <div class="mt-5 font-semibold">
       <div class="text-bluemain text-left text-sm">
         <p>
@@ -274,7 +440,7 @@ onBeforeMount(async () => {
       buttonColor="bg-amber-500 hover:bg-amber-600"
       iconColor="text-amber-500"
     />
-  </div>
+  </div> -->
 </template>
 
 <style></style>
