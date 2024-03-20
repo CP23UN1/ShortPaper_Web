@@ -29,7 +29,9 @@ const logout = () => {
         <img src="/images/SIT-LOGO.png" class="h-8 mr-3" />
       </RouterLink>
     </div>
-    <div class="flex items-center space-x-16 text-bluemain font-extrabold text-sm">
+    <div
+      class="flex items-center space-x-7 text-bluemain font-extrabold text-sm"
+    >
       <RouterLink
         to="/"
         class="mx-2"
