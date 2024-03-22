@@ -197,37 +197,22 @@ onBeforeMount(async () => {
         <div class="bg-white p-5 rounded-lg">
           <h1 class="text-lg font-black">ข้อมูลโครงงาน</h1>
           <div class="mt-3">
-            <div>
-              <div class="mb-1">
-                <label for="isTopic" class="block font-extrabold"
-                  >ชื่อหัวข้อโครงงาน</label
-                >
-                <input
-                  type="text"
-                  id="isTopic"
-                  class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                  :value="student.shortpaper.shortpaperTopic"
-                />
-              </div>
-            </div>
-            <div class="mb-1">
-              <label class="font-extrabold block" for="isSubject"
-                >วิชาจัดทำ IS Report / Thesis / Project</label
+            <div class="my-2">
+              <label for="shortpaperTopic" class="mr-[16px] font-extrabold"
+                >หัวข้อโครงงาน<span class="text-red-600">*</span>:</label
               >
-              <select
-                id="isSubject"
-                class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+              <input
+                type="text"
+                id="shortpaperTopic"
+                v-model="student.shortpaper.shortpaperTopic"
+                class="border border-gray-400 rounded-lg w-[300px] disabled:bg-gray-200 disabled:text-gray-500 text-sm"
+              />
+              <p
+                v-if="student.shortpaper.shortpaperTopic == ''"
+                class="text-red-600 text-sm mt-1"
               >
-                <option disabled>ยังไม่ได้เลือกวิชา</option>
-                <option
-                  v-for="subject in subjects"
-                  :key="subject.subjectId"
-                  :value="subject.subjectId"
-                  :selected="subject.subjectId === student.subjects.subjectId"
-                >
-                  {{ subject.subjectId }} {{ subject.subjectName }}
-                </option>
-              </select>
+                กรุณาใส่หัวข้อโครงงาน
+              </p>
             </div>
 
             <p>
