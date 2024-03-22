@@ -1,3 +1,4 @@
+
 <script setup>
 import Header from '../components/Header.vue';
 </script>
@@ -11,7 +12,6 @@ import Header from '../components/Header.vue';
             <input type="search" class="w-40 h-8 rounded-[4px] border-gray-200" />
             <div>ปีการศึกษา</div>
             <input type="search" class="w-40 h-8 rounded-[4px] border-gray-200" />
-
             <button class="bg-[#0339A6] text-white w-40 h-8 rounded-md hover:bg-[#034AA6] hover:text-white shadow-sm">ค้นหา</button>
         </div>
     <div class="relative overflow-x-auto shadow-md rounded-lg mt-[12px]">
@@ -21,6 +21,7 @@ import Header from '../components/Header.vue';
             </thead>
             </table>
     </div>
+            <button class="bg-bluemain text-white w-40 h-8 rounded-md hover:bg-[#034AA6] hover:text-white shadow-sm">ค้นหา</button>
     <div class="relative overflow-x-auto shadow-md rounded-lg mt-[12px]">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500">
             <thead class="text-sm text-white uppercase bg-bluemain">
