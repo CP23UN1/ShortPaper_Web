@@ -1,5 +1,5 @@
 <script setup>
-import Header from '../components/Header.vue'
+import Header from '../components/Header.vue';
 </script>
 
 <template>
@@ -11,11 +11,19 @@ import Header from '../components/Header.vue'
             <input type="search" class="w-40 h-8 rounded-[4px] border-gray-200" />
             <div>ปีการศึกษา</div>
             <input type="search" class="w-40 h-8 rounded-[4px] border-gray-200" />
+
             <button class="bg-[#0339A6] text-white w-40 h-8 rounded-md hover:bg-[#034AA6] hover:text-white shadow-sm">ค้นหา</button>
         </div>
     <div class="relative overflow-x-auto shadow-md rounded-lg mt-[12px]">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500">
             <thead class="text-sm text-white uppercase bg-[#0339A6]">
+            <button class="bg-bluemain text-white w-40 h-8 rounded-md hover:bg-[#034AA6] hover:text-white shadow-sm">ค้นหา</button>
+            </thead>
+            </table>
+    </div>
+    <div class="relative overflow-x-auto shadow-md rounded-lg mt-[12px]">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500">
+            <thead class="text-sm text-white uppercase bg-bluemain">
                 <tr class="text-center">
                     <th scope="col" class="py-4">ลำดับการส่ง</th>
                     <th scope="col">หัวข้อ</th>
