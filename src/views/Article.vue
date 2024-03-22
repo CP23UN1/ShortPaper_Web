@@ -24,6 +24,11 @@ import Header from '../components/Header.vue';
             <button class="bg-bluemain text-white w-40 h-8 rounded-md hover:bg-[#034AA6] hover:text-white shadow-sm">ค้นหา</button>
     <div class="relative overflow-x-auto shadow-md rounded-lg mt-[12px]">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500">
+            <button class="bg-bluemain text-white w-40 h-8 rounded-md hover:bg-[#034AA6] hover:text-white shadow-sm">ค้นหา</button>
+        </table>
+        </div>
+    <div class="relative overflow-x-auto shadow-md rounded-lg mt-[12px]">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500">
             <thead class="text-sm text-white uppercase bg-bluemain">
                 <tr class="text-center">
                     <th scope="col" class="py-4">ลำดับการส่ง</th>
