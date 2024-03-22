@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
+import { useAuthStore } from '../../stores/auth'
 
 import ApiService from '../../composables/apiService'
 
@@ -19,12 +20,13 @@ const doneIconSvg = `<svg class="w-[20px] h-[20px] text-teal-700" aria-hidden="t
     <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
   </svg>`
 
+const authStore = useAuthStore()
+
 const fileTypes = ref([])
 const studentFiles = ref([])
-const id = ref(63130500135)
+const studentId = ref(authStore.userId)
 const shortpaper = ref()
 
-const route = useRoute()
 const router = useRouter()
 
 const getFileType = async () => {
@@ -37,7 +39,7 @@ const getFileType = async () => {
 }
 
 const getFilesByStudent = async () => {
-  const res = await ApiService.getFilesByStudent(id.value)
+  const res = await ApiService.getFilesByStudent(studentId.value)
 
   if (res.status === 200) {
     const data = await res.data
@@ -46,7 +48,7 @@ const getFilesByStudent = async () => {
 }
 
 const getShortPaper = async () => {
-  const res = await ApiService.getShortPaper(id.value)
+  const res = await ApiService.getShortPaper(studentId.value)
   if (res.status === 200) {
     const data = await res.data
     shortpaper.value = data.data
@@ -54,10 +56,7 @@ const getShortPaper = async () => {
 }
 
 const uploadPage = (typeId, shortpaperId) => {
-  router.push({
-    path: '/upload',
-    query: { typeId, shortpaperId },
-  })
+  router.push(`/upload/${typeId}/${shortpaperId}`)
 }
 
 const downloadFile = async (fileId, filename) => {
@@ -114,13 +113,13 @@ const getNameByStudent = (typeId) => {
 const mapFileStatus = (status) => {
   switch (status) {
     case 'not_approve':
-      return 'ยังไม่ได้รับการอนุมัติ';
+      return 'ยังไม่ได้รับการอนุมัติ'
     case 'approved':
-      return 'อนุมัติเรียบร้อย';
+      return 'อนุมัติเรียบร้อย'
     default:
-      return 'ยังไม่มีการอัปโหลด';
+      return 'ยังไม่มีการอัปโหลด'
   }
-};
+}
 
 onMounted(async () => {
   await getFileType()
@@ -146,7 +145,7 @@ onMounted(async () => {
       <p>{{ studentFiles }}</p>
     </div> -->
 
-    <p>รหัสนักศึกษา: {{ id }}</p>
+    <p>รหัสนักศึกษา: {{ studentId }}</p>
 
     <div class="relative overflow-x-auto shadow-md rounded-lg mt-6">
       <table class="w-full text-sm text-left rtl:text-right text-gray-500">

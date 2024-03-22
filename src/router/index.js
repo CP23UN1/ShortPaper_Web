@@ -106,7 +106,7 @@ const routes = [
     component: fileDetails,
   },
   {
-    path: '/upload',
+    path: '/upload/:typeId/:shortpaperId',
     name: 'Uploading ShortPaper',
     component: FileUploading,
   },
