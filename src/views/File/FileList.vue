@@ -1,4 +1,3 @@
-
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
@@ -140,7 +139,7 @@ onMounted(async () => {
         </p>
       </div>
     </div>
-    <Header header="รายการเอกสาร" />
+    <Header header="เอกสารโครงงาน" />
     <!-- <div>
       <p>{{ id }}</p>
       <p>{{ studentFiles }}</p>
@@ -150,13 +149,13 @@ onMounted(async () => {
 
     <div class="relative overflow-x-auto shadow-md rounded-lg mt-6">
       <table class="w-full text-sm text-left rtl:text-right text-gray-500">
-        <thead class="text-sm text-white uppercase bg-bluemain">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
           <tr class="text-center">
-            <th scope="col" class="py-4">ลำดับการส่ง</th>
-            <th scope="col">รายการ</th>
-            <th scope="col">สถานะ</th>
-            <th scope="col">อัปโหลด</th>
-            <th scope="col">ดาวน์โหลด</th>
+            <th scope="col" class="py-3">ลำดับ</th>
+            <th scope="col" class="px-6 py-3">รายการ</th>
+            <th scope="col" class="py-3">อัปโหลด</th>
+            <th scope="col" class="px-6 py-3">สถานะ</th>
+            <th scope="col" class="py-3">ดาวน์โหลด</th>
             <!-- <th scope="col" class="px-6 py-3"></th> -->
           </tr>
         </thead>
