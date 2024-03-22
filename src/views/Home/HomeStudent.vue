@@ -6,7 +6,7 @@ import { useAuthStore } from '../../stores/auth'
 import ApiService from '../../composables/apiService'
 
 import Header from '../../components/Header.vue'
-import NavbarStudent from '../../components/Navbar/NavbarStudent.vue'
+import NavbarStudent from '../../components/NavbarStudent.vue'
 
 const announcements = ref([])
 const store = useAuthStore()
