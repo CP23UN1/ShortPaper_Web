@@ -1,16 +1,14 @@
+
 <script setup>
 import { onMounted, ref } from 'vue'
-import { RouterLink } from 'vue-router'
-import { useAuthStore } from '../../stores/auth'
 
 import ApiService from '../../composables/apiService'
 
 import Header from '../../components/Header.vue'
 import NavbarStudent from '../../components/Navbar/NavbarStudent.vue'
+import { RouterLink } from 'vue-router'
 
 const announcements = ref([])
-const store = useAuthStore()
-const studentId = ref(store.userId)
 
 const getAnnouncements = async () => {
   const res = await ApiService.getAnnouncements()
@@ -30,7 +28,7 @@ onMounted(async () => {
     <div class="relative">
       <div
         class="bg-cover bg-center bg-no-repeat"
-        style="background-image: url('/images/kmutt.png'); height: 200px"
+        style="background-image: url('/images/kmutt.png'); height: 300px"
       >
         <NavbarStudent class="mx-14 relative top-[20px]" />
       </div>
@@ -38,14 +36,14 @@ onMounted(async () => {
 
     <div>
       <h1
-        class="text-bluemain font-black text-2xl text-center mt-7 underline underline-offset-8"
+        class="text-[#034AA6] font-black text-2xl text-center mt-7 underline underline-offset-8"
       >
         รายการ
       </h1>
       <div class="grid grid-cols-3 mt-7 gap-5 justify-items-center">
-        <RouterLink :to="`/student/${studentId}`">
+        <RouterLink :to="`/student?id=63130500135`">
           <div
-            class="shadow-lg p-12 rounded-lg hover:bg-bluemain hover:text-white hover:fill-white"
+            class="shadow-lg p-[64px] rounded-lg hover:bg-bluemain  hover:text-white hover:fill-white"
           >
             <svg
               class="w-[48px] h-[48px] mx-auto"
@@ -70,7 +68,7 @@ onMounted(async () => {
 
         <RouterLink :to="`/files`">
           <div
-            class="shadow-lg p-12 rounded-lg hover:bg-bluemain hover:text-white hover:fill-white"
+            class="shadow-lg p-[64px] rounded-lg hover:bg-bluemain  hover:text-white hover:fill-white"
           >
             <svg
               class="w-[48px] h-[48px] mx-auto"
@@ -96,7 +94,7 @@ onMounted(async () => {
 
         <RouterLink :to="`/upload`">
           <div
-            class="shadow-lg p-12 rounded-lg hover:bg-bluemain hover:text-white hover:fill-white"
+            class="shadow-lg p-[64px] rounded-lg hover:bg-bluemain hover:text-white hover:fill-white"
           >
             <svg
               class="w-[48px] h-[48px] mx-auto"
@@ -123,7 +121,7 @@ onMounted(async () => {
     </div>
 
     <div class="mt-10 mx-24">
-      <div class="bg-bluemain p-16 rounded-lg">
+      <div class="bg-bluemain p-12 h-64 rounded-lg">
         <h1 class="font-black text-white text-xl">กำหนดการนักศึกษา</h1>
         <div
           v-for="announcement in announcements"
