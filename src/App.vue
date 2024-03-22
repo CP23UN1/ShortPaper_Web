@@ -5,7 +5,7 @@ import { useAuthStore } from './stores/auth'
 
 import NavbarAllRole from './components/Navbar/NavbarAllRole.vue'
 import NavbarAdmin from './components/Navbar/NavbarAdmin.vue'
-import NavbarStudent from './components/Navbar/NavbarStudent.vue'
+import NavbarStudent from './components/Navbar/NavbarStudent1.vue'
 
 const route = useRoute()
 const store = useAuthStore()

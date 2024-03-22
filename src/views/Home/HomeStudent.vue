@@ -5,7 +5,7 @@ import { onMounted, ref } from 'vue'
 import ApiService from '../../composables/apiService'
 
 import Header from '../../components/Header.vue'
-import NavbarStudent from '../../components/Navbar/NavbarStudent.vue'
+import NavbarStudent from '../../components/Navbar/NavbarStudent1.vue'
 import { RouterLink } from 'vue-router'
 
 const announcements = ref([])
