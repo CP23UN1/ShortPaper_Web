@@ -11,13 +11,14 @@ import ButtonMain from '../../components/ButtonMain.vue'
 
 const route = useRoute()
 const router = useRouter()
+const shortpaperId = ref(route.params.shortpaperId)
+const typeId = ref(route.params.typeId)
+
 const fileTypes = ref([])
-const committees = ref([]) // Add this line to store the list of committees
+const committees = ref([])
 const selectedRole = ref('')
 
-const shortpaperId = ref(route.query.shortpaperId)
 const file = ref(null)
-const typeId = ref(route.query.typeId)
 const explanationVideo = ref('')
 const remark = ref('')
 
@@ -26,9 +27,7 @@ const isAdvisor = ref(false)
 const isPrincipal = ref(false)
 const isCommittee = ref(false)
 
-// Compute property to determine whether to show committee select or not based on file type
 const showCommitteeSelect = computed(() => {
-  // Assuming 'ใบ บ.1' is the value that indicates a specific file type
   return typeId.value === 1
 })
 
@@ -58,7 +57,6 @@ const handleUpload = async () => {
   // formData.append('remark', remark.value)
 
   try {
-    // Assign committee before uploading the file
     await assignCommittee()
 
     const res = await ApiService.uploadFile(formData)
@@ -88,8 +86,7 @@ const getFileType = async () => {
   }
 }
 
-// Function to fetch committees
-const fetchCommittees = async () => {
+const getCommittees = async () => {
   try {
     const response = await ApiService.getCommittees()
     if (response.status === 200) {
@@ -108,12 +105,17 @@ const assignCommittee = async () => {
   }
 
   try {
-    const response = await ApiService.updateCommitteeRolesForStudentAsync(shortpaperId.value, [{
-      CommitteeName: selectedCommittee.value,
-      IsAdvisor: isAdvisor.value,
-      IsPrincipal: isPrincipal.value,
-      IsCommittee: isCommittee.value
-    }])
+    const response = await ApiService.updateCommitteeRolesForStudentAsync(
+      shortpaperId.value,
+      [
+        {
+          CommitteeName: selectedCommittee.value,
+          IsAdvisor: isAdvisor.value,
+          IsPrincipal: isPrincipal.value,
+          IsCommittee: isCommittee.value,
+        },
+      ]
+    )
 
     if (response.IsSuccess) {
       console.log('Committee assigned successfully:', response)
@@ -128,9 +130,8 @@ const assignCommittee = async () => {
 
 onMounted(async () => {
   await getFileType()
-  await fetchCommittees()
+  await getCommittees()
 })
-
 </script>
 
 <template>
@@ -163,31 +164,64 @@ onMounted(async () => {
               name="fileType"
               :value="fileType.typeId"
               :label="fileType.typeName"
-              :isChecked="fileType.typeId == route.query.typeId"
+              :isChecked="fileType.typeId == route.params.typeId"
               @change="handleTypeId(fileType.typeId)"
             />
           </div>
         </div>
 
         <div v-if="showCommitteeSelect">
-        <div class="mt-8">
-          <label for="committees" class="block mb-1">Select Committee:</label>
-          <select id="committees" v-model="selectedCommittee" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-bluemain focus:border-bluemain">
-            <option value="" disabled selected style="display: none;">Select Committee</option>
-            <option v-for="committee in committees" :key="committee.id" :value="committee.id">{{ committee.firstname + ' ' + committee.lastname }}</option>
-          </select>
-        </div>
+          <div class="mt-8">
+            <label for="committees" class="block mb-1">Select Committee:</label>
+            <select
+              id="committees"
+              v-model="selectedCommittee"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-bluemain focus:border-bluemain"
+            >
+              <option value="" disabled selected style="display: none">
+                Select Committee
+              </option>
+              <option
+                v-for="committee in committees"
+                :key="committee.id"
+                :value="committee.id"
+              >
+                {{ committee.firstname + ' ' + committee.lastname }}
+              </option>
+            </select>
+          </div>
 
-        <div class="mt-4">
-          <input type="radio" id="advisor" name="role" v-model="selectedRole" value="Advisor" class="mr-2">
-          <label for="advisor" class="font-medium">Advisor</label>
+          <div class="mt-4">
+            <input
+              type="radio"
+              id="advisor"
+              name="role"
+              v-model="selectedRole"
+              value="Advisor"
+              class="mr-2"
+            />
+            <label for="advisor" class="font-medium">Advisor</label>
 
-          <input type="radio" id="principal" name="role" v-model="selectedRole" value="Principal" class="ml-4 mr-2">
-          <label for="principal" class="font-medium">Principal</label>
+            <input
+              type="radio"
+              id="principal"
+              name="role"
+              v-model="selectedRole"
+              value="Principal"
+              class="ml-4 mr-2"
+            />
+            <label for="principal" class="font-medium">Principal</label>
 
-          <input type="radio" id="committee" name="role" v-model="selectedRole" value="Committee" class="ml-4 mr-2">
-          <label for="committee" class="font-medium">Committee</label>
-        </div>
+            <input
+              type="radio"
+              id="committee"
+              name="role"
+              v-model="selectedRole"
+              value="Committee"
+              class="ml-4 mr-2"
+            />
+            <label for="committee" class="font-medium">Committee</label>
+          </div>
         </div>
 
         <form class="mt-8">
