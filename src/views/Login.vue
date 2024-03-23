@@ -38,7 +38,7 @@ const validateData = () => {
 const login = async () => {
   try {
     if (validateData()) {
-      await authStore.login({ email: email.value, password: password.value })
+      await authStore.login({ username: email.value, password: password.value })
       if (authStore.isLoggedIn == true) {
         //toggleModal()
         router.push('/')
