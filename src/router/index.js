@@ -4,11 +4,13 @@ import { useAuthStore } from '../stores/auth'
 import HomeStudent from '../views/Home/HomeStudent.vue'
 import Login from '../views/Login.vue'
 
-import StudentList from '../views/Student/StudentList.vue'
-import StudentEditForm from '../views/Student/StudentEditForm.vue'
-import StudentDetails from '../views/Student/StudentDetails.vue'
+import StudentList from '../views/StudentList.vue'
 
-import FileList from '../views/File/FileList.vue'
+// Student Role
+import StudentEditForm from '../views/studentRole/StudentEditForm.vue'
+import StudentDetails from '../views/studentRole/StudentDetails.vue'
+import StudentFileList from '../views/studentRole/StudentFileList.vue'
+
 import fileDetails from '../views/Advisor/FileDetails.vue'
 import FileComment from '../views/File/FileComment.vue'
 import FileUploading from '../views/File/FileUploading.vue'
@@ -96,9 +98,9 @@ const routes = [
   },
   // File
   {
-    path: '/files',
+    path: '/files/:id',
     name: 'ShortPaper File',
-    component: FileList,
+    component: StudentFileList,
   },
   {
     path: '/file',

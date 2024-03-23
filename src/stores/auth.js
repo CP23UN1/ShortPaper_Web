@@ -26,8 +26,8 @@ export const useAuthStore = defineStore('auth', {
 
           this.setCookie('token', token, expirationDate)
 
-          this.setUserId(decodedToken.nameid)
-          this.setUserRole(decodedToken.role)
+          this.setUserId(decodedToken.preferred_username)
+          this.setUserRole(decodedToken.realm_access.roles)
         }
       } catch (err) {
         console.error(err)
@@ -83,8 +83,8 @@ export const useAuthStore = defineStore('auth', {
       
       if (storedToken) {
         const decodedToken = jwtDecode(storedToken)
-        const studentId = decodedToken.nameid
-        const role = decodedToken.role
+        const studentId = decodedToken.preferred_username
+        const role = decodedToken.realm_access.roles
     
         this.setLoggedIn(true)
         this.setUserId(studentId)

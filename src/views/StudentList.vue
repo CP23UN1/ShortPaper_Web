@@ -1,12 +1,12 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 
-import ApiService from '../../composables/apiService'
+import ApiService from '../composables/apiService'
 
-import SearchInput from '../../components/SearchInput.vue'
-import Header from '../../components/Header.vue'
-import EmptyData from '../../components/EmptyData.vue'
-import ButtonMain from '../../components/ButtonMain.vue'
+import SearchInput from '../components/SearchInput.vue'
+import Header from '../components/Header.vue'
+import EmptyData from '../components/EmptyData.vue'
+import ButtonMain from '../components/ButtonMain.vue'
 
 const students = ref([])
 const fileType = ref([])

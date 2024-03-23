@@ -2,7 +2,7 @@
 import { RouterLink } from 'vue-router'
 import { useAuthStore } from '../../stores/auth'
 import { useRoute, useRouter } from 'vue-router'
-import { ref } from 'vue'
+import { ref , onMounted} from 'vue'
 
 const store = useAuthStore()
 const route = useRoute()
@@ -19,6 +19,11 @@ const logout = () => {
     console.error(err)
   }
 }
+
+onMounted(()=>{
+  console.log('studentId: ' + studentId.value);
+  
+})
 </script>
 <template>
   <nav
@@ -53,7 +58,7 @@ const logout = () => {
         ><span>ข้อมูลนักศึกษา</span></RouterLink
       >
       <RouterLink
-        to="/files"
+        :to="`/files/${studentId}`"
         class="mx-2"
         :class="{
           'underline underline-offset-8 decoration-4':
