@@ -15,6 +15,7 @@ module.exports = {
         correct: '#0A7373',
         error: '#C43302',
         choice: '#D97904',
+        login: '#BABCBF',
       },
       fontFamily: {
         sarabun: ['Sarabun', 'sans-serif'],

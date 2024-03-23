@@ -14,6 +14,7 @@ const route = useRoute()
 const router = useRouter()
 
 const email = ref()
+const username = ref()
 const password = ref()
 
 const isModalOpen = ref(false)
@@ -22,8 +23,13 @@ let modalInstance = null
 const validateData = () => {
   let isValid = true
 
-  if (!email.value && !validateStore.validateEmail(email.value)) {
-    alert('กรุณาใส่อีเมลที่ถูกต้อง')
+  // if (!email.value && !validateStore.validateEmail(email.value)) {
+  //   alert('กรุณาใส่อีเมลที่ถูกต้อง')
+  //   isValid = false
+  // }
+
+  if (!username.value) {
+    alert('กรุณาใส่ชื่อผู้ใช้')
     isValid = false
   }
 
@@ -38,7 +44,7 @@ const validateData = () => {
 const login = async () => {
   try {
     if (validateData()) {
-      await authStore.login({ username: email.value, password: password.value })
+      await authStore.login({ username: username.value, password: password.value })
       if (authStore.isLoggedIn == true) {
         //toggleModal()
         router.push('/')
@@ -63,10 +69,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="bg-white h-screen w-screen">
+  <div class="bg-login h-screen w-screen">
     <div class="flex justify-center items-center h-screen">
       <div
-        class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center justify-center mx-4 md:mx-0 shadow-lg md:my-20 rounded-lg"
+        class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center justify-center mx-4 md:mx-0 shadow-lg md:my-20 rounded-lg bg-white"
       >
         <div
           class="bg-cover bg-center bg-no-repeat rounded-l-md"
@@ -85,15 +91,15 @@ onMounted(() => {
               </h1>
             </div>
             <div class="mb-4">
-              <label for="email" class="block font-bold mb-2 text-sm"
-                >อีเมล</label
+              <label for="username" class="block font-bold mb-2 text-sm"
+                >ชื่อผู้ใช้</label
               >
               <input
-                type="email"
-                id="email"
-                v-model="email"
+                type="text"
+                id="username"
+                v-model="username"
                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 border-gray-400 leading-tight focus:outline-none focus:shadow-outline text-sm"
-                placeholder="อีเมล"
+                placeholder="ชื่อผู้ใช้"
                 required
               />
             </div>
