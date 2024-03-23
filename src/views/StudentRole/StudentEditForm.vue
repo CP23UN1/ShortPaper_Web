@@ -34,7 +34,6 @@ const getStudentAndSubjects = async () => {
   if (studentRes.status === 200) {
     const studentData = await studentRes.data
     student.value = studentData.data
-    firstname.value = studentData.data.firstname
     studentSubjectId.value = studentData.data.subjects.subjectId
     
   }
@@ -85,7 +84,20 @@ const validateData = () => {
 
 const updateStudent = async () => {
   if (validateData()) {
-    await ApiService.updateStudent(studentId.value, student.value)
+    const updatedStudent = {
+      firstname: student.value.firstname,
+      lastname: student.value.lastname,
+      email: student.value.email,
+      alternativeEmail: student.value.alternativeEmail,
+      phonenumber: student.value.phonenumber,
+      shortpaper: {
+        shortpaperTopic: student.value.shortpaper.shortpaperTopic,
+      },
+      subjects: {
+        subjectId: studentSubjectId.value,
+      },
+    }
+    await ApiService.updateStudent(studentId.value, updatedStudent)
     modal.value.toggle()
     alert('บันทึกสำเร็จ')
     router.push('/student/' + studentId.value)
@@ -131,7 +143,7 @@ onBeforeMount(async () => {
                 type="text"
                 id="firstname"
                 class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                v-model="firstname"
+                v-model="student.firstname"
               />
             </div>
             <div class="mb-1">
