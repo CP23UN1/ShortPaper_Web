@@ -3,7 +3,7 @@ import { onBeforeMount, onMounted, ref, watch } from 'vue'
 import { RouterView, useRoute } from 'vue-router'
 import { useAuthStore } from './stores/auth'
 
-import NavbarAllRole from './components/Navbar/NavbarAllRole.vue'
+import NavbarCommittee from './components/Navbar/NavbarCommittee.vue'
 import NavbarAdmin from './components/Navbar/NavbarAdmin.vue'
 import NavbarStudent from './components/Navbar/NavbarStudent.vue'
 
@@ -12,7 +12,9 @@ const store = useAuthStore()
 const showNavbar = ref(true)
 const isMaxWidth = ref(true)
 
-onBeforeMount(async() => {
+const userRole = ref(store.userRole)
+
+onBeforeMount(async () => {
   await store.initializeAuthState()
 })
 
@@ -25,14 +27,18 @@ watch(() => {
     isMaxWidth.value = true
   }
 })
+
+watch(() => store.userRole, (newValue) => {
+  userRole.value = newValue
+})
 </script>
 
 <template>
   <div :class="{ 'mx-14': isMaxWidth }">
     <template v-if="showNavbar">
-      <!-- <NavbarAllRole /> -->
-      <!-- <NavbarAdmin /> -->
-      <NavbarStudent class="mt-[20px]" />
+      <NavbarCommittee class="mt-[20px]" v-if="userRole == 'committee'" />
+      <NavbarAdmin class="mt-[20px]" v-if="userRole == 'admin'" />
+      <NavbarStudent class="mt-[20px]" v-if="userRole == 'student'" />
     </template>
     <RouterView />
   </div>

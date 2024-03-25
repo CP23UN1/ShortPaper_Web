@@ -2,9 +2,8 @@ import { defineStore } from 'pinia'
 import ApiService from '../composables/apiService'
 import { jwtDecode } from 'jwt-decode'
 
-// Define mapping between group IDs and roles
 const rolesMapping = {
-  901: 'lecturer',
+  901: 'committee',
   902: 'admin',
   904: 'student'
 }
@@ -28,8 +27,6 @@ export const useAuthStore = defineStore('auth', {
 
           const expirationTimestamp = decodedToken.exp * 1000
           const expirationDate = new Date(expirationTimestamp)
-
-          console.log('expirationDate', expirationDate)
 
           this.setCookie('token', token, expirationDate)
 
@@ -56,7 +53,6 @@ export const useAuthStore = defineStore('auth', {
     },
 
     setUserRole(groupId) {
-      // Map group ID to role
       this.userRole = rolesMapping[groupId] || null;
     },  
 

@@ -1,5 +1,4 @@
-<script>
-</script>
+<script></script>
 
 <template>
   <div class="grid grid-cols-2 mt-[24px] space-x-2">

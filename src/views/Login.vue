@@ -46,10 +46,20 @@ const login = async () => {
     if (validateData()) {
       await authStore.login({ username: username.value, password: password.value })
       if (authStore.isLoggedIn == true) {
-        //toggleModal()
-        router.push('/')
-      }
-      if (authStore.isPasswordWrong == true) {
+        switch (authStore.userRole) {
+          case 'student':
+            router.push('/')
+            break
+          case 'committee':
+            router.push('/committee/home')
+            break
+          case 'admin':
+            router.push('/admin/home')
+            break
+          default:
+            router.push('/')
+        }
+      } else if (authStore.isPasswordWrong == true) {
         alert('กรุณาใส่รหัสผ่านที่ถูกต้อง')
       }
     }
