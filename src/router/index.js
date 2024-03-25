@@ -24,6 +24,7 @@ import AdminStudentList from '../views/AdminRole/AdminStudentList.vue'
 import CommitteeEdit from '../views/CommitteeRole/CommitteeEdit.vue'
 import CommitteeFileDetails from '../views/CommitteeRole/CommitteeFileDetails.vue'
 import CommitteeFileList from '../views/CommitteeRole/CommitteeFileList.vue'
+import CommitteeHome from '../views/CommitteeRole/CommitteeHome.vue'
 import CommitteeList from '../views/CommitteeRole/CommitteeList.vue'
 import CommitteeStudentList from '../views/CommitteeRole/CommitteeStudentList.vue'
 
@@ -87,7 +88,7 @@ const routes = [
   {
     path: '/admin/assign',
     name: 'Assigning Advisor',
-    component: AdminAssignAdvisor
+    component: AdminAssignAdvisor,
   },
   {
     path: '/admin/create/announcement',
@@ -118,16 +119,17 @@ const routes = [
   },
   {
     path: '/committee/filelist',
-    name: 'FileAdvisorList',
+    name: 'Committee Student File',
     component: CommitteeFileList,
   },
+  { path: '/committee/home', name: 'Home Committee', component: CommitteeHome },
   {
     path: '/committees',
     name: 'Committees',
     component: CommitteeList,
   },
   {
-    path: '/committee/studentlist',
+    path: '/committee/students',
     name: 'Committee Student List',
     component: CommitteeStudentList,
   },
@@ -153,31 +155,27 @@ function getTokenFromCookie(cookieName) {
 
 router.beforeEach((to, from, next) => {
   const isLoggedIn = getTokenFromCookie('token')
-  const store = useAuthStore() // Retrieve the store instance
+  const store = useAuthStore() 
 
   if (to.path !== '/login' && !isLoggedIn) {
     next('/login')
   } else if (to.path === '/login' && isLoggedIn) {
     next('/')
   } else {
-    // Check if the route requires authentication
     if (to.meta.requiresAuth && !isLoggedIn) {
       next('/login')
     } else {
       if (to.meta.requiresRole) {
-        const role = store.userRole // Use the store instance
+        const role = store.userRole 
 
         if (role !== to.meta.requiresRole) {
           next('/')
         } else {
-          // Check if the route requires studentId
           if (to.meta.requiresStudentId) {
             const studentId = to.params.id
-            const userStudentId = store.userId // Use the store instance
+            const userStudentId = store.userId 
 
-            // Check if the studentId parameter in the URL matches the logged-in user's studentId
             if (studentId !== userStudentId) {
-              // Redirect the user to their own studentId page
               next(`/student/${userStudentId}`)
             } else {
               next()
