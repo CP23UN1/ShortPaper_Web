@@ -15,7 +15,7 @@ import StudentHome from '../views/studentRole/StudentHome.vue'
 // Admin Role
 import AdminAddStudentData from '../views/AdminRole/AdminAddStudentData.vue'
 import AdminAnnouncementList from '../views/AdminRole/AdminAnnouncementList.vue'
-import AdminAssignAdvisorToStudent from '../views/AdminRole/AdminAssignAdvisorToStudent.vue'
+import AdminAssignAdvisor from '../views/AdminRole/AdminAssignAdvisor.vue'
 import AdminCreateAnnouncement from '../views/AdminRole/AdminCreateAnnouncement.vue'
 import AdminHome from '../views/AdminRole/AdminHome.vue'
 import AdminStudentList from '../views/AdminRole/AdminStudentList.vue'
@@ -76,32 +76,32 @@ const routes = [
   // Admin
   {
     path: '/admin/adddata',
-    name: 'AddStudentData',
+    name: 'Admin Add Data',
     component: AdminAddStudentData,
   },
   {
     path: '/admin/announcements',
-    name: 'AnnouncementList',
+    name: 'Admin Announcement List',
     component: AdminAnnouncementList,
   },
   {
     path: '/admin/assign',
-    name: 'AssignAdvisor',
-    component: AdminAssignAdvisorToStudent,
+    name: 'Assigning Advisor',
+    component: AdminAssignAdvisor
   },
   {
     path: '/admin/create/announcement',
-    name: 'CreateAnnouncement',
+    name: 'Creating Announcement',
     component: AdminCreateAnnouncement,
   },
   {
     path: '/admin/home',
-    name: 'Admin Home',
+    name: 'Home Admin',
     component: AdminHome,
   },
   {
     path: '/admin/students',
-    name: 'Student List',
+    name: 'Admin Student List',
     component: AdminStudentList,
   },
 

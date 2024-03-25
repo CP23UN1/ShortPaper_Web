@@ -21,8 +21,6 @@ const logout = () => {
 }
 
 onMounted(()=>{
-  console.log('studentId: ' + studentId.value);
-  
 })
 </script>
 <template>
