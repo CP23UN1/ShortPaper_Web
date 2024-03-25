@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onBeforeMount } from 'vue'
+import { ref, computed, onBeforeMount } from 'vue'
 import { useRouter } from 'vue-router'
 import { Modal } from 'flowbite'
 import { useValidateStore } from '../../stores/validate'
@@ -18,11 +18,13 @@ const studentId = ref(authStore.userId)
 const student = ref({})
 const subjects = ref()
 const studentSubjectId = ref()
-const firstname = ref()
-const lastname = ref()
-const alternativeEmail = ref()
-const phonenumber = ref()
-const shortpaperTopic = ref()
+
+const selectedSubjectId = ref()
+const shortpaperTopicValue = computed({
+  get: () =>
+    student.value.shortpaper ? student.value.shortpaper.shortpaperTopic : '',
+  set: (value) => (student.value.shortpaper.shortpaperTopic = value),
+})
 
 const modal = ref()
 const toggleModal = () => {
@@ -34,8 +36,9 @@ const getStudentAndSubjects = async () => {
   if (studentRes.status === 200) {
     const studentData = await studentRes.data
     student.value = studentData.data
-    studentSubjectId.value = studentData.data.subjects.subjectId
-    
+    if (student.value.subjects !== null) {
+      studentSubjectId.value = studentData.data.subjects.subjectId
+    }
   }
 
   const subjectsRes = await ApiService.getSubjects()
@@ -84,6 +87,11 @@ const validateData = () => {
 
 const updateStudent = async () => {
   if (validateData()) {
+
+    if (!student.value.shortpaper) {
+      student.value.shortpaper = {};
+    }
+
     const updatedStudent = {
       firstname: student.value.firstname,
       lastname: student.value.lastname,
@@ -91,10 +99,10 @@ const updateStudent = async () => {
       alternativeEmail: student.value.alternativeEmail,
       phonenumber: student.value.phonenumber,
       shortpaper: {
-        shortpaperTopic: student.value.shortpaper.shortpaperTopic,
+        shortpaperTopic: shortpaperTopicValue.value,
       },
       subjects: {
-        subjectId: studentSubjectId.value,
+        subjectId: selectedSubjectId.value,
       },
     }
     await ApiService.updateStudent(studentId.value, updatedStudent)
@@ -203,11 +211,7 @@ onBeforeMount(async () => {
                   type="text"
                   id="isTopic"
                   class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                  :value="
-                    student.shortpaper
-                      ? student.shortpaper.shortpaperTopic
-                      : shortpaperTopic
-                  "
+                  v-model="shortpaperTopicValue"
                 />
               </div>
             </div>
@@ -218,8 +222,10 @@ onBeforeMount(async () => {
               <select
                 id="isSubject"
                 class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                v-model="selectedSubjectId"
               >
-                <option>ยังไม่ได้เลือกวิชา</option>
+                <option v-if="!subjects">กำลังโหลด</option>
+                <option v-else>ยังไม่ได้เลือกวิชา</option>
                 <option
                   v-for="subject in subjects"
                   :key="subject.subjectId"
@@ -230,7 +236,7 @@ onBeforeMount(async () => {
                 </option>
               </select>
             </div>
-            <div class="mb-1">
+            <!-- <div class="mb-1">
               <label class="font-extrabold block mb-2" for="workshopSubject"
                 >วิชาเลือก Workshop / Thesis / Project</label
               >
@@ -238,7 +244,8 @@ onBeforeMount(async () => {
                 id="isSubject"
                 class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
               >
-                <option>ยังไม่ได้เลือกวิชา</option>
+              <option v-if="!subjects">กำลังโหลด</option>
+                <option v-else>ยังไม่ได้เลือกวิชา</option>
                 <option
                   v-for="subject in subjects"
                   :key="subject.subjectId"
@@ -248,7 +255,7 @@ onBeforeMount(async () => {
                   {{ subject.subjectId }} {{ subject.subjectName }}
                 </option>
               </select>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -270,7 +277,7 @@ onBeforeMount(async () => {
 
     <ConfirmModal
       id="save-modal"
-      @save="updateStudent(student.studentId, student)"
+      @save="updateStudent"
       @toggle="toggleModal"
       message="ต้องการแก้ไขหรือไม่"
       buttonColor="bg-amber-500 hover:bg-amber-600"
