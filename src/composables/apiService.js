@@ -102,6 +102,12 @@ class ApiService {
   async searchShortPapers(keyword) {
     return await api.get(`/shortpaper/search-by-filter/${keyword}`)
   }
+  async addShortpaper(shortpaper) {
+    return await api.post(`/shortpaper/create`, shortpaper)
+  }
+  async updateShortpaper(shortpaperId, shortpaper) {
+    return await api.patch(`/shortpaper/update/${shortpaperId}`, shortpaper)
+  }
 
   // Students
   async getStudents() {

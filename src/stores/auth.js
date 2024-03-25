@@ -2,6 +2,13 @@ import { defineStore } from 'pinia'
 import ApiService from '../composables/apiService'
 import { jwtDecode } from 'jwt-decode'
 
+// Define mapping between group IDs and roles
+const rolesMapping = {
+  901: 'lecturer',
+  902: 'admin',
+  904: 'student'
+}
+
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     isLoggedIn: false,
@@ -27,7 +34,7 @@ export const useAuthStore = defineStore('auth', {
           this.setCookie('token', token, expirationDate)
 
           this.setUserId(decodedToken.preferred_username)
-          this.setUserRole(decodedToken.realm_access.roles)
+          this.setUserRole(decodedToken.groupid)
         }
       } catch (err) {
         console.error(err)
@@ -48,9 +55,10 @@ export const useAuthStore = defineStore('auth', {
       this.userId = userId
     },
 
-    setUserRole(role) {
-      this.userRole = role
-    },
+    setUserRole(groupId) {
+      // Map group ID to role
+      this.userRole = rolesMapping[groupId] || null;
+    },  
 
     setCookie(name, value, expirationDate) {
       const cookieValue =
@@ -84,11 +92,11 @@ export const useAuthStore = defineStore('auth', {
       if (storedToken) {
         const decodedToken = jwtDecode(storedToken)
         const studentId = decodedToken.preferred_username
-        const role = decodedToken.realm_access.roles
+        const groupId = decodedToken.groupid
     
         this.setLoggedIn(true)
         this.setUserId(studentId)
-        this.setUserRole(role)
+        this.setUserRole(groupId)
       } else {
         
         this.setLoggedIn(false)
