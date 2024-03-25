@@ -23,6 +23,8 @@ const lastname = ref()
 const alternativeEmail = ref()
 const phonenumber = ref()
 const shortpaperTopic = ref()
+const shortpaper = ref({})
+const shortpaperId = ref()
 
 const modal = ref()
 const toggleModal = () => {
@@ -33,15 +35,31 @@ const getStudentAndSubjects = async () => {
   const studentRes = await ApiService.getStudentById(studentId.value)
   if (studentRes.status === 200) {
     const studentData = await studentRes.data
+    console.log("studentData.data:", studentData.data);
     student.value = studentData.data
+    if (studentData.data.subjects) {
+    console.log("studentData.data.subjects:", studentData.data.subjects); // Add this line for debugging
     studentSubjectId.value = studentData.data.subjects.subjectId
-    
+    }
+    if (studentData.data.shortpapers) {
+    console.log("studentData.data.shortpapers:", studentData.data.shortpapers); // Add this line for debugging
+    shortpaperTopic.value = studentData.data.shortpapers.shortpaperTopic
+    }
   }
 
   const subjectsRes = await ApiService.getSubjects()
   if (subjectsRes.status === 200) {
     const subjectsData = await subjectsRes.data
     subjects.value = subjectsData.data
+  }
+
+  const shortpaperRes = await ApiService.getShortPaper(studentId.value)
+  if (shortpaperRes.status === 200) {
+    const shortpaperData = await shortpaperRes.data
+    console.log("shortpaper.data:", shortpaperRes.data);
+    shortpaper.value = shortpaperData.data
+    shortpaperTopic.value = shortpaperData.data.shortpaperTopic
+    shortpaperId.value = shortpaperData.data.shortpaperId
   }
 }
 
@@ -66,7 +84,7 @@ const validateData = () => {
     isValid = false
   }
 
-  if (!student.value.shortpaper.shortpaperTopic) {
+  if (!shortpaperTopic.value) {
     alert('กรุณาใส่หัวข้อโครงงาน')
     isValid = false
   }
@@ -82,27 +100,83 @@ const validateData = () => {
   return isValid
 }
 
-const updateStudent = async () => {
+// const updateStudent = async () => {
+//   if (validateData()) {
+//     const updatedStudent = {
+//       studentId: studentId.value,
+//       firstname: student.value.firstname,
+//       lastname: student.value.lastname,
+//       email: student.value.email,
+//       alternativeEmail: student.value.alternativeEmail,
+//       phonenumber: student.value.phonenumber,
+//       // shortpaper: {
+//       //   shortpaperTopic: shortpaperTopic.value,
+//       // },
+//       // subjects: {
+//       //   subjectId: studentSubjectId.value,
+//       // },
+//     }
+//     await ApiService.updateStudent(studentId.value, updatedStudent)
+//     modal.value.toggle()
+//     alert('บันทึกสำเร็จ')
+//     router.push('/student/' + studentId.value)
+//   }
+// }
+const updateStudentAndShortpaper = async () => {
   if (validateData()) {
     const updatedStudent = {
+      studentId: studentId.value,
       firstname: student.value.firstname,
       lastname: student.value.lastname,
       email: student.value.email,
       alternativeEmail: student.value.alternativeEmail,
       phonenumber: student.value.phonenumber,
-      shortpaper: {
-        shortpaperTopic: student.value.shortpaper.shortpaperTopic,
-      },
-      subjects: {
-        subjectId: studentSubjectId.value,
-      },
     }
     await ApiService.updateStudent(studentId.value, updatedStudent)
+
+    if (shortpaperTopic.value) {
+    // If the student has a short paper, update it
+    const updatedShortpaper = {
+      shortpaperId: shortpaper.value.shortpaperId,
+      shortpaperTopic: shortpaperTopic.value,
+      subjectId: studentSubjectId.value
+    }
+    await ApiService.updateShortpaper(shortpaper.value.id, updatedShortpaper)
+  } else {
+    // If the student doesn't have a short paper, add a new one
+    const newShortpaper = {
+      shortpaperTopic: shortpaperTopic.value,
+      studentId: studentId.value,
+      subjectId: studentSubjectId.value
+    }
+    await ApiService.addShortpaper(newShortpaper)
+  }
     modal.value.toggle()
     alert('บันทึกสำเร็จ')
     router.push('/student/' + studentId.value)
   }
 }
+
+
+// const updateShortpaper = async () => {
+//   const updatedShortpaper = {
+//     shortpaperId: studentShortpaperId.value,
+//     shortpaperTopic: shortpaperTopic.value,
+//     subjectId: studentSubjectId.value
+//   }
+//   await ApiService.updateShortpaper(studentShortpaperId.value, updatedShortpaper)
+//   alert('บันทึกสำเร็จ')
+// }
+
+// const addShortpaper = async () => {
+//   const updatedShortpaper = {
+//     shortpaperTopic: shortpaperTopic.value,
+//     studentId: studentId.value,
+//     subjectId: studentSubjectId.value
+//   }
+//   await ApiService.addShortpaper(updatedShortpaper)
+//   alert('บันทึกสำเร็จ')
+// }
 
 onBeforeMount(async () => {
   await getStudentAndSubjects()
@@ -203,11 +277,7 @@ onBeforeMount(async () => {
                   type="text"
                   id="isTopic"
                   class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                  :value="
-                    student.shortpaper
-                      ? student.shortpaper.shortpaperTopic
-                      : shortpaperTopic
-                  "
+                  v-model="shortpaperTopic"
                 />
               </div>
             </div>
@@ -234,7 +304,7 @@ onBeforeMount(async () => {
               <label class="font-extrabold block mb-2" for="workshopSubject"
                 >วิชาเลือก Workshop / Thesis / Project</label
               >
-              <select
+              <!-- <select
                 id="isSubject"
                 class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
               >
@@ -247,7 +317,7 @@ onBeforeMount(async () => {
                 >
                   {{ subject.subjectId }} {{ subject.subjectName }}
                 </option>
-              </select>
+              </select> -->
             </div>
           </div>
         </div>
@@ -270,7 +340,7 @@ onBeforeMount(async () => {
 
     <ConfirmModal
       id="save-modal"
-      @save="updateStudent(student.studentId, student)"
+      @save="updateStudentAndShortpaper"
       @toggle="toggleModal"
       message="ต้องการแก้ไขหรือไม่"
       buttonColor="bg-amber-500 hover:bg-amber-600"
