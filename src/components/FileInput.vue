@@ -1,7 +1,8 @@
 <script setup>
 import { defineProps, defineEmits } from 'vue'
+import ButtonMain from './ButtonMain.vue'
 
-const emits = defineEmits(['fileSelected'])
+const emits = defineEmits(['fileSelected', 'sendFile'])
 const props = defineProps({
   label: {
     type: String,
@@ -49,6 +50,12 @@ const handleFileChange = (event) => {
         accept=".pdf"
       />
     </div>
+
+    <ButtonMain
+      text="บันทึก"
+      class="bg-bluemain border hover:bg-white hover:border-bluemain hover:text-bluemain ml-3"
+      @click="$emit('sendFile')"
+    />
 
     <p class="mt-2 text-sm text-red-600" id="file_type">
       {{ describe }}
