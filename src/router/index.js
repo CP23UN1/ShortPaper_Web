@@ -10,10 +10,10 @@ import StudentList from '../views/StudentList.vue'
 import StudentEditForm from '../views/studentRole/StudentEditForm.vue'
 import StudentDetails from '../views/studentRole/StudentDetails.vue'
 import StudentFileList from '../views/studentRole/StudentFileList.vue'
+import StudentFileUploading from '../views/studentRole/StudentFileUploading.vue'
 
 import fileDetails from '../views/Advisor/FileDetails.vue'
 import FileComment from '../views/File/FileComment.vue'
-import FileUploading from '../views/File/FileUploading.vue'
 
 import CommitteeList from '../views/Committee/CommitteeList.vue'
 import CommitteeEdit from '../views/Committee/CommitteeEdit.vue'
@@ -108,9 +108,9 @@ const routes = [
     component: fileDetails,
   },
   {
-    path: '/upload',
+    path: '/upload/:typeId/:shortpaperId',
     name: 'Uploading ShortPaper',
-    component: FileUploading,
+    component: StudentFileUploading,
   },
   {
     path: '/assign/advisor',
