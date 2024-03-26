@@ -18,7 +18,7 @@ const username = ref()
 const password = ref()
 
 const isModalOpen = ref(false)
-let modalInstance = null
+let modalInstance = ref()
 
 const validateData = () => {
   let isValid = true
@@ -44,7 +44,10 @@ const validateData = () => {
 const login = async () => {
   try {
     if (validateData()) {
-      await authStore.login({ username: username.value, password: password.value })
+      await authStore.login({
+        username: username.value,
+        password: password.value,
+      })
       if (authStore.isLoggedIn == true) {
         switch (authStore.userRole) {
           case 'student':
@@ -59,12 +62,20 @@ const login = async () => {
           default:
             router.push('/')
         }
-      } else if (authStore.isPasswordWrong == true) {
-        alert('กรุณาใส่รหัสผ่านที่ถูกต้อง')
+      } else {
+        showErrorModal('ชื่อผู้ใช้ หรือรหัสผ่านไม่ถูกต้อง')
       }
+      //  else if (authStore.isPasswordWrong == true) {
+      //   alert('กรุณาใส่รหัสผ่านที่ถูกต้อง')
+      // }
     }
-  } catch (err) {
-    console.error(err)
+  } catch (error) {
+    if (error.response && error.response.status === 400) {
+      const errorMessage = error.response.data.message
+      //showErrorModal(errorMessage) 
+    } else {
+      console.error('An error occurred:', error.message)
+    }
   }
 }
 
@@ -72,10 +83,19 @@ const toggleModal = () => {
   isModalOpen.value = !isModalOpen.value
 }
 
-onMounted(() => {
-  const targetEl = document.getElementById('description-modal')
-  modalInstance = new Modal(targetEl)
-})
+const isErrorModalOpen = ref(false)
+const errorMessage = ref('')
+
+const showErrorModal = (message) => {
+  errorMessage.value = message
+  isErrorModalOpen.value = true
+}
+
+const closeErrorModal = () => {
+  isErrorModalOpen.value = false
+}
+
+onMounted(() => {})
 </script>
 
 <template>
@@ -216,6 +236,39 @@ onMounted(() => {
             และข้อมูลของโครงงานให้ครบถ้วน
           </li>
         </ol>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="fixed top-0 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50"
+    :class="{ hidden: !isErrorModalOpen }"
+    id="error-modal"
+  >
+    <div class="max-w-lg mx-auto p-8 bg-white rounded-lg shadow-md">
+      <div class="mb-4 flex justify-end">
+        <button type="button" class="" @click="closeErrorModal">
+          <svg
+            class="w-4 h-4"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 14 14"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+            />
+          </svg>
+          <span class="sr-only">Close</span>
+        </button>
+      </div>
+      <div class="text-center">
+        <h2 class="text-red-600 text-xl font-semibold mb-2">Error</h2>
+        <p class="text-gray-800">{{ errorMessage }}</p>
       </div>
     </div>
   </div>

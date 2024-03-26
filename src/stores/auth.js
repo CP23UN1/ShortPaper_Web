@@ -34,6 +34,7 @@ export const useAuthStore = defineStore('auth', {
           this.setUserRole(decodedToken.groupid)
         }
       } catch (err) {
+        this.setLoggedIn(false)
         console.error(err)
       }
     },
