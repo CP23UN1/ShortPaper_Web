@@ -66,7 +66,7 @@ onMounted(()=>{
         ><span>เอกสารโครงงาน</span></RouterLink
       >
       <RouterLink
-        to="/article"
+        to="/student/article"
         class="mx-2"
         :class="{
           'underline underline-offset-8 decoration-4':
