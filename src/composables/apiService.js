@@ -141,5 +141,8 @@ class ApiService {
   async searchSubjects(keyword) {
     return await api.get(`/subjects/search-by-filter/${keyword}`)
   }
+  async updateSubject(studentId, subject) {
+    return await api.patch(`/subject/update/${studentId}`, subject)
+  }
 }
 export default new ApiService()

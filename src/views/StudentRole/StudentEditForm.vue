@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onBeforeMount } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { Modal } from 'flowbite'
 import { useValidateStore } from '../../stores/validate'
@@ -21,13 +21,10 @@ const studentSubjectId = ref()
 const shortpaperTopic = ref()
 const shortpaper = ref({})
 const shortpaperId = ref()
-
-// const selectedSubjectId = ref()
-// const shortpaperTopicValue = computed({
-//   get: () =>
-//     student.value.shortpaper ? student.value.shortpaper.shortpaperTopic : '',
-//   set: (value) => (student.value.shortpaper.shortpaperTopic = value),
-// })
+const registeredSubjects = ref()
+const registeredSubjectsId = ref()
+const paperSubjects = ref()
+const paperSubjectsId = ref()
 
 const modal = ref()
 const toggleModal = () => {
@@ -43,10 +40,18 @@ const getStudentAndSubjectsAndShortpapers = async () => {
     if (studentData.data.subjects) {
     console.log("studentData.data.subjects:", studentData.data.subjects); // Add this line for debugging
     studentSubjectId.value = studentData.data.subjects.subjectId
-    }
-    if (studentData.data.shortpapers) {
-    console.log("studentData.data.shortpapers:", studentData.data.shortpapers); // Add this line for debugging
-    shortpaperTopic.value = studentData.data.shortpapers.shortpaperTopic
+    registeredSubjects.value = studentData.data.subjects.filter(subject => subject.isRegisteredSubject)
+      .map(subject => subject.subjectId);
+    paperSubjects.value = studentData.data.subjects.filter(subject => subject.isPaperSubject)
+      .map(subject => subject.subjectId);  
+    // Convert arrays to strings
+    registeredSubjectsId.value = registeredSubjects.value[0];
+    paperSubjectsId.value = paperSubjects.value[0];
+
+    console.log("Registered Subject IDs:", registeredSubjectsId);
+    console.log("Paper Subject IDs:", paperSubjectsId);
+    console.log(registeredSubjects.value);
+    console.log(paperSubjects.value);
     }
   }
 
@@ -61,9 +66,30 @@ const getStudentAndSubjectsAndShortpapers = async () => {
     const shortpaperData = await shortpaperRes.data
     console.log("shortpaper.data:", shortpaperRes.data);
     shortpaper.value = shortpaperData.data
-    shortpaperTopic.value = shortpaperData.data.shortpaperTopic
-    shortpaperId.value = shortpaperData.data.shortpaperId
+    if(shortpaper.value == null){
+      shortpaperId.value = "null";
+      shortpaperTopic.value = "null";
+    } else {
+      shortpaperId.value = shortpaperData.data.shortpaperId
+      shortpaperTopic.value = shortpaperData.data.shortpaperTopic
+    }
   }
+
+  // if (student.value.subjects && student.value.subjects.length) {
+  //   registeredSubjects.value = student.value.subjects
+  //     .filter(subject => subject.isRegisteredSubject)
+  //     .map(subject => subject.subjectName);
+  // } else {
+  //   registeredSubjects.value = [];
+  // }
+
+  // if (student.value.subjects && student.value.subjects.length) {
+  //   paperSubjects.value = student.value.subjects
+  //     .filter(subject => subject.isPaperSubject)
+  //     .map(subject => subject.subjectName);
+  // } else {
+  //   paperSubjects.value = [];
+  // }
 }
 
 const validateData = () => {
@@ -87,7 +113,7 @@ const validateData = () => {
     isValid = false
   }
 
-  if (!student.value.shortpaper.shortpaperTopic) {
+  if (!shortpaperTopic.value) {
     alert('กรุณาใส่หัวข้อโครงงาน')
     isValid = false
   }
@@ -103,46 +129,41 @@ const validateData = () => {
   return isValid
 }
 
-// const updateStudent = async () => {
-//   if (validateData()) {
-//     const updatedStudent = {
-//       studentId: studentId.value,
-//       firstname: student.value.firstname,
-//       lastname: student.value.lastname,
-//       email: student.value.email,
-//       alternativeEmail: student.value.alternativeEmail,
-//       phonenumber: student.value.phonenumber,
-//       // shortpaper: {
-//       //   shortpaperTopic: shortpaperTopic.value,
-//       // },
-//       // subjects: {
-//       //   subjectId: studentSubjectId.value,
-//       // },
-//     }
-//     await ApiService.updateStudent(studentId.value, updatedStudent)
-//     modal.value.toggle()
-//     alert('บันทึกสำเร็จ')
-//     router.push('/student/' + studentId.value)
-//   }
-// }
 const updateStudentAndShortpaper = async () => {
   if (validateData()) {
-    const updatedStudent = {
-      studentId: studentId.value,
-      firstname: student.value.firstname,
-      lastname: student.value.lastname,
-      email: student.value.email,
-      alternativeEmail: student.value.alternativeEmail,
-      phonenumber: student.value.phonenumber,
-    }
+  // Create an array to hold the subjects
+  // Create an array to hold the subjects
+  // const updatedSubjects = [];
+
+  // Add registered subjects to updatedSubjects array
+  //   updatedSubjects.push({
+  //     SubjectId: registeredSubjectsId.value,
+  //     IsRegisteredSubject: true,
+  //     IsPaperSubject: false
+  //   });
+
+  // Add paper subjects to updatedSubjects array
+  //   updatedSubjects.push({
+  //     SubjectId: paperSubjectsId.value,
+  //     IsRegisteredSubject: false,
+  //     IsPaperSubject: true
+  //   });
+
+  const updatedStudent = {
+    studentId: studentId.value,
+    firstname: student.value.firstname,
+    lastname: student.value.lastname,
+    email: student.value.email,
+    alternativeEmail: student.value.alternativeEmail,
+    phonenumber: student.value.phonenumber,
+  };
     await ApiService.updateStudent(studentId.value, updatedStudent)
 
-    if (shortpaperTopic.value) {
+    if (shortpaperId.value != "null") {
     // If the student has a short paper, update it
     const updatedShortpaper = {
       shortpaperId: shortpaper.value.shortpaperId,
       shortpaperTopic: shortpaperTopic.value,
-      subjectId: studentSubjectId.value
     }
     await ApiService.updateShortpaper(shortpaper.value.id, updatedShortpaper)
   } else {
@@ -150,10 +171,28 @@ const updateStudentAndShortpaper = async () => {
     const newShortpaper = {
       shortpaperTopic: shortpaperTopic.value,
       studentId: studentId.value,
-      subjectId: studentSubjectId.value
     }
     await ApiService.addShortpaper(newShortpaper)
   }
+
+  if(registeredSubjectsId.value) {
+    const updatedRegisteredSubject = {
+    SubjectId: registeredSubjectsId.value,
+    IsRegisteredSubject: true,
+    IsPaperSubject: false
+    };
+    await ApiService.updateSubject(studentId.value, updatedRegisteredSubject)
+  }
+
+  if(paperSubjectsId.value) {
+    const updatedPaperSubject = {
+    SubjectId: paperSubjectsId.value,
+    IsRegisteredSubject: false,
+    IsPaperSubject: true
+    };
+    await ApiService.updateSubject(studentId.value, updatedPaperSubject)
+  }
+  
     modal.value.toggle()
     alert('บันทึกสำเร็จ')
     router.push('/student/' + studentId.value)
@@ -181,11 +220,11 @@ const updateStudentAndShortpaper = async () => {
 //   alert('บันทึกสำเร็จ')
 // }
 
-onBeforeMount(async () => {
-  await getStudentAndSubjectsAndShortpapers()
-
+onMounted(async () => {
   const targetEl = document.getElementById('save-modal')
   modal.value = new Modal(targetEl)
+
+  await getStudentAndSubjectsAndShortpapers()
 })
 </script>
 
@@ -289,40 +328,39 @@ onBeforeMount(async () => {
                 >วิชาจัดทำ IS Report / Thesis / Project</label
               >
               <select
-                id="isSubject"
+                id="registeredSubjectsId"
                 class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                v-model="registeredSubjectsId"
               >
                 <option>ยังไม่ได้เลือกวิชา</option>
                 <option
                   v-for="subject in subjects"
                   :key="subject.subjectId"
                   :value="subject.subjectId"
-                  :selected="subject.subjectId == studentSubjectId"
                 >
                   {{ subject.subjectId }} {{ subject.subjectName }}
                 </option>
               </select>
             </div>
-            <!-- <div class="mb-1">
+            <div class="mb-1">
               <label class="font-extrabold block mb-2" for="workshopSubject"
                 >วิชาเลือก Workshop / Thesis / Project</label
               >
               <select
-                id="isSubject"
+                id="paperSubjectsId"
                 class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                v-model="paperSubjectsId"
               >
-              <option v-if="!subjects">กำลังโหลด</option>
-                <option v-else>ยังไม่ได้เลือกวิชา</option>
-                <option
+              <option>ยังไม่ได้เลือกวิชา</option>
+              <option
                   v-for="subject in subjects"
                   :key="subject.subjectId"
                   :value="subject.subjectId"
-                  :selected="subject.subjectId == studentSubjectId"
-                >
+              >
                   {{ subject.subjectId }} {{ subject.subjectName }}
                 </option>
               </select>
-            </div> -->
+            </div>
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 <script setup>
 import { useRoute, useRouter } from 'vue-router'
-import { onBeforeMount, ref } from 'vue'
+import { onBeforeMount, onMounted, ref } from 'vue'
 import { useAuthStore } from '../../stores/auth'
 
 import ApiService from '../../composables/apiService'
@@ -16,10 +16,35 @@ const studentId = ref(store.userId)
 const student = ref({})
 const subjects = ref()
 
+const getRegisteredSubjects = () => {
+  if (student.value.subjects && student.value.subjects.length) {
+    const registeredSubjects = student.value.subjects
+      .filter(subject => subject.isRegisteredSubject)
+      .map(subject => subject.subjectName)
+      .join(', ');
+    return registeredSubjects || 'ยังไม่มีข้อมูล';
+  } else {
+    return 'ยังไม่มีข้อมูล';
+  }
+}
+
+const getPaperSubjects = () => {
+  if (student.value.subjects && student.value.subjects.length) {
+    const paperSubjects = student.value.subjects
+      .filter(subject => subject.isPaperSubject)
+      .map(subject => subject.subjectName)
+      .join(', ');
+    return paperSubjects || 'ยังไม่มีข้อมูล';
+  } else {
+    return 'ยังไม่มีข้อมูล';
+  }
+}
+
 const getStudentAndSubjects = async () => {
   const studentRes = await ApiService.getStudentById(studentId.value)
   if (studentRes.status === 200) {
     const studentData = await studentRes.data
+    console.log("studentData.data:", studentData.data);
     student.value = studentData.data
   }
 
@@ -209,9 +234,9 @@ onBeforeMount(async () => {
                     type="text"
                     id="isSubject"
                     class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                    v-model="student.subjects.subjectName"
+                    :value="getRegisteredSubjects()"
                     disabled
-                    v-if="student.subjects"
+                    v-if="getRegisteredSubjects()"
                   />
                   <input
                     type="text"
@@ -245,9 +270,9 @@ onBeforeMount(async () => {
                     type="text"
                     id="workshopSubject"
                     class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                    v-model="student.subjects.subjectName"
+                    :value="getPaperSubjects()"
                     disabled
-                    v-if="student.subjects"
+                    v-if="getPaperSubjects()"
                   />
                   <input
                     type="text"
