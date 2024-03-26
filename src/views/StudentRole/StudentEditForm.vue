@@ -175,7 +175,16 @@ const updateStudentAndShortpaper = async () => {
     await ApiService.addShortpaper(newShortpaper)
   }
 
-  if(registeredSubjectsId.value) {
+  if(registeredSubjectsId.value && paperSubjectsId.value && registeredSubjectsId.value == paperSubjectsId.value) {
+    const updatedRegisteredSubject = {
+    SubjectId: paperSubjectsId.value,
+    IsRegisteredSubject: true,
+    IsPaperSubject: true
+    };
+    await ApiService.updateSubject(studentId.value, updatedRegisteredSubject)
+  }
+
+  if(registeredSubjectsId.value && registeredSubjectsId.value != paperSubjectsId.value) {
     const updatedRegisteredSubject = {
     SubjectId: registeredSubjectsId.value,
     IsRegisteredSubject: true,
@@ -184,7 +193,7 @@ const updateStudentAndShortpaper = async () => {
     await ApiService.updateSubject(studentId.value, updatedRegisteredSubject)
   }
 
-  if(paperSubjectsId.value) {
+  if(paperSubjectsId.value && registeredSubjectsId.value != paperSubjectsId.value) {
     const updatedPaperSubject = {
     SubjectId: paperSubjectsId.value,
     IsRegisteredSubject: false,
