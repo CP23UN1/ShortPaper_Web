@@ -10,32 +10,34 @@ const handleFileUpload = (event) => {
   file.value = event.target.files[0]
 }
 
-// Vue component
 const assignAdvisors = async () => {
   if (file.value) {
     try {
-      await ApiService.assignCommittee(file.value); // Pass the file directly to the assignCommittee function
-      console.log('File successfully sent.'); // Log success message
+      await ApiService.assignCommittee(file.value)
     } catch (error) {
-      console.error('Error assigning committee:', error); // Log error message
+      console.error('Error assigning committee:', error)
     }
-  } else {
-    console.error('No file selected.'); // Log error message if no file is selected
   }
 }
-
 </script>
 
 <template>
-    <div>
-      <Header class="text-sm rounded-md" header="Assign Advisor to Students" />
-      <div class="p-5 shadow-md text-sm">
-        <input type="file" @change="handleFileUpload" accept=".csv" />
-        <ButtonMain text="Assign Advisors" @click="assignAdvisors" />
-      </div>
+  <div>
+    <Header class="text-sm rounded-md" header="Assign Advisor to Students" />
+    <div class="p-5 shadow-md text-sm">
+      <input
+        type="file"
+        @change="handleFileUpload"
+        class="ml-2 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
+        accept=".csv"
+      />
+      <ButtonMain
+        text="แต่งตั้งกรรมการ"
+        @click="assignAdvisors"
+        class="ml-3 bg-bluemain border hover:bg-white border-bluemain hover:text-bluemain"
+      />
     </div>
+  </div>
 </template>
 
-  
 <style></style>
-  

@@ -3,7 +3,6 @@ import { ref } from 'vue'
 import ApiService from '../../composables/apiService'
 import Header from '../../components/Header.vue'
 import ButtonMain from '../../components/ButtonMain.vue'
-import FileInput from '../../components/FileInput.vue'
 
 const file = ref(null)
 
@@ -26,7 +25,12 @@ const addStudentData = async () => {
   <div>
     <Header class="text-sm rounded-md" header="เพิ่มข้อมูลนักศึกษา" />
     <div class="p-5 shadow-md text-sm">
-      <input type="file" @change="handleFileUpload" class="ml-2 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none" accept=".csv" />
+      <input
+        type="file"
+        @change="handleFileUpload"
+        class="ml-2 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
+        accept=".csv"
+      />
       <ButtonMain
         text="เพิ่มนักศึกษา"
         @click="addStudentData"
