@@ -27,6 +27,7 @@ import CommitteeFileList from '../views/CommitteeRole/CommitteeFileList.vue'
 import CommitteeHome from '../views/CommitteeRole/CommitteeHome.vue'
 import CommitteeList from '../views/CommitteeRole/CommitteeList.vue'
 import CommitteeStudentList from '../views/CommitteeRole/CommitteeStudentList.vue'
+import CommitteeStudentDetail from '../views/CommitteeRole/CommitteeStudentDetail.vue'
 
 // not organized role
 import FileComment from '../views/FileComment.vue'
@@ -132,6 +133,11 @@ const routes = [
     path: '/committee/students',
     name: 'Committee Student List',
     component: CommitteeStudentList,
+  },
+  {
+    path: '/committee/student/:id',
+    name: 'Committee Student Detail',
+    component: CommitteeStudentDetail,
   },
 ]
 

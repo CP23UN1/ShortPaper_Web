@@ -1,28 +1,18 @@
 <script setup>
-import { useRoute, useRouter } from 'vue-router'
-import { onBeforeMount, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
 import ApiService from '../../composables/apiService'
 
-import Header from '../../components/Header.vue'
-import ButtonMain from '../../components/ButtonMain.vue'
 import SearchInput from '../../components/SearchInput.vue'
+import Header from '../../components/Header.vue'
+import EmptyData from '../../components/EmptyData.vue'
+import ButtonMain from '../../components/ButtonMain.vue'
+import { useAuthStore } from '../../stores/auth'
 
-const student = ref({})
-const route = useRoute()
-const router = useRouter()
-
-const getStudent = async () => {
-  if (route.query.id) {
-    const id = route.query.id
-    const res = await ApiService.getStudentById(id)
-
-    if (res.status === 200) {
-      const data = await res.data
-      student.value = data.data
-    }
-  }
-}
+const students = ref([])
+const fileType = ref([])
+const store = useAuthStore()
+const committeeId = ref(store.userId)
 
 const wrongIconSvg = `<svg
                     class="w-[15px] h-[15px] text-red-600"
@@ -60,8 +50,47 @@ const isFileStatusValid = (fileStatus) => {
   return fileStatus !== undefined && fileStatus !== null
 }
 
-onBeforeMount(async () => {
-  await getStudent()
+const getStudentByCommittee = async () => {
+  const res = await ApiService.getStudentByCommittee(committeeId.value)
+
+  if (res.status === 200) {
+    const data = await res.data
+    students.value = data.data
+    console.log(students.value)
+  }
+}
+
+const getFileType = async () => {
+  const res = await ApiService.getFileType()
+
+  if (res.status === 200) {
+    const data = await res.data
+    fileType.value = data.data
+  }
+}
+
+const searchKeyword = async (keyword) => {
+  if (keyword == null || keyword == undefined || keyword == '') {
+    await getStudentByCommittee()
+  } else {
+    const res = await ApiService.getStudentByCommitteeAndFilter(
+      committeeId.value,
+      keyword
+    )
+    if (res.status === 200) {
+      const data = await res.data
+      students.value = data.data
+    }
+  }
+}
+
+const hasFileWithId = (filesArray, fileId) => {
+  return filesArray.some((file) => file.shortpaperFileTypeId === fileId)
+}
+
+onMounted(async () => {
+  await searchKeyword()
+  await getFileType()
 })
 </script>
 
@@ -69,130 +98,157 @@ onBeforeMount(async () => {
   <div class="mt-5 font-semibold">
     <div class="text-bluemain text-left text-sm">
       <p>
-        <RouterLink :to="'/studentinfo'">
-          <span class="hover:text-blueheader">ตรวจสอบข้อมูล(รายบุคคล)</span>
+        <RouterLink :to="'/students'">
+          <span class="hover:text-blueheader">ข้อมูลนักศึกษา</span>
         </RouterLink>
       </p>
     </div>
-    <div class="bg-white p-2">
-      <SearchInput class="w-96" label="รหัสนักศึกษา"/>{{รหัสนักศึกษา}}
+  </div>
+  <div>
+    <Header class="text-sm rounded-md" header="ข้อมูลนักศึกษา" />
+    <div class="p-5 shadow-md text-sm">
+      <SearchInput
+        @searchKeyword="searchKeyword"
+        placeholder="กรอกรหัสนักศึกษา ชื่อ นามสกุล หรืออีเมล"
+        label="ค้นหานักศึกษา"
+      />
     </div>
-    <div class="mt-3 justify-center item-center mb-12 grid grid-cols-2 text-sm w-full">
-      <div class="shadow-md">
-        <h1 class="my-2 ml-2">ข้อมูลนักศึกษา</h1>
-        <hr />
-        <table class="table-auto my-2 ml-2">
-          <tbody>
-            <tr>
-              <td>รหัสนักศึกษา</td>
-              <td>{{ student.studentId }}</td>
-            </tr>
-            <tr>
-              <td>ชื่อ - นามสกุล</td>
-              <td>{{ student.firstname }} {{ student.lastname }}</td>
-            </tr>
-            <tr>
-              <td>เบอร์โทรศัพท์</td>
-              <td>
-                {{ student.phoneNumber == null ? '-' : student.phoneNumber }}
-              </td>
-            </tr>
-            <tr>
-              <td>อีเมล</td>
-              <td>{{ student.email }}</td>
-            </tr>
-            <tr>
-              <td>อีเมลสำรอง</td>
-              <td>
-                {{
-                  student.alternativeEmail == null
-                  ? '-'
-                  : student.alternativeEmail
-                }}
-              </td>
-            </tr>
-            <tr>
-              <td class="pr-16">ชื่อหัวข้อโครงงาน</td>
-              <td>
-                {{ student.projectName == null ? '-' : student.projectName }}
-              </td>
-            </tr>
-            <!-- <tr>
-              <td class="pr-16">รายวิชาจัดทำ IS Report</td>
-              <td>
-                <div v-if="student.registeredSubject">
-                  {{ student.registeredSubject.subjectId }}
-                  {{ student.registeredSubject.subjectName }}
+    <div
+      class="relative overflow-x-auto shadow-md rounded-lg mt-6"
+      v-if="students !== null"
+    >
+      <table class="w-full text-sm text-left rtl:text-right text-gray-500">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+          <tr>
+            <th scope="col" class="px-6 py-3">รหัสนักศึกษา</th>
+            <th scope="col" class="px-6 py-3">ชื่อ - นามสกุล</th>
+            <th scope="col" class="px-6 py-3">รายวิชา</th>
+
+            <!-- file type -->
+            <th
+              scope="col"
+              class="px-6 py-3"
+              v-for="type in fileType"
+              :key="type.typeId"
+            >
+              {{ type.typeName }}
+            </th>
+
+            <th scope="col" class="px-6 py-3">
+              <span class="sr-only">รายละเอียด</span>
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr
+            class="bg-white border-b hover:bg-gray-50"
+            v-for="student in students"
+            :key="student.studentId"
+          >
+            <th
+              scope="row"
+              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+            >
+              {{ student.studentId }}
+            </th>
+            <td class="px-6 py-4">
+              {{ student.firstname }} {{ student.lastname }}
+            </td>
+            <td class="px-6 py-4" v-if="student.subjects">
+              {{ student.subjects.subjectId }}
+              {{ student.subjects.subjectName }}
+            </td>
+            <td v-else class="text-center">-</td>
+
+            <td class="px-6 py-4">
+              <div
+                v-if="
+                  student.shortpaperFiles &&
+                  student.shortpaperFiles.length !== 0
+                "
+              >
+                <div v-if="hasFileWithId(student.shortpaperFiles, 1)">
+                  <div v-html="correctIconSvg"></div>
                 </div>
-                <div v-else>-</div>
-              </td>
-            </tr> -->
-          </tbody>
-        </table>
-      </div>
-      <div class="shadow-md">
-        <h1 class="my-2 ml-2">ข้อมูลการ Upload File</h1>
-        <hr />
-        <table class="table-auto my-2 ml-2">
-          <tbody>
-            <tr>
-              <td>อัปโหลดเอกสาร ใบ บ.1</td>
-              <td v-if="isFileStatusValid(student.fileStatus)">
-                <div v-if="student.fileStatus.bOne === 0" v-html="wrongIconSvg"></div>
-                <div v-else v-html="correctIconSvg"></div>
-              </td>
-            </tr>
-            <tr>
-              <td>อัปโหลดเอกสารโครงงานครั้งที่ 1</td>
-              <td v-if="isFileStatusValid(student.fileStatus)">
-                <div v-if="student.fileStatus.paperOne === 0" v-html="wrongIconSvg"></div>
-                <div v-else v-html="correctIconSvg"></div>
-              </td>
-            </tr>
-            <tr>
-              <td>อัปโหลดเอกสารโครงงานครั้งที่ 2</td>
-              <td v-if="isFileStatusValid(student.fileStatus)">
-                <div v-if="student.fileStatus.paperTwo === 0" v-html="wrongIconSvg"></div>
-                <div v-else v-html="correctIconSvg"></div>
-              </td>
-            </tr>
-            <tr>
-              <td class="pr-16">
-                อัปโหลดเอกสารโครงงานในรูปแบบของบทความ
-                (ฉบับเกี่ยวข้องกับห้องสมุด)
-              </td>
-              <td v-if="isFileStatusValid(student.fileStatus)">
-                <div v-if="student.fileStatus.article === 0" v-html="wrongIconSvg"></div>
-                <div v-else v-html="correctIconSvg"></div>
-              </td>
-            </tr>
-            <tr>
-              <td>อัปโหลดเอกสารโครงงานฉบับสมบูรณ์</td>
-              <td v-if="isFileStatusValid(student.fileStatus)">
-                <div v-if="student.fileStatus.final === 0" v-html="wrongIconSvg"></div>
-                <div v-else v-html="correctIconSvg"></div>
-              </td>
-            </tr>
-            <tr>
-              <td>อัปโหลดใบโอนลิขสิทธิ์</td>
-              <td v-if="isFileStatusValid(student.fileStatus)">
-                <div v-if="student.fileStatus.copyright === 0" v-html="wrongIconSvg"></div>
-                <div v-else v-html="correctIconSvg"></div>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                อัปโหลดเอกสารข้อตกลงเพื่อการหลีกเลี่ยงการโจรกรรมทางวรรณกรรม
-              </td>
-              <td v-if="isFileStatusValid(student.fileStatus)">
-                <div v-if="student.fileStatus.robbery === 0" v-html="wrongIconSvg"></div>
-                <div v-else v-html="correctIconSvg"></div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+                <div v-else>
+                  <div v-html="wrongIconSvg"></div>
+                </div>
+              </div>
+            </td>
+
+            <td class="px-6 py-4">
+              <div v-if="student.shortpaperFiles.length !== 0">
+                <div
+                  v-if="hasFileWithId(student.shortpaperFiles, 2)"
+                  v-html="correctIconSvg"
+                ></div>
+                <div v-else v-html="wrongIconSvg"></div>
+              </div>
+            </td>
+
+            <td class="px-6 py-4">
+              <div v-if="student.shortpaperFiles.length !== 0">
+                <div
+                  v-if="hasFileWithId(student.shortpaperFiles, 3)"
+                  v-html="correctIconSvg"
+                ></div>
+                <div v-else v-html="wrongIconSvg"></div>
+              </div>
+            </td>
+
+            <td class="px-6 py-4">
+              <div v-if="student.shortpaperFiles.length !== 0">
+                <div
+                  v-if="hasFileWithId(student.shortpaperFiles, 4)"
+                  v-html="correctIconSvg"
+                ></div>
+                <div v-else v-html="wrongIconSvg"></div>
+              </div>
+            </td>
+
+            <td class="px-6 py-4">
+              <div v-if="student.shortpaperFiles.length !== 0">
+                <div
+                  v-if="hasFileWithId(student.shortpaperFiles, 5)"
+                  v-html="correctIconSvg"
+                ></div>
+                <div v-else v-html="wrongIconSvg"></div>
+              </div>
+            </td>
+
+            <td class="px-6 py-4">
+              <div v-if="student.shortpaperFiles.length !== 0">
+                <div
+                  v-if="hasFileWithId(student.shortpaperFiles, 6)"
+                  v-html="correctIconSvg"
+                ></div>
+                <div v-else v-html="wrongIconSvg"></div>
+              </div>
+            </td>
+
+            <td class="px-6 py-4">
+              <div v-if="student.shortpaperFiles.length !== 0">
+                <div
+                  v-if="hasFileWithId(student.shortpaperFiles, 7)"
+                  v-html="correctIconSvg"
+                ></div>
+                <div v-else v-html="wrongIconSvg"></div>
+              </div>
+            </td>
+
+            <td class="px-6 py-4 text-right">
+              <RouterLink
+                :to="`/committee/student/${student.studentId}`"
+                class="font-medium text-bluemain"
+                ><ButtonMain text="รายละเอียด"
+              /></RouterLink>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+    <EmptyData message="ไม่มีข้อมูลนักศึกษา" v-else />
   </div>
 </template>
 

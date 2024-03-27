@@ -133,6 +133,12 @@ class ApiService {
       headers: { 'Content-Type': 'multipart/form-data' },
     })
   }
+  async getStudentByCommittee(committeeId) {
+    return await api.get(`/student/committee/${committeeId}`)
+  }
+  async getStudentByCommitteeAndFilter(committeeId, filter) {
+    return await api.get(`/student/committee-filter/${committeeId}/${filter}`)
+  }
 
   // Subjects
   async getSubjects() {
