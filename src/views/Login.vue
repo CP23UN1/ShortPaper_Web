@@ -54,7 +54,7 @@ const login = async () => {
             router.push('/committee/home')
             break
           case 'admin':
-            router.push('/admin/home')
+            router.push('/admin/students')
             break
           default:
             router.push('/')

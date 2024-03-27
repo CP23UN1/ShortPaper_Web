@@ -35,31 +35,22 @@ onMounted(() => {})
       class="flex items-center space-x-7 text-bluemain font-extrabold text-sm"
     >
       <RouterLink
-        to="/admin/home"
+        :to="`/admin/students`"
         class="mx-2"
         :class="{
           'underline underline-offset-8 decoration-4':
-            $route.name === 'Home Admin',
+            $route.name === 'Admin Student List',
         }"
-        ><span>หน้าหลัก</span></RouterLink
+        ><span>โครงงานนักศึกษา</span></RouterLink
       >
       <RouterLink
         :to="`/admin/adddata`"
         class="mx-2"
         :class="{
           'underline underline-offset-8 decoration-4':
-            $route.name === 'Admin Add Data'
+            $route.name === 'Admin Add Data',
         }"
         ><span>จัดการนักศึกษา</span></RouterLink
-      >
-      <RouterLink
-        :to="`/admin/students`"
-        class="mx-2"
-        :class="{
-          'underline underline-offset-8 decoration-4':
-            $route.name === 'Admin Student List'
-        }"
-        ><span>โครงงานนักศึกษา</span></RouterLink
       >
       <RouterLink
         :to="`/admin/assign`"
@@ -79,7 +70,7 @@ onMounted(() => {})
         }"
         ><span>จัดการประกาศ</span></RouterLink
       >
-      
+
       <button
         class="text-error underline mx-2 hover:bg-error hover:text-white hover:no-underline rounded-lg"
         @click="logout"
