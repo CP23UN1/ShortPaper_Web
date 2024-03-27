@@ -17,9 +17,6 @@ const email = ref()
 const username = ref()
 const password = ref()
 
-const isModalOpen = ref(false)
-let modalInstance = ref()
-
 const validateData = () => {
   let isValid = true
 
@@ -29,12 +26,12 @@ const validateData = () => {
   // }
 
   if (!username.value) {
-    alert('กรุณาใส่ชื่อผู้ใช้')
+    showErrorModal('กรุณาใส่ชื่อผู้ใช้')
     isValid = false
   }
 
   if (!password.value) {
-    alert('กรุณาใส่รหัสผ่าน')
+    showErrorModal('กรุณาใส่รหัสผ่าน')
     isValid = false
   }
 
@@ -72,12 +69,15 @@ const login = async () => {
   } catch (error) {
     if (error.response && error.response.status === 400) {
       const errorMessage = error.response.data.message
-      //showErrorModal(errorMessage) 
+      //showErrorModal(errorMessage)
     } else {
       console.error('An error occurred:', error.message)
     }
   }
 }
+
+// Modal
+const isModalOpen = ref(false)
 
 const toggleModal = () => {
   isModalOpen.value = !isModalOpen.value
@@ -91,8 +91,8 @@ const showErrorModal = (message) => {
   isErrorModalOpen.value = true
 }
 
-const closeErrorModal = () => {
-  isErrorModalOpen.value = false
+const toggleErrorModal = () => {
+  isErrorModalOpen.value = !isErrorModalOpen.value
 }
 
 onMounted(() => {})
@@ -193,49 +193,50 @@ onMounted(() => {})
           <span class="sr-only">ปิดหน้าต่าง</span>
         </button>
       </div>
+      <div class="mt-[-22px]">
+        <div class="mb-4">
+          <h1 class="text-bluemain font-black">กำหนดการ</h1>
+          <ol>
+            <li>
+              1. ถ้าไม่ส่ง IS Report
+              ตามกําหนดการที่อาจารย์ผู้สอนกําหนดครั้งเป็นต้นไป
+              กรรมการสงวนสิทธิ์ในการอ่าน นักศึกษาอาจต้องลงทะเบียนเรียนใหม่
+            </li>
+            <li>
+              2. การอัปโหลดแต่ละครั้งให้แนบสรุปประเด็นที่ต้องแก้ไขครั้งก่อนด้วย
+            </li>
+          </ol>
+        </div>
 
-      <div class="mb-4">
-        <h1 class="text-bluemain font-black">กำหนดการ</h1>
-        <ol>
-          <li>
-            1. ถ้าไม่ส่ง IS Report
-            ตามกําหนดการที่อาจารย์ผู้สอนกําหนดครั้งเป็นต้นไป
-            กรรมการสงวนสิทธิ์ในการอ่าน นักศึกษาอาจต้องลงทะเบียนเรียนใหม่
-          </li>
-          <li>
-            2. การอัปโหลดแต่ละครั้งให้แนบสรุปประเด็นที่ต้องแก้ไขครั้งก่อนด้วย
-          </li>
-        </ol>
-      </div>
-
-      <div>
-        <h1 class="text-bluemain font-black">ขั้นตอนการอัปโหลด IS Report</h1>
-        <ol>
-          <li>
-            1. อัปโหลดไฟล์นามสกุล pdf เท่านั้น โดยตั้งชื่อไฟล์ตามรหัสนักศึกษา
-            เช่น 6644xxxxxxx.pdf เป็นต้น
-          </li>
-          <li>
-            2. ให้รวมไฟล์ให้อยู่ในรูปแบบไฟล์เดียว ไม่ต้องแยกบท หรือเนื้อหา
-          </li>
-          <li>
-            3. ตรวจสอบอีเมล และเบอร์โทรศัพท์ว่าถูกต้องหรือไม่ เนื่องจากความเห็น
-            IS Report จะส่งกลับทางอีเมล
-          </li>
-          <li>
-            4. ถ้าต้องการเปลี่ยนแปลงแก้ไขอีเมล หรือเบอร์โทรศัพท์สามารถ
-            แก้ไขได้ที่หน้าแก้ไขข้อมูล
-          </li>
-          <li>
-            5. ถ้าไม่สามารถอัปโหลดไฟล์ หรือใช้งานระบบไม่ได้ ให้ส่งไฟล์ IS Report
-            มาที่ webadmin@sit.kmutt.ac.th พร้อมทั้งแจ้งอีเมล และเบอร์โทร
-            ติดต่อกลับ
-          </li>
-          <li>
-            6. ในการเข้าใช้งานระบบเป็นครั้งแรก ให้นักศึกษากรอกข้อมูลส่วนตัว
-            และข้อมูลของโครงงานให้ครบถ้วน
-          </li>
-        </ol>
+        <div>
+          <h1 class="text-bluemain font-black">ขั้นตอนการอัปโหลด IS Report</h1>
+          <ol>
+            <li>
+              1. อัปโหลดไฟล์นามสกุล pdf เท่านั้น โดยตั้งชื่อไฟล์ตามรหัสนักศึกษา
+              เช่น 6644xxxxxxx.pdf เป็นต้น
+            </li>
+            <li>
+              2. ให้รวมไฟล์ให้อยู่ในรูปแบบไฟล์เดียว ไม่ต้องแยกบท หรือเนื้อหา
+            </li>
+            <li>
+              3. ตรวจสอบอีเมล และเบอร์โทรศัพท์ว่าถูกต้องหรือไม่
+              เนื่องจากความเห็น IS Report จะส่งกลับทางอีเมล
+            </li>
+            <li>
+              4. ถ้าต้องการเปลี่ยนแปลงแก้ไขอีเมล หรือเบอร์โทรศัพท์สามารถ
+              แก้ไขได้ที่หน้าแก้ไขข้อมูล
+            </li>
+            <li>
+              5. ถ้าไม่สามารถอัปโหลดไฟล์ หรือใช้งานระบบไม่ได้ ให้ส่งไฟล์ IS
+              Report มาที่ webadmin@sit.kmutt.ac.th พร้อมทั้งแจ้งอีเมล
+              และเบอร์โทร ติดต่อกลับ
+            </li>
+            <li>
+              6. ในการเข้าใช้งานระบบเป็นครั้งแรก ให้นักศึกษากรอกข้อมูลส่วนตัว
+              และข้อมูลของโครงงานให้ครบถ้วน
+            </li>
+          </ol>
+        </div>
       </div>
     </div>
   </div>
@@ -247,9 +248,9 @@ onMounted(() => {})
   >
     <div class="max-w-lg mx-auto p-8 bg-white rounded-lg shadow-md">
       <div class="mb-4 flex justify-end">
-        <button type="button" class="" @click="closeErrorModal">
+        <button type="button" @click="toggleErrorModal">
           <svg
-            class="w-4 h-4"
+            class="w-3 h-3"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -266,8 +267,24 @@ onMounted(() => {})
           <span class="sr-only">Close</span>
         </button>
       </div>
-      <div class="text-center">
-        <h2 class="text-red-600 text-xl font-semibold mb-2">Error</h2>
+      <div class="text-center mt-[-10px]">
+        <svg
+          class="w-[40px] h-[40px] text-error mx-auto mb-2"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm7.707-3.707a1 1 0 0 0-1.414 1.414L10.586 12l-2.293 2.293a1 1 0 1 0 1.414 1.414L12 13.414l2.293 2.293a1 1 0 0 0 1.414-1.414L13.414 12l2.293-2.293a1 1 0 0 0-1.414-1.414L12 10.586 9.707 8.293Z"
+            clip-rule="evenodd"
+          />
+        </svg>
+
+        <h2 class="text-red-600 text-lg font-semibold mb-2">เกิดข้อผิดพลาด</h2>
         <p class="text-gray-800">{{ errorMessage }}</p>
       </div>
     </div>
