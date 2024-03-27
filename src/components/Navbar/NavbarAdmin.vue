@@ -59,7 +59,8 @@ onMounted(() => {})
         class="mx-2"
         :class="{
           'underline underline-offset-8 decoration-4':
-            $route.name === 'Admin Announcement List',
+            $route.name === 'Admin Announcement List' ||
+            $route.name === 'Creating Announcement',
         }"
         ><span>จัดการประกาศ</span></RouterLink
       >

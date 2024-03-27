@@ -2,8 +2,8 @@
 import { onMounted, ref } from 'vue'
 
 import ApiService from '../../composables/apiService'
-
 import Header from '../../components/Header.vue'
+import ButtonMain from '../../components/ButtonMain.vue'
 
 const announcements = ref([])
 
@@ -20,31 +20,24 @@ onMounted(async () => {
   await getAnnouncements()
 })
 </script>
-<template>
-  <Header class="text-sm rounded-md" header="ประกาศกำหนดการ" />
-  
-  <div>
-    <div
-      class="rounded-md p-5 border-2 my-3 text-bluemain border-bluemain w-2/4 mx-auto"
-      v-for="announcement in announcements"
-      :key="announcement.announcementId"
-    >
-      <h1 class="font-bold">
-        {{ announcement.schedule }}
-      </h1>
-      <p>{{ announcement.content }}</p>
-    </div>
-  </div>
 
-  <!-- <div class="flex justify-center h-screen">
-    <div class="w-full lg:w-3/4">
-      <Header class="text-sm rounded-md" header="ประกาศกำหนดการ"/> 
+<template>
+  <div>
+    <div>
+      <Header class="text-sm rounded-md" header="ประกาศกำหนดการ" />
+      <div class="flex justify-end items-end w-full my-5">
+      <RouterLink :to="`/admin/create/announcement`">
+        <ButtonMain
+          class="bg-bluemain border hover:bg-white border-bluemain hover:text-bluemain"
+          text="สร้างประกาศ"
+        />
+      </RouterLink>
+    </div>
       <div class="relative overflow-x-auto rounded-md mt-5">
         <table class="text-sm text-left rtl:text-right mx-auto w-full">
-
           <thead class="text-white text-center">
             <tr>
-              <th scope="col" class="p-4  bg-blueheader rounded-l-md">
+              <th scope="col" class="p-4 bg-blueheader rounded-l-md">
                 กำหนดการ
               </th>
               <th scope="col" class="p-4 bg-bluemain">รายการ</th>
@@ -54,7 +47,11 @@ onMounted(async () => {
             </tr>
           </thead>
           <tbody>
-            <tr class="border-b" v-for="announcement in announcements" :key="announcement.announcementId">
+            <tr
+              class="border-b"
+              v-for="announcement in announcements"
+              :key="announcement.announcementId"
+            >
               <th scope="row" class="p-4 w-52 font-medium text-center">
                 {{ announcement.schedule }}
               </th>
@@ -68,19 +65,8 @@ onMounted(async () => {
           </tbody>
         </table>
       </div>
-       <div class="bg-bluemain p-4 m-2 rounded-md text-white flex">
-        <div>ข่าวและกิจกรรม</div>
-        <p class="ml-auto underline">See All</p>
-      </div>
-      <div class="flex justify-center items-center">
-        <div class="grid grid-cols-3">
-          <div>1</div>
-          <div>2</div>
-          <div>3</div>
-        </div>
-      </div>
-    </div> 
-  </div>-->
+    </div>
+  </div>
 </template>
 
 <style></style>
