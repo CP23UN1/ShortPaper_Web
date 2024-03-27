@@ -88,11 +88,11 @@ export const useAuthStore = defineStore('auth', {
       
       if (storedToken) {
         const decodedToken = jwtDecode(storedToken)
-        const studentId = decodedToken.preferred_username
+        const userId = decodedToken.preferred_username
         const groupId = decodedToken.groupid
     
         this.setLoggedIn(true)
-        this.setUserId(studentId)
+        this.setUserId(userId)
         this.setUserRole(groupId)
       } else {
         
