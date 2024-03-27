@@ -17,6 +17,7 @@ import AdminAddStudentData from '../views/AdminRole/AdminAddStudentData.vue'
 import AdminAnnouncementList from '../views/AdminRole/AdminAnnouncementList.vue'
 import AdminAssignAdvisor from '../views/AdminRole/AdminAssignAdvisor.vue'
 import AdminCreateAnnouncement from '../views/AdminRole/AdminCreateAnnouncement.vue'
+import AdminStudentDetails from '../views/AdminRole/AdminStudentDetails.vue'
 import AdminStudentList from '../views/AdminRole/AdminStudentList.vue'
 
 // Committee Role
@@ -93,6 +94,11 @@ const routes = [
     path: '/admin/create/announcement',
     name: 'Creating Announcement',
     component: AdminCreateAnnouncement,
+  },
+  {
+    path: '/admin/student/:id',
+    name: 'Admin Student Detail',
+    component: AdminStudentDetails,
   },
   {
     path: '/admin/students',

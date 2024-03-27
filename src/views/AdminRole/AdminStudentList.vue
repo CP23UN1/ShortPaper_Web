@@ -88,15 +88,6 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="mt-5 font-semibold">
-    <div class="text-bluemain text-left text-sm">
-      <p>
-        <RouterLink :to="'/students'">
-          <span class="hover:text-blueheader">ข้อมูลนักศึกษา</span>
-        </RouterLink>
-      </p>
-    </div>
-  </div>
   <div>
     <Header class="text-sm rounded-md" header="ข้อมูลนักศึกษา" />
     <div class="p-5 shadow-md text-sm">
@@ -108,7 +99,7 @@ onMounted(async () => {
     </div>
     <div
       class="relative overflow-x-auto shadow-md rounded-lg mt-6"
-      v-if="students.length !== 0"
+      v-if="students !== null"
     >
       <table class="w-full text-sm text-left rtl:text-right text-gray-500">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
@@ -148,9 +139,19 @@ onMounted(async () => {
             <td class="px-6 py-4">
               {{ student.firstname }} {{ student.lastname }}
             </td>
-            <td class="px-6 py-4" v-if="student.subjects">
-              {{ student.subjects.subjectId }}
-              {{ student.subjects.subjectName }}
+            <td class="px-6 py-4" v-if="student.subjects.length !== 0">
+              <ul>
+                <li v-for="subject in student.subjects" class="mb-2">
+                  {{ subject.subjectId }}
+                  {{ subject.subjectName }}
+                  <span v-if="subject.isRegisteredSubject">
+                    : วิชาที่ลงทะเบียน</span
+                  >
+                  <span v-if="subject.isPaperSubject">
+                    : วิชาที่ทำ IS Report</span
+                  >
+                </li>
+              </ul>
             </td>
             <td v-else class="text-center">-</td>
 
@@ -226,7 +227,7 @@ onMounted(async () => {
 
             <td class="px-6 py-4 text-right">
               <RouterLink
-                :to="`/student?id=${student.studentId}`"
+                :to="`/admin/student/${student.studentId}`"
                 class="font-medium text-bluemain"
                 ><ButtonMain text="รายละเอียด"
               /></RouterLink>
