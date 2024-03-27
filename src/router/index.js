@@ -17,7 +17,7 @@ import AdminAddStudentData from '../views/AdminRole/AdminAddStudentData.vue'
 import AdminAnnouncementList from '../views/AdminRole/AdminAnnouncementList.vue'
 import AdminAssignAdvisor from '../views/AdminRole/AdminAssignAdvisor.vue'
 import AdminCreateAnnouncement from '../views/AdminRole/AdminCreateAnnouncement.vue'
-import AdminHome from '../views/AdminRole/AdminHome.vue'
+import AdminStudentDetails from '../views/AdminRole/AdminStudentDetails.vue'
 import AdminStudentList from '../views/AdminRole/AdminStudentList.vue'
 
 // Committee Role
@@ -96,9 +96,9 @@ const routes = [
     component: AdminCreateAnnouncement,
   },
   {
-    path: '/admin/home',
-    name: 'Home Admin',
-    component: AdminHome,
+    path: '/admin/student/:id',
+    name: 'Admin Student Detail',
+    component: AdminStudentDetails,
   },
   {
     path: '/admin/students',
@@ -155,7 +155,7 @@ function getTokenFromCookie(cookieName) {
 
 router.beforeEach((to, from, next) => {
   const isLoggedIn = getTokenFromCookie('token')
-  const store = useAuthStore() 
+  const store = useAuthStore()
 
   if (to.path !== '/login' && !isLoggedIn) {
     next('/login')
@@ -166,14 +166,14 @@ router.beforeEach((to, from, next) => {
       next('/login')
     } else {
       if (to.meta.requiresRole) {
-        const role = store.userRole 
+        const role = store.userRole
 
         if (role !== to.meta.requiresRole) {
           next('/')
         } else {
           if (to.meta.requiresStudentId) {
             const studentId = to.params.id
-            const userStudentId = store.userId 
+            const userStudentId = store.userId
 
             if (studentId !== userStudentId) {
               next(`/student/${userStudentId}`)
