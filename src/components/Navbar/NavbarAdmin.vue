@@ -40,18 +40,10 @@ onMounted(() => {})
         :class="{
           'underline underline-offset-8 decoration-4':
             $route.name === 'Admin Student List' ||
-            $route.name === 'Admin Student Detail',
-        }"
-        ><span>โครงงานนักศึกษา</span></RouterLink
-      >
-      <RouterLink
-        :to="`/admin/adddata`"
-        class="mx-2"
-        :class="{
-          'underline underline-offset-8 decoration-4':
+            $route.name === 'Admin Student Detail' ||
             $route.name === 'Admin Add Data',
         }"
-        ><span>จัดการนักศึกษา</span></RouterLink
+        ><span>โครงงานนักศึกษา</span></RouterLink
       >
       <RouterLink
         :to="`/admin/assign`"

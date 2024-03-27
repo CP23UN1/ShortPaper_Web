@@ -90,6 +90,14 @@ onMounted(async () => {
 <template>
   <div>
     <Header class="text-sm rounded-md" header="ข้อมูลนักศึกษา" />
+    <div class="flex justify-end items-end w-full my-5">
+      <RouterLink :to="`/admin/adddata`">
+        <ButtonMain
+          class="bg-bluemain border hover:bg-white border-bluemain hover:text-bluemain"
+          text="เพิ่มนักศึกษา"
+        />
+      </RouterLink>
+    </div>
     <div class="p-5 shadow-md text-sm">
       <SearchInput
         @searchKeyword="searchKeyword"
@@ -226,11 +234,12 @@ onMounted(async () => {
             </td>
 
             <td class="px-6 py-4 text-right">
-              <RouterLink
-                :to="`/admin/student/${student.studentId}`"
-                class="font-medium text-bluemain"
-                ><ButtonMain text="รายละเอียด"
-              /></RouterLink>
+              <RouterLink :to="`/admin/student/${student.studentId}`"
+                ><ButtonMain
+                  class="bg-bluemain border hover:bg-white border-bluemain hover:text-bluemain"
+                  text="รายละเอียด"
+                />
+              </RouterLink>
             </td>
           </tr>
         </tbody>
