@@ -13,15 +13,15 @@ const route = useRoute()
 const router = useRouter()
 
 const getStudent = async () => {
-  if (route.query.id) {
-    const id = route.query.id
+  if (route.params.id) {
+    const id = route.params.id
     const res = await ApiService.getStudentById(id)
 
     if (res.status === 200) {
       const data = await res.data
       student.value = data.data
       console.log(student.value);
-      console.log(route.query.id);
+      
       
       
     }
@@ -98,7 +98,7 @@ onBeforeMount(async () => {
             <tr>
               <td>เบอร์โทรศัพท์</td>
               <td>
-                {{ student.phoneNumber == null ? '-' : student.phoneNumber }}
+                {{ student.phonenumber == null ? '-' : student.phonenumber }}
               </td>
             </tr>
             <tr>
@@ -118,7 +118,7 @@ onBeforeMount(async () => {
             <tr>
               <td class="pr-16">ชื่อหัวข้อโครงงาน</td>
               <td>
-                {{ student.projectName == null ? '-' : student.projectName }}
+                {{ student.shortpaper && student.shortpaper.shortpaperTopic != null ? student.shortpaper.shortpaperTopic : '-' }}
               </td>
             </tr>
             <!-- <tr>
