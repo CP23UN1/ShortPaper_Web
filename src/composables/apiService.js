@@ -88,6 +88,9 @@ class ApiService {
       `/file/search-by-id-and-student/${typeId}/${studentId}`
     )
   }
+  async getFilesByCommittee(committeeId) {
+    return await api.get(`/file/search-by-committee-id/${committeeId}`)
+  }
 
   // Short Paper
   async getShortPapers() {
@@ -98,6 +101,12 @@ class ApiService {
   }
   async searchShortPapers(keyword) {
     return await api.get(`/shortpaper/search-by-filter/${keyword}`)
+  }
+  async addShortpaper(shortpaper) {
+    return await api.post(`/shortpaper/create`, shortpaper)
+  }
+  async updateShortpaper(shortpaperId, shortpaper) {
+    return await api.patch(`/shortpaper/update/${shortpaperId}`, shortpaper)
   }
 
   // Students
@@ -124,6 +133,12 @@ class ApiService {
       headers: { 'Content-Type': 'multipart/form-data' },
     })
   }
+  async getStudentByCommittee(committeeId) {
+    return await api.get(`/student/committee/${committeeId}`)
+  }
+  async getStudentByCommitteeAndFilter(committeeId, filter) {
+    return await api.get(`/student/committee-filter/${committeeId}/${filter}`)
+  }
 
   // Subjects
   async getSubjects() {
@@ -131,6 +146,9 @@ class ApiService {
   }
   async searchSubjects(keyword) {
     return await api.get(`/subjects/search-by-filter/${keyword}`)
+  }
+  async updateSubject(studentId, subject) {
+    return await api.patch(`/subject/update/${studentId}`, subject)
   }
 }
 export default new ApiService()

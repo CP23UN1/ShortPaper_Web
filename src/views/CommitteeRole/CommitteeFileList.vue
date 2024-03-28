@@ -20,8 +20,8 @@ const doneIconSvg = `<svg class="w-[20px] h-[20px] text-teal-700" aria-hidden="t
   </svg>`
 
 const fileTypes = ref([])
-const studentFiles = ref([])
-const id = ref(63130500135)
+const committeeFiles = ref([])
+const id = ref(1)
 const shortpaper = ref()
 
 const route = useRoute()
@@ -36,12 +36,12 @@ const getFileType = async () => {
   }
 }
 
-const getFilesByStudent = async () => {
-  const res = await ApiService.getFilesByStudent(id.value)
+const getFilesByCommittee = async () => {
+  const res = await ApiService.getFilesByCommittee(id.value)
 
   if (res.status === 200) {
     const data = await res.data
-    studentFiles.value = data.data
+    committeeFiles.value = data.data
   }
 }
 
@@ -85,27 +85,27 @@ const downloadFile = async (fileId, filename) => {
 }
 
 const getFileStatus = (typeId) => {
-  const file = studentFiles.value.find(
+  const file = committeeFiles.value.find(
     (file) => file.shortpaperFileType.typeId === typeId
   )
   return file ? file.status : 'ยังไม่มีการอัปโหลด'
 }
 
 const hasFile = (typeId) => {
-  return studentFiles.value.some(
+  return committeeFiles.value.some(
     (file) => file.shortpaperFileType.typeId === typeId
   )
 }
 
 const getFileIdByType = (typeId) => {
-  const file = studentFiles.value.find(
+  const file = committeeFiles.value.find(
     (file) => file.shortpaperFileType.typeId === typeId
   )
   return file ? file.shortpaperFileId : null
 }
 
-const getNameByStudent = (typeId) => {
-  const file = studentFiles.value.find(
+const getNameByCommittee = (typeId) => {
+  const file = committeeFiles.value.find(
     (file) => file.shortpaperFileType.typeId === typeId
   )
   return file ? file.fileName : typeId
@@ -124,7 +124,7 @@ const mapFileStatus = (status) => {
 
 onMounted(async () => {
   await getFileType()
-  await getFilesByStudent()
+  await getFilesByCommittee()
   await getShortPaper()
 })
 </script>
@@ -146,7 +146,7 @@ onMounted(async () => {
       <p>{{ studentFiles }}</p>
     </div> -->
 
-    <p>รหัสนักศึกษา: {{ id }}</p>
+    <p>รหัสอาจารย์: {{ id }}</p>
 
     <div class="relative overflow-x-auto shadow-md rounded-lg mt-6">
       <table class="w-full text-sm text-left rtl:text-right text-gray-500">
@@ -190,7 +190,7 @@ onMounted(async () => {
                 @click="
                   downloadFile(
                     getFileIdByType(fileType.typeId),
-                    getNameByStudent(fileType.typeId)
+                    getNameByCommittee(fileType.typeId)
                   )
                 "
               ></div>

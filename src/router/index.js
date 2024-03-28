@@ -1,137 +1,144 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
 
-import HomeStudent from '../views/Home/HomeStudent.vue'
+// Others
 import Login from '../views/Login.vue'
 
-import StudentList from '../views/Student/StudentList.vue'
-import StudentEditForm from '../views/Student/StudentEditForm.vue'
-import StudentDetails from '../views/Student/StudentDetails.vue'
+// Student Role
+import StudentArticle from '../views/studentRole/StudentArticle.vue'
+import StudentDetails from '../views/studentRole/StudentDetails.vue'
+import StudentEditForm from '../views/studentRole/StudentEditForm.vue'
+import StudentFileList from '../views/studentRole/StudentFileList.vue'
+import StudentFileUploading from '../views/studentRole/StudentFileUploading.vue'
+import StudentHome from '../views/studentRole/StudentHome.vue'
 
-import FileList from '../views/File/FileList.vue'
-import fileDetails from '../views/Advisor/FileDetails.vue'
-import FileComment from '../views/File/FileComment.vue'
-import FileUploading from '../views/File/FileUploading.vue'
+// Admin Role
+import AdminAddStudentData from '../views/AdminRole/AdminAddStudentData.vue'
+import AdminAnnouncementList from '../views/AdminRole/AdminAnnouncementList.vue'
+import AdminAssignAdvisor from '../views/AdminRole/AdminAssignAdvisor.vue'
+import AdminCreateAnnouncement from '../views/AdminRole/AdminCreateAnnouncement.vue'
+import AdminStudentDetails from '../views/AdminRole/AdminStudentDetails.vue'
+import AdminStudentList from '../views/AdminRole/AdminStudentList.vue'
 
-import CommitteeList from '../views/Committee/CommitteeList.vue'
-import CommitteeEdit from '../views/Committee/CommitteeEdit.vue'
+// Committee Role
+import CommitteeEdit from '../views/CommitteeRole/CommitteeEdit.vue'
+import CommitteeFileDetails from '../views/CommitteeRole/CommitteeFileDetails.vue'
+import CommitteeFileList from '../views/CommitteeRole/CommitteeFileList.vue'
+import CommitteeHome from '../views/CommitteeRole/CommitteeHome.vue'
+import CommitteeList from '../views/CommitteeRole/CommitteeList.vue'
+import CommitteeStudentList from '../views/CommitteeRole/CommitteeStudentList.vue'
+import CommitteeStudentDetail from '../views/CommitteeRole/CommitteeStudentDetail.vue'
 
-import Article from '../views/Article.vue'
-
+// not organized role
+import FileComment from '../views/FileComment.vue'
+import ShortPaperList from '../views/ShortPaperList.vue'
 import ShortPaperEdit from '../views/ShortpaperEdit.vue'
-import StudentListCommitee from '../views/Committee/StudentListCommittee.vue'
-import AssignAdvisorToStudent from '../views/Admin/AssignAdvisorToStudent.vue'
-import CreateAnnouncement from '../views/Admin/CreateAnnouncement.vue'
-import AddStudentData from '../views/Admin/AddStudentData.vue'
-import AnnouncementList from '../views/Admin/AnnouncementList.vue'
-import UploadB1File from '../views/Student/UploadB1File.vue'
 
 const routes = [
   // Other
-  {
-    path: '/',
-    name: 'Home Student',
-    component: HomeStudent,
-  },
   {
     path: '/login',
     name: 'Login',
     component: Login,
   },
-  // Student
+  // Student Role
   {
-    path: '/students',
-    name: 'Student List',
-    component: StudentList,
+    path: '/student/article',
+    name: 'Article',
+    component: StudentArticle,
   },
   {
-    path: '/student/edit',
-    name: 'Editing student information',
-    component: StudentEditForm,
-  },
-  {
-    path: '/student',
+    path: '/student/:id',
     name: 'Student information',
     component: StudentDetails,
+    meta: { requiresAuth: true, requiresStudentId: true },
   },
+  {
+    path: '/student/edit/:id',
+    name: 'Editing student information',
+    component: StudentEditForm,
+    meta: { requiresAuth: true, requiresStudentId: true },
+  },
+  {
+    path: '/files/:id',
+    name: 'ShortPaper File',
+    component: StudentFileList,
+  },
+  {
+    path: '/upload/:typeId/:shortpaperId',
+    name: 'Uploading ShortPaper',
+    component: StudentFileUploading,
+  },
+  {
+    path: '/',
+    name: 'Home Student',
+    component: StudentHome,
+  },
+
+  // Admin
+  {
+    path: '/admin/adddata',
+    name: 'Admin Add Data',
+    component: AdminAddStudentData,
+  },
+  {
+    path: '/admin/announcements',
+    name: 'Admin Announcement List',
+    component: AdminAnnouncementList,
+  },
+  {
+    path: '/admin/assign',
+    name: 'Assigning Advisor',
+    component: AdminAssignAdvisor,
+  },
+  {
+    path: '/admin/create/announcement',
+    name: 'Creating Announcement',
+    component: AdminCreateAnnouncement,
+  },
+  {
+    path: '/admin/student/:id',
+    name: 'Admin Student Detail',
+    component: AdminStudentDetails,
+  },
+  {
+    path: '/admin/students',
+    name: 'Admin Student List',
+    component: AdminStudentList,
+  },
+
   // Committee
+  {
+    path: '/committee/edit',
+    name: 'Editing Committees',
+    component: CommitteeEdit,
+  },
+  {
+    path: '/committee/filedetails',
+    name: 'file',
+    component: CommitteeFileDetails,
+  },
+  {
+    path: '/committee/filelist',
+    name: 'Committee Student File',
+    component: CommitteeFileList,
+  },
+  { path: '/committee/home', name: 'Home Committee', component: CommitteeHome },
   {
     path: '/committees',
     name: 'Committees',
     component: CommitteeList,
   },
   {
-    path: '/committees/edit',
-    name: 'Editing Committees',
-    component: CommitteeEdit,
-  },
-  // File
-  {
-    path: '/files',
-    name: 'ShortPaper File',
-    component: FileList,
+    path: '/committee/students',
+    name: 'Committee Student List',
+    component: CommitteeStudentList,
   },
   {
-    path: '/file',
-    name: 'file',
-    component: fileDetails,
+    path: '/committee/student/:id',
+    name: 'Committee Student Detail',
+    component: CommitteeStudentDetail,
   },
-  {
-    path: '/upload',
-    name: 'Uploading ShortPaper',
-    component: FileUploading,
-  },
-  {
-    path: '/assign/advisor',
-    name: 'AssignAdvisor',
-    component: AssignAdvisorToStudent
-  },
-  {
-    path: '/create/announcement',
-    name: 'CreateAnnouncement',
-    component: CreateAnnouncement
-  },
-  {
-    path: '/add/student',
-    name: 'AddStudentData',
-    component: AddStudentData
-  },
-  {
-    path: '/annoncements',
-    name: 'AnnouncementList',
-    component: AnnouncementList
-  },
-  {
-    path: '/upload/b1',
-    name: 'UploadB1File',
-    component: UploadB1File
-  },
-  {
-    path: '/article',
-    name: 'Article',
-    component: Article
-  }
-  // {
-  //   path: '/history',
-  //   name: 'ShortPaper History',
-  //   component: ShortPaperList,
-  // },
-  // {
-  //   path: '/studentinfo',
-  //   name: 'studentinfo',
-  //   component: StudentListCommitee,
-  // },
-
-  // {
-  //   path: '/shortpaper/edit',
-  //   name: 'shortpaper edit',
-  //   component: ShortPaperEdit,
-  // },
-  // {
-  //   path: '/file/comment',
-  //   name: 'File comment',
-  //   component: FileComment,
-  // },
 ]
 
 const router = createRouter({
@@ -154,13 +161,39 @@ function getTokenFromCookie(cookieName) {
 
 router.beforeEach((to, from, next) => {
   const isLoggedIn = getTokenFromCookie('token')
+  const store = useAuthStore()
 
   if (to.path !== '/login' && !isLoggedIn) {
     next('/login')
   } else if (to.path === '/login' && isLoggedIn) {
     next('/')
   } else {
-    next()
+    if (to.meta.requiresAuth && !isLoggedIn) {
+      next('/login')
+    } else {
+      if (to.meta.requiresRole) {
+        const role = store.userRole
+
+        if (role !== to.meta.requiresRole) {
+          next('/')
+        } else {
+          if (to.meta.requiresStudentId) {
+            const studentId = to.params.id
+            const userStudentId = store.userId
+
+            if (studentId !== userStudentId) {
+              next(`/student/${userStudentId}`)
+            } else {
+              next()
+            }
+          } else {
+            next()
+          }
+        }
+      } else {
+        next()
+      }
+    }
   }
 })
 

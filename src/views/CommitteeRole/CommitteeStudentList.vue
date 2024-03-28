@@ -7,9 +7,12 @@ import SearchInput from '../../components/SearchInput.vue'
 import Header from '../../components/Header.vue'
 import EmptyData from '../../components/EmptyData.vue'
 import ButtonMain from '../../components/ButtonMain.vue'
+import { useAuthStore } from '../../stores/auth'
 
 const students = ref([])
 const fileType = ref([])
+const store = useAuthStore()
+const committeeId = ref(store.userId)
 
 const wrongIconSvg = `<svg
                     class="w-[15px] h-[15px] text-red-600"
@@ -47,12 +50,13 @@ const isFileStatusValid = (fileStatus) => {
   return fileStatus !== undefined && fileStatus !== null
 }
 
-const getStudents = async () => {
-  const res = await ApiService.getStudents()
+const getStudentByCommittee = async () => {
+  const res = await ApiService.getStudentByCommittee(committeeId.value)
 
   if (res.status === 200) {
     const data = await res.data
     students.value = data.data
+    console.log(students.value)
   }
 }
 
@@ -67,9 +71,12 @@ const getFileType = async () => {
 
 const searchKeyword = async (keyword) => {
   if (keyword == null || keyword == undefined || keyword == '') {
-    await getStudents()
+    await getStudentByCommittee()
   } else {
-    const res = await ApiService.searchStudents(keyword)
+    const res = await ApiService.getStudentByCommitteeAndFilter(
+      committeeId.value,
+      keyword
+    )
     if (res.status === 200) {
       const data = await res.data
       students.value = data.data
@@ -108,7 +115,7 @@ onMounted(async () => {
     </div>
     <div
       class="relative overflow-x-auto shadow-md rounded-lg mt-6"
-      v-if="students.length !== 0"
+      v-if="students !== null"
     >
       <table class="w-full text-sm text-left rtl:text-right text-gray-500">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
@@ -155,17 +162,23 @@ onMounted(async () => {
             <td v-else class="text-center">-</td>
 
             <td class="px-6 py-4">
-              <div v-if="student.shortpaperFiles !== null">
-                <div
-                  v-if="hasFileWithId(student.shortpaperFiles, 1)"
-                  v-html="correctIconSvg"
-                ></div>
-                <div v-else v-html="wrongIconSvg"></div>
+              <div
+                v-if="
+                  student.shortpaperFiles &&
+                  student.shortpaperFiles.length !== 0
+                "
+              >
+                <div v-if="hasFileWithId(student.shortpaperFiles, 1)">
+                  <div v-html="correctIconSvg"></div>
+                </div>
+                <div v-else>
+                  <div v-html="wrongIconSvg"></div>
+                </div>
               </div>
             </td>
 
             <td class="px-6 py-4">
-              <div v-if="student.shortpaperFiles !== null">
+              <div v-if="student.shortpaperFiles.length !== 0">
                 <div
                   v-if="hasFileWithId(student.shortpaperFiles, 2)"
                   v-html="correctIconSvg"
@@ -175,7 +188,7 @@ onMounted(async () => {
             </td>
 
             <td class="px-6 py-4">
-              <div v-if="student.shortpaperFiles !== null">
+              <div v-if="student.shortpaperFiles.length !== 0">
                 <div
                   v-if="hasFileWithId(student.shortpaperFiles, 3)"
                   v-html="correctIconSvg"
@@ -185,7 +198,7 @@ onMounted(async () => {
             </td>
 
             <td class="px-6 py-4">
-              <div v-if="student.shortpaperFiles !== null">
+              <div v-if="student.shortpaperFiles.length !== 0">
                 <div
                   v-if="hasFileWithId(student.shortpaperFiles, 4)"
                   v-html="correctIconSvg"
@@ -195,7 +208,7 @@ onMounted(async () => {
             </td>
 
             <td class="px-6 py-4">
-              <div v-if="student.shortpaperFiles !== null">
+              <div v-if="student.shortpaperFiles.length !== 0">
                 <div
                   v-if="hasFileWithId(student.shortpaperFiles, 5)"
                   v-html="correctIconSvg"
@@ -205,7 +218,7 @@ onMounted(async () => {
             </td>
 
             <td class="px-6 py-4">
-              <div v-if="student.shortpaperFiles !== null">
+              <div v-if="student.shortpaperFiles.length !== 0">
                 <div
                   v-if="hasFileWithId(student.shortpaperFiles, 6)"
                   v-html="correctIconSvg"
@@ -215,7 +228,7 @@ onMounted(async () => {
             </td>
 
             <td class="px-6 py-4">
-              <div v-if="student.shortpaperFiles !== null">
+              <div v-if="student.shortpaperFiles.length !== 0">
                 <div
                   v-if="hasFileWithId(student.shortpaperFiles, 7)"
                   v-html="correctIconSvg"
@@ -226,7 +239,7 @@ onMounted(async () => {
 
             <td class="px-6 py-4 text-right">
               <RouterLink
-                :to="`/student?id=${student.studentId}`"
+                :to="`/committee/student/${student.studentId}`"
                 class="font-medium text-bluemain"
                 ><ButtonMain text="รายละเอียด"
               /></RouterLink>
