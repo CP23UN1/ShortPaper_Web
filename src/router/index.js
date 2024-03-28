@@ -5,12 +5,12 @@ import { useAuthStore } from '../stores/auth'
 import Login from '../views/Login.vue'
 
 // Student Role
-import StudentArticle from '../views/studentRole/StudentArticle.vue'
-import StudentDetails from '../views/studentRole/StudentDetails.vue'
-import StudentEditForm from '../views/studentRole/StudentEditForm.vue'
-import StudentFileList from '../views/studentRole/StudentFileList.vue'
-import StudentFileUploading from '../views/studentRole/StudentFileUploading.vue'
-import StudentHome from '../views/studentRole/StudentHome.vue'
+import StudentArticle from '../views/StudentRole/StudentArticle.vue'
+import StudentDetails from '../views/StudentRole/StudentDetails.vue'
+import StudentEditForm from '../views/StudentRole/StudentEditForm.vue'
+import StudentFileList from '../views/StudentRole/StudentFileList.vue'
+import StudentFileUploading from '../views/StudentRole/StudentFileUploading.vue'
+import StudentHome from '../views/StudentRole/StudentHome.vue'
 
 // Admin Role
 import AdminAddStudentData from '../views/AdminRole/AdminAddStudentData.vue'
