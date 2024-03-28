@@ -1,12 +1,12 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
 
-// Others
 import Login from '../views/Login.vue'
 
 // Student Role
 import StudentArticle from '../views/StudentRole/StudentArticle.vue'
 import StudentDetails from '../views/StudentRole/StudentDetails.vue'
+import StudentFileDetails from '../views/StudentRole/StudentFileDetails.vue'
 import StudentEditForm from '../views/StudentRole/StudentEditForm.vue'
 import StudentFileList from '../views/StudentRole/StudentFileList.vue'
 import StudentFileUploading from '../views/StudentRole/StudentFileUploading.vue'
@@ -29,13 +29,7 @@ import CommitteeList from '../views/CommitteeRole/CommitteeList.vue'
 import CommitteeStudentList from '../views/CommitteeRole/CommitteeStudentList.vue'
 import CommitteeStudentDetail from '../views/CommitteeRole/CommitteeStudentDetail.vue'
 
-// not organized role
-import FileComment from '../views/FileComment.vue'
-import ShortPaperList from '../views/ShortPaperList.vue'
-import ShortPaperEdit from '../views/ShortpaperEdit.vue'
-
 const routes = [
-  // Other
   {
     path: '/login',
     name: 'Login',
@@ -43,102 +37,127 @@ const routes = [
   },
   // Student Role
   {
-    path: '/student/article',
+    path: '/article',
     name: 'Article',
     component: StudentArticle,
+    meta: { requiresAuth: true, requiresRole: 'student' },
   },
   {
-    path: '/student/:id',
+    path: '/details',
     name: 'Student information',
     component: StudentDetails,
-    meta: { requiresAuth: true, requiresStudentId: true },
+    meta: { requiresAuth: true, requiresRole: 'student' },
   },
   {
-    path: '/student/edit/:id',
+    path: '/file',
+    name: 'File Details',
+    component: StudentFileDetails,
+    meta: { requiresAuth: true, requiresRole: 'student' },
+  },
+  {
+    path: '/edit',
     name: 'Editing student information',
     component: StudentEditForm,
-    meta: { requiresAuth: true, requiresStudentId: true },
+    meta: { requiresAuth: true, requiresRole: 'student' },
   },
   {
-    path: '/files/:id',
+    path: '/files',
     name: 'ShortPaper File',
     component: StudentFileList,
+    meta: { requiresAuth: true, requiresRole: 'student' },
   },
   {
     path: '/upload/:typeId/:shortpaperId',
     name: 'Uploading ShortPaper',
     component: StudentFileUploading,
+    meta: { requiresAuth: true, requiresRole: 'student' },
   },
   {
     path: '/',
     name: 'Home Student',
     component: StudentHome,
+    meta: { requiresAuth: true, requiresRole: 'student' },
   },
-
-  // Admin
+  // Admin Role
   {
     path: '/admin/adddata',
     name: 'Admin Add Data',
     component: AdminAddStudentData,
+    meta: { requiresAuth: true, requiresRole: 'admin' },
   },
   {
     path: '/admin/announcements',
     name: 'Admin Announcement List',
     component: AdminAnnouncementList,
+    meta: { requiresAuth: true, requiresRole: 'admin' },
   },
   {
     path: '/admin/assign',
     name: 'Assigning Advisor',
     component: AdminAssignAdvisor,
+    meta: { requiresAuth: true, requiresRole: 'admin' },
   },
   {
     path: '/admin/create/announcement',
     name: 'Creating Announcement',
     component: AdminCreateAnnouncement,
+    meta: { requiresAuth: true, requiresRole: 'admin' },
   },
   {
     path: '/admin/student/:id',
     name: 'Admin Student Detail',
     component: AdminStudentDetails,
+    meta: { requiresAuth: true, requiresRole: 'admin' },
   },
   {
     path: '/admin/students',
     name: 'Admin Student List',
     component: AdminStudentList,
+    meta: { requiresAuth: true, requiresRole: 'admin' },
   },
-
-  // Committee
+  // Committee Role
   {
     path: '/committee/edit',
     name: 'Editing Committees',
     component: CommitteeEdit,
+    meta: { requiresAuth: true, requiresRole: 'committee' },
   },
   {
     path: '/committee/filedetails',
     name: 'file',
     component: CommitteeFileDetails,
+    meta: { requiresAuth: true, requiresRole: 'committee' },
   },
   {
     path: '/committee/filelist',
     name: 'Committee Student File',
     component: CommitteeFileList,
+    meta: { requiresAuth: true, requiresRole: 'committee' },
   },
-  { path: '/committee/home', name: 'Home Committee', component: CommitteeHome },
+  {
+    path: '/committee/home',
+    name: 'Home Committee',
+    component: CommitteeHome,
+    meta: { requiresAuth: true, requiresRole: 'committee' },
+  },
   {
     path: '/committees',
     name: 'Committees',
     component: CommitteeList,
+    meta: { requiresAuth: true, requiresRole: 'committee' },
   },
   {
     path: '/committee/students',
     name: 'Committee Student List',
     component: CommitteeStudentList,
+    meta: { requiresAuth: true, requiresRole: 'committee' },
   },
   {
     path: '/committee/student/:id',
     name: 'Committee Student Detail',
     component: CommitteeStudentDetail,
-  },
+    meta: { requiresAuth: true, requiresRole: 'committee' },
+  }
 ]
 
 const router = createRouter({
@@ -163,37 +182,24 @@ router.beforeEach((to, from, next) => {
   const isLoggedIn = getTokenFromCookie('token')
   const store = useAuthStore()
 
-  if (to.path !== '/login' && !isLoggedIn) {
+  if (to.meta && to.meta.requiresAuth && !isLoggedIn) {
     next('/login')
-  } else if (to.path === '/login' && isLoggedIn) {
+  } else if (
+    to.meta &&
+    to.meta.requiresAuth &&
+    isLoggedIn &&
+    to.path === '/login'
+  ) {
     next('/')
   } else {
-    if (to.meta.requiresAuth && !isLoggedIn) {
-      next('/login')
-    } else {
-      if (to.meta.requiresRole) {
-        const role = store.userRole
+    if (to.meta && to.meta.requiresRole) {
+      const role = store.userRole
 
-        if (role !== to.meta.requiresRole) {
-          next('/')
-        } else {
-          if (to.meta.requiresStudentId) {
-            const studentId = to.params.id
-            const userStudentId = store.userId
-
-            if (studentId !== userStudentId) {
-              next(`/student/${userStudentId}`)
-            } else {
-              next()
-            }
-          } else {
-            next()
-          }
-        }
-      } else {
-        next()
+      if (role !== to.meta.requiresRole) {
+        next(false)
       }
     }
+    next()
   }
 })
 

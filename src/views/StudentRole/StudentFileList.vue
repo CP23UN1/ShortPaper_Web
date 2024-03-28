@@ -132,22 +132,7 @@ onMounted(async () => {
 
 <template>
   <div>
-    <div class="mt-5 font-semibold">
-      <div class="text-bluemain text-left text-sm">
-        <p>
-          <RouterLink :to="'/files'">
-            <span class="hover:text-blueheader">เอกสารโครงงาน</span>
-          </RouterLink>
-        </p>
-      </div>
-    </div>
     <Header header="เอกสารโครงงาน" />
-    <!-- <div>
-      <p>{{ id }}</p>
-      <p>{{ studentFiles }}</p>
-    </div> -->
-
-    <p>รหัสนักศึกษา: {{ studentId }}</p>
 
     <div class="relative overflow-x-auto shadow-md rounded-lg mt-6">
       <table class="w-full text-sm text-left rtl:text-right text-gray-500">
@@ -158,7 +143,7 @@ onMounted(async () => {
             <th scope="col" class="py-3">อัปโหลด</th>
             <th scope="col" class="px-6 py-3">สถานะ</th>
             <th scope="col" class="py-3">ดาวน์โหลด</th>
-            <!-- <th scope="col" class="px-6 py-3"></th> -->
+            <th scope="col" class="px-6 py-3"></th>
           </tr>
         </thead>
         <tbody class="text-center">
@@ -196,14 +181,15 @@ onMounted(async () => {
                 "
               ></div>
             </td>
-            <!-- <td class="font-medium whitespace-nowrap">
-              <RouterLink
-                v-if="hasFile(fileType.typeId)"
-                :to="`/file?id=${getFileIdByType(fileType.typeId)}`"
-              >
-                <ButtonMain text="รายละเอียด" />
+            <td class="font-medium whitespace-nowrap">
+              <RouterLink :to="`/file`">
+                <!-- <ButtonMain
+                  text="รายละเอียด"
+                  class="bg-bluemain border hover:bg-white hover:border-bluemain hover:text-bluemain"
+                /> -->
+                <span class="text-bluemain underline hover:no-underline">รายละเอียด</span>
               </RouterLink>
-            </td> -->
+            </td>
           </tr>
         </tbody>
       </table>

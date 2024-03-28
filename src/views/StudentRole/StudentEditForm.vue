@@ -376,7 +376,7 @@ onMounted(async () => {
     </div>
 
     <div class="text-sm font-medium mt-[24px] flex gap-5 justify-end">
-      <RouterLink :to="`/student/${studentId}`">
+      <RouterLink :to="`/details`">
         <ButtonMain
           class="bg-error border hover:bg-white hover:border-error hover:text-error"
           text="ยกเลิกการบันทึก"

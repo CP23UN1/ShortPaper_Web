@@ -45,7 +45,7 @@ onMounted(()=>{
         ><span>หน้าหลัก</span></RouterLink
       >
       <RouterLink
-        :to="`/student/${studentId}`"
+        :to="`/student`"
         class="mx-2"
         :class="{
           'underline underline-offset-8 decoration-4':
@@ -56,7 +56,7 @@ onMounted(()=>{
         ><span>ข้อมูลนักศึกษา</span></RouterLink
       >
       <RouterLink
-        :to="`/files/${studentId}`"
+        :to="`/files`"
         class="mx-2"
         :class="{
           'underline underline-offset-8 decoration-4':
@@ -66,7 +66,7 @@ onMounted(()=>{
         ><span>เอกสารโครงงาน</span></RouterLink
       >
       <RouterLink
-        to="/student/article"
+        to="/article"
         class="mx-2"
         :class="{
           'underline underline-offset-8 decoration-4':

@@ -60,7 +60,7 @@ const handleUpload = async () => {
     const res = await ApiService.uploadFile(formData)
     if (res.status === 200) {
       alert(`บันทึกสำเร็จ`)
-      router.push(`/files/${studentId.value}`)
+      router.push(`/files`)
     } else {
       alert(`Failed to upload file. Please try again later.`)
     }

@@ -289,7 +289,7 @@ onBeforeMount(async () => {
     </div>
 
     <div class="text-sm font-medium mt-[24px] flex gap-5 justify-end">
-      <RouterLink :to="`/student/edit/${studentId}`">
+      <RouterLink :to="`/edit`">
         <ButtonMain
           text="แก้ไขรายละเอียด"
           class="bg-bluemain border hover:bg-white hover:border-bluemain hover:text-bluemain"

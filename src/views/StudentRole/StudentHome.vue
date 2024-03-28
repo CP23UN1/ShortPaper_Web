@@ -43,7 +43,7 @@ onMounted(async () => {
         รายการ
       </h1>
       <div class="grid grid-cols-3 mt-7 gap-5 justify-items-center">
-        <RouterLink :to="`/student/${studentId}`">
+        <RouterLink :to="`/details`">
           <div
             class="shadow-lg p-12 rounded-lg hover:bg-bluemain hover:text-white hover:fill-white"
           >
