@@ -45,7 +45,7 @@ onMounted(()=>{
         ><span>หน้าหลัก</span></RouterLink
       >
       <RouterLink
-        :to="`/student`"
+        :to="`/details`"
         class="mx-2"
         :class="{
           'underline underline-offset-8 decoration-4':
