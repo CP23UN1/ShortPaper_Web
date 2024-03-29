@@ -49,8 +49,8 @@ const routes = [
     meta: { requiresAuth: true, requiresRole: 'student' },
   },
   {
-    path: '/file',
-    name: 'File Details',
+    path: '/file/:fileTypeId',
+    name: 'ShortPaper File Details',
     component: StudentFileDetails,
     meta: { requiresAuth: true, requiresRole: 'student' },
   },
