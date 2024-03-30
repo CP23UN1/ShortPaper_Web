@@ -115,7 +115,7 @@ onMounted(() => {})
         <div>
           <div class="m-10 items-center">
             <div class="mb-4">
-              <img src="/public/images/SIT-LOGO.png" width="250" class="" />
+              <img src="/images/SIT-LOGO.png" width="250" class="" />
               <h1 class="mt-2 font-black">
                 Short Paper for SIT Master's Degree Student
               </h1>
