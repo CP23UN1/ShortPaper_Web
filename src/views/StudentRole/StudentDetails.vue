@@ -44,7 +44,6 @@ const getStudentAndSubjects = async () => {
   const studentRes = await ApiService.getStudentById(studentId.value)
   if (studentRes.status === 200) {
     const studentData = await studentRes.data
-    console.log("studentData.data:", studentData.data);
     student.value = studentData.data
   }
 
@@ -101,9 +100,9 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <div>
+  <div class="my-10">
     <div
-      class="justify-center item-center bg-bluemain p-10 rounded-lg shadow-lg mt-10"
+      class="justify-center item-center bg-bluemain p-10 rounded-lg shadow-lg "
     >
       <h1 class="text-white font-black text-xl">ข้อมูลส่วนตัว</h1>
 

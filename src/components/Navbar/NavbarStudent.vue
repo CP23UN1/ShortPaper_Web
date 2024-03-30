@@ -1,15 +1,10 @@
 <script setup>
 import { RouterLink } from 'vue-router'
 import { useAuthStore } from '../../stores/auth'
-import { useRoute, useRouter } from 'vue-router'
-import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 
 const store = useAuthStore()
-const route = useRoute()
 const router = useRouter()
-
-const studentId = ref(store.userId)
-const role = ref(store.userRole)
 
 const logout = () => {
   try {
@@ -19,20 +14,19 @@ const logout = () => {
     console.error(err)
   }
 }
-
-onMounted(() => {})
 </script>
+
 <template>
   <nav
     class="flex justify-between items-center p-2 bg-white rounded-lg shadow-lg"
   >
     <div>
       <RouterLink to="/">
-        <img src="/images/SIT-LOGO.png" class="h-11 mr-3" />
+        <img src="/images/SIT-LOGO.png" class="lg:h-11 md:h-9 sm:h-7 mr-3" />
       </RouterLink>
     </div>
     <div
-      class="flex items-center space-x-7 text-bluemain font-extrabold"
+      class="flex items-center space-x-7 text-bluemain font-extrabold 2xl:text-xl xl:text-lg lg:text-base md:text-sm sm:text-xs"
     >
       <RouterLink
         to="/"

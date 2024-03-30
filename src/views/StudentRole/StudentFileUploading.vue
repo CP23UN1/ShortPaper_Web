@@ -128,26 +128,22 @@ const assignCommittee = async () => {
 onBeforeMount(async () => {
   await getFileType()
   await fetchCommittees()
-
-  console.log('Initial Type ID:', typeId.value)
 })
 </script>
 
 <template>
   <div>
-    <div class="mt-5 font-semibold">
-      <div class="text-bluemain text-left text-sm">
-        <p>
-          <RouterLink :to="'/files'">
-            <span class="hover:text-blueheader">เอกสารโครงงานทั้งหมด</span>
-          </RouterLink>
-          >
-          <span class="font-bold text-sm">อัปโหลดเอกสารโครงงาน</span>
-        </p>
-      </div>
+    <div class="text-bluemain text-left text-sm mt-5 font-semibold">
+      <p>
+        <RouterLink :to="'/files'">
+          <span class="hover:text-blueheader">เอกสารโครงงานทั้งหมด</span>
+        </RouterLink>
+        >
+        <span class="font-bold text-sm">อัปโหลดเอกสารโครงงาน</span>
+      </p>
     </div>
 
-    <Header header="อัปโหลดเอกสาร" />
+    <Header header="อัปโหลดเอกสาร" class="mt-3" />
 
     <div class="shadow-lg rounded-lg text-center p-3">
       <div class="p-8">

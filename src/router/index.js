@@ -67,7 +67,7 @@ const routes = [
     meta: { requiresAuth: true, requiresRole: 'student' },
   },
   {
-    path: '/upload/:typeId/:shortpaperId',
+    path: '/upload/:typeId',
     name: 'Uploading ShortPaper',
     component: StudentFileUploading,
     meta: { requiresAuth: true, requiresRole: 'student' },

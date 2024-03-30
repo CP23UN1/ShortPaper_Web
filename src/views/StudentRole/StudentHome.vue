@@ -32,13 +32,15 @@ onMounted(async () => {
         class="bg-cover bg-center bg-no-repeat"
         style="background-image: url('/un1/images/kmutt.png'); height: 200px"
       >
-        <NavbarStudent class="xl:mx-32 lg:mx-28 md:mx-24 sm:mx-20 top-[20px] relative" />
+        <NavbarStudent
+          class="xl:mx-32 lg:mx-28 md:mx-24 sm:mx-20 top-[20px] relative"
+        />
       </div>
     </div>
 
     <div class="xl:mx-52 lg:mx-48 md:mx-44 sm:mx-40">
       <h1
-        class="text-bluemain font-black text-2xl text-center mt-7 underline underline-offset-8"
+        class="text-bluemain font-black text-xl text-center mt-7 underline underline-offset-8"
       >
         รายการ
       </h1>
@@ -94,7 +96,7 @@ onMounted(async () => {
           </div></RouterLink
         >
 
-        <RouterLink :to="`/upload`">
+        <RouterLink :to="`/upload/1`">
           <div
             class="shadow-lg p-12 rounded-lg hover:bg-bluemain hover:text-white hover:fill-white"
           >

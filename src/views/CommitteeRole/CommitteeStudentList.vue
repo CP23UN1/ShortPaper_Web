@@ -56,7 +56,6 @@ const getStudentByCommittee = async () => {
   if (res.status === 200) {
     const data = await res.data
     students.value = data.data
-    console.log(students.value)
   }
 }
 

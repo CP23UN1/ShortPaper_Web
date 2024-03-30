@@ -8,11 +8,11 @@ import ApiService from '../../composables/apiService'
 import Header from '../../components/Header.vue'
 import ButtonMain from '../../components/ButtonMain.vue'
 
-const uploadIconSvg = `<svg class="w-[20px] h-[20px] text-bluemain hover:text-red-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 19">
+const uploadIconSvg = `<svg class="w-[20px] h-[20px] text-bluemain hover:text-correct cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 19">
     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15h.01M4 12H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-3m-5.5 0V1.07M5.5 5l4-4 4 4"/>
   </svg>`
 
-const downloadIconSvg = `<svg class="w-[20px] h-[20px] text-bluemain hover:text-red-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 19">
+const downloadIconSvg = `<svg class="w-[20px] h-[20px] text-bluemain hover:text-correct cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 19">
     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15h.01M4 12H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-3M9.5 1v10.93m4-3.93-4 4-4-4"/>
   </svg>`
 
@@ -55,9 +55,9 @@ const getShortPaper = async () => {
   }
 }
 
-const uploadPage = (fileTypeId, shortpaperId) => {
+const uploadPage = (fileTypeId) => {
   router.push({
-    path: `/upload/${fileTypeId}/${shortpaperId}`,
+    path: `/upload/${fileTypeId}`,
   })
 }
 
@@ -162,7 +162,7 @@ onMounted(async () => {
               <div
                 class="flex justify-center items-center"
                 v-html="uploadIconSvg"
-                @click="uploadPage(fileType.typeId, shortpaper.shortpaperId)"
+                @click="uploadPage(fileType.typeId)"
               ></div>
             </td>
             <td class="font-medium whitespace-nowrap">

@@ -19,7 +19,19 @@ const studentFiles = ref([])
 const shortpaper = ref()
 const fileTypeName = ref()
 
-const downloadIconSvg = `<svg class="w-[20px] h-[20px] text-bluemain hover:text-red-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 19">
+const uploadIconSvg = `<svg class="w-[20px] h-[20px] text-bluemain hover:text-correct cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 19">
+    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15h.01M4 12H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-3m-5.5 0V1.07M5.5 5l4-4 4 4"/>
+  </svg>`
+
+const uploadIconSvgDisabled = `<svg class="w-[20px] h-[20px] text-login" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 19">
+    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15h.01M4 12H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-3m-5.5 0V1.07M5.5 5l4-4 4 4"/>
+  </svg>`
+
+const downloadIconSvg = `<svg class="w-[20px] h-[20px] text-bluemain hover:text-correct cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 19">
+    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15h.01M4 12H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-3M9.5 1v10.93m4-3.93-4 4-4-4"/>
+  </svg>`
+
+const downloadIconSvgDisabled = `<svg class="w-[20px] h-[20px] text-login" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 19">
     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15h.01M4 12H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-3M9.5 1v10.93m4-3.93-4 4-4-4"/>
   </svg>`
 
@@ -53,7 +65,13 @@ const getFileTypeName = (fileTypeId) => {
   const fileType = fileTypes.value.find(
     (type) => type.typeId === parseInt(fileTypeId)
   )
-  return fileType ? fileType.typeName : 'Unknown' // If file type not found, return 'Unknown'
+  return fileType ? fileType.typeName : '-'
+}
+
+const goToUpload = (fileTypeId) => {
+  router.push({
+    path: `/upload/${fileTypeId}`,
+  })
 }
 
 onMounted(async () => {
@@ -66,9 +84,19 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="my-10">
-    <Header :header="fileTypeName" />
-    <div class="grid grid-cols-2 text-sm my-5">
+  <div class="mb-10">
+    <div class="text-bluemain text-left text-sm mt-5 font-semibold">
+      <p>
+        <RouterLink :to="'/files'">
+          <span class="hover:text-blueheader">เอกสารโครงงาน</span>
+        </RouterLink>
+        >
+        <span class="font-bold text-sm">รายละเอียดเอกสาร</span>
+      </p>
+    </div>
+
+    <Header :header="fileTypeName" class="mt-5" />
+    <div class="grid grid-cols-2 my-5">
       <!-- div 1 -->
       <div class="shadow-md mx-3">
         <div
@@ -86,7 +114,17 @@ onMounted(async () => {
                 <p class="text-start">อัปโหลด {{ fileTypeName }}</p>
               </div>
               <div class="col-span-1">
-                <div class="flex justify-end" v-html="downloadIconSvg"></div>
+                <div
+                  class="flex justify-end"
+                  v-if="shortpaper"
+                  v-html="uploadIconSvgDisabled"
+                ></div>
+                <div
+                  class="flex justify-end"
+                  v-else
+                  v-html="uploadIconSvg"
+                  @click="goToUpload(route.params.fileTypeId)"
+                ></div>
               </div>
             </div>
             <div class="grid grid-cols-3">
@@ -94,7 +132,16 @@ onMounted(async () => {
                 <p class="text-start">แก้ไข {{ fileTypeName }}</p>
               </div>
               <div class="col-span-1">
-                <div class="flex justify-end" v-html="downloadIconSvg"></div>
+                <div
+                  class="flex justify-end"
+                  v-if="shortpaper"
+                  v-html="uploadIconSvg"
+                ></div>
+                <div
+                  class="flex justify-end"
+                  v-else
+                  v-html="uploadIconSvgDisabled"
+                ></div>
               </div>
             </div>
             <div class="grid grid-cols-3">
@@ -102,18 +149,22 @@ onMounted(async () => {
                 <p class="text-start">สถานะปัจจุบัน</p>
               </div>
               <div class="col-span-1">
-                <p class="text-end">eiei</p>
+                <p class="text-end">
+                  {{
+                    shortpaper ? shortpaper.status : 'ยังไม่มีการอัปโหลด'
+                  }}
+                </p>
               </div>
             </div>
           </div>
-
-          <hr class="my-3" />
-
-          <div class="flex justify-end">
-            <ButtonMain
-              text="ยื่นแก้ไขใบบ.1"
-              class="bg-error border border-error hover:bg-white hover:text-error"
-            />
+          <div v-if="shortpaper && route.params.fileTypeId == 1">
+            <hr class="my-3" />
+            <div class="flex justify-end">
+              <ButtonMain
+                text="ยื่นแก้ไขใบบ.1"
+                class="bg-error border border-error hover:bg-white hover:text-error"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -147,7 +198,7 @@ onMounted(async () => {
       </div>
     </div>
     <!-- rows 2 -->
-    <div class="grid grid-cols-2 text-sm my-5">
+    <div class="grid grid-cols-2 my-5">
       <!-- div 1 -->
       <div class="shadow-md mx-3">
         <div

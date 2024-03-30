@@ -239,8 +239,18 @@ onMounted(async () => {
 
 <template>
   <div>
+    <div class="text-bluemain text-left text-sm mt-5 font-semibold">
+      <p>
+        <RouterLink :to="'/details'">
+          <span class="hover:text-blueheader">ข้อมูลนักศึกษา</span>
+        </RouterLink>
+        >
+        <span class="font-bold text-sm">แก้ไขข้อมูลส่วนตัว</span>
+      </p>
+    </div>
+
     <div
-      class="justify-center item-center bg-bluemain p-10 rounded-lg shadow-lg mt-10"
+      class="justify-center item-center bg-bluemain p-10 rounded-lg shadow-lg mt-5"
     >
       <h1 class="text-white font-black text-xl">แก้ไขข้อมูลส่วนตัว</h1>
 
