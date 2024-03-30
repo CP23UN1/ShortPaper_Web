@@ -45,7 +45,7 @@ const handleUpload = async () => {
     alert('Please select a file to upload.')
     return
   }
-  
+
   const formData = new FormData()
   formData.append('shortpaperId', shortpaperId.value)
   formData.append('file', file.value)
@@ -55,13 +55,13 @@ const handleUpload = async () => {
   }
   formData.append('remark', remark.value)
   formData.append('studentId', studentId.value)
-  
+
   // formData.append('remark', remark.value)
 
   try {
-    if(typeId.value == 1) {
+    if (typeId.value == 1) {
       await assignCommittee()
-    } 
+    }
 
     const res = await ApiService.uploadFile(formData)
     if (res.status === 200) {
@@ -145,7 +145,11 @@ onBeforeMount(async () => {
   await fetchCommittees()
   await getShortPaper()
 
-  shortpaperId.value = shortpaper.value.shortpaperId
+  if (shortpaper.value == null) {
+    shortpaperId.value = 0
+  } else {
+    shortpaperId.value = shortpaper.value.shortpaperId
+  }
 })
 </script>
 
@@ -192,7 +196,10 @@ onBeforeMount(async () => {
         <div v-for="committee in committees" :key="committee.committeeId">
           <RadioButton
             name="advisor"
-            :value="committee.firstname + ' ' + committee.lastname == selectedCommittee2"
+            :value="
+              committee.firstname + ' ' + committee.lastname ==
+              selectedCommittee2
+            "
             :label="committee.firstname + ' ' + committee.lastname"
           />
         </div>

@@ -27,7 +27,7 @@ class ApiService {
   async getComments(fileId) {
     return await api.get(`/comments/${fileId}`)
   }
-  async addComment(comment) {
+  async sendComment(comment) {
     return await api.post('/comment/create', comment)
   }
 
