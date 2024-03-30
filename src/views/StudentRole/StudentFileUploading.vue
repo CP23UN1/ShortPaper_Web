@@ -15,8 +15,11 @@ const router = useRouter()
 const store = useAuthStore()
 const studentId = ref(store.userId)
 
-const shortpaperId = ref(route.params.shortpaperId)
+// const shortpaperId = ref(route.params.shortpaperId)
 const typeId = ref(route.params.typeId)
+
+const shortpaper = ref()
+const shortpaperId = ref()
 
 const fileTypes = ref([])
 const committees = ref([])
@@ -43,6 +46,14 @@ const handleUpload = async () => {
   if (!file.value) {
     alert('Please select a file to upload.')
     return
+  }
+}
+
+const getShortPaper = async () => {
+  const res = await ApiService.getShortPaper(studentId.value)
+  if (res.status === 200) {
+    const data = await res.data
+    shortpaper.value = data.data
   }
 
   const formData = new FormData()
@@ -128,6 +139,9 @@ const assignCommittee = async () => {
 onBeforeMount(async () => {
   await getFileType()
   await fetchCommittees()
+  await getShortPaper()
+
+  shortpaperId.value = shortpaper.value.shortpaperId
 })
 </script>
 
