@@ -55,6 +55,9 @@ class ApiService {
       throw error;
     }
   }
+  async updateCommitteeRolesForStudentAsync(studentId, committeeRoles) {
+    return await api.post(`committee/update-roles-for-student`, studentId, committeeRoles)
+  }
 
   // File
   async getFileByShortpaper(shortpaperId) {

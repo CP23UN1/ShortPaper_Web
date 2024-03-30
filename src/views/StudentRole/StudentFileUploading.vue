@@ -30,9 +30,7 @@ const explanationVideo = ref('')
 const remark = ref('')
 
 const selectedCommittee = ref('')
-const isAdvisor = ref(false)
-const isPrincipal = ref(false)
-const isCommittee = ref(false)
+const selectedCommittee2 = ref('')
 
 const handleFileSelected = (selectedFile) => {
   file.value = selectedFile
@@ -55,10 +53,15 @@ const handleUpload = async () => {
   if (explanationVideo.value !== null) {
     formData.append('explanationVideo', explanationVideo.value)
   }
+  formData.append('remark', remark.value)
+  formData.append('studentId', studentId.value)
+  
   // formData.append('remark', remark.value)
 
   try {
-    await assignCommittee()
+    if(typeId.value == 1) {
+      await assignCommittee()
+    } 
 
     const res = await ApiService.uploadFile(formData)
     if (res.status === 200) {
@@ -115,13 +118,13 @@ const assignCommittee = async () => {
 
   try {
     const response = await ApiService.updateCommitteeRolesForStudentAsync(
-      shortpaperId.value,
+      studentId.value,
       [
         {
           CommitteeName: selectedCommittee.value,
-          IsAdvisor: isAdvisor.value,
-          IsPrincipal: isPrincipal.value,
-          IsCommittee: isCommittee.value,
+          IsAdvisor: true,
+          IsPrincipal: false,
+          IsCommittee: false,
         },
       ]
     )
@@ -189,7 +192,7 @@ onBeforeMount(async () => {
         <div v-for="committee in committees" :key="committee.committeeId">
           <RadioButton
             name="advisor"
-            :value="committee.committeeId"
+            :value="committee.firstname + ' ' + committee.lastname == selectedCommittee2"
             :label="committee.firstname + ' ' + committee.lastname"
           />
         </div>
@@ -245,18 +248,18 @@ onBeforeMount(async () => {
       </div> -->
     </div>
 
-    <div v-if="typeId == 1" class="shadow-lg rounded-lg p-3 mt-8">
+    <!-- <div v-if="typeId == 1" class="shadow-lg rounded-lg p-3 mt-8">
       <p>เลือกอาจารย์ที่ปรึกษาร่วมสำหรับใบ บ.1</p>
       <div class="grid grid-cols-4 mt-8 text-sm ml-16">
         <div v-for="committee in committees" :key="committee.committeeId">
           <RadioButton
             name="committee"
-            :value="committee.committeeId"
+            :value="committee.firstname + ' ' + committee.lastname == selectedCommittee"
             :label="committee.firstname + ' ' + committee.lastname"
           />
         </div>
       </div>
-    </div>
+    </div> -->
 
     <div class="shadow-lg rounded-lg p-3 mt-8" v-if="typeId == 5">
       <label for="input">วิดีโอคำอธิบายเพิ่มเติม</label>
@@ -267,6 +270,18 @@ onBeforeMount(async () => {
           class="inline-flex w-72 py-2 mt-2 border border-gray-300 rounded-lg bg-gray-50 focus:ring-bluemain focus:border-bluemain"
           placeholder="กรุณาแนบลิงก์"
           v-model="explanationVideo"
+        />
+        <!-- <ButtonMain text="บันทึก" @click="handleUpload" class="ml-3" /> -->
+      </div>
+    </div>
+    <div class="shadow-lg rounded-lg p-3 mt-8">
+      <label for="input">หมายเหตุ</label>
+      <div class="relative">
+        <input
+          type="text"
+          id="input"
+          class="inline-flex w-72 py-2 mt-2 border border-gray-300 rounded-lg bg-gray-50 focus:ring-bluemain focus:border-bluemain"
+          v-model="remark"
         />
         <!-- <ButtonMain text="บันทึก" @click="handleUpload" class="ml-3" /> -->
       </div>
