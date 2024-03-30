@@ -51,7 +51,7 @@ const login = async () => {
             router.push('/')
             break
           case 'committee':
-            router.push('/committee/home')
+            router.push('/committee/students')
             break
           case 'admin':
             router.push('/admin/students')
@@ -107,7 +107,8 @@ onMounted(() => {})
         <div
           class="bg-cover bg-center bg-no-repeat rounded-l-md"
           style="
-            background-image: url('/images/kmutt.png');
+            background-image: url('/images/kmutt2.png');
+            background-color: #f0f0f0;
             width: 400px;
             height: 450px;
           "
@@ -115,7 +116,7 @@ onMounted(() => {})
         <div>
           <div class="m-10 items-center">
             <div class="mb-4">
-              <img src="/images/SIT-LOGO.png" width="250" class="" />
+              <img src="/images/SIT-LOGO.png" width="250" />
               <h1 class="mt-2 font-black">
                 Short Paper for SIT Master's Degree Student
               </h1>
