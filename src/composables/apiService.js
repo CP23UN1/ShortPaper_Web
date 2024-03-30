@@ -68,8 +68,8 @@ class ApiService {
       headers: { 'Content-Type': 'multipart/form-data' },
     })
   }
-  async downloadFile(fileId) {
-    return await api.get(`/file/download/${fileId}`, {
+  async downloadFile(shortpaperId, fileTypeId) {
+    return await api.get(`/file/download/${shortpaperId}/${fileTypeId}`, {
       responseType: 'blob',
     })
   }

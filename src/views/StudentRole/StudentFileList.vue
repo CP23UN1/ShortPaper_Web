@@ -61,9 +61,9 @@ const uploadPage = (fileTypeId) => {
   })
 }
 
-const downloadFile = async (fileId, filename) => {
+const downloadFile = async (fileTypeId, fileId, filename) => {
   try {
-    const res = await ApiService.downloadFile(fileId)
+    const res = await ApiService.downloadFile(shortpaper.value.shortpaperId, fileTypeId)
     const blob = new Blob([res.data], { type: 'application/pdf' })
     const url = window.URL.createObjectURL(blob)
     const link = document.createElement('a')
@@ -175,6 +175,7 @@ onMounted(async () => {
                 v-html="downloadIconSvg"
                 @click="
                   downloadFile(
+                    fileType.typeId,
                     getFileIdByType(fileType.typeId),
                     getNameByStudent(fileType.typeId)
                   )
