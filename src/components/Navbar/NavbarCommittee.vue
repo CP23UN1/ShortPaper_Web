@@ -27,7 +27,7 @@ onMounted(() => {})
     class="flex justify-between items-center p-2 bg-white rounded-lg shadow-lg"
   >
     <div>
-      <RouterLink to="/committee/home">
+      <RouterLink to="/committee/students">
         <img src="/images/SIT-LOGO.png" class="h-8 mr-3" />
       </RouterLink>
     </div>
@@ -35,22 +35,13 @@ onMounted(() => {})
       class="flex items-center space-x-7 text-bluemain font-extrabold text-sm"
     >
       <RouterLink
-        to="/committee/home"
-        class="mx-2"
-        :class="{
-          'underline underline-offset-8 decoration-4':
-            $route.name === 'Home Committee',
-        }"
-        ><span>หน้าหลัก</span></RouterLink
-      >
-      <RouterLink
         :to="`/committee/students`"
         class="mx-2"
         :class="{
           'underline underline-offset-8 decoration-4':
             $route.name === 'Committee Student List'
         }"
-        ><span>รายชื่อนักศึกษา</span></RouterLink
+        ><span>ตรวจสอบเอกสารโครงงาน</span></RouterLink
       >
       <button
         class="text-error underline mx-2 hover:bg-error hover:text-white hover:no-underline rounded-lg"

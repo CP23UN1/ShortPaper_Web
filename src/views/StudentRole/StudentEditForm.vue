@@ -35,23 +35,25 @@ const getStudentAndSubjectsAndShortpapers = async () => {
   const studentRes = await ApiService.getStudentById(studentId.value)
   if (studentRes.status === 200) {
     const studentData = await studentRes.data
-    console.log("studentData.data:", studentData.data);
+    console.log('studentData.data:', studentData.data)
     student.value = studentData.data
     if (studentData.data.subjects) {
-    console.log("studentData.data.subjects:", studentData.data.subjects); // Add this line for debugging
-    studentSubjectId.value = studentData.data.subjects.subjectId
-    registeredSubjects.value = studentData.data.subjects.filter(subject => subject.isRegisteredSubject)
-      .map(subject => subject.subjectId);
-    paperSubjects.value = studentData.data.subjects.filter(subject => subject.isPaperSubject)
-      .map(subject => subject.subjectId);  
-    // Convert arrays to strings
-    registeredSubjectsId.value = registeredSubjects.value[0];
-    paperSubjectsId.value = paperSubjects.value[0];
+      console.log('studentData.data.subjects:', studentData.data.subjects) // Add this line for debugging
+      studentSubjectId.value = studentData.data.subjects.subjectId
+      registeredSubjects.value = studentData.data.subjects
+        .filter((subject) => subject.isRegisteredSubject)
+        .map((subject) => subject.subjectId)
+      paperSubjects.value = studentData.data.subjects
+        .filter((subject) => subject.isPaperSubject)
+        .map((subject) => subject.subjectId)
+      // Convert arrays to strings
+      registeredSubjectsId.value = registeredSubjects.value[0]
+      paperSubjectsId.value = paperSubjects.value[0]
 
-    console.log("Registered Subject IDs:", registeredSubjectsId);
-    console.log("Paper Subject IDs:", paperSubjectsId);
-    console.log(registeredSubjects.value);
-    console.log(paperSubjects.value);
+      console.log('Registered Subject IDs:', registeredSubjectsId)
+      console.log('Paper Subject IDs:', paperSubjectsId)
+      console.log(registeredSubjects.value)
+      console.log(paperSubjects.value)
     }
   }
 
@@ -64,11 +66,11 @@ const getStudentAndSubjectsAndShortpapers = async () => {
   const shortpaperRes = await ApiService.getShortPaper(studentId.value)
   if (shortpaperRes.status === 200) {
     const shortpaperData = await shortpaperRes.data
-    console.log("shortpaper.data:", shortpaperRes.data);
+    console.log('shortpaper.data:', shortpaperRes.data)
     shortpaper.value = shortpaperData.data
-    if(shortpaper.value == null){
-      shortpaperId.value = "null";
-      shortpaperTopic.value = "null";
+    if (shortpaper.value == null) {
+      shortpaperId.value = 'null'
+      shortpaperTopic.value = 'null'
     } else {
       shortpaperId.value = shortpaperData.data.shortpaperId
       shortpaperTopic.value = shortpaperData.data.shortpaperTopic
@@ -131,83 +133,92 @@ const validateData = () => {
 
 const updateStudentAndShortpaper = async () => {
   if (validateData()) {
-  // Create an array to hold the subjects
-  // Create an array to hold the subjects
-  // const updatedSubjects = [];
+    // Create an array to hold the subjects
+    // Create an array to hold the subjects
+    // const updatedSubjects = [];
 
-  // Add registered subjects to updatedSubjects array
-  //   updatedSubjects.push({
-  //     SubjectId: registeredSubjectsId.value,
-  //     IsRegisteredSubject: true,
-  //     IsPaperSubject: false
-  //   });
+    // Add registered subjects to updatedSubjects array
+    //   updatedSubjects.push({
+    //     SubjectId: registeredSubjectsId.value,
+    //     IsRegisteredSubject: true,
+    //     IsPaperSubject: false
+    //   });
 
-  // Add paper subjects to updatedSubjects array
-  //   updatedSubjects.push({
-  //     SubjectId: paperSubjectsId.value,
-  //     IsRegisteredSubject: false,
-  //     IsPaperSubject: true
-  //   });
+    // Add paper subjects to updatedSubjects array
+    //   updatedSubjects.push({
+    //     SubjectId: paperSubjectsId.value,
+    //     IsRegisteredSubject: false,
+    //     IsPaperSubject: true
+    //   });
 
-  const updatedStudent = {
-    studentId: studentId.value,
-    firstname: student.value.firstname,
-    lastname: student.value.lastname,
-    email: student.value.email,
-    alternativeEmail: student.value.alternativeEmail,
-    phonenumber: student.value.phonenumber,
-  };
+    const updatedStudent = {
+      studentId: studentId.value,
+      firstname: student.value.firstname,
+      lastname: student.value.lastname,
+      email: student.value.email,
+      alternativeEmail: student.value.alternativeEmail,
+      phonenumber: student.value.phonenumber,
+    }
     await ApiService.updateStudent(studentId.value, updatedStudent)
 
-    if (shortpaperId.value != "null") {
-    // If the student has a short paper, update it
-    const updatedShortpaper = {
-      shortpaperId: shortpaper.value.shortpaperId,
-      shortpaperTopic: shortpaperTopic.value,
+    if (shortpaperId.value != 'null') {
+      // If the student has a short paper, update it
+      const updatedShortpaper = {
+        shortpaperId: shortpaper.value.shortpaperId,
+        shortpaperTopic: shortpaperTopic.value,
+      }
+      await ApiService.updateShortpaper(shortpaper.value.id, updatedShortpaper)
+    } else {
+      // If the student doesn't have a short paper, add a new one
+      const newShortpaper = {
+        shortpaperTopic: shortpaperTopic.value,
+        studentId: studentId.value,
+      }
+      await ApiService.addShortpaper(newShortpaper)
     }
-    await ApiService.updateShortpaper(shortpaper.value.id, updatedShortpaper)
-  } else {
-    // If the student doesn't have a short paper, add a new one
-    const newShortpaper = {
-      shortpaperTopic: shortpaperTopic.value,
-      studentId: studentId.value,
+
+    if (
+      registeredSubjectsId.value &&
+      paperSubjectsId.value &&
+      registeredSubjectsId.value == paperSubjectsId.value
+    ) {
+      const updatedRegisteredSubject = {
+        SubjectId: paperSubjectsId.value,
+        IsRegisteredSubject: true,
+        IsPaperSubject: true,
+      }
+      await ApiService.updateSubject(studentId.value, updatedRegisteredSubject)
     }
-    await ApiService.addShortpaper(newShortpaper)
-  }
 
-  if(registeredSubjectsId.value && paperSubjectsId.value && registeredSubjectsId.value == paperSubjectsId.value) {
-    const updatedRegisteredSubject = {
-    SubjectId: paperSubjectsId.value,
-    IsRegisteredSubject: true,
-    IsPaperSubject: true
-    };
-    await ApiService.updateSubject(studentId.value, updatedRegisteredSubject)
-  }
+    if (
+      registeredSubjectsId.value &&
+      registeredSubjectsId.value != paperSubjectsId.value
+    ) {
+      const updatedRegisteredSubject = {
+        SubjectId: registeredSubjectsId.value,
+        IsRegisteredSubject: true,
+        IsPaperSubject: false,
+      }
+      await ApiService.updateSubject(studentId.value, updatedRegisteredSubject)
+    }
 
-  if(registeredSubjectsId.value && registeredSubjectsId.value != paperSubjectsId.value) {
-    const updatedRegisteredSubject = {
-    SubjectId: registeredSubjectsId.value,
-    IsRegisteredSubject: true,
-    IsPaperSubject: false
-    };
-    await ApiService.updateSubject(studentId.value, updatedRegisteredSubject)
-  }
+    if (
+      paperSubjectsId.value &&
+      registeredSubjectsId.value != paperSubjectsId.value
+    ) {
+      const updatedPaperSubject = {
+        SubjectId: paperSubjectsId.value,
+        IsRegisteredSubject: false,
+        IsPaperSubject: true,
+      }
+      await ApiService.updateSubject(studentId.value, updatedPaperSubject)
+    }
 
-  if(paperSubjectsId.value && registeredSubjectsId.value != paperSubjectsId.value) {
-    const updatedPaperSubject = {
-    SubjectId: paperSubjectsId.value,
-    IsRegisteredSubject: false,
-    IsPaperSubject: true
-    };
-    await ApiService.updateSubject(studentId.value, updatedPaperSubject)
-  }
-  
     modal.value.toggle()
     alert('บันทึกสำเร็จ')
     router.push('/student/' + studentId.value)
   }
 }
-
 
 // const updateShortpaper = async () => {
 //   const updatedShortpaper = {
@@ -360,12 +371,12 @@ onMounted(async () => {
                 class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                 v-model="paperSubjectsId"
               >
-              <option>ยังไม่ได้เลือกวิชา</option>
-              <option
+                <option>ยังไม่ได้เลือกวิชา</option>
+                <option
                   v-for="subject in subjects"
                   :key="subject.subjectId"
                   :value="subject.subjectId"
-              >
+                >
                   {{ subject.subjectId }} {{ subject.subjectName }}
                 </option>
               </select>
@@ -378,12 +389,12 @@ onMounted(async () => {
     <div class="text-sm font-medium mt-[24px] flex gap-5 justify-end">
       <RouterLink :to="`/details`">
         <ButtonMain
-          class="bg-error border hover:bg-white hover:border-error hover:text-error"
+          class="bg-error border hover:bg-white border-error hover:text-error"
           text="ยกเลิกการบันทึก"
         />
       </RouterLink>
       <ButtonMain
-        class="bg-correct border hover:bg-white hover:border-correct hover:text-correct"
+        class="bg-correct border hover:bg-white border-correct hover:text-correct"
         text="บันทึกการแก้ไข"
         @click="toggleModal"
       />

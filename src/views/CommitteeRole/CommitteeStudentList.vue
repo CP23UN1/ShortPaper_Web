@@ -10,12 +10,12 @@ import ButtonMain from '../../components/ButtonMain.vue'
 import { useAuthStore } from '../../stores/auth'
 
 const students = ref([])
-const fileType = ref([])
+const fileTypes = ref([])
 const store = useAuthStore()
 const committeeId = ref(store.userId)
 
 const wrongIconSvg = `<svg
-                    class="w-[15px] h-[15px] text-red-600"
+                    class="w-[15px] h-[15px] text-red-600 mx-auto"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -31,7 +31,7 @@ const wrongIconSvg = `<svg
                   </svg>`
 
 const correctIconSvg = `<svg
-                    class="w-[17px] h-[17px] text-teal-700"
+                    class="w-[17px] h-[17px] text-teal-700 mx-auto"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -65,7 +65,7 @@ const getFileType = async () => {
 
   if (res.status === 200) {
     const data = await res.data
-    fileType.value = data.data
+    fileTypes.value = data.data
   }
 }
 
@@ -95,15 +95,6 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="mt-5 font-semibold">
-    <div class="text-bluemain text-left text-sm">
-      <p>
-        <RouterLink :to="'/students'">
-          <span class="hover:text-blueheader">ข้อมูลนักศึกษา</span>
-        </RouterLink>
-      </p>
-    </div>
-  </div>
   <div>
     <Header class="text-sm rounded-md" header="ข้อมูลนักศึกษา" />
     <div class="p-5 shadow-md text-sm">
@@ -123,6 +114,13 @@ onMounted(async () => {
             <th scope="col" class="px-6 py-3">รหัสนักศึกษา</th>
             <th scope="col" class="px-6 py-3">ชื่อ - นามสกุล</th>
             <th scope="col" class="px-6 py-3">รายวิชา</th>
+            <th scope="col" class="px-6 py-3">ใบ.1</th>
+            <th scope="col" class="px-6 py-3">ส่งครั้งที่ 1</th>
+            <th scope="col" class="px-6 py-3">ส่งครั้งที่ 2</th>
+            <th scope="col" class="px-6 py-3">รูปเล่มบทความ</th>
+            <th scope="col" class="px-6 py-3">ฉบับสมบูรณ์</th>
+            <th scope="col" class="px-6 py-3">ใบโอนลิขสิทธิ์</th>
+            <th scope="col" class="px-6 py-3">ใบโจรกรรม</th>
 
             <!-- file type -->
             <th
@@ -155,30 +153,34 @@ onMounted(async () => {
             <td class="px-6 py-4">
               {{ student.firstname }} {{ student.lastname }}
             </td>
-            <td class="px-6 py-4" v-if="student.subjects">
-              {{ student.subjects.subjectId }}
-              {{ student.subjects.subjectName }}
+            <td class="px-6 py-4" v-if="student.subjects.length !== 0">
+              <ul>
+                <li v-for="subject in student.subjects" class="mb-2">
+                  {{ subject.subjectId }}
+                  {{ subject.subjectName }}
+                  <span v-if="subject.isRegisteredSubject">
+                    : วิชาที่ลงทะเบียน</span
+                  >
+                  <span v-if="subject.isPaperSubject">
+                    : วิชาที่ทำ IS Report</span
+                  >
+                </li>
+              </ul>
             </td>
             <td v-else class="text-center">-</td>
 
-            <td class="px-6 py-4">
-              <div
-                v-if="
-                  student.shortpaperFiles &&
-                  student.shortpaperFiles.length !== 0
-                "
-              >
-                <div v-if="hasFileWithId(student.shortpaperFiles, 1)">
-                  <div v-html="correctIconSvg"></div>
-                </div>
-                <div v-else>
-                  <div v-html="wrongIconSvg"></div>
-                </div>
+            <td  class="px-6 py-3">
+              <div v-if="student.shortpaperFiles !== null">
+                <div
+                  v-if="hasFileWithId(student.shortpaperFiles, 1)"
+                  v-html="correctIconSvg"
+                ></div>
+                <div v-else v-html="wrongIconSvg"></div>
               </div>
             </td>
 
-            <td class="px-6 py-4">
-              <div v-if="student.shortpaperFiles.length !== 0">
+            <td class="px-6 py-3">
+              <div v-if="student.shortpaperFiles !== null">
                 <div
                   v-if="hasFileWithId(student.shortpaperFiles, 2)"
                   v-html="correctIconSvg"
@@ -187,8 +189,8 @@ onMounted(async () => {
               </div>
             </td>
 
-            <td class="px-6 py-4">
-              <div v-if="student.shortpaperFiles.length !== 0">
+            <td class="px-6 py-3">
+              <div v-if="student.shortpaperFiles !== null">
                 <div
                   v-if="hasFileWithId(student.shortpaperFiles, 3)"
                   v-html="correctIconSvg"
@@ -197,8 +199,8 @@ onMounted(async () => {
               </div>
             </td>
 
-            <td class="px-6 py-4">
-              <div v-if="student.shortpaperFiles.length !== 0">
+            <td class="px-6 py-3">
+              <div v-if="student.shortpaperFiles !== null">
                 <div
                   v-if="hasFileWithId(student.shortpaperFiles, 4)"
                   v-html="correctIconSvg"
@@ -207,8 +209,8 @@ onMounted(async () => {
               </div>
             </td>
 
-            <td class="px-6 py-4">
-              <div v-if="student.shortpaperFiles.length !== 0">
+            <td class="px-6 py-3">
+              <div v-if="student.shortpaperFiles !== null">
                 <div
                   v-if="hasFileWithId(student.shortpaperFiles, 5)"
                   v-html="correctIconSvg"
@@ -217,8 +219,8 @@ onMounted(async () => {
               </div>
             </td>
 
-            <td class="px-6 py-4">
-              <div v-if="student.shortpaperFiles.length !== 0">
+            <td class="px-6 py-3">
+              <div v-if="student.shortpaperFiles !== null">
                 <div
                   v-if="hasFileWithId(student.shortpaperFiles, 6)"
                   v-html="correctIconSvg"
@@ -227,8 +229,8 @@ onMounted(async () => {
               </div>
             </td>
 
-            <td class="px-6 py-4">
-              <div v-if="student.shortpaperFiles.length !== 0">
+            <td class="px-6 py-3">
+              <div v-if="student.shortpaperFiles !== null">
                 <div
                   v-if="hasFileWithId(student.shortpaperFiles, 7)"
                   v-html="correctIconSvg"

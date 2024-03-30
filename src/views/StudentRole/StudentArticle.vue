@@ -91,47 +91,48 @@ onBeforeMount(async () => {
     </div>
 
     <div class="relative overflow-x-auto shadow-md rounded-lg mt-[12px]">
-  <table class="w-full text-sm text-gray-500">
-    <thead class="text-sm text-white uppercase bg-bluemain">
-      <tr>
-        <th scope="col" class="py-2 pl-6 text-left">ลำดับการส่ง</th>
-        <th scope="col" class="text-left">หัวข้อ</th>
-        <th scope="col" class="text-left">ผู้จัดทำ</th>
-        <th scope="col" class=" text-left">วิชาที่จัดทำ</th>
-        <th scope="col" class=""></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        class="bg-white border-b hover:bg-gray-50 text-gray-900"
-        v-for="(article, index) in articles"
-        :key="index"
-      >
-        <td class="py-3 pl-14 pr-2 font-medium text-left">{{ article.id }}</td>
-        <td class="py-3  pr-3 font-medium">{{ article.title }}</td>
-        <td class="py-3  pr-3 font-medium">{{ article.author }}</td>
-        <td class="py-3  pr-3 font-medium">{{ article.subject }}</td>
-        <td class="py-3 pr-2">
-          <svg
-            @click="addToFavorites(article.id)"
-            width="18"
-            height="18"
-            viewBox="0 0 20 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            :class="{ 'text-green-500': isFavorite(article.id) }"
+      <table class="w-full text-sm text-gray-500">
+        <thead class="text-sm text-white uppercase bg-bluemain">
+          <tr>
+            <th scope="col" class="py-2 pl-6 text-left">ลำดับการส่ง</th>
+            <th scope="col" class="text-left">หัวข้อ</th>
+            <th scope="col" class="text-left">ผู้จัดทำ</th>
+            <th scope="col" class="text-left">วิชาที่จัดทำ</th>
+            <th scope="col" class=""></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            class="bg-white border-b hover:bg-gray-50 text-gray-900"
+            v-for="(article, index) in articles"
+            :key="index"
           >
-            <path
-              d="M0.666504 24V2.66667C0.666504 1.93333 0.927615 1.30556 1.44984 0.783333C1.97206 0.261111 2.59984 0 3.33317 0H16.6665C17.3998 0 18.0276 0.261111 18.5498 0.783333C19.0721 1.30556 19.3332 1.93333 19.3332 2.66667V24L9.99984 20L0.666504 24Z"
-              fill="#027368"
-            />
-          </svg>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
+            <td class="py-3 pl-14 pr-2 font-medium text-left">
+              {{ article.id }}
+            </td>
+            <td class="py-3 pr-3 font-medium">{{ article.title }}</td>
+            <td class="py-3 pr-3 font-medium">{{ article.author }}</td>
+            <td class="py-3 pr-3 font-medium">{{ article.subject }}</td>
+            <td class="py-3 pr-2">
+              <svg
+                @click="addToFavorites(article.id)"
+                width="18"
+                height="18"
+                viewBox="0 0 20 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                :class="{ 'text-green-500': isFavorite(article.id) }"
+              >
+                <path
+                  d="M0.666504 24V2.66667C0.666504 1.93333 0.927615 1.30556 1.44984 0.783333C1.97206 0.261111 2.59984 0 3.33317 0H16.6665C17.3998 0 18.0276 0.261111 18.5498 0.783333C19.0721 1.30556 19.3332 1.93333 19.3332 2.66667V24L9.99984 20L0.666504 24Z"
+                  fill="#027368"
+                />
+              </svg>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 

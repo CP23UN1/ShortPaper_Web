@@ -122,7 +122,7 @@ onMounted(async () => {
       </div>
     </div>
 
-    <div class="mt-10 mx-24">
+    <div class="my-10 mx-24">
       <div class="bg-bluemain p-16 rounded-lg">
         <h1 class="font-black text-white text-xl">กำหนดการนักศึกษา</h1>
         <div

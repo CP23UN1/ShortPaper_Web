@@ -182,7 +182,7 @@ onMounted(async () => {
               ></div>
             </td>
             <td class="font-medium whitespace-nowrap">
-              <RouterLink :to="`/file`">
+              <RouterLink :to="`/file/${fileType.typeId}`">
                 <!-- <ButtonMain
                   text="รายละเอียด"
                   class="bg-bluemain border hover:bg-white hover:border-bluemain hover:text-bluemain"

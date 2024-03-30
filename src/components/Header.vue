@@ -9,7 +9,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="bg-bluemain text-white text-sm p-4 mb-3 mt-5 rounded-md">
+  <div class="bg-bluemain text-white p-4 mb-3 mt-5 rounded-md font-black">
     <h1>{{ header }}</h1>
   </div>
 </template>

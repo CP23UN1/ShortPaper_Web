@@ -2,7 +2,7 @@
 import { RouterLink } from 'vue-router'
 import { useAuthStore } from '../../stores/auth'
 import { useRoute, useRouter } from 'vue-router'
-import { ref , onMounted} from 'vue'
+import { ref, onMounted } from 'vue'
 
 const store = useAuthStore()
 const route = useRoute()
@@ -20,8 +20,7 @@ const logout = () => {
   }
 }
 
-onMounted(()=>{
-})
+onMounted(() => {})
 </script>
 <template>
   <nav
@@ -61,7 +60,8 @@ onMounted(()=>{
         :class="{
           'underline underline-offset-8 decoration-4':
             $route.name === 'ShortPaper File' ||
-            $route.name === 'Uploading ShortPaper',
+            $route.name === 'Uploading ShortPaper' ||
+            $route.name === 'ShortPaper File Details',
         }"
         ><span>เอกสารโครงงาน</span></RouterLink
       >
