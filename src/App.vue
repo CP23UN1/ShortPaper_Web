@@ -28,13 +28,16 @@ watch(() => {
   }
 })
 
-watch(() => store.userRole, (newValue) => {
-  userRole.value = newValue
-})
+watch(
+  () => store.userRole,
+  (newValue) => {
+    userRole.value = newValue
+  }
+)
 </script>
 
 <template>
-  <div :class="{ 'mx-14': isMaxWidth }">
+  <div :class="{ 'mx-14 xl:mx-32 lg:mx-28 md:mx-24 sm:mx-20': isMaxWidth }">
     <template v-if="showNavbar">
       <NavbarCommittee class="mt-[20px]" v-if="userRole == 'committee'" />
       <NavbarAdmin class="mt-[20px]" v-if="userRole == 'admin'" />

@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, onUnmounted } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useAuthStore } from '../../stores/auth'
 
@@ -32,11 +32,11 @@ onMounted(async () => {
         class="bg-cover bg-center bg-no-repeat"
         style="background-image: url('/un1/images/kmutt.png'); height: 200px"
       >
-        <NavbarStudent class="mx-14 relative top-[20px]" />
+        <NavbarStudent class="xl:mx-32 lg:mx-28 md:mx-24 sm:mx-20 top-[20px] relative" />
       </div>
     </div>
 
-    <div>
+    <div class="xl:mx-52 lg:mx-48 md:mx-44 sm:mx-40">
       <h1
         class="text-bluemain font-black text-2xl text-center mt-7 underline underline-offset-8"
       >
@@ -122,7 +122,7 @@ onMounted(async () => {
       </div>
     </div>
 
-    <div class="my-10 mx-24">
+    <div class="my-10 xl:mx-52 lg:mx-48 md:mx-44 sm:mx-40">
       <div class="bg-bluemain p-16 rounded-lg">
         <h1 class="font-black text-white text-xl">กำหนดการนักศึกษา</h1>
         <div
