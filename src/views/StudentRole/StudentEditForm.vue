@@ -35,10 +35,8 @@ const getStudentAndSubjectsAndShortpapers = async () => {
   const studentRes = await ApiService.getStudentById(studentId.value)
   if (studentRes.status === 200) {
     const studentData = await studentRes.data
-    console.log('studentData.data:', studentData.data)
     student.value = studentData.data
     if (studentData.data.subjects) {
-      console.log('studentData.data.subjects:', studentData.data.subjects) // Add this line for debugging
       studentSubjectId.value = studentData.data.subjects.subjectId
       registeredSubjects.value = studentData.data.subjects
         .filter((subject) => subject.isRegisteredSubject)
@@ -46,14 +44,9 @@ const getStudentAndSubjectsAndShortpapers = async () => {
       paperSubjects.value = studentData.data.subjects
         .filter((subject) => subject.isPaperSubject)
         .map((subject) => subject.subjectId)
-      // Convert arrays to strings
+
       registeredSubjectsId.value = registeredSubjects.value[0]
       paperSubjectsId.value = paperSubjects.value[0]
-
-      console.log('Registered Subject IDs:', registeredSubjectsId)
-      console.log('Paper Subject IDs:', paperSubjectsId)
-      console.log(registeredSubjects.value)
-      console.log(paperSubjects.value)
     }
   }
 
@@ -66,14 +59,13 @@ const getStudentAndSubjectsAndShortpapers = async () => {
   const shortpaperRes = await ApiService.getShortPaper(studentId.value)
   if (shortpaperRes.status === 200) {
     const shortpaperData = await shortpaperRes.data
-    console.log('shortpaper.data:', shortpaperRes.data)
     shortpaper.value = shortpaperData.data
     if (shortpaper.value == null) {
-      shortpaperId.value = 'null'
-      shortpaperTopic.value = 'null'
+      shortpaperId.value = ''
+      shortpaperTopic.value = ''
     } else {
-      shortpaperId.value = shortpaperData.data.shortpaperId
-      shortpaperTopic.value = shortpaperData.data.shortpaperTopic
+      shortpaperId.value = shortpaper.value.shortpaperId
+      shortpaperTopic.value = shortpaper.value.shortpaperTopic
     }
   }
 
@@ -134,7 +126,6 @@ const validateData = () => {
 const updateStudentAndShortpaper = async () => {
   if (validateData()) {
     // Create an array to hold the subjects
-    // Create an array to hold the subjects
     // const updatedSubjects = [];
 
     // Add registered subjects to updatedSubjects array
@@ -161,15 +152,13 @@ const updateStudentAndShortpaper = async () => {
     }
     await ApiService.updateStudent(studentId.value, updatedStudent)
 
-    if (shortpaperId.value != 'null') {
-      // If the student has a short paper, update it
+    if (shortpaperId.value !== '') {
       const updatedShortpaper = {
         shortpaperId: shortpaper.value.shortpaperId,
         shortpaperTopic: shortpaperTopic.value,
       }
       await ApiService.updateShortpaper(shortpaper.value.id, updatedShortpaper)
     } else {
-      // If the student doesn't have a short paper, add a new one
       const newShortpaper = {
         shortpaperTopic: shortpaperTopic.value,
         studentId: studentId.value,
@@ -216,7 +205,7 @@ const updateStudentAndShortpaper = async () => {
 
     modal.value.toggle()
     alert('บันทึกสำเร็จ')
-    router.push('/student/' + studentId.value)
+    router.push('/details')
   }
 }
 
@@ -352,7 +341,7 @@ onMounted(async () => {
                 class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                 v-model="registeredSubjectsId"
               >
-                <option>ยังไม่ได้เลือกวิชา</option>
+                <option value="">ยังไม่ได้เลือกวิชา</option>
                 <option
                   v-for="subject in subjects"
                   :key="subject.subjectId"
