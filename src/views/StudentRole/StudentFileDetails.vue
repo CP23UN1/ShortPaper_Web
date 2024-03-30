@@ -14,12 +14,12 @@ const router = useRouter()
 const store = useAuthStore()
 const studentId = ref(store.userId)
 
-const fileTypes = ref([])
-const studentFiles = ref([])
+const fileTypes = ref()
+const studentFiles = ref()
 const shortpaper = ref()
 const fileTypeName = ref()
 
-const comments = ref([])
+const comments = ref()
 const newComment = ref()
 
 const lastedFileId = ref()
@@ -49,9 +49,12 @@ const getFileType = async () => {
   }
 }
 
-// All files
-const getFilesByStudent = async () => {
-  const res = await ApiService.getFilesByStudent(studentId.value)
+// File of this type
+const getFileByTypeAndStudent = async () => {
+  const res = await ApiService.getFileByTypeAndStudent(
+    route.params.fileTypeId,
+    studentId.value
+  )
 
   if (res.status === 200) {
     const data = await res.data
@@ -89,16 +92,19 @@ const goToUpload = (fileTypeId) => {
   })
 }
 
-const downloadFile = async (fileId, filename) => {
+const downloadFile = async (fileTypeId, fileName) => {
   try {
-    const res = await ApiService.downloadFile(fileId)
+    const res = await ApiService.downloadFile(
+      shortpaper.value.shortpaperId,
+      fileTypeId
+    )
     const blob = new Blob([res.data], { type: 'application/pdf' })
     const url = window.URL.createObjectURL(blob)
     const link = document.createElement('a')
 
     if (res.status === 200) {
       link.href = url
-      link.download = filename
+      // link.download = fileName
       link.style.display = 'none'
 
       document.body.appendChild(link)
@@ -127,9 +133,20 @@ const sendComment = async () => {
   }
 }
 
+const mapFileStatus = (status) => {
+  switch (status) {
+    case 'not_approve':
+      return 'ยังไม่ได้รับการอนุมัติ'
+    case 'approved':
+      return 'อนุมัติเรียบร้อย'
+    default:
+      return 'ยังไม่มีการอัปโหลด'
+  }
+}
+
 onMounted(async () => {
   await getFileType()
-  await getFilesByStudent()
+  await getFileByTypeAndStudent()
   await getShortPaper()
 
   //lastedFileId.value = studentFiles.value[0].fileId
@@ -172,7 +189,7 @@ onMounted(async () => {
               <div class="col-span-1">
                 <div
                   class="flex justify-end"
-                  v-if="studentFiles.length !== 0"
+                  v-if="studentFiles !== null"
                   v-html="uploadIconSvgDisabled"
                 ></div>
                 <div
@@ -190,7 +207,7 @@ onMounted(async () => {
               <div class="col-span-1">
                 <div
                   class="flex justify-end"
-                  v-if="studentFiles.length !== 0"
+                  v-if="studentFiles !== null"
                   v-html="uploadIconSvg"
                 ></div>
                 <div
@@ -207,15 +224,15 @@ onMounted(async () => {
               <div class="col-span-1">
                 <p class="text-end">
                   {{
-                    studentFiles.length !== 0
-                      ? studentFiles
+                    studentFiles && studentFiles.length > 0
+                      ? mapFileStatus(studentFiles[0].status)
                       : 'ยังไม่มีการอัปโหลด'
                   }}
                 </p>
               </div>
             </div>
           </div>
-          <div v-if="studentFiles.length !== 0 && route.params.fileTypeId == 1">
+          <div v-if="studentFiles !== null && route.params.fileTypeId == 1">
             <hr class="my-3" />
             <div class="flex justify-end">
               <ButtonMain
@@ -237,8 +254,20 @@ onMounted(async () => {
         <div
           class="bg-white border-b text-gray-900 p-2 pl-4 rounded-es-lg rounded-ee-lg"
         >
-          <div class="text-end" v-if="studentFiles.length !== 0">
-            <p>อัปโหลดล่าสุดวันที่ {{ studentFiles.createdDateTime }}</p>
+          <div class="text-end" v-if="studentFiles !== null">
+            <p>
+              อัปโหลดล่าสุดวันที่
+              {{
+                studentFiles && studentFiles.length > 0
+                  ? new Date(studentFiles[0].updatedDatetime).toLocaleString(
+                      'th-TH',
+                      {
+                        timeZone: 'Asia/Bangkok',
+                      }
+                    )
+                  : 'ยังไม่มีการอัปโหลด'
+              }}
+            </p>
           </div>
           <div class="text-end text-login mt-2">
             <p>ไฟล์</p>
@@ -252,13 +281,8 @@ onMounted(async () => {
               <div
                 class="flex justify-end"
                 v-html="downloadIconSvg"
-                v-if="studentFiles.length !== 0"
-                @click="
-                  downloadFile(
-                    getFileIdByType(fileType.typeId),
-                    getNameByStudent(fileType.typeId)
-                  )
-                "
+                v-if="studentFiles !== null"
+                @click="downloadFile(route.params.fileTypeId)"
               ></div>
               <div
                 class="flex justify-end"
