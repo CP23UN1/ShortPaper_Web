@@ -123,7 +123,7 @@ const routes = [
     meta: { requiresAuth: true, requiresRole: 'committee' },
   },
   {
-    path: '/committee/filedetails',
+    path: '/committee/filedetails/:fileId',
     name: 'file',
     component: CommitteeFileDetails,
     meta: { requiresAuth: true, requiresRole: 'committee' },
