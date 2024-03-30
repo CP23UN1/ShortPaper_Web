@@ -15,10 +15,10 @@ const router = useRouter()
 const store = useAuthStore()
 const studentId = ref(store.userId)
 
-// const shortpaperId = ref(route.params.shortpaperId)
 const typeId = ref(route.params.typeId)
 
 const shortpaper = ref()
+// const shortpaperId = ref(route.params.shortpaperId)
 const shortpaperId = ref()
 
 const fileTypes = ref([])
@@ -47,15 +47,7 @@ const handleUpload = async () => {
     alert('Please select a file to upload.')
     return
   }
-}
-
-const getShortPaper = async () => {
-  const res = await ApiService.getShortPaper(studentId.value)
-  if (res.status === 200) {
-    const data = await res.data
-    shortpaper.value = data.data
-  }
-
+  
   const formData = new FormData()
   formData.append('shortpaperId', shortpaperId.value)
   formData.append('file', file.value)
@@ -81,6 +73,14 @@ const getShortPaper = async () => {
   }
 }
 
+const getShortPaper = async () => {
+  const res = await ApiService.getShortPaper(studentId.value)
+  if (res.status === 200) {
+    const data = await res.data
+    shortpaper.value = data.data
+  }
+}
+
 const getFileType = async () => {
   try {
     const res = await ApiService.getFileType()
@@ -94,6 +94,7 @@ const getFileType = async () => {
     alert(`An error occurred while fetching file types.`)
   }
 }
+
 const committeeName = ref()
 const fetchCommittees = async () => {
   try {
