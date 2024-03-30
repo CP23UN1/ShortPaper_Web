@@ -107,7 +107,7 @@ onMounted(() => {})
         <div
           class="bg-cover bg-center bg-no-repeat rounded-l-md"
           style="
-            background-image: url('/images/kmutt2.png');
+            background-image: url('/un1/images/kmutt2.png');
             background-color: #f0f0f0;
             width: 400px;
             height: 450px;

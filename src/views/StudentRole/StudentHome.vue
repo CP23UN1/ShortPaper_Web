@@ -30,7 +30,7 @@ onMounted(async () => {
     <div class="relative">
       <div
         class="bg-cover bg-center bg-no-repeat"
-        style="background-image: url('/images/kmutt2.png'); height: 200px"
+        style="background-image: url('/un1/images/kmutt2.png'); height: 200px"
       >
         <NavbarStudent class="mx-14 relative top-[20px]" />
       </div>
