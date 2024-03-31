@@ -31,9 +31,13 @@ const remark = ref('')
 
 const selectedCommittee = ref('')
 const selectedCommittee2 = ref('')
-
+const committeeFullName = ref('')
 const handleFileSelected = (selectedFile) => {
   file.value = selectedFile
+}
+
+const handleCommitteeName = (name) => {
+  selectedCommittee.value = name
 }
 
 const handleTypeId = (id) => {
@@ -98,7 +102,6 @@ const getFileType = async () => {
   }
 }
 
-const committeeName = ref()
 const fetchCommittees = async () => {
   try {
     const response = await ApiService.getCommittees()
@@ -112,31 +115,27 @@ const fetchCommittees = async () => {
 }
 
 const assignCommittee = async () => {
-  if (!shortpaperId.value || !selectedCommittee.value) {
-    return
-  }
-
   try {
-    const response = await ApiService.updateCommitteeRolesForStudentAsync(
-      studentId.value,
-      [
-        {
-          CommitteeName: selectedCommittee.value,
-          IsAdvisor: true,
-          IsPrincipal: false,
-          IsCommittee: false,
-        },
-      ]
-    )
+    const studentId = store.userId;
+    const committeeRoles = [
+      {
+        committeeName: selectedCommittee.value,
+        isAdvisor: true,
+        isPrincipal: false,
+        isCommittee: false,
+      }
+    ];
+    
+    const response = await ApiService.updateCommitteeRolesForStudentAsync(studentId, committeeRoles);
 
     if (response.IsSuccess) {
-      console.log('Committee assigned successfully:', response)
+      console.log('Committee assigned successfully:', response);
     } else {
-      console.error('Failed to assign committee:', response.ErrorMessage)
+      console.error('Failed to assign committee:', response.ErrorMessage);
     }
   } catch (error) {
-    console.error('Error assigning committee:', error)
-    alert('An error occurred while assigning the committee.')
+    console.error('Error assigning committee:', error);
+    alert('An error occurred while assigning the committee.');
   }
 }
 
@@ -196,11 +195,9 @@ onBeforeMount(async () => {
         <div v-for="committee in committees" :key="committee.committeeId">
           <RadioButton
             name="advisor"
-            :value="
-              committee.firstname + ' ' + committee.lastname ==
-              selectedCommittee2
-            "
+            :value="committee.committeeId"
             :label="committee.firstname + ' ' + committee.lastname"
+            @change="handleCommitteeName(committee.firstname + ' ' + committee.lastname)"
           />
         </div>
       </div>
