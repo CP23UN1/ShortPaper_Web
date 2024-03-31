@@ -19,24 +19,24 @@ const subjects = ref()
 const getRegisteredSubjects = () => {
   if (student.value.subjects && student.value.subjects.length) {
     const registeredSubjects = student.value.subjects
-      .filter(subject => subject.isRegisteredSubject)
-      .map(subject => `${subject.subjectId} ${subject.subjectName}`)
-      .join(', ');
-    return registeredSubjects || 'ยังไม่มีข้อมูล';
+      .filter((subject) => subject.isRegisteredSubject)
+      .map((subject) => `${subject.subjectId} ${subject.subjectName}`)
+      .join(', ')
+    return registeredSubjects || 'ยังไม่มีข้อมูล'
   } else {
-    return 'ยังไม่มีข้อมูล';
+    return 'ยังไม่มีข้อมูล'
   }
 }
 
 const getPaperSubjects = () => {
   if (student.value.subjects && student.value.subjects.length) {
     const paperSubjects = student.value.subjects
-      .filter(subject => subject.isPaperSubject)
-      .map(subject => `${subject.subjectId} ${subject.subjectName}`)
-      .join(', ');
-    return paperSubjects || 'ยังไม่มีข้อมูล';
+      .filter((subject) => subject.isPaperSubject)
+      .map((subject) => `${subject.subjectId} ${subject.subjectName}`)
+      .join(', ')
+    return paperSubjects || 'ยังไม่มีข้อมูล'
   } else {
-    return 'ยังไม่มีข้อมูล';
+    return 'ยังไม่มีข้อมูล'
   }
 }
 
@@ -102,7 +102,7 @@ onBeforeMount(async () => {
 <template>
   <div class="my-10">
     <div
-      class="justify-center item-center bg-bluemain p-10 rounded-lg shadow-lg "
+      class="justify-center item-center bg-bluemain p-10 rounded-lg shadow-lg"
     >
       <h1 class="text-white font-black text-xl">ข้อมูลส่วนตัว</h1>
 
@@ -230,21 +230,21 @@ onBeforeMount(async () => {
                 </option>
               </select> -->
               <input
-                    type="text"
-                    id="isSubject"
-                    class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                    :value="getRegisteredSubjects()"
-                    disabled
-                    v-if="getRegisteredSubjects()"
-                  />
-                  <input
-                    type="text"
-                    id="isSubject"
-                    class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                    placeholder="ยังไม่ได้เลือกวิชา"
-                    disabled
-                    v-else
-                  />
+                type="text"
+                id="isSubject"
+                class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                :value="getRegisteredSubjects()"
+                disabled
+                v-if="getRegisteredSubjects()"
+              />
+              <input
+                type="text"
+                id="isSubject"
+                class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                placeholder="ยังไม่ได้เลือกวิชา"
+                disabled
+                v-else
+              />
             </div>
             <div class="mb-1">
               <label class="font-extrabold block mb-2" for="workshopSubject"
@@ -266,21 +266,21 @@ onBeforeMount(async () => {
                 </option>
               </select> -->
               <input
-                    type="text"
-                    id="workshopSubject"
-                    class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                    :value="getPaperSubjects()"
-                    disabled
-                    v-if="getPaperSubjects()"
-                  />
-                  <input
-                    type="text"
-                    id="workshopSubject"
-                    class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                    placeholder="ยังไม่ได้เลือกวิชา"
-                    disabled
-                    v-else
-                  />
+                type="text"
+                id="workshopSubject"
+                class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                :value="getPaperSubjects()"
+                disabled
+                v-if="getPaperSubjects()"
+              />
+              <input
+                type="text"
+                id="workshopSubject"
+                class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                placeholder="ยังไม่ได้เลือกวิชา"
+                disabled
+                v-else
+              />
             </div>
           </div>
         </div>

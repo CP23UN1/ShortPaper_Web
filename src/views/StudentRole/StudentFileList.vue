@@ -20,11 +20,13 @@ const doneIconSvg = `<svg class="w-[20px] h-[20px] text-teal-700" aria-hidden="t
     <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
   </svg>`
 
-const fileTypes = ref([])
-const studentFiles = ref([])
 const store = useAuthStore()
 const studentId = ref(store.userId)
+
+const fileTypes = ref([])
+const studentFiles = ref([])
 const shortpaper = ref()
+const shortpaperId = ref()
 
 const route = useRoute()
 const router = useRouter()
@@ -52,6 +54,7 @@ const getShortPaper = async () => {
   if (res.status === 200) {
     const data = await res.data
     shortpaper.value = data.data
+    shortpaperId.value = shortpaper.value.shortpaperId
   }
 }
 
@@ -63,7 +66,10 @@ const uploadPage = (fileTypeId) => {
 
 const downloadFile = async (fileTypeId, fileId, filename) => {
   try {
-    const res = await ApiService.downloadFile(shortpaper.value.shortpaperId, fileTypeId)
+    const res = await ApiService.downloadFile(
+      shortpaper.value.shortpaperId,
+      fileTypeId
+    )
     const blob = new Blob([res.data], { type: 'application/pdf' })
     const url = window.URL.createObjectURL(blob)
     const link = document.createElement('a')
@@ -183,12 +189,14 @@ onMounted(async () => {
               ></div>
             </td>
             <td class="font-medium whitespace-nowrap">
-              <RouterLink :to="`/file/${fileType.typeId}`">
+              <RouterLink :to="`/file/${fileType.typeId}/${shortpaperId}`">
                 <!-- <ButtonMain
                   text="รายละเอียด"
                   class="bg-bluemain border hover:bg-white hover:border-bluemain hover:text-bluemain"
                 /> -->
-                <span class="text-bluemain underline hover:no-underline">รายละเอียด</span>
+                <span class="text-bluemain underline hover:no-underline"
+                  >รายละเอียด</span
+                >
               </RouterLink>
             </td>
           </tr>

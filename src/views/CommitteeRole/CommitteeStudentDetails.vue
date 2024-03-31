@@ -92,6 +92,30 @@ const getFileType = async () => {
   }
 }
 
+const getRegisteredSubjects = () => {
+  if (student.value.subjects && student.value.subjects.length) {
+    const registeredSubjects = student.value.subjects
+      .filter((subject) => subject.isRegisteredSubject)
+      .map((subject) => `${subject.subjectId} ${subject.subjectName}`)
+      .join(', ')
+    return registeredSubjects || 'ยังไม่มีข้อมูล'
+  } else {
+    return 'ยังไม่มีข้อมูล'
+  }
+}
+
+const getPaperSubjects = () => {
+  if (student.value.subjects && student.value.subjects.length) {
+    const paperSubjects = student.value.subjects
+      .filter((subject) => subject.isPaperSubject)
+      .map((subject) => `${subject.subjectId} ${subject.subjectName}`)
+      .join(', ')
+    return paperSubjects || 'ยังไม่มีข้อมูล'
+  } else {
+    return 'ยังไม่มีข้อมูล'
+  }
+}
+
 onBeforeMount(async () => {
   await getStudent()
   await getFilesOfStudent()
@@ -113,7 +137,7 @@ onBeforeMount(async () => {
     </div>
 
     <div
-      class="mt-3 justify-center item-center mb-12 grid grid-cols-2 gap-4 text-sm w-full"
+      class="mt-3 justify-center item-center mb-12 grid grid-cols-2 gap-10 text-sm w-full"
     >
       <div class="shadow-md">
         <h1 class="my-2 ml-2">ข้อมูลนักศึกษา</h1>
@@ -149,7 +173,7 @@ onBeforeMount(async () => {
               </td>
             </tr>
             <tr>
-              <td class="pr-16">ชื่อหัวข้อโครงงาน</td>
+              <td class="pr-5">ชื่อหัวข้อโครงงาน</td>
               <td>
                 {{
                   student.shortpaper &&
@@ -159,16 +183,18 @@ onBeforeMount(async () => {
                 }}
               </td>
             </tr>
-            <!-- <tr>
-              <td class="pr-16">รายวิชาจัดทำ IS Report</td>
-              <td>
-                <div v-if="student.registeredSubject">
-                  {{ student.registeredSubject.subjectId }}
-                  {{ student.registeredSubject.subjectName }}
-                </div>
-                <div v-else>-</div>
+            <tr>
+              <td class="pr-16">วิชาจัดทำ IS Report / Thesis / Project</td>
+              <td v-if="student.subjects">
+                {{ getRegisteredSubjects() }}
               </td>
-            </tr> -->
+            </tr>
+            <tr>
+              <td class="pr-16">วิชาเลือก Workshop / Thesis / Project</td>
+              <td v-if="student.subjects">
+                {{ getPaperSubjects() }}
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -177,24 +203,28 @@ onBeforeMount(async () => {
         <hr />
         <table class="table-auto my-2 ml-2">
           <tbody>
-            <tr>
-              <td>อัปโหลดเอกสาร ใบ บ.1</td>
+            <tr v-for="fileType in fileTypes" class="grid grid-cols-3">
+              <td class="pr-7">อัปโหลดเอกสาร {{ fileType.typeName }}</td>
               <td>
                 <div v-if="student.shortpaperFiles !== null">
                   <div
-                    v-if="hasFileWithId(student.shortpaperFiles, 1)"
+                    v-if="
+                      hasFileWithId(student.shortpaperFiles, fileType.typeId)
+                    "
                     v-html="correctIconSvg"
                   ></div>
                   <div v-else v-html="wrongIconSvg"></div>
                 </div>
               </td>
-              <td class="text-right">
-              <RouterLink
-                :to="`/committee/filedetails/${1}`"
-                ><button>รายละเอียดไฟล์</button></RouterLink>
-            </td>
+              <td class="justify-end">
+                <RouterLink :to="`/committee/file/${fileType.typeId}`"
+                  ><p class="text-bluemain underline hover:no-underline">
+                    รายละเอียดไฟล์
+                  </p></RouterLink
+                >
+              </td>
             </tr>
-            <tr>
+            <!-- <tr>
               <td>อัปโหลดเอกสารโครงงานครั้งที่ 1</td>
               <td>
                 <div v-if="student.shortpaperFiles !== null">
@@ -206,10 +236,10 @@ onBeforeMount(async () => {
                 </div>
               </td>
               <td class="text-right">
-              <RouterLink
-                :to="`/committee/filedetails/${2}`"
-                ><button>รายละเอียดไฟล์</button></RouterLink>
-            </td>
+                <RouterLink :to="`/committee/filedetails/${2}`"
+                  ><button>รายละเอียดไฟล์</button></RouterLink
+                >
+              </td>
             </tr>
             <tr>
               <td>อัปโหลดเอกสารโครงงานครั้งที่ 2</td>
@@ -223,10 +253,10 @@ onBeforeMount(async () => {
                 </div>
               </td>
               <td class="text-right">
-              <RouterLink
-                :to="`/committee/filedetails/${3}`"
-                ><button>รายละเอียดไฟล์</button></RouterLink>
-            </td>
+                <RouterLink :to="`/committee/filedetails/${3}`"
+                  ><button>รายละเอียดไฟล์</button></RouterLink
+                >
+              </td>
             </tr>
             <tr>
               <td class="pr-16">
@@ -243,10 +273,10 @@ onBeforeMount(async () => {
                 </div>
               </td>
               <td class="text-right">
-              <RouterLink
-                :to="`/committee/filedetails/${4}`"
-                ><button>รายละเอียดไฟล์</button></RouterLink>
-            </td>
+                <RouterLink :to="`/committee/filedetails/${4}`"
+                  ><button>รายละเอียดไฟล์</button></RouterLink
+                >
+              </td>
             </tr>
             <tr>
               <td>อัปโหลดเอกสารโครงงานฉบับสมบูรณ์</td>
@@ -260,10 +290,10 @@ onBeforeMount(async () => {
                 </div>
               </td>
               <td class="text-right">
-              <RouterLink
-                :to="`/committee/filedetails/${5}`"
-                ><button>รายละเอียดไฟล์</button></RouterLink>
-            </td>
+                <RouterLink :to="`/committee/filedetails/${5}`"
+                  ><button>รายละเอียดไฟล์</button></RouterLink
+                >
+              </td>
             </tr>
             <tr>
               <td>อัปโหลดใบโอนลิขสิทธิ์</td>
@@ -277,10 +307,10 @@ onBeforeMount(async () => {
                 </div>
               </td>
               <td class="text-right">
-              <RouterLink
-                :to="`/committee/filedetails/${6}`"
-                ><button>รายละเอียดไฟล์</button></RouterLink>
-            </td>
+                <RouterLink :to="`/committee/filedetails/${6}`"
+                  ><button>รายละเอียดไฟล์</button></RouterLink
+                >
+              </td>
             </tr>
             <tr>
               <td>
@@ -294,13 +324,13 @@ onBeforeMount(async () => {
                   ></div>
                   <div v-else v-html="wrongIconSvg"></div>
                 </div>
-              </td> 
+              </td>
               <td class="text-right">
-              <RouterLink
-                :to="`/committee/filedetails/${7}`"
-                ><button>รายละเอียดไฟล์</button></RouterLink>
-            </td>
-            </tr>
+                <RouterLink :to="`/committee/filedetails/${7}`"
+                  ><button>รายละเอียดไฟล์</button></RouterLink
+                >
+              </td>
+            </tr> -->
           </tbody>
         </table>
       </div>

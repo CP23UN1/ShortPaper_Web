@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onBeforeMount } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '../../stores/auth'
 
@@ -23,6 +23,10 @@ const comments = ref()
 const newComment = ref()
 
 const lastedFileId = ref()
+const shortpaperId = ref()
+
+const committees = ref([])
+const tempComments = ref()
 
 const uploadIconSvg = `<svg class="w-[20px] h-[20px] text-bluemain hover:text-correct cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 19">
     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15h.01M4 12H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-3m-5.5 0V1.07M5.5 5l4-4 4 4"/>
@@ -49,25 +53,19 @@ const getFileType = async () => {
   }
 }
 
-// File of this type
-const getFileByTypeAndStudent = async () => {
-  const res = await ApiService.getFileByTypeAndStudent(
+// File of shortpaper
+const getFilebyFiletypeAndShortpaper = async () => {
+  const res = await ApiService.getFilebyFiletypeAndShortpaper(
     route.params.fileTypeId,
-    studentId.value
+    route.params.shortpaperId
   )
 
   if (res.status === 200) {
     const data = await res.data
     studentFiles.value = data.data
-  }
-}
-
-// Topic, Subject
-const getShortPaper = async () => {
-  const res = await ApiService.getShortPaper(studentId.value)
-  if (res.status === 200) {
-    const data = await res.data
-    shortpaper.value = data.data
+    if (studentFiles.value !== null) {
+      lastedFileId.value = studentFiles.value.shortpaperFileId
+    }
   }
 }
 
@@ -78,25 +76,54 @@ const getFileTypeName = (fileTypeId) => {
   return fileType ? fileType.typeName : '-'
 }
 
-const getComments = async (fileId) => {
-  const res = await ApiService.getComments(fileId)
+const getComments = async () => {
+  const res = await ApiService.getComments(lastedFileId.value)
   if (res.status === 200) {
     const data = await res.data
-    comments.value = data.data
+    const allComments = data.data
+
+    // Separate comments by author type
+    const committeeComments = allComments.filter((comment) =>
+      comment.authorId.startsWith('lec')
+    )
+    const studentComments = allComments.filter((comment) =>
+      comment.authorId.startsWith('std')
+    )
+
+    // Assign comments to separate refs
+    tempComments.value = {
+      committee: committeeComments,
+      student: studentComments,
+    }
   }
 }
 
-const goToUpload = (fileTypeId) => {
-  router.push({
-    path: `/upload/${fileTypeId}`,
-  })
+const getCommitteeName = (authorId) => {
+  if (!committees.value || committees.value.length === 0) {
+    return 'Loading...'
+  }
+
+  const committee = committees.value.find((c) => c.committeeId === authorId)
+  return committee
+    ? `${committee.firstname} ${committee.lastname}`
+    : 'Not found'
 }
 
-const downloadFile = async (fileTypeId, fileName) => {
+const getCommittees = async () => {
+  const res = await ApiService.getCommittees()
+
+  if (res.status === 200) {
+    const data = await res.data
+    committees.value = data
+    console.log(data)
+  }
+}
+
+const downloadFile = async (fileName) => {
   try {
     const res = await ApiService.downloadFile(
       shortpaper.value.shortpaperId,
-      fileTypeId
+      route.params.fileTypeId
     )
     const blob = new Blob([res.data], { type: 'application/pdf' })
     const url = window.URL.createObjectURL(blob)
@@ -127,10 +154,30 @@ const getNameByStudent = (typeId) => {
 }
 
 const sendComment = async () => {
-  const res = await ApiService.sendComment(newComment.value)
-  if (res.status === 200) {
-    alert('บันทึกสำเร็จ')
+  const commentObj = {
+    commentContent: newComment.value,
+    fileId: lastedFileId.value,
+    authorId: studentId.value,
   }
+
+  try {
+    const res = await ApiService.sendComment(commentObj)
+    if (res.status === 200) {
+      alert('บันทึกสำเร็จ')
+      router.push(`/files`)
+    } else {
+      console.error('Failed to send comment:', res.statusText)
+    }
+  } catch (error) {
+    console.error('Error sending comment:', error)
+  }
+}
+
+
+const goToUpload = (fileTypeId) => {
+  router.push({
+    path: `/upload/${fileTypeId}`,
+  })
 }
 
 const mapFileStatus = (status) => {
@@ -144,14 +191,13 @@ const mapFileStatus = (status) => {
   }
 }
 
-onMounted(async () => {
+onBeforeMount(async () => {
+  await getCommittees()
   await getFileType()
-  await getFileByTypeAndStudent()
-  await getShortPaper()
-
-  //lastedFileId.value = studentFiles.value[0].fileId
-  //await getComments()
-
+  await getFilebyFiletypeAndShortpaper()
+  if (studentFiles.value !== null) {
+    await getComments()
+  }
   fileTypeName.value = getFileTypeName(route.params.fileTypeId)
 })
 </script>
@@ -189,14 +235,14 @@ onMounted(async () => {
               <div class="col-span-1">
                 <div
                   class="flex justify-end"
-                  v-if="studentFiles !== null"
-                  v-html="uploadIconSvgDisabled"
+                  v-if="!studentFiles || studentFiles?.status === 'not_approve'"
+                  v-html="uploadIconSvg"
+                  @click="goToUpload(route.params.fileTypeId)"
                 ></div>
                 <div
                   class="flex justify-end"
                   v-else
-                  v-html="uploadIconSvg"
-                  @click="goToUpload(route.params.fileTypeId)"
+                  v-html="uploadIconSvgDisabled"
                 ></div>
               </div>
             </div>
@@ -207,13 +253,15 @@ onMounted(async () => {
               <div class="col-span-1">
                 <div
                   class="flex justify-end"
-                  v-if="studentFiles !== null"
-                  v-html="uploadIconSvg"
+                  v-if="
+                    studentFiles == null || studentFiles.status == 'not_approve'
+                  "
+                  v-html="uploadIconSvgDisabled"
                 ></div>
                 <div
                   class="flex justify-end"
                   v-else
-                  v-html="uploadIconSvgDisabled"
+                  v-html="uploadIconSvg"
                 ></div>
               </div>
             </div>
@@ -224,15 +272,21 @@ onMounted(async () => {
               <div class="col-span-1">
                 <p class="text-end">
                   {{
-                    studentFiles && studentFiles.length > 0
-                      ? mapFileStatus(studentFiles[0].status)
+                    studentFiles
+                      ? mapFileStatus(studentFiles.status)
                       : 'ยังไม่มีการอัปโหลด'
                   }}
                 </p>
               </div>
             </div>
           </div>
-          <div v-if="studentFiles !== null && route.params.fileTypeId == 1">
+
+          <div
+            v-if="
+              studentFiles?.status === 'approved' &&
+              route.params.fileTypeId == 1
+            "
+          >
             <hr class="my-3" />
             <div class="flex justify-end">
               <ButtonMain
@@ -258,8 +312,8 @@ onMounted(async () => {
             <p>
               อัปโหลดล่าสุดวันที่
               {{
-                studentFiles && studentFiles.length > 0
-                  ? new Date(studentFiles[0].updatedDatetime).toLocaleString(
+                studentFiles
+                  ? new Date(studentFiles.updatedDatetime).toLocaleString(
                       'th-TH',
                       {
                         timeZone: 'Asia/Bangkok',
@@ -272,7 +326,7 @@ onMounted(async () => {
           <div class="text-end text-login mt-2">
             <p>ไฟล์</p>
           </div>
-          <!-- loop file status -->
+
           <div class="grid grid-cols-3 mt-2">
             <div class="col-span-2">
               <p class="text-start">เอกสาร{{ fileTypeName }} ครั้งล่าสุด</p>
@@ -282,7 +336,7 @@ onMounted(async () => {
                 class="flex justify-end"
                 v-html="downloadIconSvg"
                 v-if="studentFiles !== null"
-                @click="downloadFile(route.params.fileTypeId)"
+                @click="downloadFile"
               ></div>
               <div
                 class="flex justify-end"
@@ -295,9 +349,9 @@ onMounted(async () => {
       </div>
     </div>
     <!-- rows 2 -->
-    <div class="grid grid-cols-2 my-5">
+    <div class="grid grid-cols-2 my-5" v-if="studentFiles !== null">
       <!-- div 1 -->
-      <div class="shadow-md mx-3">
+      <div class="shadow-md mx-3" v-if="tempComments.committee !== null">
         <div
           class="text-white uppercase bg-bluemain p-2 pl-4 rounded-ss-lg rounded-se-lg"
         >
@@ -307,55 +361,43 @@ onMounted(async () => {
         <div
           class="bg-white border-b text-gray-900 p-2 pl-4 rounded-es-lg rounded-ee-lg"
         >
-          <!-- loop comment -->
-          <!-- <div class="text-end">
-            <div class="grid grid-cols-3">
-              <div class="col-span-2">
-                <p class="text-start">ความคิดเห็นครั้งที่</p>
+          <div
+            v-if="
+              tempComments &&
+              tempComments.committee &&
+              tempComments.committee.length > 0
+            "
+          >
+            <div v-for="comment in tempComments.committee">
+              <div class="grid grid-cols-3">
+                <div class="col-span-2 my-2">
+                  <p>คณะกรรมการ {{ getCommitteeName(comment.authorId) }}</p>
+                </div>
+                <div class="col-span-1 my-2">
+                  <p class="text-login">
+                    {{
+                      comment
+                        ? new Date(comment.createdDatetime).toLocaleString(
+                            'th-TH',
+                            {
+                              timeZone: 'Asia/Bangkok',
+                            }
+                          )
+                        : 'ยังไม่มีการอัปโหลด'
+                    }}
+                  </p>
+                </div>
               </div>
-              <div class="col-span-1">
-                <p class="underline text-bluemain hover:no-underline">คลิก</p>
+
+              <div class="grid grid-cols-3">
+                <div class="col-span-2">
+                  <p>ผลการแสดงความคิดเห็น</p>
+                </div>
+                <div class="col-span-1">
+                  <p>{{ comment.commentContent }}</p>
+                </div>
               </div>
             </div>
-            <hr class="my-3" />
-          </div> -->
-
-          <!-- show advisor status -->
-          <!-- <div>
-            <p class="mt-3">ความคิดเห็นของที่ปรึกษา</p>
-            <p>ความคิดเห็นครั้งที่ 1</p> 
-            <hr class="my-2" /> 
-            </div> -->
-
-          <!-- loop comments -->
-          <div>
-            <div class="grid grid-cols-3">
-              <div class="col-span-2">
-                <p>คณะกรรมการท่านที่ 1: name</p>
-              </div>
-              <div class="col-span-1">
-                <p class="text-login">19 มกรา เวลา 12 น.</p>
-              </div>
-            </div>
-
-            <div class="grid grid-cols-3">
-              <div class="col-span-2">
-                <p>ผลการแสดงความคิดเห็น</p>
-              </div>
-              <div class="col-span-1">
-                <p>ผ่าน</p>
-              </div>
-            </div>
-
-            <div class="grid grid-cols-3">
-              <div class="col-span-2">
-                <p>ความคิดเห็นเพิ่มเติม</p>
-              </div>
-              <div class="col-span-1">
-                <p>ตรงกับความเชี่ยวชาญของอาจารย์</p>
-              </div>
-            </div>
-            <!-- end of loop -->
           </div>
         </div>
       </div>
@@ -365,7 +407,7 @@ onMounted(async () => {
           <div
             class="text-white uppercase bg-bluemain p-2 pl-4 rounded-ss-lg rounded-se-lg"
           >
-            <p>คำชี้แจงของนักศึกษาต่อความเห็นครั้งที่ 1</p>
+            <p>ส่งคำชี้แจงของนักศึกษา</p>
           </div>
 
           <div
@@ -378,7 +420,7 @@ onMounted(async () => {
               class="mt-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm border-gray-300 rounded-md"
               v-model="newComment"
             />
-            <div class="justify-end flex mt-3">
+            <div class="justify-end flex my-3">
               <ButtonMain
                 text="ส่ง"
                 class="bg-correct text-white hover:bg-white hover:text-correct outline outline-2 outline-correct"
@@ -388,20 +430,37 @@ onMounted(async () => {
           </div>
         </div>
         <!-- below div 2 -->
-        <div class="shadow-md m-3">
+        <div class="shadow-md m-3" v-if="tempComments !== null">
           <div
             class="text-white uppercase bg-bluemain p-2 pl-4 rounded-ss-lg rounded-se-lg"
           >
-            <p>คำชี้แจงของนักศึกษาต่อความเห็นครั้งที่ 1</p>
+            <p>คำชี้แจงของนักศึกษา</p>
           </div>
 
           <div
             class="bg-white border-b text-gray-900 p-2 pl-4 rounded-es-lg rounded-ee-lg"
           >
-            <p>คำชี้แจงของนักศึกษา</p>
-            <!-- get student's comment -->
-            <p>ขอบคุณค่ะ</p>
-            <p class="text-login text-end">วันที่</p>
+            <div
+              v-if="
+                tempComments &&
+                tempComments.student &&
+                tempComments.student.length > 0
+              "
+            >
+              <div
+                v-for="comment in tempComments.student"
+                :key="comment.commentId"
+              >
+                <p>{{ comment.commentContent }}</p>
+                <p class="text-login text-end">
+                  {{
+                    new Date(comment.createdDatetime).toLocaleString('th-TH', {
+                      timeZone: 'Asia/Bangkok',
+                    })
+                  }}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

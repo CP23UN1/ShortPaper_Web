@@ -27,13 +27,22 @@ class ApiService {
   async getComments(fileId) {
     return await api.get(`/comments/${fileId}`)
   }
+  async getReplyComment(fileId, replyId) {
+    return await api.get(`/comment/replycomment/${fileId}/${replyId}`)
+  }
   async sendComment(comment) {
     return await api.post('/comment/create', comment)
+  }
+  async sendReplyComment(replycomment) {
+    return await api.post(`/comment/create/replycomment`, replycomment)
   }
 
   // Committees
   async getCommittees() {
     return await api.get(`/committees`)
+  }
+  async getCommittee(id) {
+    return await api.get(`/committee/${id}`)
   }
   async addCommittee(file) {
     return await api.post(`/committee/add-from-csv`, file, {
@@ -42,21 +51,29 @@ class ApiService {
   }
   async assignCommittee(file) {
     try {
-      const formData = new FormData();
-      formData.append('csvFile', file); 
-  
-      const response = await api.post('/committee/assign-from-csv-for-student', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
-  
-      return response.data;
+      const formData = new FormData()
+      formData.append('csvFile', file)
+
+      const response = await api.post(
+        '/committee/assign-from-csv-for-student',
+        formData,
+        {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        }
+      )
+
+      return response.data
     } catch (error) {
-      console.error('Error assigning committee:', error);
-      throw error;
+      console.error('Error assigning committee:', error)
+      throw error
     }
   }
   async updateCommitteeRolesForStudentAsync(studentId, committeeRoles) {
-    return await api.post(`committee/update-roles-for-student`, studentId, committeeRoles)
+    return await api.post(
+      `committee/update-roles-for-student`,
+      studentId,
+      committeeRoles
+    )
   }
 
   // File
@@ -82,13 +99,19 @@ class ApiService {
   async getFilesByStudent(studentId) {
     return await api.get(`/file/search-by-student/${studentId}`)
   }
-  async getFileByTypeAndStudent(typeId, studentId) {
+  async getFileByIdAndStudent(fileId, studentId) {
     return await api.get(
-      `/file/search-by-id-and-student/${typeId}/${studentId}`
+      `/file/search-by-id-and-student/${fileId}/${studentId}`
     )
   }
   async getFilesByCommittee(committeeId) {
     return await api.get(`/file/search-by-committee-id/${committeeId}`)
+  }
+
+  async getFilebyFiletypeAndShortpaper(fileTypeId, shortPaperId) {
+    return await api.get(
+      `/file/fileType/Shortpaper/${fileTypeId}/${shortPaperId}`
+    )
   }
 
   // Short Paper
