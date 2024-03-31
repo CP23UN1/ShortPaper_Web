@@ -70,8 +70,7 @@ class ApiService {
   }
   async updateCommitteeRolesForStudentAsync(studentId, committeeRoles) {
     return await api.post(
-      `committee/update-roles-for-student`,
-      studentId,
+      `committee/update-roles-for-student/${studentId}`,
       committeeRoles
     )
   }

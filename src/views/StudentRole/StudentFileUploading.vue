@@ -116,26 +116,29 @@ const fetchCommittees = async () => {
 
 const assignCommittee = async () => {
   try {
-    const studentId = store.userId;
+    const studentId = store.userId
     const committeeRoles = [
       {
         committeeName: selectedCommittee.value,
         isAdvisor: true,
         isPrincipal: false,
         isCommittee: false,
-      }
-    ];
-    
-    const response = await ApiService.updateCommitteeRolesForStudentAsync(studentId, committeeRoles);
+      },
+    ]
+
+    const response = await ApiService.updateCommitteeRolesForStudentAsync(
+      studentId,
+      committeeRoles
+    )
 
     if (response.IsSuccess) {
-      console.log('Committee assigned successfully:', response);
+      console.log('Committee assigned successfully:', response)
     } else {
-      console.error('Failed to assign committee:', response.ErrorMessage);
+      console.error('Failed to assign committee:', response.ErrorMessage)
     }
   } catch (error) {
-    console.error('Error assigning committee:', error);
-    alert('An error occurred while assigning the committee.');
+    console.error('Error assigning committee:', error)
+    alert('An error occurred while assigning the committee.')
   }
 }
 
@@ -166,26 +169,63 @@ onBeforeMount(async () => {
 
     <Header header="อัปโหลดเอกสาร" class="mt-3" />
 
-    <div class="shadow-lg rounded-lg text-center p-3">
+    <div class="shadow-lg rounded-lg p-3">
       <div class="p-8">
-        <FileInput
-          label="อัปโหลดเอกสาร: "
-          describe="*** เอกสารแต่งตั้งคณะกรรมการสำหรับ Upload จะต้องเป็นไฟล์ .PDF เท่านั้น ***"
-          @fileSelected="handleFileSelected"
-          @sendFile="handleUpload"
-        />
+        <div class="text-center">
+          <FileInput
+            label="อัปโหลดเอกสาร: "
+            describe="*** เอกสารแต่งตั้งคณะกรรมการสำหรับ Upload จะต้องเป็นไฟล์ .PDF เท่านั้น ***"
+            @fileSelected="handleFileSelected"
+          />
 
-        <div class="grid grid-cols-3 mt-8 text-sm ml-16">
-          <div v-for="fileType in fileTypes" :key="fileType.typeId">
-            <RadioButton
-              name="fileType"
-              :value="fileType.typeId"
-              :label="fileType.typeName"
-              :isChecked="fileType.typeId == route.params.typeId"
-              @change="handleTypeId(fileType.typeId)"
+          <div class="grid grid-cols-3 mt-8 text-sm ml-16">
+            <div v-for="fileType in fileTypes" :key="fileType.typeId">
+              <RadioButton
+                name="fileType"
+                :value="fileType.typeId"
+                :label="fileType.typeName"
+                :isChecked="fileType.typeId == route.params.typeId"
+                @change="handleTypeId(fileType.typeId)"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div v-if="typeId == 5" class="py-3">
+          <label for="input">วิดีโอคำอธิบายเพิ่มเติม</label>
+          <div class="relative">
+            <input
+              type="text"
+              id="input"
+              class="inline-flex w-1/2 py-2 mt-2 border border-gray-300 rounded-lg bg-gray-50 focus:ring-bluemain focus:border-bluemain"
+              placeholder="กรุณาแนบลิงก์"
+              v-model="explanationVideo"
             />
           </div>
         </div>
+
+        <div>
+          <label for="input" class="text-left justify-start items-start py-3"
+            >หมายเหตุ</label
+          >
+          <div class="relative">
+            <textarea
+              type="text"
+              id="input"
+              class="inline-flex w-1/2 py-2 mt-2 border border-gray-300 rounded-lg bg-gray-50 focus:ring-bluemain focus:border-bluemain"
+              v-model="remark"
+            />
+          </div>
+        </div>
+
+        <div class="flex justify-end mt-5">
+          <ButtonMain
+            text="บันทึก"
+            class="bg-bluemain border hover:bg-white hover:border-bluemain hover:text-bluemain ml-3"
+            @click="handleUpload"
+          />
+        </div>
+
       </div>
     </div>
 
@@ -197,59 +237,14 @@ onBeforeMount(async () => {
             name="advisor"
             :value="committee.committeeId"
             :label="committee.firstname + ' ' + committee.lastname"
-            @change="handleCommitteeName(committee.firstname + ' ' + committee.lastname)"
+            @change="
+              handleCommitteeName(
+                committee.firstname + ' ' + committee.lastname
+              )
+            "
           />
         </div>
       </div>
-      <!-- <label for="committees" class="block mb-1">Select Committee:</label>
-      <select
-        id="committees"
-        v-model="selectedCommittee"
-        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-bluemain focus:border-bluemain"
-      >
-        <option value="" disabled selected style="display: none">
-          Select Committee
-        </option>
-        <option
-          v-for="committee in committees"
-          :key="committee.id"
-          :value="committee.id"
-        >
-          {{ committee.firstname + ' ' + committee.lastname }}
-        </option>
-      </select>
-
-      <div class="mt-4">
-        <input
-          type="radio"
-          id="advisor"
-          name="role"
-          v-model="selectedRole"
-          value="Advisor"
-          class="mr-2"
-        />
-        <label for="advisor" class="font-medium">Advisor</label>
-
-        <input
-          type="radio"
-          id="principal"
-          name="role"
-          v-model="selectedRole"
-          value="Principal"
-          class="ml-4 mr-2"
-        />
-        <label for="principal" class="font-medium">Principal</label>
-
-        <input
-          type="radio"
-          id="committee"
-          name="role"
-          v-model="selectedRole"
-          value="Committee"
-          class="ml-4 mr-2"
-        />
-        <label for="committee" class="font-medium">Committee</label>
-      </div> -->
     </div>
 
     <!-- <div v-if="typeId == 1" class="shadow-lg rounded-lg p-3 mt-8">
@@ -265,7 +260,7 @@ onBeforeMount(async () => {
       </div>
     </div> -->
 
-    <div class="shadow-lg rounded-lg p-3 mt-8" v-if="typeId == 5">
+    <!-- <div class="shadow-lg rounded-lg p-3 mt-8" v-if="typeId == 5">
       <label for="input">วิดีโอคำอธิบายเพิ่มเติม</label>
       <div class="relative">
         <input
@@ -275,21 +270,8 @@ onBeforeMount(async () => {
           placeholder="กรุณาแนบลิงก์"
           v-model="explanationVideo"
         />
-        <!-- <ButtonMain text="บันทึก" @click="handleUpload" class="ml-3" /> -->
       </div>
-    </div>
-    <div class="shadow-lg rounded-lg p-3 mt-8">
-      <label for="input">หมายเหตุ</label>
-      <div class="relative">
-        <input
-          type="text"
-          id="input"
-          class="inline-flex w-72 py-2 mt-2 border border-gray-300 rounded-lg bg-gray-50 focus:ring-bluemain focus:border-bluemain"
-          v-model="remark"
-        />
-        <!-- <ButtonMain text="บันทึก" @click="handleUpload" class="ml-3" /> -->
-      </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
