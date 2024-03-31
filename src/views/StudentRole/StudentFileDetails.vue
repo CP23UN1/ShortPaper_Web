@@ -26,7 +26,6 @@ const lastedFileId = ref()
 const shortpaperId = ref()
 
 const committees = ref([])
-const tempComments = ref()
 
 const uploadIconSvg = `<svg class="w-[20px] h-[20px] text-bluemain hover:text-correct cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 19">
     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15h.01M4 12H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-3m-5.5 0V1.07M5.5 5l4-4 4 4"/>
@@ -76,25 +75,29 @@ const getFileTypeName = (fileTypeId) => {
   return fileType ? fileType.typeName : '-'
 }
 
+const committeeComments = ref([])
+const studentComments = ref([])
+
 const getComments = async () => {
-  const res = await ApiService.getComments(lastedFileId.value)
-  if (res.status === 200) {
-    const data = await res.data
-    const allComments = data.data
+  try {
+    const res = await ApiService.getComments(lastedFileId.value)
+    if (res.status === 200) {
+      const data = await res.data
+      const allComments = data.data
 
-    // Separate comments by author type
-    const committeeComments = allComments.filter((comment) =>
-      comment.authorId.startsWith('lec')
-    )
-    const studentComments = allComments.filter((comment) =>
-      comment.authorId.startsWith('std')
-    )
-
-    // Assign comments to separate refs
-    tempComments.value = {
-      committee: committeeComments,
-      student: studentComments,
+      if (allComments.length !== 0) {
+        committeeComments.value = allComments.filter((comment) =>
+          comment.authorId.startsWith('lec')
+        )
+        studentComments.value = allComments.filter((comment) =>
+          comment.authorId.startsWith('std')
+        )
+      }
+    } else {
+      console.error('Failed to fetch comments:', res.statusText)
     }
+  } catch (error) {
+    console.error('Error fetching comments:', error)
   }
 }
 
@@ -163,7 +166,8 @@ const sendComment = async () => {
     const res = await ApiService.sendComment(commentObj)
     if (res.status === 200) {
       alert('บันทึกสำเร็จ')
-      router.push(`/files`)
+      await getComments()
+      newComment.value = ''
     } else {
       console.error('Failed to send comment:', res.statusText)
     }
@@ -171,7 +175,6 @@ const sendComment = async () => {
     console.error('Error sending comment:', error)
   }
 }
-
 
 const goToUpload = (fileTypeId) => {
   router.push({
@@ -350,7 +353,7 @@ onBeforeMount(async () => {
     <!-- rows 2 -->
     <div class="grid grid-cols-2 my-5" v-if="studentFiles !== null">
       <!-- div 1 -->
-      <div class="shadow-md mx-3" v-if="tempComments.committee !== null">
+      <div class="shadow-md mx-3" v-if="committeeComments.length !== 0">
         <div
           class="text-white uppercase bg-bluemain p-2 pl-4 rounded-ss-lg rounded-se-lg"
         >
@@ -360,17 +363,15 @@ onBeforeMount(async () => {
         <div
           class="bg-white border-b text-gray-900 p-2 pl-4 rounded-es-lg rounded-ee-lg"
         >
-          <div
-            v-if="
-              tempComments &&
-              tempComments.committee &&
-              tempComments.committee.length > 0
-            "
-          >
-            <div v-for="comment in tempComments.committee">
+          <div v-if="committeeComments.length !== 0">
+            <div
+              v-for="comment in committeeComments"
+              :key="comment.commentId"
+              class="mb-3"
+            >
               <div class="grid grid-cols-3">
                 <div class="col-span-2 my-2">
-                  <p>คณะกรรมการ {{ getCommitteeName(comment.authorId) }}</p>
+                  <p class="font-bold">คณะกรรมการ {{ getCommitteeName(comment.authorId) }}</p>
                 </div>
                 <div class="col-span-1 my-2">
                   <p class="text-login">
@@ -388,14 +389,8 @@ onBeforeMount(async () => {
                 </div>
               </div>
 
-              <div class="grid grid-cols-3">
-                <div class="col-span-2">
-                  <p>ผลการแสดงความคิดเห็น</p>
-                </div>
-                <div class="col-span-1">
-                  <p>{{ comment.commentContent }}</p>
-                </div>
-              </div>
+              <p>{{ comment.commentContent }}</p>
+              <hr class="my-3" />
             </div>
           </div>
         </div>
@@ -429,7 +424,7 @@ onBeforeMount(async () => {
           </div>
         </div>
         <!-- below div 2 -->
-        <div class="shadow-md m-3" v-if="tempComments !== null">
+        <div class="shadow-md m-3" v-if="studentComments.length !== 0">
           <div
             class="text-white uppercase bg-bluemain p-2 pl-4 rounded-ss-lg rounded-se-lg"
           >
@@ -439,17 +434,8 @@ onBeforeMount(async () => {
           <div
             class="bg-white border-b text-gray-900 p-2 pl-4 rounded-es-lg rounded-ee-lg"
           >
-            <div
-              v-if="
-                tempComments &&
-                tempComments.student &&
-                tempComments.student.length > 0
-              "
-            >
-              <div
-                v-for="comment in tempComments.student"
-                :key="comment.commentId"
-              >
+            <div v-if="studentComments.length !== 0">
+              <div v-for="comment in studentComments" :key="comment.commentId">
                 <p>{{ comment.commentContent }}</p>
                 <p class="text-login text-end">
                   {{
