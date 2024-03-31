@@ -99,70 +99,66 @@ onMounted(() => {})
 </script>
 
 <template>
-  <div class="bg-login h-screen w-screen">
-    <div class="flex justify-center items-center">
+  <div class="flex justify-center items-center bg-login h-screen w-screen">
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center justify-center mx-4 md:mx-0 shadow-lg md:my-20 rounded-lg bg-white"
+    >
       <div
-        class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center justify-center mx-4 md:mx-0 shadow-lg md:my-20 rounded-lg bg-white"
-      >
-        <div
-          class="bg-cover bg-center bg-no-repeat rounded-l-md"
-          style="
-            background-image: url('/un1/images/kmutt-night.png');
-            background-color: #f0f0f0;
-            width: 400px;
-            height: 500px;
-          "
-        ></div>
-        <div>
-          <div class="m-10 items-center">
-            <div class="mb-4">
-              <img src="/images/SIT-LOGO.png" width="200" />
-              <h1 class="mt-2 font-black lg:text-lg md:text-base sm:text-sm">
-                Short Paper for SIT Master's Degree Student
-              </h1>
-            </div>
-            <div class="mb-4">
-              <label for="username" class="block font-bold mb-2"
-                >ชื่อผู้ใช้</label
-              >
-              <input
-                type="text"
-                id="username"
-                v-model="username"
-                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 border-gray-400 leading-tight focus:outline-none focus:shadow-outline xl:text-lg lg:text-base md:text-sm sm:text-xs"
-                placeholder="ชื่อผู้ใช้"
-                required
-              />
-            </div>
-            <div class="mb-4">
-              <label for="password" class="block font-bold mb-2"
-                >รหัสผ่าน</label
-              >
-              <input
-                type="password"
-                id="password"
-                v-model="password"
-                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 border-gray-400 leading-tight focus:outline-none focus:shadow-outline xl:text-lg lg:text-base md:text-sm sm:text-xs"
-                placeholder="รหัสผ่าน"
-                required
-              />
-            </div>
-            <hr class="my-5 text-black" />
-            <div class="flex justify-center items-center">
-              <ButtonMain
-                type-button="submit"
-                class="w-52 bg-correct text-white hover:bg-white hover:text-correct outline outline-2 outline-correct"
-                text="เข้าสู่ระบบ"
-                @click="login"
-              />
-            </div>
-            <p
-              class="underline text-center cursor-pointer mt-5 text-bluemain hover:no-underline"
-              @click="toggleModal"
-            >
-              กำหนดการ และขั้นตอนการอัปโหลด
-            </p>
+        class="bg-cover bg-center bg-no-repeat rounded-l-md"
+        style="
+          background-image: url('/un1/images/kmutt-night.png');
+          background-color: #f0f0f0;
+          width: 400px;
+          height: 500px;
+        "
+      ></div>
+      <div>
+        <div class="m-10 items-center">
+          <div class="mb-4">
+            <img src="/images/SIT-LOGO.png" width="200" />
+            <h1 class="mt-2 font-black lg:text-lg md:text-base sm:text-sm">
+              Short Paper for SIT Master's Degree Student
+            </h1>
           </div>
+          <div class="mb-4">
+            <label for="username" class="block font-bold mb-2"
+              >ชื่อผู้ใช้</label
+            >
+            <input
+              type="text"
+              id="username"
+              v-model="username"
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 border-gray-400 leading-tight focus:outline-none focus:shadow-outline xl:text-lg lg:text-base md:text-sm sm:text-xs"
+              placeholder="ชื่อผู้ใช้"
+              required
+            />
+          </div>
+          <div class="mb-4">
+            <label for="password" class="block font-bold mb-2">รหัสผ่าน</label>
+            <input
+              type="password"
+              id="password"
+              v-model="password"
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 border-gray-400 leading-tight focus:outline-none focus:shadow-outline xl:text-lg lg:text-base md:text-sm sm:text-xs"
+              placeholder="รหัสผ่าน"
+              required
+            />
+          </div>
+          <hr class="my-5 text-black" />
+          <div class="flex justify-center items-center">
+            <ButtonMain
+              type-button="submit"
+              class="w-52 bg-correct text-white hover:bg-white hover:text-correct outline outline-2 outline-correct"
+              text="เข้าสู่ระบบ"
+              @click="login"
+            />
+          </div>
+          <p
+            class="underline text-center cursor-pointer mt-5 text-bluemain hover:no-underline"
+            @click="toggleModal"
+          >
+            กำหนดการ และขั้นตอนการอัปโหลด
+          </p>
         </div>
       </div>
     </div>
