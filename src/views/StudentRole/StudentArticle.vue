@@ -7,11 +7,15 @@ import ApiService from '../../composables/apiService'
 const favorites = ref([])
 
 const subjects = ref()
-const articles = ref([
-  { id: 1, title: 'Article 1', author: 'Author 1', subject: 'Subject 1' },
-  { id: 2, title: 'Article 2', author: 'Author 2', subject: 'Subject 2' },
-  { id: 3, title: 'Article 3', author: 'Author 3', subject: 'Subject 3' },
-])
+const articles = ref()
+
+const getArticles = async () => {
+  const res = await ApiService.getArticles()
+  if (res.status === 200) {
+    const data = await res.data
+    articles.value = data.data
+  }
+}
 
 const getSubjects = async () => {
   const subjectsRes = await ApiService.getSubjects()
@@ -35,15 +39,16 @@ const isFavorite = (id) => {
 
 onBeforeMount(async () => {
   await getSubjects()
+  await getArticles()
 })
 </script>
 
 <template>
   <div>
-    <Header class="text-sm rounded-md" header="เอกสารโครงงานที่ผ่านมา" />
+    <Header header="เอกสารโครงงานที่ผ่านมา" />
 
     <div
-      class="flex flex-nowrap space-x-4 p-4 justify-center items-center text-sm"
+      class="flex p-4 flex-nowrap space-x-4 justify-center items-center text-sm gap-4"
     >
       <div class="flex items-center">
         <label for="search-topic" class="mr-2"
@@ -90,32 +95,42 @@ onBeforeMount(async () => {
       </div>
     </div>
 
-    <div class="relative overflow-x-auto shadow-md rounded-lg mt-[12px]">
-      <table class="w-full text-sm text-gray-500">
-        <thead class="text-sm text-white uppercase bg-bluemain">
-          <tr>
-            <th scope="col" class="py-2 pl-6 text-left">ลำดับการส่ง</th>
-            <th scope="col" class="text-left">หัวข้อ</th>
-            <th scope="col" class="text-left">ผู้จัดทำ</th>
-            <th scope="col" class="text-left">วิชาที่จัดทำ</th>
-            <th scope="col" class=""></th>
+    <div
+      class="relative overflow-x-auto shadow-md rounded-lg mt-6"
+      v-if="articles.length !== 0"
+    >
+      <table class="w-full text-sm text-left rtl:text-right text-gray-500">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+          <tr class="text-center">
+            <th scope="col" class="py-3">ลำดับ</th>
+            <th scope="col" class="px-6 py-3">หัวข้อ</th>
+            <th scope="col" class="py-3">ผู้จัดทำ</th>
+            <th scope="col" class="px-6 py-3">วิชาที่จัดทำ</th>
+            <th scope="col" class="px-6 py-3"></th>
           </tr>
         </thead>
-        <tbody>
+        <tbody class="">
           <tr
             class="bg-white border-b hover:bg-gray-50 text-gray-900"
-            v-for="(article, index) in articles"
-            :key="index"
+            v-for="article in articles"
+            :key="article.articleId"
           >
-            <td class="py-3 pl-14 pr-2 font-medium text-left">
-              {{ article.id }}
+            <td class="py-4 font-medium whitespace-nowrap text-center">
+              {{ article.articleId }}
             </td>
-            <td class="py-3 pr-3 font-medium">{{ article.title }}</td>
-            <td class="py-3 pr-3 font-medium">{{ article.author }}</td>
-            <td class="py-3 pr-3 font-medium">{{ article.subject }}</td>
-            <td class="py-3 pr-2">
+            <td class="font-medium whitespace-nowrap">
+              {{ article.topic }}
+            </td>
+            <td class="font-medium whitespace-nowrap text-center">
+              {{ article.author }}
+            </td>
+            <td class="font-medium whitespace-nowrap text-center">
+              {{ article.subjects.subjectId }}
+              {{ article.subjects.subjectName }}
+            </td>
+            <td class="font-medium whitespace-nowrap text-center">
               <svg
-                @click="addToFavorites(article.id)"
+                @click="addToFavorites(article.articleId)"
                 width="18"
                 height="18"
                 viewBox="0 0 20 24"
@@ -129,6 +144,14 @@ onBeforeMount(async () => {
                 />
               </svg>
             </td>
+            <!-- <td class="font-medium whitespace-nowrap">
+              <RouterLink :to="`/file/${fileType.typeId}/${shortpaperId}`">
+                
+                <span class="text-bluemain underline hover:no-underline"
+                  >รายละเอียด</span
+                >
+              </RouterLink>
+            </td> -->
           </tr>
         </tbody>
       </table>

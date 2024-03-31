@@ -171,5 +171,9 @@ class ApiService {
   async updateSubject(studentId, subject) {
     return await api.patch(`/subject/update/${studentId}`, subject)
   }
+  // Article
+  async getArticles() {
+    return await api.get(`/articles`)
+  }
 }
 export default new ApiService()
