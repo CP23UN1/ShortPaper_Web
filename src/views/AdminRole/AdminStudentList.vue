@@ -12,7 +12,7 @@ const students = ref([])
 const fileType = ref([])
 
 const wrongIconSvg = `<svg
-                    class="w-[15px] h-[15px] text-red-600"
+                    class="w-[15px] h-[15px] text-red-600 mx-auto"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -28,7 +28,7 @@ const wrongIconSvg = `<svg
                   </svg>`
 
 const correctIconSvg = `<svg
-                    class="w-[17px] h-[17px] text-teal-700"
+                    class="w-[17px] h-[17px] text-teal-700 mx-auto"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"

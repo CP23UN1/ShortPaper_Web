@@ -27,7 +27,7 @@ import CommitteeFileList from '../views/CommitteeRole/CommitteeFileList.vue'
 import CommitteeHome from '../views/CommitteeRole/CommitteeHome.vue'
 import CommitteeList from '../views/CommitteeRole/CommitteeList.vue'
 import CommitteeStudentList from '../views/CommitteeRole/CommitteeStudentList.vue'
-import CommitteeStudentDetail from '../views/CommitteeRole/CommitteeStudentDetail.vue'
+import CommitteeStudentDetails from '../views/CommitteeRole/CommitteeStudentDetails.vue'
 
 const routes = [
   {
@@ -155,7 +155,7 @@ const routes = [
   {
     path: '/committee/student/:id',
     name: 'Committee Student Detail',
-    component: CommitteeStudentDetail,
+    component: CommitteeStudentDetails,
     meta: { requiresAuth: true, requiresRole: 'committee' },
   }
 ]

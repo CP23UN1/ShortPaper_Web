@@ -111,8 +111,9 @@ onBeforeMount(async () => {
     <div class="bg-white p-2">
       <SearchInput class="w-96" label="รหัสนักศึกษา" />{{ รหัสนักศึกษา }}
     </div>
+
     <div
-      class="mt-3 justify-center item-center mb-12 grid grid-cols-2 text-sm w-full"
+      class="mt-3 justify-center item-center mb-12 grid grid-cols-2 gap-4 text-sm w-full"
     >
       <div class="shadow-md">
         <h1 class="my-2 ml-2">ข้อมูลนักศึกษา</h1>

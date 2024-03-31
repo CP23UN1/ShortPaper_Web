@@ -59,7 +59,7 @@ const getStudentByCommittee = async () => {
   }
 }
 
-const getFileType = async () => {
+const getFileTypes = async () => {
   const res = await ApiService.getFileType()
 
   if (res.status === 200) {
@@ -89,7 +89,7 @@ const hasFileWithId = (filesArray, fileId) => {
 
 onMounted(async () => {
   await searchKeyword()
-  await getFileType()
+  await getFileTypes()
 })
 </script>
 
@@ -113,19 +113,12 @@ onMounted(async () => {
             <th scope="col" class="px-6 py-3">รหัสนักศึกษา</th>
             <th scope="col" class="px-6 py-3">ชื่อ - นามสกุล</th>
             <th scope="col" class="px-6 py-3">รายวิชา</th>
-            <th scope="col" class="px-6 py-3">ใบ.1</th>
-            <th scope="col" class="px-6 py-3">ส่งครั้งที่ 1</th>
-            <th scope="col" class="px-6 py-3">ส่งครั้งที่ 2</th>
-            <th scope="col" class="px-6 py-3">รูปเล่มบทความ</th>
-            <th scope="col" class="px-6 py-3">ฉบับสมบูรณ์</th>
-            <th scope="col" class="px-6 py-3">ใบโอนลิขสิทธิ์</th>
-            <th scope="col" class="px-6 py-3">ใบโจรกรรม</th>
 
             <!-- file type -->
             <th
               scope="col"
               class="px-6 py-3"
-              v-for="type in fileType"
+              v-for="type in fileTypes"
               :key="type.typeId"
             >
               {{ type.typeName }}
@@ -168,7 +161,7 @@ onMounted(async () => {
             </td>
             <td v-else class="text-center">-</td>
 
-            <td  class="px-6 py-3">
+            <td class="px-6 py-4">
               <div v-if="student.shortpaperFiles !== null">
                 <div
                   v-if="hasFileWithId(student.shortpaperFiles, 1)"
@@ -178,7 +171,7 @@ onMounted(async () => {
               </div>
             </td>
 
-            <td class="px-6 py-3">
+            <td class="px-6 py-4">
               <div v-if="student.shortpaperFiles !== null">
                 <div
                   v-if="hasFileWithId(student.shortpaperFiles, 2)"
@@ -188,7 +181,7 @@ onMounted(async () => {
               </div>
             </td>
 
-            <td class="px-6 py-3">
+            <td class="px-6 py-4">
               <div v-if="student.shortpaperFiles !== null">
                 <div
                   v-if="hasFileWithId(student.shortpaperFiles, 3)"
@@ -198,7 +191,7 @@ onMounted(async () => {
               </div>
             </td>
 
-            <td class="px-6 py-3">
+            <td class="px-6 py-4">
               <div v-if="student.shortpaperFiles !== null">
                 <div
                   v-if="hasFileWithId(student.shortpaperFiles, 4)"
@@ -208,7 +201,7 @@ onMounted(async () => {
               </div>
             </td>
 
-            <td class="px-6 py-3">
+            <td class="px-6 py-4">
               <div v-if="student.shortpaperFiles !== null">
                 <div
                   v-if="hasFileWithId(student.shortpaperFiles, 5)"
@@ -218,7 +211,7 @@ onMounted(async () => {
               </div>
             </td>
 
-            <td class="px-6 py-3">
+            <td class="px-6 py-4">
               <div v-if="student.shortpaperFiles !== null">
                 <div
                   v-if="hasFileWithId(student.shortpaperFiles, 6)"
@@ -228,7 +221,7 @@ onMounted(async () => {
               </div>
             </td>
 
-            <td class="px-6 py-3">
+            <td class="px-6 py-4">
               <div v-if="student.shortpaperFiles !== null">
                 <div
                   v-if="hasFileWithId(student.shortpaperFiles, 7)"
@@ -239,11 +232,12 @@ onMounted(async () => {
             </td>
 
             <td class="px-6 py-4 text-right">
-              <RouterLink
-                :to="`/committee/student/${student.studentId}`"
-                class="font-medium text-bluemain"
-                ><ButtonMain text="รายละเอียด"
-              /></RouterLink>
+              <RouterLink :to="`/committee/student/${student.studentId}`"
+                ><ButtonMain
+                  class="bg-bluemain border hover:bg-white border-bluemain hover:text-bluemain"
+                  text="รายละเอียด"
+                />
+              </RouterLink>
             </td>
           </tr>
         </tbody>
