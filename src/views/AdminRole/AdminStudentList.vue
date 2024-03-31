@@ -9,7 +9,7 @@ import EmptyData from '../../components/EmptyData.vue'
 import ButtonMain from '../../components/ButtonMain.vue'
 
 const students = ref([])
-const fileType = ref([])
+const fileTypes = ref([])
 
 const wrongIconSvg = `<svg
                     class="w-[15px] h-[15px] text-red-600 mx-auto"
@@ -61,7 +61,7 @@ const getFileType = async () => {
 
   if (res.status === 200) {
     const data = await res.data
-    fileType.value = data.data
+    fileTypes.value = data.data
   }
 }
 
@@ -107,11 +107,11 @@ onMounted(async () => {
     </div>
     <div
       class="relative overflow-x-auto shadow-md rounded-lg mt-6"
-      v-if="students !== null"
+      v-if="students.length !== 0"
     >
       <table class="w-full text-sm text-left rtl:text-right text-gray-500">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-          <tr>
+          <tr class="text-center">
             <th scope="col" class="px-6 py-3">รหัสนักศึกษา</th>
             <th scope="col" class="px-6 py-3">ชื่อ - นามสกุล</th>
             <th scope="col" class="px-6 py-3">รายวิชา</th>
@@ -120,7 +120,7 @@ onMounted(async () => {
             <th
               scope="col"
               class="px-6 py-3"
-              v-for="type in fileType"
+              v-for="type in fileTypes"
               :key="type.typeId"
             >
               {{ type.typeName }}
@@ -140,11 +140,11 @@ onMounted(async () => {
           >
             <th
               scope="row"
-              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center"
             >
               {{ student.studentId }}
             </th>
-            <td class="px-6 py-4">
+            <td class="px-6 py-4 text-center">
               {{ student.firstname }} {{ student.lastname }}
             </td>
             <td class="px-6 py-4" v-if="student.subjects.length !== 0">
@@ -163,70 +163,10 @@ onMounted(async () => {
             </td>
             <td v-else class="text-center">-</td>
 
-            <td class="px-6 py-4">
+            <td class="px-6 py-4" v-for="fileType in fileTypes">
               <div v-if="student.shortpaperFiles !== null">
                 <div
-                  v-if="hasFileWithId(student.shortpaperFiles, 1)"
-                  v-html="correctIconSvg"
-                ></div>
-                <div v-else v-html="wrongIconSvg"></div>
-              </div>
-            </td>
-
-            <td class="px-6 py-4">
-              <div v-if="student.shortpaperFiles !== null">
-                <div
-                  v-if="hasFileWithId(student.shortpaperFiles, 2)"
-                  v-html="correctIconSvg"
-                ></div>
-                <div v-else v-html="wrongIconSvg"></div>
-              </div>
-            </td>
-
-            <td class="px-6 py-4">
-              <div v-if="student.shortpaperFiles !== null">
-                <div
-                  v-if="hasFileWithId(student.shortpaperFiles, 3)"
-                  v-html="correctIconSvg"
-                ></div>
-                <div v-else v-html="wrongIconSvg"></div>
-              </div>
-            </td>
-
-            <td class="px-6 py-4">
-              <div v-if="student.shortpaperFiles !== null">
-                <div
-                  v-if="hasFileWithId(student.shortpaperFiles, 4)"
-                  v-html="correctIconSvg"
-                ></div>
-                <div v-else v-html="wrongIconSvg"></div>
-              </div>
-            </td>
-
-            <td class="px-6 py-4">
-              <div v-if="student.shortpaperFiles !== null">
-                <div
-                  v-if="hasFileWithId(student.shortpaperFiles, 5)"
-                  v-html="correctIconSvg"
-                ></div>
-                <div v-else v-html="wrongIconSvg"></div>
-              </div>
-            </td>
-
-            <td class="px-6 py-4">
-              <div v-if="student.shortpaperFiles !== null">
-                <div
-                  v-if="hasFileWithId(student.shortpaperFiles, 6)"
-                  v-html="correctIconSvg"
-                ></div>
-                <div v-else v-html="wrongIconSvg"></div>
-              </div>
-            </td>
-
-            <td class="px-6 py-4">
-              <div v-if="student.shortpaperFiles !== null">
-                <div
-                  v-if="hasFileWithId(student.shortpaperFiles, 7)"
+                  v-if="hasFileWithId(student.shortpaperFiles, fileType.typeId)"
                   v-html="correctIconSvg"
                 ></div>
                 <div v-else v-html="wrongIconSvg"></div>
