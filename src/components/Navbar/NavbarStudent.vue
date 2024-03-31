@@ -26,7 +26,7 @@ const logout = () => {
       </RouterLink>
     </div>
     <div
-      class="flex items-center space-x-7 text-bluemain font-extrabold 2xl:text-xl xl:text-lg lg:text-base md:text-sm sm:text-xs"
+      class="flex items-center space-x-7 text-bluemain font-extrabold xl:text-lg lg:text-base md:text-sm sm:text-xs"
     >
       <RouterLink
         to="/"
