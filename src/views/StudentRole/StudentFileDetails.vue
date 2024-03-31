@@ -115,7 +115,6 @@ const getCommittees = async () => {
   if (res.status === 200) {
     const data = await res.data
     committees.value = data
-    console.log(data)
   }
 }
 
