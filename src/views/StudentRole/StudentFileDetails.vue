@@ -127,23 +127,29 @@ const downloadFile = async () => {
       shortpaperId.value,
       route.params.fileTypeId
     )
-    const blob = new Blob([res.data], { type: 'application/pdf' })
-    const url = window.URL.createObjectURL(blob)
-    const link = document.createElement('a')
+    const blob = new Blob([res.data], { type: 'application/pdf' });
+    const url = window.URL.createObjectURL(blob);
 
-    if (res.status === 200) {
-      link.href = url;
-      link.target = '_blank'; // Open in a new tab
-      // link.download = fileName
-      link.style.display = 'none'
-
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
-      window.URL.revokeObjectURL(url)
-    } else {
-      console.error('Failed to download file:', res.statusText)
+    // Create a container element if it doesn't exist
+    let previewContainer = document.getElementById('preview-container');
+    if (!previewContainer) {
+      previewContainer = document.createElement('div');
+      previewContainer.id = 'preview-container';
+      document.body.appendChild(previewContainer);
     }
+    
+    // Create an <iframe> element to display the PDF
+    const iframe = document.createElement('iframe');
+    iframe.src = url;
+    iframe.style.width = '100%'; // Set width to fill container
+    iframe.style.height = '500px'; // Set a fixed height or adjust as needed
+    iframe.style.border = 'none'; // Optionally remove border
+    
+    // Append the iframe to the container
+    previewContainer.appendChild(iframe);
+
+    // Clean up URL when no longer needed
+    window.URL.revokeObjectURL(url);
   } catch (error) {
     console.error('Error downloading file:', error)
   }
@@ -453,7 +459,8 @@ onBeforeMount(async () => {
         </div>
       </div>
     </div>
-  </div>
+  </div>\
+  <div id="preview-container"></div>
 </template>
 
 <style></style>
