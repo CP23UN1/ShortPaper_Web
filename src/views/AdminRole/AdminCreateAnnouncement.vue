@@ -86,11 +86,13 @@ const createAnnouncement = async () => {
         />
       </div> -->
       <div class="flex justify-end items-end w-full my-5">
+        <RouterLink :to="`/admin/students`">
         <ButtonMain
           type="submit"
           class="bg-bluemain border hover:bg-white border-bluemain hover:text-bluemain"
           text="สร้างประกาศ"
         />
+      </RouterLink>
       </div>
     </form>
   </div>
