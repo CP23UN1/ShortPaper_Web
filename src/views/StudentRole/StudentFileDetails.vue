@@ -23,7 +23,7 @@ const comments = ref()
 const newComment = ref()
 
 const lastedFileId = ref()
-const shortpaperId = ref()
+const shortpaperId = ref(route.params.shortpaperId)
 
 const committees = ref([])
 
@@ -121,10 +121,10 @@ const getCommittees = async () => {
   }
 }
 
-const downloadFile = async (fileName) => {
+const downloadFile = async () => {
   try {
     const res = await ApiService.downloadFile(
-      shortpaper.value.shortpaperId,
+      shortpaperId.value,
       route.params.fileTypeId
     )
     const blob = new Blob([res.data], { type: 'application/pdf' })
@@ -132,7 +132,8 @@ const downloadFile = async (fileName) => {
     const link = document.createElement('a')
 
     if (res.status === 200) {
-      link.href = url
+      link.href = url;
+      link.target = '_blank'; // Open in a new tab
       // link.download = fileName
       link.style.display = 'none'
 

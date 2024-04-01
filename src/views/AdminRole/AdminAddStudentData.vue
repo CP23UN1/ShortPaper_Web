@@ -15,7 +15,7 @@ const addStudentData = async () => {
     try {
       await ApiService.addStudent(file.value)
     } catch (error) {
-      console.error('Error assigning committee:', error)
+      console.error('Error assigning student:', error)
     }
   }
 }
