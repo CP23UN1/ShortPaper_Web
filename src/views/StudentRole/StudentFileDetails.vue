@@ -85,7 +85,7 @@ const getComments = async () => {
       const data = await res.data
       const allComments = data.data
 
-      if (allComments.length !== 0) {
+      if (allComments !== null) {
         committeeComments.value = allComments.filter((comment) =>
           comment.authorId.startsWith('lec')
         )
@@ -371,7 +371,9 @@ onBeforeMount(async () => {
             >
               <div class="grid grid-cols-3">
                 <div class="col-span-2 my-2">
-                  <p class="font-bold">คณะกรรมการ {{ getCommitteeName(comment.authorId) }}</p>
+                  <p class="font-bold">
+                    คณะกรรมการ {{ getCommitteeName(comment.authorId) }}
+                  </p>
                 </div>
                 <div class="col-span-1 my-2">
                   <p class="text-login">
