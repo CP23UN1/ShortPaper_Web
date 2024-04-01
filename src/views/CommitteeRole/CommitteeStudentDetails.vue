@@ -125,16 +125,17 @@ onBeforeMount(async () => {
 
 <template>
   <div class="mt-5 font-semibold">
-    <div class="text-bluemain text-left text-sm">
+    <div class="text-bluemain text-left text-sm mt-5 font-semibold">
       <p>
-        <RouterLink :to="'/studentinfo'">
-          <span class="hover:text-blueheader">ตรวจสอบข้อมูล(รายบุคคล)</span>
+        <RouterLink :to="'/committee/students'">
+          <span class="hover:text-blueheader">ตรวจสอบข้อมูลเอกสารโครงงาน</span>
         </RouterLink>
+        >
+        <span class="font-bold text-sm">ข้อมูลนักศึกษา</span>
       </p>
     </div>
-    <div class="bg-white p-2">
-      <SearchInput class="w-96" label="รหัสนักศึกษา" />{{ รหัสนักศึกษา }}
-    </div>
+
+    <Header header="ข้อมูลนักศึกษา" />
 
     <div
       class="mt-3 justify-center item-center mb-12 grid grid-cols-2 gap-10 text-sm w-full"

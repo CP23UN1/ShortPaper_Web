@@ -39,7 +39,9 @@ onMounted(() => {})
         class="mx-2"
         :class="{
           'underline underline-offset-8 decoration-4':
-            $route.name === 'Committee Student List'
+            $route.name === 'Committee Student List' ||
+            $route.name === 'Committee Student Detail' ||
+            $route.name === 'Committee File Details',
         }"
         ><span>ตรวจสอบเอกสารโครงงาน</span></RouterLink
       >
