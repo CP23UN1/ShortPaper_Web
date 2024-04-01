@@ -164,7 +164,7 @@ onMounted(async () => {
             <td class="px-6 py-4" v-for="fileType in fileTypes">
               <div v-if="student.shortpaperFiles !== null">
                 <div
-                  v-if="hasFileWithId(student.shortpaperFiles, fileType.typeId)">
+                  v-if="hasFileWithId(student.shortpaperFiles, fileType.typeId)"
                   v-html="correctIconSvg"
                 ></div>
                 <div v-else v-html="wrongIconSvg"></div>

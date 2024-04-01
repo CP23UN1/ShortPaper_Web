@@ -459,7 +459,7 @@ onBeforeMount(async () => {
         </div>
       </div>
     </div>
-  </div>\
+  </div>
   <div id="preview-container"></div>
 </template>
 
