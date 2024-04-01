@@ -131,12 +131,12 @@ const routes = [
   },
   {
     path: '/committee/file/:fileId',
-    name: 'file',
+    name: 'Committee File Details',
     component: CommitteeFileDetails,
     meta: { requiresAuth: true, requiresRole: 'committee' },
   },
   {
-    path: '/committee/filelist',
+    path: '/committee/files',
     name: 'Committee Student File',
     component: CommitteeFileList,
     meta: { requiresAuth: true, requiresRole: 'committee' },
