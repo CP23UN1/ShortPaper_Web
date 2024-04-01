@@ -68,22 +68,6 @@ const getStudentAndSubjectsAndShortpapers = async () => {
       shortpaperTopic.value = shortpaper.value.shortpaperTopic
     }
   }
-
-  // if (student.value.subjects && student.value.subjects.length) {
-  //   registeredSubjects.value = student.value.subjects
-  //     .filter(subject => subject.isRegisteredSubject)
-  //     .map(subject => subject.subjectName);
-  // } else {
-  //   registeredSubjects.value = [];
-  // }
-
-  // if (student.value.subjects && student.value.subjects.length) {
-  //   paperSubjects.value = student.value.subjects
-  //     .filter(subject => subject.isPaperSubject)
-  //     .map(subject => subject.subjectName);
-  // } else {
-  //   paperSubjects.value = [];
-  // }
 }
 
 const validateData = () => {
@@ -107,11 +91,6 @@ const validateData = () => {
     isValid = false
   }
 
-  // if (!shortpaperTopic.value) {
-  //   alert('กรุณาใส่หัวข้อโครงงาน')
-  //   isValid = false
-  // }
-
   if (
     student.value.alternativeEmail &&
     !store.validateEmail(student.value.alternativeEmail)
@@ -125,22 +104,6 @@ const validateData = () => {
 
 const updateStudentAndShortpaper = async () => {
   if (validateData()) {
-    // Create an array to hold the subjects
-    // const updatedSubjects = [];
-
-    // Add registered subjects to updatedSubjects array
-    //   updatedSubjects.push({
-    //     SubjectId: registeredSubjectsId.value,
-    //     IsRegisteredSubject: true,
-    //     IsPaperSubject: false
-    //   });
-
-    // Add paper subjects to updatedSubjects array
-    //   updatedSubjects.push({
-    //     SubjectId: paperSubjectsId.value,
-    //     IsRegisteredSubject: false,
-    //     IsPaperSubject: true
-    //   });
 
     const updatedStudent = {
       studentId: studentId.value,
@@ -208,26 +171,6 @@ const updateStudentAndShortpaper = async () => {
     router.push('/details')
   }
 }
-
-// const updateShortpaper = async () => {
-//   const updatedShortpaper = {
-//     shortpaperId: studentShortpaperId.value,
-//     shortpaperTopic: shortpaperTopic.value,
-//     subjectId: studentSubjectId.value
-//   }
-//   await ApiService.updateShortpaper(studentShortpaperId.value, updatedShortpaper)
-//   alert('บันทึกสำเร็จ')
-// }
-
-// const addShortpaper = async () => {
-//   const updatedShortpaper = {
-//     shortpaperTopic: shortpaperTopic.value,
-//     studentId: studentId.value,
-//     subjectId: studentSubjectId.value
-//   }
-//   await ApiService.addShortpaper(updatedShortpaper)
-//   alert('บันทึกสำเร็จ')
-// }
 
 onMounted(async () => {
   const targetEl = document.getElementById('save-modal')
@@ -339,6 +282,7 @@ onMounted(async () => {
                   id="isTopic"
                   class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   v-model="shortpaperTopic"
+                  placeholder="ยังไม่ได้ระบุ"
                 />
               </div>
             </div>
@@ -351,7 +295,7 @@ onMounted(async () => {
                 class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                 v-model="registeredSubjectsId"
               >
-                <option value="">ยังไม่ได้เลือกวิชา</option>
+                <option>ยังไม่ได้เลือกวิชา</option>
                 <option
                   v-for="subject in subjects"
                   :key="subject.subjectId"

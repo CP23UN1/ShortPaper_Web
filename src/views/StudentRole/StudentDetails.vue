@@ -15,6 +15,7 @@ const store = useAuthStore()
 const studentId = ref(store.userId)
 const student = ref({})
 const subjects = ref()
+const shortpaperTopic = ref()
 
 const getRegisteredSubjects = () => {
   if (student.value.subjects && student.value.subjects.length) {
@@ -45,6 +46,11 @@ const getStudentAndSubjects = async () => {
   if (studentRes.status === 200) {
     const studentData = await studentRes.data
     student.value = studentData.data
+    if(studentData.data.shortpaper.shortpaperTopic){
+      shortpaperTopic.value = studentData.data.shortpaper
+    } else {
+      shortpaperTopic.value = null
+    }
   }
 
   const subjectsRes = await ApiService.getSubjects()
@@ -196,7 +202,7 @@ onBeforeMount(async () => {
                     id="shortpaperTopic"
                     class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                     v-model="student.shortpaper.shortpaperTopic"
-                    v-if="student.shortpaper"
+                    v-if="shortpaperTopic != null"
                     disabled
                   />
                   <input
