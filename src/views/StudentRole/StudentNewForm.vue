@@ -68,22 +68,6 @@ const getStudentAndSubjectsAndShortpapers = async () => {
       shortpaperTopic.value = shortpaper.value.shortpaperTopic
     }
   }
-
-  // if (student.value.subjects && student.value.subjects.length) {
-  //   registeredSubjects.value = student.value.subjects
-  //     .filter(subject => subject.isRegisteredSubject)
-  //     .map(subject => subject.subjectName);
-  // } else {
-  //   registeredSubjects.value = [];
-  // }
-
-  // if (student.value.subjects && student.value.subjects.length) {
-  //   paperSubjects.value = student.value.subjects
-  //     .filter(subject => subject.isPaperSubject)
-  //     .map(subject => subject.subjectName);
-  // } else {
-  //   paperSubjects.value = [];
-  // }
 }
 
 const validateData = () => {
@@ -106,11 +90,6 @@ const validateData = () => {
     alert('กรุณาใส่เบอร์โทรศัพท์ที่ถูกต้อง')
     isValid = false
   }
-
-  // if (!shortpaperTopic.value) {
-  //   alert('กรุณาใส่หัวข้อโครงงาน')
-  //   isValid = false
-  // }
 
   if (
     student.value.alternativeEmail &&
@@ -191,6 +170,14 @@ const updateStudentAndShortpaper = async () => {
     router.push('/details')
   }
 }
+
+const handleResgisteredSubjectChange = (event) => {
+      registeredSubjectsId.value = event.target.value;
+};
+
+const handlePaperSubjectChange = (event) => {
+      paperSubjectsId.value = event.target.value;
+};
 
 onMounted(async () => {
   const targetEl = document.getElementById('save-modal')
@@ -289,6 +276,7 @@ onMounted(async () => {
                 id="isTopic"
                 class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 v-model="shortpaperTopic"
+                placeholder="ยังไม่ได้ระบุหัวข้อโครงงาน"
               />
             </div>
           </div>
@@ -299,9 +287,9 @@ onMounted(async () => {
             <select
               id="registeredSubjectsId"
               class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
-              v-model="registeredSubjectsId"
+              @change="handleResgisteredSubjectChange"
             >
-              <option value="">ยังไม่ได้เลือกวิชา</option>
+              <option value="" disabled selected>ยังไม่ได้เลือกวิชา</option>
               <option
                 v-for="subject in subjects"
                 :key="subject.subjectId"
@@ -318,9 +306,9 @@ onMounted(async () => {
             <select
               id="paperSubjectsId"
               class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
-              v-model="paperSubjectsId"
+              @change="handlePaperSubjectChange"
             >
-              <option>ยังไม่ได้เลือกวิชา</option>
+              <option value="" disabled selected>ยังไม่ได้เลือกวิชา</option>
               <option
                 v-for="subject in subjects"
                 :key="subject.subjectId"
