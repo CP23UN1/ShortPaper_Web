@@ -107,10 +107,10 @@ const validateData = () => {
     isValid = false
   }
 
-  if (!shortpaperTopic.value) {
-    alert('กรุณาใส่หัวข้อโครงงาน')
-    isValid = false
-  }
+  // if (!shortpaperTopic.value) {
+  //   alert('กรุณาใส่หัวข้อโครงงาน')
+  //   isValid = false
+  // }
 
   if (
     student.value.alternativeEmail &&

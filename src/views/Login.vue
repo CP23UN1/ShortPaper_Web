@@ -6,6 +6,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { Modal } from 'flowbite'
 
 import ButtonMain from '../components/ButtonMain.vue'
+import apiService from '../composables/apiService'
 
 const authStore = useAuthStore()
 const validateStore = useValidateStore()
@@ -46,9 +47,17 @@ const login = async () => {
         password: password.value,
       })
       if (authStore.isLoggedIn == true) {
+        const userId = ref(authStore.userId)
         switch (authStore.userRole) {
           case 'student':
-            router.push('/')
+            const res = await apiService.getStudentById(userId.value)
+            const status = res.data.data.status
+
+            if (status == 'new') {
+              router.push('/new')
+            } else {
+              router.push('/')
+            }
             break
           case 'committee':
             router.push('/committee/students')

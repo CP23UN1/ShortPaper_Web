@@ -11,6 +11,7 @@ import StudentEditForm from '../views/StudentRole/StudentEditForm.vue'
 import StudentFileList from '../views/StudentRole/StudentFileList.vue'
 import StudentFileUploading from '../views/StudentRole/StudentFileUploading.vue'
 import StudentHome from '../views/StudentRole/StudentHome.vue'
+import StudentNewForm from '../views/StudentRole/StudentNewForm.vue'
 
 // Admin Role
 import AdminAddStudentData from '../views/AdminRole/AdminAddStudentData.vue'
@@ -76,6 +77,12 @@ const routes = [
     path: '/',
     name: 'Home Student',
     component: StudentHome,
+    meta: { requiresAuth: true, requiresRole: 'student' },
+  },
+  {
+    path: '/new',
+    name: 'New Student',
+    component: StudentNewForm,
     meta: { requiresAuth: true, requiresRole: 'student' },
   },
   // Admin Role
@@ -157,7 +164,7 @@ const routes = [
     name: 'Committee Student Detail',
     component: CommitteeStudentDetails,
     meta: { requiresAuth: true, requiresRole: 'committee' },
-  }
+  },
 ]
 
 const router = createRouter({
