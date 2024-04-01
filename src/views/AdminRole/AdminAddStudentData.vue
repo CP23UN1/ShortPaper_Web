@@ -28,7 +28,7 @@ const addStudentData = async () => {
       <input
         type="file"
         @change="handleFileUpload"
-        class="ml-2 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
+        class="ml-2 border w-1/2 border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
         accept=".csv"
       />
       <ButtonMain
