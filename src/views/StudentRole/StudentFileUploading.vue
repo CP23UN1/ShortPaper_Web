@@ -50,6 +50,13 @@ const handleUpload = async () => {
     return
   }
 
+  // Validate file size
+  const maxSizeInBytes = 10 * 1024 * 1024; // 10 MB (adjust as needed)
+  if (file.value.size > maxSizeInBytes) {
+    alert('ไฟล์ต้องมีขนาดไม่เกิน 10 MB');
+    return;
+  }
+
   const formData = new FormData()
   formData.append('shortpaperId', shortpaperId.value)
   formData.append('file', file.value)
