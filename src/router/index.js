@@ -130,7 +130,8 @@ const routes = [
     meta: { requiresAuth: true, requiresRole: 'committee' },
   },
   {
-    path: '/committee/file/:fileId',
+    path: '/committee/file/:studentId/:fileTypeId/:shortpaperId',
+
     name: 'Committee File Details',
     component: CommitteeFileDetails,
     meta: { requiresAuth: true, requiresRole: 'committee' },

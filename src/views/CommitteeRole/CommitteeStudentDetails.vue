@@ -128,7 +128,7 @@ onBeforeMount(async () => {
     <div class="text-bluemain text-left text-sm mt-5 font-semibold">
       <p>
         <RouterLink :to="'/committee/students'">
-          <span class="hover:text-blueheader">ตรวจสอบข้อมูลเอกสารโครงงาน</span>
+          <span class="hover:text-blueheader">ข้อมูลเอกสารโครงงาน</span>
         </RouterLink>
         >
         <span class="font-bold text-sm">ข้อมูลนักศึกษา</span>
@@ -218,7 +218,8 @@ onBeforeMount(async () => {
                 </div>
               </td>
               <td class="justify-end">
-                <RouterLink :to="`/committee/file/${fileType.typeId}`"
+                <RouterLink
+                  :to="`/committee/file/${student.studentId}/${fileType.typeId}/${student.shortpaper.shortpaperId}`"
                   ><p class="text-bluemain underline hover:no-underline">
                     รายละเอียดไฟล์
                   </p></RouterLink
