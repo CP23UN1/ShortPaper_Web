@@ -78,7 +78,10 @@ const handleUpload = async () => {
     if (res.status === 200) {
       alert(`บันทึกสำเร็จ`)
       router.push(`/files`)
-    } else {
+    } else if(res.status === 500) {
+      alert('กรุณาเลือก อาจารย์ที่ปรึกษา')
+    }
+    else {
       alert(`Failed to upload file. Please try again later.`)
     }
   } catch (error) {

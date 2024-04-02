@@ -102,6 +102,10 @@ const validateData = () => {
   return isValid
 }
 
+const handlePaperSubjectChange = (event) => {
+      paperSubjectsId.value = event.target.value;
+};
+
 const updateStudentAndShortpaper = async () => {
   if (validateData()) {
 
@@ -288,14 +292,14 @@ onMounted(async () => {
             </div>
             <div class="mb-1">
               <label class="font-extrabold block" for="isSubject"
-                >วิชาจัดทำ IS Report / Thesis / Project</label
+                >วิชาเลือก Workshop / Thesis / Project</label
               >
               <select
                 id="registeredSubjectsId"
                 class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                 v-model="registeredSubjectsId"
               >
-                <option>ยังไม่ได้เลือกวิชา</option>
+                <!-- <option disabled>ยังไม่ได้เลือกวิชา</option> -->
                 <option
                   v-for="subject in subjects"
                   :key="subject.subjectId"
@@ -307,14 +311,14 @@ onMounted(async () => {
             </div>
             <div class="mb-1">
               <label class="font-extrabold block mb-2" for="workshopSubject"
-                >วิชาเลือก Workshop / Thesis / Project</label
+                >วิชาจัดทำ IS Report / Thesis / Project</label
               >
               <select
                 id="paperSubjectsId"
                 class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                 v-model="paperSubjectsId"
               >
-                <option>ยังไม่ได้เลือกวิชา</option>
+                <!-- <option>ยังไม่ได้เลือกวิชา</option> -->
                 <option
                   v-for="subject in subjects"
                   :key="subject.subjectId"

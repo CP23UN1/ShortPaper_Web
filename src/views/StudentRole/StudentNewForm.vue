@@ -282,7 +282,7 @@ onMounted(async () => {
           </div>
           <div class="mb-1">
             <label class="font-extrabold block" for="isSubject"
-              >วิชาจัดทำ IS Report / Thesis / Project</label
+              >วิชาเลือก Workshop / Thesis / Project</label
             >
             <select
               id="registeredSubjectsId"
@@ -301,7 +301,7 @@ onMounted(async () => {
           </div>
           <div class="mb-1">
             <label class="font-extrabold block mb-2" for="workshopSubject"
-              >วิชาเลือก Workshop / Thesis / Project</label
+              >วิชาจัดทำ IS Report / Thesis / Project</label
             >
             <select
               id="paperSubjectsId"
