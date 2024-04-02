@@ -329,14 +329,14 @@ onBeforeMount(async () => {
               route.params.fileTypeId == 1
             "
           >
-            <hr class="my-3" />
+            <!-- <hr class="my-3" />
             <div class="flex justify-end">
               <ButtonMain
                 text="ยื่นแก้ไขใบบ.1"
                 class="bg-error border border-error hover:bg-white hover:text-error"
                 @click="goToUpload(route.params.fileTypeId)"
               />
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
