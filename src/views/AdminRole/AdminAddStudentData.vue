@@ -3,8 +3,10 @@ import { ref } from 'vue'
 import ApiService from '../../composables/apiService'
 import Header from '../../components/Header.vue'
 import ButtonMain from '../../components/ButtonMain.vue'
+import { useRouter } from 'vue-router'
 
 const file = ref(null)
+const router = useRouter()
 
 const handleFileUpload = (event) => {
   file.value = event.target.files[0]
@@ -12,16 +14,15 @@ const handleFileUpload = (event) => {
 
 const addStudentData = async () => {
   if (file.value) {
-    try {
-      await ApiService.addStudent(file.value)
+    const formData = new FormData()
+    formData.append('csvFile', file.value)
+    const res = await ApiService.addStudent(formData)
 
-      if (res.status === 200) {
+    if (res.status === 200) {
       alert(`บันทึกสำเร็จ`)
+      router.push('/admin/students')
     } else {
       alert(`Failed to upload file. Please try again later.`)
-    }
-    } catch (error) {
-      console.error('Error assigning student:', error)
     }
   }
 }

@@ -65,7 +65,7 @@ const createAnnouncement = async () => {
         <label
           for="expiredDatetime"
           class="block text-sm font-medium text-gray-700"
-          >วันที่ประกาศ:</label
+          >วันที่ประกาศหมดอายุ:</label
         >
         <input
           type="datetime-local"
