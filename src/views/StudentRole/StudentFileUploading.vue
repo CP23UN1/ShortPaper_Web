@@ -68,8 +68,6 @@ const handleUpload = async () => {
   formData.append('studentId', studentId.value)
 
   // formData.append('remark', remark.value)
-
-  try {
     if (typeId.value == 1 && selectedCommittee.value != '') {
       await assignCommittee()
     }
@@ -84,10 +82,6 @@ const handleUpload = async () => {
     else {
       alert(`Failed to upload file. Please try again later.`)
     }
-  } catch (error) {
-    console.error('Error uploading file:', error)
-    alert(`An error occurred while uploading the file.`)
-  }
 }
 
 const getShortPaper = async () => {
