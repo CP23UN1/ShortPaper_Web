@@ -43,6 +43,16 @@ const downloadIconSvgDisabled = `<svg class="w-[20px] h-[20px] text-login" aria-
     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15h.01M4 12H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-3M9.5 1v10.93m4-3.93-4 4-4-4"/>
   </svg>`
 
+  const previewIconSvg = `<svg class="w-[20px] h-[20px] text-bluemain hover:text-correct cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 3v4a1 1 0 0 1-1 1H5m8 7.5 2.5 2.5M19 4v16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7.914a1 1 0 0 1 .293-.707l3.914-3.914A1 1 0 0 1 9.914 3H18a1 1 0 0 1 1 1Zm-5 9.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z"/>
+</svg>
+`
+
+const previewIconSvgDisabled = `<svg class="w-[20px] h-[20px] text-login" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 3v4a1 1 0 0 1-1 1H5m8 7.5 2.5 2.5M19 4v16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7.914a1 1 0 0 1 .293-.707l3.914-3.914A1 1 0 0 1 9.914 3H18a1 1 0 0 1 1 1Zm-5 9.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z"/>
+</svg>
+`
+
 const getFileType = async () => {
   const res = await ApiService.getFileType()
 
@@ -118,6 +128,16 @@ const getCommittees = async () => {
   if (res.status === 200) {
     const data = await res.data
     committees.value = data
+  }
+}
+
+const iframePreview = ref(false)
+
+const togglePreview = () => {
+  iframePreview.value = !iframePreview.value
+
+  if (iframePreview.value) {
+    downloadFile()
   }
 }
 
@@ -343,13 +363,13 @@ onBeforeMount(async () => {
             <div class="col-span-1">
               <div
                 class="flex justify-end"
-                v-html="downloadIconSvg"
+                v-html="previewIconSvg"
                 v-if="studentFiles !== null"
-                @click="downloadFile"
+                @click="togglePreview"
               ></div>
               <div
                 class="flex justify-end"
-                v-html="downloadIconSvgDisabled"
+                v-html="previewIconSvgDisabled"
                 v-else
               ></div>
             </div>
@@ -459,8 +479,8 @@ onBeforeMount(async () => {
         </div>
       </div>
     </div>
+    <div id="preview-container" v-if="iframePreview" class="mb-10"></div>
   </div>
-  <div id="preview-container"></div>
 </template>
 
 <style></style>
