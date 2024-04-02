@@ -334,6 +334,7 @@ onBeforeMount(async () => {
               <ButtonMain
                 text="ยื่นแก้ไขใบบ.1"
                 class="bg-error border border-error hover:bg-white hover:text-error"
+                @click="goToUpload(route.params.fileTypeId)"
               />
             </div>
           </div>
