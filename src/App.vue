@@ -23,7 +23,8 @@ watch(() => {
     route.name == 'Login' ||
     route.name == 'Home Student' ||
     route.name == 'ShortPaper File Details' ||
-    route.name == 'Committee File Details'
+    route.name == 'Committee File Details' ||
+    route.name == 'Admin File Details'
   ) {
     showNavbar.value = false
     isMaxWidth.value = false

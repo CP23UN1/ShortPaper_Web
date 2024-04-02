@@ -41,7 +41,8 @@ onMounted(() => {})
           'underline underline-offset-8 decoration-4':
             $route.name === 'Admin Student List' ||
             $route.name === 'Admin Student Detail' ||
-            $route.name === 'Admin Add Data',
+            $route.name === 'Admin Add Data' ||
+            $route.name === 'Admin File Details',
         }"
         ><span>โครงงานนักศึกษา</span></RouterLink
       >

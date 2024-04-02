@@ -20,6 +20,7 @@ import AdminAssignAdvisor from '../views/AdminRole/AdminAssignAdvisor.vue'
 import AdminCreateAnnouncement from '../views/AdminRole/AdminCreateAnnouncement.vue'
 import AdminStudentDetails from '../views/AdminRole/AdminStudentDetails.vue'
 import AdminStudentList from '../views/AdminRole/AdminStudentList.vue'
+import AdminFileDetails from '../views/AdminRole/AdminFileDetails.vue'
 
 // Committee Role
 import CommitteeEdit from '../views/CommitteeRole/CommitteeEdit.vue'
@@ -111,9 +112,15 @@ const routes = [
     meta: { requiresAuth: true, requiresRole: 'admin' },
   },
   {
-    path: '/admin/student/:id',
+    path: '/admin/student/:studentId',
     name: 'Admin Student Detail',
     component: AdminStudentDetails,
+    meta: { requiresAuth: true, requiresRole: 'admin' },
+  },
+  {
+    path: '/admin/file/:studentId/:fileTypeId/:shortpaperId',
+    name: 'Admin File Details',
+    component: AdminFileDetails,
     meta: { requiresAuth: true, requiresRole: 'admin' },
   },
   {
@@ -131,7 +138,6 @@ const routes = [
   },
   {
     path: '/committee/file/:studentId/:fileTypeId/:shortpaperId',
-
     name: 'Committee File Details',
     component: CommitteeFileDetails,
     meta: { requiresAuth: true, requiresRole: 'committee' },
