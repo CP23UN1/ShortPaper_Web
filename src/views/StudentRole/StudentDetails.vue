@@ -20,7 +20,7 @@ const shortpaperTopic = ref()
 const getRegisteredSubjects = () => {
   if (student.value.subjects && student.value.subjects.length) {
     const registeredSubjects = student.value.subjects
-      .filter((subject) => subject.isRegisteredSubject)
+      .filter((subject) => subject.isPaperSubject)
       .map((subject) => `${subject.subjectId} ${subject.subjectName}`)
       .join(', ')
     return registeredSubjects || 'ยังไม่มีข้อมูล'
@@ -32,7 +32,7 @@ const getRegisteredSubjects = () => {
 const getPaperSubjects = () => {
   if (student.value.subjects && student.value.subjects.length) {
     const paperSubjects = student.value.subjects
-      .filter((subject) => subject.isPaperSubject)
+      .filter((subject) => subject.isRegisteredSubject)
       .map((subject) => `${subject.subjectId} ${subject.subjectName}`)
       .join(', ')
     return paperSubjects || 'ยังไม่มีข้อมูล'
@@ -46,7 +46,7 @@ const getStudentAndSubjects = async () => {
   if (studentRes.status === 200) {
     const studentData = await studentRes.data
     student.value = studentData.data
-    if(studentData.data.shortpaper.shortpaperTopic){
+    if (studentData.data.shortpaper.shortpaperTopic) {
       shortpaperTopic.value = studentData.data.shortpaper
     } else {
       shortpaperTopic.value = null
