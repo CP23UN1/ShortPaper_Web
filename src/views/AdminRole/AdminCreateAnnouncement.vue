@@ -22,6 +22,8 @@ const createAnnouncement = async () => {
     const res = await ApiService.createAnnouncement(newAnnouncement)
 
     if (res.data.httpStatusCode === 201) {
+      alert('บันทึกสำเร็จ')
+      router.push('/admin/announcements')
     } else {
     }
   } catch (error) {
@@ -86,13 +88,11 @@ const createAnnouncement = async () => {
         />
       </div> -->
       <div class="flex justify-end items-end w-full my-5">
-        <RouterLink :to="`/admin/students`">
         <ButtonMain
           type="submit"
           class="bg-bluemain border hover:bg-white border-bluemain hover:text-bluemain"
           text="สร้างประกาศ"
         />
-      </RouterLink>
       </div>
     </form>
   </div>

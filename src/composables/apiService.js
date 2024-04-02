@@ -155,7 +155,7 @@ class ApiService {
       formData.append('csvFile', file)
 
       const response = await api.post(
-        '/student/add-from-csv`',
+        '/student/add-from-csv',
         formData,
         {
           headers: { 'Content-Type': 'multipart/form-data' },
