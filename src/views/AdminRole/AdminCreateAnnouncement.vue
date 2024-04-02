@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import ApiService from '../../composables/apiService'
+import { useRouter } from 'vue-router'
 
 import Header from '../../components/Header.vue'
 import ButtonMain from '../../components/ButtonMain.vue'
@@ -9,6 +10,7 @@ const schedule = ref('')
 const content = ref('')
 const expiredDatetime = ref('')
 const imageUrl = ref('')
+const router = useRouter()
 
 const createAnnouncement = async () => {
   try {
