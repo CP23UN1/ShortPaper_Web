@@ -316,19 +316,17 @@ onBeforeMount(async () => {
               <div class="col-span-2">
                 <p class="text-start">รายวิชา</p>
               </div>
-              <div
-                class="col-span-1"
-                v-if="student.subjects"
-                v-for="subject in student.subjects"
-              >
-                {{ subject.subjectId }}
-                {{ subject.subjectName }}
-                <span v-if="subject.isRegisteredSubject">
-                  : วิชาที่ลงทะเบียน</span
-                >
-                <span v-if="subject.isPaperSubject">
-                  : วิชาที่ทำ IS Report</span
-                >
+              <div class="col-span-1" v-if="student.subjects">
+                <p v-for="subject in student.subjects" :id="subject.subjectId" class="mb-2">
+                  {{ subject.subjectId }}
+                  {{ subject.subjectName }}
+                  <span v-if="subject.isRegisteredSubject">
+                    : วิชาที่ลงทะเบียน</span
+                  >
+                  <span v-if="subject.isPaperSubject">
+                    : วิชาที่ทำ IS Report</span
+                  >
+                </p>
               </div>
               <div v-else class="col-span-1">-</div>
             </div>
