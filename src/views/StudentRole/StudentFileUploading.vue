@@ -70,7 +70,7 @@ const handleUpload = async () => {
   // formData.append('remark', remark.value)
 
   try {
-    if (typeId.value == 1) {
+    if (typeId.value == 1 && selectedCommittee.value != '') {
       await assignCommittee()
     }
 

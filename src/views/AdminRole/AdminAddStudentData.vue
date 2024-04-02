@@ -14,6 +14,12 @@ const addStudentData = async () => {
   if (file.value) {
     try {
       await ApiService.addStudent(file.value)
+
+      if (res.status === 200) {
+      alert(`บันทึกสำเร็จ`)
+    } else {
+      alert(`Failed to upload file. Please try again later.`)
+    }
     } catch (error) {
       console.error('Error assigning student:', error)
     }
