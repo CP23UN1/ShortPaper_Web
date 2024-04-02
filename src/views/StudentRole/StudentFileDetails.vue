@@ -400,7 +400,7 @@ onBeforeMount(async () => {
           <p>ความคิดเห็นของที่ปรึกษา และคณะกรรมการ</p>
         </div>
 
-        <div class="">
+        <div>
           <div
             class="bg-white text-gray-900 p-2 pl-4 rounded-es-lg rounded-ee-lg shadow-lg mb-3"
             v-for="comment in comments"

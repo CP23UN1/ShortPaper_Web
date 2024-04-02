@@ -93,24 +93,26 @@ const getFileTypeName = (fileTypeId) => {
   return fileType ? fileType.typeName : '-'
 }
 
-const committeeComments = ref([])
-const studentComments = ref([])
+// const committeeComments = ref([])
+// const studentComments = ref([])
+const comments = ref([])
+const selectedReplyId = ref()
 
 const getComments = async () => {
   try {
     const res = await ApiService.getComments(lastedFileId.value)
     if (res.status === 200) {
       const data = await res.data
-      const allComments = data.data
+      comments.value = data.data
 
-      if (allComments !== null) {
-        committeeComments.value = allComments.filter((comment) =>
-          comment.authorId.startsWith('lec')
-        )
-        studentComments.value = allComments.filter((comment) =>
-          comment.authorId.startsWith('std')
-        )
-      }
+      // if (allComments !== null) {
+      //   committeeComments.value = allComments.filter((comment) =>
+      //     comment.authorId.startsWith('lec')
+      //   )
+      //   studentComments.value = allComments.filter((comment) =>
+      //     comment.authorId.startsWith('std')
+      //   )
+      // }
     } else {
       console.error('Failed to fetch comments:', res.statusText)
     }
@@ -119,15 +121,35 @@ const getComments = async () => {
   }
 }
 
-const getCommitteeName = (authorId) => {
-  if (!committees.value || committees.value.length === 0) {
-    return 'Loading...'
-  }
+const students = ref()
 
-  const committee = committees.value.find((c) => c.committeeId === authorId)
-  return committee
-    ? `${committee.firstname} ${committee.lastname}`
-    : 'Not found'
+const getStudents = async () => {
+  const res = await ApiService.getStudents()
+
+  if (res.status === 200) {
+    const data = await res.data
+    students.value = data.data
+  }
+}
+
+const getName = (authorId) => {
+  if (authorId.startsWith('lec')) {
+    if (!committees.value || committees.value.length === 0) {
+      return 'Loading...'
+    }
+
+    const committee = committees.value.find((c) => c.committeeId === authorId)
+    return committee
+      ? `${committee.firstname} ${committee.lastname}`
+      : 'Not found'
+  } else if (authorId.startsWith('std')) {
+    if (!students.value || students.value.length === 0) {
+      return 'Loading...'
+    }
+
+    const student = students.value.find((c) => c.studentId === authorId)
+    return student ? `${student.firstname} ${student.lastname}` : 'Not found'
+  }
 }
 
 const getCommittees = async () => {
@@ -219,6 +241,7 @@ const mapFileStatus = (status) => {
 }
 
 onBeforeMount(async () => {
+  await getStudents()
   await getStudentById()
   await getCommittees()
   await getFileType()
@@ -258,7 +281,7 @@ onBeforeMount(async () => {
         </div>
 
         <div
-          class="bg-white border-b text-gray-900 p-2 pl-4 rounded-es-lg rounded-ee-lg"
+          class="bg-white text-gray-900 p-2 pl-4 rounded-es-lg rounded-ee-lg"
         >
           <div>
             <div class="grid grid-cols-3 my-2">
@@ -317,7 +340,7 @@ onBeforeMount(async () => {
         </div>
 
         <div
-          class="bg-white border-b text-gray-900 p-2 pl-4 rounded-es-lg rounded-ee-lg"
+          class="bg-white text-gray-900 p-2 pl-4 rounded-es-lg rounded-ee-lg"
         >
           <div class="text-end" v-if="studentFiles !== null">
             <p>
@@ -362,50 +385,93 @@ onBeforeMount(async () => {
     <!-- rows 2 -->
     <div class="grid grid-cols-2 my-5" v-if="studentFiles !== null">
       <!-- div 1 -->
-      <div class="shadow-md mx-3" v-if="committeeComments.length !== 0">
+      <div class="mx-3" v-if="comments">
         <div
           class="text-white uppercase bg-bluemain p-2 pl-4 rounded-ss-lg rounded-se-lg"
         >
           <p>ความคิดเห็นของที่ปรึกษา และคณะกรรมการ</p>
         </div>
 
-        <div
-          class="bg-white border-b text-gray-900 p-2 pl-4 rounded-es-lg rounded-ee-lg"
-        >
-          <div v-if="committeeComments.length !== 0">
-            <div
-              v-for="comment in committeeComments"
-              :key="comment.commentId"
-              class="mb-3"
-            >
-              <div class="grid grid-cols-3">
-                <div class="col-span-2 my-2">
-                  <p class="font-bold">
-                    คณะกรรมการ {{ getCommitteeName(comment.authorId) }}
-                  </p>
+        <div>
+          <div
+            class="bg-white text-gray-900 p-2 pl-4 rounded-es-lg rounded-ee-lg shadow-lg mb-3"
+            v-for="comment in comments"
+            :key="comment.commentId"
+          >
+            <div v-if="comment">
+              <div class="mb-3">
+                <div class="grid grid-cols-3">
+                  <div class="col-span-2 my-2">
+                    <p class="font-bold">
+                      คณะกรรมการ {{ getName(comment.authorId) }}
+                    </p>
+                  </div>
+                  <div class="col-span-1 my-2">
+                    <p class="text-login">
+                      {{
+                        comment
+                          ? new Date(comment.createdDatetime).toLocaleString(
+                              'th-TH',
+                              {
+                                timeZone: 'Asia/Bangkok',
+                              }
+                            )
+                          : 'ยังไม่มีการอัปโหลด'
+                      }}
+                    </p>
+                  </div>
                 </div>
-                <div class="col-span-1 my-2">
-                  <p class="text-login">
-                    {{
-                      comment
-                        ? new Date(comment.createdDatetime).toLocaleString(
-                            'th-TH',
-                            {
-                              timeZone: 'Asia/Bangkok',
-                            }
-                          )
-                        : 'ยังไม่มีการอัปโหลด'
-                    }}
-                  </p>
+
+                <p>{{ comment.commentContent }}</p>
+
+                <div v-if="comment.replyComment.length !== 0">
+                  <hr class="my-3" />
+                  <p class="font-black">ความคิดเห็นตอบกลับ</p>
+                  <div v-for="reply in comment.replyComment">
+                    <hr class="mt-3" />
+                    <div class="grid grid-cols-3">
+                      <div class="col-span-2 my-2">
+                        <p class="font-bold">
+                          นักศึกษา {{ getName(reply.authorId) }}
+                        </p>
+                      </div>
+                      <div class="col-span-1 my-2">
+                        <p class="text-login">
+                          {{
+                            reply
+                              ? new Date(reply.createdDatetime).toLocaleString(
+                                  'th-TH',
+                                  {
+                                    timeZone: 'Asia/Bangkok',
+                                  }
+                                )
+                              : 'ยังไม่มีการอัปโหลด'
+                          }}
+                        </p>
+                      </div>
+                    </div>
+
+                    <p>{{ reply.commentContent }}</p>
+
+                    <!-- <div class="justify-end flex">
+                      <input
+                        type="radio"
+                        :id="'replyId_' + reply.commentId"
+                        :value="reply.commentId"
+                        v-model="selectedReplyId"
+                      />
+                      <label :for="'replyId_' + reply.commentId" class="ml-1.5"
+                        >ตอบกลับ</label
+                      >
+                    </div> -->
+                  </div>
                 </div>
               </div>
-
-              <p>{{ comment.commentContent }}</p>
-              <hr class="my-3" />
             </div>
           </div>
         </div>
       </div>
+
       <!-- div 2 -->
       <div class="grid">
         <div class="shadow-md mx-3">
@@ -416,7 +482,7 @@ onBeforeMount(async () => {
           </div>
 
           <div
-            class="bg-white border-b text-gray-900 p-2 pl-4 rounded-es-lg rounded-ee-lg"
+            class="bg-white text-gray-900 p-2 pl-4 rounded-es-lg rounded-ee-lg"
           >
             <label for="reply">คำชี้แจงของกรรมการ</label>
             <textarea
@@ -435,7 +501,7 @@ onBeforeMount(async () => {
           </div>
         </div>
         <!-- below div 2 -->
-        <div class="shadow-md m-3" v-if="studentComments.length !== 0">
+        <!-- <div class="shadow-md m-3" v-if="studentComments.length !== 0">
           <div
             class="text-white uppercase bg-bluemain p-2 pl-4 rounded-ss-lg rounded-se-lg"
           >
@@ -443,7 +509,7 @@ onBeforeMount(async () => {
           </div>
 
           <div
-            class="bg-white border-b text-gray-900 p-2 pl-4 rounded-es-lg rounded-ee-lg"
+            class="bg-white text-gray-900 p-2 pl-4 rounded-es-lg rounded-ee-lg"
           >
             <div v-if="studentComments.length !== 0">
               <div v-for="comment in studentComments" :key="comment.commentId">
@@ -461,7 +527,7 @@ onBeforeMount(async () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
