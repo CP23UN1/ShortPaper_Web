@@ -19,7 +19,12 @@ onBeforeMount(async () => {
 })
 
 watch(() => {
-  if (route.name == 'Login' || route.name == 'Home Student') {
+  if (
+    route.name == 'Login' ||
+    route.name == 'Home Student' ||
+    route.name == 'ShortPaper File Details' ||
+    route.name == 'Committee File Details'
+  ) {
     showNavbar.value = false
     isMaxWidth.value = false
   } else if (route.name == 'New Student') {

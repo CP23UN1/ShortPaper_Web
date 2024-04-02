@@ -7,6 +7,7 @@ import ApiService from '../../composables/apiService'
 
 import Header from '../../components/Header.vue'
 import ButtonMain from '../../components/ButtonMain.vue'
+import NavbarCommittee from '../../components/Navbar/NavbarCommittee.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -17,15 +18,11 @@ const userId = ref(store.userId)
 const fileTypes = ref()
 const studentFiles = ref()
 const fileTypeName = ref()
-
 const newComment = ref()
-
 const lastedFileId = ref()
 const shortpaperId = ref(route.params.shortpaperId)
 const studentId = ref(route.params.studentId)
-
 const committees = ref([])
-
 const student = ref({})
 const shortpaper = ref({})
 
@@ -142,6 +139,7 @@ const getCommittees = async () => {
   }
 }
 
+// Modal
 const iframePreview = ref(false)
 
 const togglePreview = () => {
@@ -233,7 +231,8 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <div class="mb-10">
+  <div class="mb-10 mx-14 xl:mx-32 lg:mx-28 md:mx-24 sm:mx-20">
+    <NavbarCommittee class="mt-[20px]" />
     <div class="text-bluemain text-left text-sm mt-5 font-semibold">
       <p>
         <RouterLink :to="'/committee/students'">
@@ -465,7 +464,36 @@ onBeforeMount(async () => {
         </div>
       </div>
     </div>
-    <div id="preview-container" v-if="iframePreview" class="mb-10"></div>
+  </div>
+
+  <div
+    class="fixed top-0 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50"
+    :class="{ hidden: !iframePreview }"
+    id="iframe-modal"
+  >
+    <div class="w-full h-1/2 mx-auto p-8 bg-white rounded-lg shadow-md">
+      <div class="mb-4 flex justify-end">
+        <button type="button" class="" @click="togglePreview">
+          <svg
+            class="w-3 h-3"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 14 14"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+            />
+          </svg>
+          <span class="sr-only">ปิดหน้าต่าง</span>
+        </button>
+      </div>
+      <div id="preview-container" v-if="iframePreview"></div>
+    </div>
   </div>
 </template>
 
