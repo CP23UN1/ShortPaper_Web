@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onBeforeMount } from 'vue'
+import { ref, onBeforeMount, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '../../stores/auth'
 
@@ -49,6 +49,17 @@ const previewIconSvgDisabled = `<svg class="w-[20px] h-[20px] text-login" aria-h
 </svg>
 `
 
+const students = ref()
+
+const getStudents = async () => {
+  const res = await ApiService.getStudents()
+
+  if (res.status === 200) {
+    const data = await res.data
+    students.value = data.data
+  }
+}
+
 const getFileType = async () => {
   const res = await ApiService.getFileType()
 
@@ -81,24 +92,28 @@ const getFileTypeName = (fileTypeId) => {
   return fileType ? fileType.typeName : '-'
 }
 
-const committeeComments = ref([])
-const studentComments = ref([])
+// const committeeComments = ref([])
+// const studentComments = ref([])
+const comments = ref([])
+const selectedReplyId = ref()
 
 const getComments = async () => {
   try {
     const res = await ApiService.getComments(lastedFileId.value)
     if (res.status === 200) {
       const data = await res.data
-      const allComments = data.data
 
-      if (allComments !== null) {
-        committeeComments.value = allComments.filter((comment) =>
-          comment.authorId.startsWith('lec')
-        )
-        studentComments.value = allComments.filter((comment) =>
-          comment.authorId.startsWith('std')
-        )
-      }
+      comments.value = data.data
+      // const allComments = data.data
+
+      // if (allComments !== null) {
+      //   committeeComments.value = allComments.filter((comment) =>
+      //     comment.authorId.startsWith('lec')
+      //   )
+      //   studentComments.value = allComments.filter((comment) =>
+      //     comment.authorId.startsWith('std')
+      //   )
+      // }
     } else {
       console.error('Failed to fetch comments:', res.statusText)
     }
@@ -107,15 +122,46 @@ const getComments = async () => {
   }
 }
 
-const getCommitteeName = (authorId) => {
-  if (!committees.value || committees.value.length === 0) {
-    return 'Loading...'
+const sendComment = async () => {
+  const commentObj = {
+    commentContent: newComment.value,
+    fileId: lastedFileId.value,
+    authorId: studentId.value,
+    replyId: selectedReplyId.value,
   }
 
-  const committee = committees.value.find((c) => c.committeeId === authorId)
-  return committee
-    ? `${committee.firstname} ${committee.lastname}`
-    : 'Not found'
+  try {
+    const res = await ApiService.sendComment(commentObj)
+    if (res.status === 200) {
+      alert('บันทึกสำเร็จ')
+      await getComments()
+      newComment.value = ''
+    } else {
+      console.error('Failed to send comment:', res.statusText)
+    }
+  } catch (error) {
+    console.error('Error sending comment:', error)
+  }
+}
+
+const getName = (authorId) => {
+  if (authorId.startsWith('lec')) {
+    if (!committees.value || committees.value.length === 0) {
+      return 'Loading...'
+    }
+
+    const committee = committees.value.find((c) => c.committeeId === authorId)
+    return committee
+      ? `${committee.firstname} ${committee.lastname}`
+      : 'Not found'
+  } else if (authorId.startsWith('std')) {
+    if (!students.value || students.value.length === 0) {
+      return 'Loading...'
+    }
+
+    const student = students.value.find((c) => c.studentId === authorId)
+    return student ? `${student.firstname} ${student.lastname}` : 'Not found'
+  }
 }
 
 const getCommittees = async () => {
@@ -147,7 +193,6 @@ const downloadFile = async () => {
     const blob = new Blob([res.data], { type: 'application/pdf' })
     const url = window.URL.createObjectURL(blob)
 
-    // Create a container element if it doesn't exist
     let previewContainer = document.getElementById('preview-container')
     if (!previewContainer) {
       previewContainer = document.createElement('div')
@@ -155,48 +200,17 @@ const downloadFile = async () => {
       document.body.appendChild(previewContainer)
     }
 
-    // Create an <iframe> element to display the PDF
     const iframe = document.createElement('iframe')
     iframe.src = url
-    iframe.style.width = '100%' // Set width to fill container
-    iframe.style.height = '500px' // Set a fixed height or adjust as needed
-    iframe.style.border = 'none' // Optionally remove border
+    iframe.style.width = '100%'
+    iframe.style.height = '500px'
+    iframe.style.border = 'none'
 
-    // Append the iframe to the container
     previewContainer.appendChild(iframe)
 
-    // Clean up URL when no longer needed
     window.URL.revokeObjectURL(url)
   } catch (error) {
     console.error('Error downloading file:', error)
-  }
-}
-
-const getNameByStudent = (typeId) => {
-  const file = studentFiles.value.find(
-    (file) => file.shortpaperFileType.typeId === typeId
-  )
-  return file ? file.fileName : typeId
-}
-
-const sendComment = async () => {
-  const commentObj = {
-    commentContent: newComment.value,
-    fileId: lastedFileId.value,
-    authorId: studentId.value,
-  }
-
-  try {
-    const res = await ApiService.sendComment(commentObj)
-    if (res.status === 200) {
-      alert('บันทึกสำเร็จ')
-      await getComments()
-      newComment.value = ''
-    } else {
-      console.error('Failed to send comment:', res.statusText)
-    }
-  } catch (error) {
-    console.error('Error sending comment:', error)
   }
 }
 
@@ -218,6 +232,7 @@ const mapFileStatus = (status) => {
 }
 
 onBeforeMount(async () => {
+  await getStudents()
   await getCommittees()
   await getFileType()
   await getFilebyFiletypeAndShortpaper()
@@ -252,7 +267,7 @@ onBeforeMount(async () => {
         </div>
 
         <div
-          class="bg-white border-b text-gray-900 p-2 pl-4 rounded-es-lg rounded-ee-lg"
+          class="bg-white text-gray-900 p-2 pl-4 rounded-es-lg rounded-ee-lg"
         >
           <div>
             <div class="grid grid-cols-3 my-2">
@@ -333,7 +348,7 @@ onBeforeMount(async () => {
         </div>
 
         <div
-          class="bg-white border-b text-gray-900 p-2 pl-4 rounded-es-lg rounded-ee-lg"
+          class="bg-white text-gray-900 p-2 pl-4 rounded-es-lg rounded-ee-lg"
         >
           <div class="text-end" v-if="studentFiles !== null">
             <p>
@@ -378,66 +393,120 @@ onBeforeMount(async () => {
     <!-- rows 2 -->
     <div class="grid grid-cols-2 my-5" v-if="studentFiles !== null">
       <!-- div 1 -->
-      <div class="shadow-md mx-3" v-if="committeeComments.length !== 0">
+      <div class="mx-3" v-if="comments">
         <div
           class="text-white uppercase bg-bluemain p-2 pl-4 rounded-ss-lg rounded-se-lg"
         >
           <p>ความคิดเห็นของที่ปรึกษา และคณะกรรมการ</p>
         </div>
 
-        <div
-          class="bg-white border-b text-gray-900 p-2 pl-4 rounded-es-lg rounded-ee-lg"
-        >
-          <div v-if="committeeComments.length !== 0">
-            <div
-              v-for="comment in committeeComments"
-              :key="comment.commentId"
-              class="mb-3"
-            >
-              <div class="grid grid-cols-3">
-                <div class="col-span-2 my-2">
-                  <p class="font-bold">
-                    คณะกรรมการ {{ getCommitteeName(comment.authorId) }}
-                  </p>
+        <div class="">
+          <div
+            class="bg-white text-gray-900 p-2 pl-4 rounded-es-lg rounded-ee-lg shadow-lg mb-3"
+            v-for="comment in comments"
+            :key="comment.commentId"
+          >
+            <div v-if="comments.length !== 0">
+              <div class="mb-3">
+                <div class="grid grid-cols-3">
+                  <div class="col-span-2 my-2">
+                    <p class="font-bold">
+                      คณะกรรมการ {{ getName(comment.authorId) }}
+                    </p>
+                  </div>
+                  <div class="col-span-1 my-2">
+                    <p class="text-login">
+                      {{
+                        comment
+                          ? new Date(comment.createdDatetime).toLocaleString(
+                              'th-TH',
+                              {
+                                timeZone: 'Asia/Bangkok',
+                              }
+                            )
+                          : 'ยังไม่มีการอัปโหลด'
+                      }}
+                    </p>
+                  </div>
                 </div>
-                <div class="col-span-1 my-2">
-                  <p class="text-login">
-                    {{
-                      comment
-                        ? new Date(comment.createdDatetime).toLocaleString(
-                            'th-TH',
-                            {
-                              timeZone: 'Asia/Bangkok',
-                            }
-                          )
-                        : 'ยังไม่มีการอัปโหลด'
-                    }}
-                  </p>
+
+                <p>{{ comment.commentContent }}</p>
+                <div class="justify-end flex">
+                  <input
+                    type="radio"
+                    :id="'replyId_' + comment.commentId"
+                    :value="comment.commentId"
+                    v-model="selectedReplyId"
+                  />
+                  <label :for="'replyId_' + comment.commentId" class="ml-1.5"
+                    >ตอบกลับ</label
+                  >
+                </div>
+
+                <div v-if="comment.replyComment.length !== 0">
+                  <hr class="my-3" />
+                  <p class="font-black">ความคิดเห็นตอบกลับ</p>
+                  <div v-for="reply in comment.replyComment">
+                    <hr class="mt-3" />
+                    <div class="grid grid-cols-3">
+                      <div class="col-span-2 my-2">
+                        <p class="font-bold">
+                          นักศึกษา {{ getName(reply.authorId) }}
+                        </p>
+                      </div>
+                      <div class="col-span-1 my-2">
+                        <p class="text-login">
+                          {{
+                            reply
+                              ? new Date(reply.createdDatetime).toLocaleString(
+                                  'th-TH',
+                                  {
+                                    timeZone: 'Asia/Bangkok',
+                                  }
+                                )
+                              : 'ยังไม่มีการอัปโหลด'
+                          }}
+                        </p>
+                      </div>
+                    </div>
+
+                    <p>{{ reply.commentContent }}</p>
+
+                    <!-- <div class="justify-end flex">
+                      <input
+                        type="radio"
+                        :id="'replyId_' + reply.commentId"
+                        :value="reply.commentId"
+                        v-model="selectedReplyId"
+                      />
+                      <label :for="'replyId_' + reply.commentId" class="ml-1.5"
+                        >ตอบกลับ</label
+                      >
+                    </div> -->
+                  </div>
                 </div>
               </div>
-
-              <p>{{ comment.commentContent }}</p>
-              <hr class="my-3" />
             </div>
           </div>
         </div>
       </div>
       <!-- div 2 -->
+
       <div class="grid">
-        <div class="shadow-md mx-3">
+        <div class="shadow-md mx-3" v-if="selectedReplyId">
           <div
             class="text-white uppercase bg-bluemain p-2 pl-4 rounded-ss-lg rounded-se-lg"
           >
-            <p>ส่งคำชี้แจงของนักศึกษา</p>
+            <p>ส่งความคิดเห็นของนักศึกษา</p>
           </div>
 
           <div
-            class="bg-white border-b text-gray-900 p-2 pl-4 rounded-es-lg rounded-ee-lg"
+            class="bg-white text-gray-900 p-2 pl-4 rounded-es-lg rounded-ee-lg"
           >
-            <label for="reply">คำชี้แจงของนักศึกษา</label>
+            <label for="stdComment">ความคิดเห็นของนักศึกษา</label>
             <textarea
               type="text"
-              id="reply"
+              id="stdComment"
               class="mt-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm border-gray-300 rounded-md"
               v-model="newComment"
             />
@@ -450,8 +519,9 @@ onBeforeMount(async () => {
             </div>
           </div>
         </div>
+
         <!-- below div 2 -->
-        <div class="shadow-md m-3" v-if="studentComments.length !== 0">
+        <!-- <div class="shadow-md m-3" v-if="studentComments.length !== 0">
           <div
             class="text-white uppercase bg-bluemain p-2 pl-4 rounded-ss-lg rounded-se-lg"
           >
@@ -459,7 +529,7 @@ onBeforeMount(async () => {
           </div>
 
           <div
-            class="bg-white border-b text-gray-900 p-2 pl-4 rounded-es-lg rounded-ee-lg"
+            class="bg-white text-gray-900 p-2 pl-4 rounded-es-lg rounded-ee-lg"
           >
             <div v-if="studentComments.length !== 0">
               <div v-for="comment in studentComments" :key="comment.commentId">
@@ -474,7 +544,7 @@ onBeforeMount(async () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
