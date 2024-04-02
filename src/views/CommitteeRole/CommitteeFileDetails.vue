@@ -497,7 +497,7 @@ onBeforeMount(async () => {
       </div>
 
       <!-- div 2 -->
-      <div class="grid">
+      <div class="">
         <div class="shadow-md mx-3">
           <div
             class="text-white uppercase bg-bluemain p-2 pl-4 rounded-ss-lg rounded-se-lg"
@@ -524,34 +524,6 @@ onBeforeMount(async () => {
             </div>
           </div>
         </div>
-        <!-- below div 2 -->
-        <!-- <div class="shadow-md m-3" v-if="studentComments.length !== 0">
-          <div
-            class="text-white uppercase bg-bluemain p-2 pl-4 rounded-ss-lg rounded-se-lg"
-          >
-            <p>คำชี้แจงของนักศึกษา</p>
-          </div>
-
-          <div
-            class="bg-white text-gray-900 p-2 pl-4 rounded-es-lg rounded-ee-lg"
-          >
-            <div v-if="studentComments.length !== 0">
-              <div v-for="comment in studentComments" :key="comment.commentId">
-                <p>{{ comment.commentContent }}</p>
-                <p class="font-black text-end mt-2">
-                  {{ student.firstname }} {{ student.lastname }}
-                </p>
-                <p class="text-login text-end">
-                  {{
-                    new Date(comment.createdDatetime).toLocaleString('th-TH', {
-                      timeZone: 'Asia/Bangkok',
-                    })
-                  }}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div> -->
       </div>
     </div>
   </div>
