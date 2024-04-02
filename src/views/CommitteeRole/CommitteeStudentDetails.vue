@@ -217,7 +217,10 @@ onBeforeMount(async () => {
                   <div v-else v-html="wrongIconSvg"></div>
                 </div>
               </td>
-              <td class="justify-end">
+              <td
+                class="justify-end"
+                v-if="hasFileWithId(student.shortpaperFiles, fileType.typeId)"
+              >
                 <RouterLink
                   :to="`/committee/file/${student.studentId}/${fileType.typeId}/${student.shortpaper.shortpaperId}`"
                   ><p class="text-bluemain underline hover:no-underline">
@@ -225,114 +228,10 @@ onBeforeMount(async () => {
                   </p></RouterLink
                 >
               </td>
-            </tr>
-            <!-- <tr>
-              <td>อัปโหลดเอกสารโครงงานครั้งที่ 1</td>
-              <td>
-                <div v-if="student.shortpaperFiles !== null">
-                  <div
-                    v-if="hasFileWithId(student.shortpaperFiles, 2)"
-                    v-html="correctIconSvg"
-                  ></div>
-                  <div v-else v-html="wrongIconSvg"></div>
-                </div>
-              </td>
-              <td class="text-right">
-                <RouterLink :to="`/committee/filedetails/${2}`"
-                  ><button>รายละเอียดไฟล์</button></RouterLink
-                >
+              <td v-else class="justify-end">
+                <p class="text-login pointer-events-none">รายละเอียดไฟล์</p>
               </td>
             </tr>
-            <tr>
-              <td>อัปโหลดเอกสารโครงงานครั้งที่ 2</td>
-              <td>
-                <div v-if="student.shortpaperFiles !== null">
-                  <div
-                    v-if="hasFileWithId(student.shortpaperFiles, 3)"
-                    v-html="correctIconSvg"
-                  ></div>
-                  <div v-else v-html="wrongIconSvg"></div>
-                </div>
-              </td>
-              <td class="text-right">
-                <RouterLink :to="`/committee/filedetails/${3}`"
-                  ><button>รายละเอียดไฟล์</button></RouterLink
-                >
-              </td>
-            </tr>
-            <tr>
-              <td class="pr-16">
-                อัปโหลดเอกสารโครงงานในรูปแบบของบทความ
-                (ฉบับเกี่ยวข้องกับห้องสมุด)
-              </td>
-              <td>
-                <div v-if="student.shortpaperFiles !== null">
-                  <div
-                    v-if="hasFileWithId(student.shortpaperFiles, 4)"
-                    v-html="correctIconSvg"
-                  ></div>
-                  <div v-else v-html="wrongIconSvg"></div>
-                </div>
-              </td>
-              <td class="text-right">
-                <RouterLink :to="`/committee/filedetails/${4}`"
-                  ><button>รายละเอียดไฟล์</button></RouterLink
-                >
-              </td>
-            </tr>
-            <tr>
-              <td>อัปโหลดเอกสารโครงงานฉบับสมบูรณ์</td>
-              <td>
-                <div v-if="student.shortpaperFiles !== null">
-                  <div
-                    v-if="hasFileWithId(student.shortpaperFiles, 5)"
-                    v-html="correctIconSvg"
-                  ></div>
-                  <div v-else v-html="wrongIconSvg"></div>
-                </div>
-              </td>
-              <td class="text-right">
-                <RouterLink :to="`/committee/filedetails/${5}`"
-                  ><button>รายละเอียดไฟล์</button></RouterLink
-                >
-              </td>
-            </tr>
-            <tr>
-              <td>อัปโหลดใบโอนลิขสิทธิ์</td>
-              <td>
-                <div v-if="student.shortpaperFiles !== null">
-                  <div
-                    v-if="hasFileWithId(student.shortpaperFiles, 6)"
-                    v-html="correctIconSvg"
-                  ></div>
-                  <div v-else v-html="wrongIconSvg"></div>
-                </div>
-              </td>
-              <td class="text-right">
-                <RouterLink :to="`/committee/filedetails/${6}`"
-                  ><button>รายละเอียดไฟล์</button></RouterLink
-                >
-              </td>
-            </tr>
-            <tr>
-              <td>
-                อัปโหลดเอกสารข้อตกลงเพื่อการหลีกเลี่ยงการโจรกรรมทางวรรณกรรม
-              </td>
-              <td>
-                <div v-if="student.shortpaperFiles !== null">
-                  <div
-                    v-if="hasFileWithId(student.shortpaperFiles, 7)"
-                    v-html="correctIconSvg"
-                  ></div>
-                  <div v-else v-html="wrongIconSvg"></div>
-                </div>
-              </td>
-              <td class="text-right">
-                <RouterLink :to="`/committee/filedetails/${7}`"
-                  ><button>รายละเอียดไฟล์</button></RouterLink
-                >
-              </td>
-            </tr> -->
           </tbody>
         </table>
       </div>
