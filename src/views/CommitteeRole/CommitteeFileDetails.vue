@@ -1,8 +1,7 @@
 <script setup>
-import { ref, onBeforeMount, onMounted } from 'vue'
+import { ref, onBeforeMount } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '../../stores/auth'
-
 import ApiService from '../../composables/apiService'
 
 import Header from '../../components/Header.vue'
@@ -10,33 +9,45 @@ import ButtonMain from '../../components/ButtonMain.vue'
 import NavbarCommittee from '../../components/Navbar/NavbarCommittee.vue'
 
 const route = useRoute()
-const router = useRouter()
-
 const store = useAuthStore()
+
 const userId = ref(store.userId)
-
-const fileTypes = ref()
-const studentFiles = ref()
-const fileTypeName = ref()
-const newComment = ref()
-const lastedFileId = ref()
-const shortpaperId = ref(route.params.shortpaperId)
 const studentId = ref(route.params.studentId)
-const committees = ref([])
-const student = ref({})
+const shortpaperId = ref(route.params.shortpaperId)
+
+const comments = ref([])
 const shortpaper = ref({})
+const fileTypes = ref([])
+const studentFiles = ref({})
+const fileTypeName = ref('')
+const committees = ref([])
+const newComment = ref('')
+const students = ref()
+const student = ref({})
 
-const uploadIconSvg = `<svg class="w-[20px] h-[20px] text-bluemain hover:text-correct cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 19">
-    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15h.01M4 12H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-3m-5.5 0V1.07M5.5 5l4-4 4 4"/>
-  </svg>`
+const committeeRole = ref()
 
-const uploadIconSvgDisabled = `<svg class="w-[20px] h-[20px] text-login" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 19">
-    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15h.01M4 12H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-3m-5.5 0V1.07M5.5 5l4-4 4 4"/>
-  </svg>`
+const mapUserRole = () => {
+  const committees = shortpaper.value.committees
 
-const downloadIconSvg = `<svg class="w-[20px] h-[20px] text-bluemain hover:text-correct cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 19">
-    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15h.01M4 12H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-3M9.5 1v10.93m4-3.93-4 4-4-4"/>
-  </svg>`
+  const userCommittee = committees.find(
+    (committee) => committee.committeeId === userId.value
+  )
+
+  if (userCommittee) {
+    if (userCommittee.isAdvisor === 1) {
+      return 'Advisor'
+    } else if (userCommittee.isPrincipal === 1) {
+      return 'Principal'
+    } else if (userCommittee.isCommittee === 1) {
+      return 'Committee'
+    } else {
+      return 'Unknown'
+    }
+  } else {
+    return 'Not a committee member'
+  }
+}
 
 const previewIconSvg = `<svg class="w-[20px] h-[20px] text-bluemain hover:text-correct cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 3v4a1 1 0 0 1-1 1H5m8 7.5 2.5 2.5M19 4v16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7.914a1 1 0 0 1 .293-.707l3.914-3.914A1 1 0 0 1 9.914 3H18a1 1 0 0 1 1 1Zm-5 9.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z"/>
@@ -48,41 +59,31 @@ const previewIconSvgDisabled = `<svg class="w-[20px] h-[20px] text-login" aria-h
 </svg>
 `
 
-const downloadIconSvgDisabled = `<svg class="w-[20px] h-[20px] text-login" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 19">
-    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15h.01M4 12H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-3M9.5 1v10.93m4-3.93-4 4-4-4"/>
-  </svg>`
-
-const getStudentById = async () => {
-  const res = await ApiService.getStudentById(studentId.value)
-
-  if (res.status === 200) {
-    const data = await res.data
-    student.value = data.data
-    shortpaper.value = data.data.shortpaper
-  }
-}
-
 const getFileType = async () => {
-  const res = await ApiService.getFileType()
-
-  if (res.status === 200) {
-    const data = await res.data
-    fileTypes.value = data.data
+  try {
+    const res = await ApiService.getFileType()
+    if (res.status === 200) {
+      fileTypes.value = res.data.data
+    }
+  } catch (error) {
+    console.error('Error fetching file types:', error)
   }
 }
 
 const getFilebyFiletypeAndShortpaper = async () => {
-  const res = await ApiService.getFilebyFiletypeAndShortpaper(
-    route.params.fileTypeId,
-    route.params.shortpaperId
-  )
-
-  if (res.status === 200) {
-    const data = await res.data
-    studentFiles.value = data.data
-    if (studentFiles.value !== null) {
-      lastedFileId.value = studentFiles.value.shortpaperFileId
+  try {
+    const res = await ApiService.getFilebyFiletypeAndShortpaper(
+      route.params.fileTypeId,
+      shortpaperId.value
+    )
+    if (res.status === 200) {
+      studentFiles.value = res.data.data
+      if (studentFiles.value !== null) {
+        getFileTypeName(route.params.fileTypeId)
+      }
     }
+  } catch (error) {
+    console.error('Error fetching files by file type and short paper:', error)
   }
 }
 
@@ -90,45 +91,21 @@ const getFileTypeName = (fileTypeId) => {
   const fileType = fileTypes.value.find(
     (type) => type.typeId === parseInt(fileTypeId)
   )
-  return fileType ? fileType.typeName : '-'
+  fileTypeName.value = fileType ? fileType.typeName : '-'
 }
-
-// const committeeComments = ref([])
-// const studentComments = ref([])
-const comments = ref([])
-const selectedReplyId = ref()
 
 const getComments = async () => {
   try {
-    const res = await ApiService.getComments(lastedFileId.value)
+    const res = await ApiService.getComments(
+      studentFiles.value.shortpaperFileId
+    )
     if (res.status === 200) {
-      const data = await res.data
-      comments.value = data.data
-
-      // if (allComments !== null) {
-      //   committeeComments.value = allComments.filter((comment) =>
-      //     comment.authorId.startsWith('lec')
-      //   )
-      //   studentComments.value = allComments.filter((comment) =>
-      //     comment.authorId.startsWith('std')
-      //   )
-      // }
+      comments.value = res.data.data
     } else {
       console.error('Failed to fetch comments:', res.statusText)
     }
   } catch (error) {
     console.error('Error fetching comments:', error)
-  }
-}
-
-const students = ref()
-
-const getStudents = async () => {
-  const res = await ApiService.getStudents()
-
-  if (res.status === 200) {
-    const data = await res.data
-    students.value = data.data
   }
 }
 
@@ -152,12 +129,15 @@ const getName = (authorId) => {
   }
 }
 
-const getCommittees = async () => {
-  const res = await ApiService.getCommittees()
-
-  if (res.status === 200) {
-    const data = await res.data
-    committees.value = data
+const getShortpaper = async () => {
+  try {
+    const res = await ApiService.getShortPaper(route.params.studentId)
+    if (res.status === 200) {
+      shortpaper.value = res.data.data
+      student.value = res.data.data.student
+    }
+  } catch (error) {
+    console.error('Error fetching short paper:', error)
   }
 }
 
@@ -166,7 +146,6 @@ const iframePreview = ref(false)
 
 const togglePreview = () => {
   iframePreview.value = !iframePreview.value
-
   if (iframePreview.value) {
     downloadFile()
   }
@@ -205,7 +184,7 @@ const downloadFile = async () => {
 const sendComment = async () => {
   const commentObj = {
     commentContent: newComment.value,
-    fileId: lastedFileId.value,
+    fileId: studentFiles.value.shortpaperFileId,
     authorId: userId.value,
   }
 
@@ -223,10 +202,16 @@ const sendComment = async () => {
   }
 }
 
-const goToUpload = (fileTypeId) => {
-  router.push({
-    path: `/upload/${fileTypeId}`,
-  })
+const updateFileStatus = async () => {
+  const res = await ApiService.updateFileStatus(
+    studentFiles.value.shortpaperFileId
+  )
+
+  if (res.status === 200) {
+    alert('อนุมัติเอกสารสำเร็จ')
+    await getShortpaper()
+    await getFilebyFiletypeAndShortpaper()
+  }
 }
 
 const mapFileStatus = (status) => {
@@ -241,15 +226,14 @@ const mapFileStatus = (status) => {
 }
 
 onBeforeMount(async () => {
-  await getStudents()
-  await getStudentById()
-  await getCommittees()
+  await getShortpaper()
   await getFileType()
   await getFilebyFiletypeAndShortpaper()
   if (studentFiles.value !== null) {
     await getComments()
   }
-  fileTypeName.value = getFileTypeName(route.params.fileTypeId)
+
+  committeeRole.value = mapUserRole()
 })
 </script>
 
@@ -297,7 +281,8 @@ onBeforeMount(async () => {
                 <p class="text-start">ชื่อ</p>
               </div>
               <div class="col-span-1">
-                {{ student.firstname }} {{ student.lastname }}
+                {{ student.firstname }}
+                {{ student.lastname }}
               </div>
             </div>
             <div class="grid grid-cols-3 my-2">
@@ -316,8 +301,12 @@ onBeforeMount(async () => {
               <div class="col-span-2">
                 <p class="text-start">รายวิชา</p>
               </div>
-              <div class="col-span-1" v-if="student.subjects">
-                <p v-for="subject in student.subjects" :id="subject.subjectId" class="mb-2">
+              <div class="col-span-1" v-if="shortpaper.subjects">
+                <p
+                  v-for="subject in shortpaper.subjects"
+                  :id="subject.subjectId"
+                  class="mb-2"
+                >
                   {{ subject.subjectId }}
                   {{ subject.subjectName }}
                   <span v-if="subject.isRegisteredSubject">
@@ -333,6 +322,7 @@ onBeforeMount(async () => {
           </div>
         </div>
       </div>
+
       <!-- div 2 -->
       <div class="shadow-md mx-3">
         <div
@@ -380,6 +370,30 @@ onBeforeMount(async () => {
                 v-else
               ></div>
             </div>
+          </div>
+
+          <div class="grid grid-cols-3 mt-2">
+            <div class="col-span-2">
+              <p class="text-start">สถานะเอกสาร</p>
+            </div>
+            <div class="col-span-1">
+              {{ mapFileStatus(studentFiles.status) }}
+            </div>
+          </div>
+
+          <div
+            class="text-end mt-3"
+            v-if="
+              committeeRole == 'Advisor' &&
+              studentFiles &&
+              studentFiles.status == 'not_approve'
+            "
+          >
+            <ButtonMain
+              text="อนุมัติเอกสาร"
+              @click="updateFileStatus"
+              class="bg-correct text-white hover:bg-white hover:text-correct outline outline-2 outline-correct"
+            />
           </div>
         </div>
       </div>

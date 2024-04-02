@@ -106,11 +106,13 @@ class ApiService {
   async getFilesByCommittee(committeeId) {
     return await api.get(`/file/search-by-committee-id/${committeeId}`)
   }
-
   async getFilebyFiletypeAndShortpaper(fileTypeId, shortPaperId) {
     return await api.get(
       `/file/fileType/Shortpaper/${fileTypeId}/${shortPaperId}`
     )
+  }
+  async updateFileStatus(fileId) {
+    return await api.put(`/file/update/status/${fileId}`)
   }
 
   // Short Paper
@@ -154,13 +156,9 @@ class ApiService {
       const formData = new FormData()
       formData.append('csvFile', file)
 
-      const response = await api.post(
-        '/student/add-from-csv',
-        formData,
-        {
-          headers: { 'Content-Type': 'multipart/form-data' },
-        }
-      )
+      const response = await api.post('/student/add-from-csv', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      })
 
       return response.data
     } catch (error) {
