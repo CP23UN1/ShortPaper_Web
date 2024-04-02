@@ -6,12 +6,13 @@ import ApiService from '../../composables/apiService'
 
 import Header from '../../components/Header.vue'
 import ButtonMain from '../../components/ButtonMain.vue'
-import NavbarCommittee from '../../components/Navbar/NavbarCommittee.vue'
+import NavbarAdmin from '../../components/Navbar/NavbarAdmin.vue'
 
 const route = useRoute()
 const store = useAuthStore()
 
 const userId = ref(store.userId)
+const userRole = ref(store.userRole)
 const studentId = ref(route.params.studentId)
 const shortpaperId = ref(route.params.shortpaperId)
 
@@ -24,30 +25,6 @@ const committees = ref([])
 const newComment = ref('')
 const students = ref()
 const student = ref({})
-
-const committeeRole = ref()
-
-const mapUserRole = () => {
-  committees.value = shortpaper.value.committees
-
-  const userCommittee = committees.value.find(
-    (committee) => committee.committeeId === userId.value
-  )
-
-  if (userCommittee) {
-    if (userCommittee.isAdvisor === 1) {
-      return 'Advisor'
-    } else if (userCommittee.isPrincipal === 1) {
-      return 'Principal'
-    } else if (userCommittee.isCommittee === 1) {
-      return 'Committee'
-    } else {
-      return 'Unknown'
-    }
-  } else {
-    return 'Not a committee member'
-  }
-}
 
 const previewIconSvg = `<svg class="w-[20px] h-[20px] text-bluemain hover:text-correct cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 3v4a1 1 0 0 1-1 1H5m8 7.5 2.5 2.5M19 4v16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7.914a1 1 0 0 1 .293-.707l3.914-3.914A1 1 0 0 1 9.914 3H18a1 1 0 0 1 1 1Zm-5 9.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z"/>
@@ -111,20 +88,21 @@ const getComments = async () => {
 
 const getName = (authorId) => {
   if (authorId.startsWith('lec')) {
-    if (!committees.value || committees.value.length === 0) {
+    if (!shortpaper.value.committees || shortpaper.value.committees === 0) {
       return 'Loading...'
     }
 
-    const committee = committees.value.find((c) => c.committeeId === authorId)
+    const committee = shortpaper.value.committees.find(
+      (c) => c.committeeId === authorId
+    )
     return committee
       ? `${committee.firstname} ${committee.lastname}`
       : 'Not found'
   } else if (authorId.startsWith('std')) {
-    if (!students.value || students.value.length === 0) {
+    if (!shortpaper.value.student) {
       return 'Loading...'
     }
-
-    const student = students.value.find((c) => c.studentId === authorId)
+    const student = shortpaper.value.student
     return student ? `${student.firstname} ${student.lastname}` : 'Not found'
   }
 }
@@ -138,13 +116,6 @@ const getShortpaper = async () => {
     }
   } catch (error) {
     console.error('Error fetching short paper:', error)
-  }
-}
-
-const getStudents = async () => {
-  const res = await ApiService.getStudents()
-  if (res.status === 200) {
-    students.value = res.data.data
   }
 }
 
@@ -188,27 +159,6 @@ const downloadFile = async () => {
   }
 }
 
-const sendComment = async () => {
-  const commentObj = {
-    commentContent: newComment.value,
-    fileId: studentFiles.value.shortpaperFileId,
-    authorId: userId.value,
-  }
-
-  try {
-    const res = await ApiService.sendComment(commentObj)
-    if (res.status === 200) {
-      alert('บันทึกสำเร็จ')
-      await getComments()
-      newComment.value = ''
-    } else {
-      console.error('Failed to send comment:', res.statusText)
-    }
-  } catch (error) {
-    console.error('Error sending comment:', error)
-  }
-}
-
 const updateFileStatus = async () => {
   const res = await ApiService.updateFileStatus(
     studentFiles.value.shortpaperFileId
@@ -233,28 +183,25 @@ const mapFileStatus = (status) => {
 }
 
 onBeforeMount(async () => {
-  await getStudents()
   await getShortpaper()
   await getFileType()
   await getFilebyFiletypeAndShortpaper()
   if (studentFiles.value !== null) {
     await getComments()
   }
-
-  committeeRole.value = mapUserRole()
 })
 </script>
 
 <template>
   <div class="mb-10 mx-14 xl:mx-32 lg:mx-28 md:mx-24 sm:mx-20">
-    <NavbarCommittee class="mt-[20px]" />
+    <NavbarAdmin class="mt-[20px]" />
     <div class="text-bluemain text-left text-sm mt-5 font-semibold">
       <p>
-        <RouterLink :to="'/committee/students'">
+        <RouterLink :to="'/admin/students'">
           <span class="hover:text-blueheader">ข้อมูลเอกสารโครงงาน</span>
         </RouterLink>
         >
-        <RouterLink :to="`/committee/student/${route.params.studentId}`">
+        <RouterLink :to="`/admin/student/${route.params.studentId}`">
           <span class="hover:text-blueheader">ข้อมูลนักศึกษา</span>
         </RouterLink>
         >
@@ -263,6 +210,7 @@ onBeforeMount(async () => {
     </div>
 
     <Header :header="`เอกสาร${fileTypeName}`" class="mt-5" />
+
     <div class="grid grid-cols-2 my-5">
       <!-- div 1 -->
       <div class="shadow-md mx-3">
@@ -392,7 +340,7 @@ onBeforeMount(async () => {
           <div
             class="text-end mt-3"
             v-if="
-              committeeRole == 'Advisor' &&
+              userRole == 'admin' &&
               studentFiles &&
               studentFiles.status == 'not_approve'
             "
@@ -407,7 +355,8 @@ onBeforeMount(async () => {
       </div>
     </div>
     <!-- rows 2 -->
-    <div class="grid grid-cols-2 my-5" v-if="studentFiles !== null">
+
+    <div class="my-5" v-if="studentFiles">
       <!-- div 1 -->
       <div class="mx-3" v-if="comments">
         <div
@@ -476,51 +425,9 @@ onBeforeMount(async () => {
                     </div>
 
                     <p>{{ reply.commentContent }}</p>
-
-                    <!-- <div class="justify-end flex">
-                      <input
-                        type="radio"
-                        :id="'replyId_' + reply.commentId"
-                        :value="reply.commentId"
-                        v-model="selectedReplyId"
-                      />
-                      <label :for="'replyId_' + reply.commentId" class="ml-1.5"
-                        >ตอบกลับ</label
-                      >
-                    </div> -->
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- div 2 -->
-      <div class="">
-        <div class="shadow-md mx-3">
-          <div
-            class="text-white uppercase bg-bluemain p-2 pl-4 rounded-ss-lg rounded-se-lg"
-          >
-            <p>ส่งคำชี้แจงของกรรมการ</p>
-          </div>
-
-          <div
-            class="bg-white text-gray-900 p-2 pl-4 rounded-es-lg rounded-ee-lg"
-          >
-            <label for="reply">คำชี้แจงของกรรมการ</label>
-            <textarea
-              type="text"
-              id="reply"
-              class="mt-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm border-gray-300 rounded-md"
-              v-model="newComment"
-            />
-            <div class="justify-end flex my-3">
-              <ButtonMain
-                text="ส่ง"
-                class="bg-correct text-white hover:bg-white hover:text-correct outline outline-2 outline-correct"
-                @click="sendComment"
-              />
             </div>
           </div>
         </div>
