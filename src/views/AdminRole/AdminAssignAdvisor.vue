@@ -3,8 +3,10 @@ import { ref } from 'vue'
 import ApiService from '../../composables/apiService'
 import Header from '../../components/Header.vue'
 import ButtonMain from '../../components/ButtonMain.vue'
+import { useRouter } from 'vue-router'
 
 const file = ref(null)
+const router = useRouter()
 
 const handleFileUpload = (event) => {
   file.value = event.target.files[0]
@@ -12,16 +14,15 @@ const handleFileUpload = (event) => {
 
 const assignAdvisors = async () => {
   if (file.value) {
-    try {
-      await ApiService.assignCommittee(file.value)
+      const formData = new FormData()
+      formData.append('csvFile', file.value)
+      const res = await ApiService.assignCommittee(formData)
 
-      if (res.status === 200) {
+    if (res.status === 200 || res.status === 201) {
       alert(`บันทึกสำเร็จ`)
+      router.push('/admin/students')
     } else {
       alert(`Failed to upload file. Please try again later.`)
-    }
-    } catch (error) {
-      console.error('Error assigning committee:', error)
     }
   }
 }

@@ -50,23 +50,9 @@ class ApiService {
     })
   }
   async assignCommittee(file) {
-    try {
-      const formData = new FormData()
-      formData.append('csvFile', file)
-
-      const response = await api.post(
-        '/committee/assign-from-csv-for-student',
-        formData,
-        {
-          headers: { 'Content-Type': 'multipart/form-data' },
-        }
-      )
-
-      return response.data
-    } catch (error) {
-      console.error('Error assigning committee:', error)
-      throw error
-    }
+    return await api.post('/committee/assign-from-csv-for-student', file, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    })
   }
   async updateCommitteeRolesForStudentAsync(studentId, committeeRoles) {
     return await api.post(
@@ -152,19 +138,9 @@ class ApiService {
     return await api.delete(`/student/delete/${studentId}`)
   }
   async addStudent(file) {
-    try {
-      const formData = new FormData()
-      formData.append('csvFile', file)
-
-      const response = await api.post('/student/add-from-csv', formData, {
+      return await api.post('/student/add-from-csv', file, {
         headers: { 'Content-Type': 'multipart/form-data' },
       })
-
-      return response.data
-    } catch (error) {
-      console.error('Error assigning committee:', error)
-      throw error
-    }
   }
   async getStudentByCommittee(committeeId) {
     return await api.get(`/student/committee/${committeeId}`)
