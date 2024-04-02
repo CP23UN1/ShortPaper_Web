@@ -28,9 +28,9 @@ const student = ref({})
 const committeeRole = ref()
 
 const mapUserRole = () => {
-  const committees = shortpaper.value.committees
+  committees.value = shortpaper.value.committees
 
-  const userCommittee = committees.find(
+  const userCommittee = committees.value.find(
     (committee) => committee.committeeId === userId.value
   )
 
@@ -141,6 +141,13 @@ const getShortpaper = async () => {
   }
 }
 
+const getStudents = async () => {
+  const res = await ApiService.getStudents()
+  if (res.status === 200) {
+    students.value = res.data.data
+  }
+}
+
 // Modal
 const iframePreview = ref(false)
 
@@ -226,6 +233,7 @@ const mapFileStatus = (status) => {
 }
 
 onBeforeMount(async () => {
+  await getStudents()
   await getShortpaper()
   await getFileType()
   await getFilebyFiletypeAndShortpaper()
