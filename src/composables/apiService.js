@@ -100,8 +100,8 @@ class ApiService {
   async updateFileStatus(fileId) {
     return await api.put(`/file/update/status/${fileId}`)
   }
-  async dashboardData(){
-return await api.get(`/studentFileStatus`)
+  async getStudentSentData() {
+    return await api.get(`/studentFileStatus`)
   }
 
   // Short Paper
@@ -141,9 +141,9 @@ return await api.get(`/studentFileStatus`)
     return await api.delete(`/student/delete/${studentId}`)
   }
   async addStudent(file) {
-      return await api.post('/student/add-from-csv', file, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      })
+    return await api.post('/student/add-from-csv', file, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    })
   }
   async getStudentByCommittee(committeeId) {
     return await api.get(`/student/committee/${committeeId}`)
