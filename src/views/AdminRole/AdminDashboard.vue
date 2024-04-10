@@ -49,13 +49,15 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div>
-    <apexchart
-      width="500"
-      type="donut"
-      :options="chartOptions"
-      :series="series"
-    ></apexchart>
+  <div class="mt-10">
+    <div class="justify-center items-center flex">
+      <apexchart
+        width="500"
+        type="donut"
+        :options="chartOptions"
+        :series="series"
+      ></apexchart>
+    </div>
   </div>
 </template>
 

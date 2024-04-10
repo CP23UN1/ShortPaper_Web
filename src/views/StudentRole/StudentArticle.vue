@@ -3,11 +3,13 @@ import { ref, onBeforeMount } from 'vue'
 
 import Header from '../../components/Header.vue'
 import ApiService from '../../composables/apiService'
+import SelectInput from '../../components/SelectInput.vue'
 
 const favorites = ref([])
 
 const subjects = ref()
 const articles = ref()
+const years = ref()
 
 const getArticles = async () => {
   const res = await ApiService.getArticles()
@@ -22,6 +24,14 @@ const getSubjects = async () => {
   if (subjectsRes.status === 200) {
     const subjectsData = await subjectsRes.data
     subjects.value = subjectsData.data
+  }
+}
+
+const getYearList = async () => {
+  const res = await ApiService.getYearList()
+  if (res.status === 200) {
+    const data = await res.data
+    years.value = data.data
   }
 }
 
@@ -40,6 +50,7 @@ const isFavorite = (id) => {
 onBeforeMount(async () => {
   await getSubjects()
   await getArticles()
+  await getYearList()
 })
 </script>
 
@@ -79,12 +90,21 @@ onBeforeMount(async () => {
       </div>
       <div class="flex items-center">
         <label for="search-year" class="mr-2">ปีการศึกษา</label>
-        <input
+        <!-- <input
           id="search-year"
           type="search"
           class="w-40 h-8 rounded-[4px] border-gray-200 text-sm"
           placeholder="2/2562"
-        />
+        /> -->
+        <select
+          name="search-year"
+          class="w-40 h-8 rounded-[4px] border-gray-200 text-sm"
+        >
+          <option v-for="(year, index) in years" :id="index" :value="year">
+            {{ year }}
+          </option>
+        </select>
+        <!-- <SelectInput label="ปีการศึกษา" :options="years" placeholder="2/2566" /> -->
       </div>
       <div>
         <button
