@@ -11,6 +11,7 @@ import ButtonMain from '../../components/ButtonMain.vue'
 
 const shortpapers = ref([])
 const subjects = ref([])
+const years = ref([])
 
 const getShortPapers = async () => {
   const res = await ApiService.getShortPapers()
@@ -42,11 +43,18 @@ const searchShortPapers = async (keyword) => {
   }
 }
 
-const years = ['1/2565', '2/2565', '1/2566', '2/2566']
+const getYearList = async () => {
+  const res = await ApiService.getYearList()
+  if (res.status === 200) {
+    const data = await res.data
+    years.value = data.data
+  }
+}
 
 onBeforeMount(async () => {
   await getSubjects()
   await searchShortPapers()
+  await getYearList()
 })
 </script>
 

@@ -7,9 +7,9 @@ import SelectInput from '../../components/SelectInput.vue'
 
 const favorites = ref([])
 
-const subjects = ref()
-const articles = ref()
-const years = ref()
+const subjects = ref([])
+const articles = ref([])
+const years = ref([])
 
 const getArticles = async () => {
   const res = await ApiService.getArticles()
