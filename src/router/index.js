@@ -21,6 +21,7 @@ import AdminCreateAnnouncement from '../views/AdminRole/AdminCreateAnnouncement.
 import AdminStudentDetails from '../views/AdminRole/AdminStudentDetails.vue'
 import AdminStudentList from '../views/AdminRole/AdminStudentList.vue'
 import AdminFileDetails from '../views/AdminRole/AdminFileDetails.vue'
+import AdminDashboard from '../views/AdminRole/AdminDashboard.vue'
 
 // Committee Role
 import CommitteeEdit from '../views/CommitteeRole/CommitteeEdit.vue'
@@ -127,6 +128,12 @@ const routes = [
     path: '/admin/students',
     name: 'Admin Student List',
     component: AdminStudentList,
+    meta: { requiresAuth: true, requiresRole: 'admin' },
+  },
+  {
+    path: '/admin/dashboard',
+    name: 'Admin Dashboard',
+    component: AdminDashboard,
     meta: { requiresAuth: true, requiresRole: 'admin' },
   },
   // Committee Role

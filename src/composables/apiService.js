@@ -100,6 +100,9 @@ class ApiService {
   async updateFileStatus(fileId) {
     return await api.put(`/file/update/status/${fileId}`)
   }
+  async dashboardData(){
+return await api.get(`/studentFileStatus`)
+  }
 
   // Short Paper
   async getShortPapers() {
