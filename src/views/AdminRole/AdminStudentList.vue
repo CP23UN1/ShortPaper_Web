@@ -116,17 +116,17 @@ onMounted(async () => {
   <div>
     <Header class="text-sm rounded-md" header="ข้อมูลนักศึกษา" />
     <div class="flex justify-end items-end w-full my-5">
-      <RouterLink :to="`/admin/adddata`">
-        <ButtonMain
-          class="bg-bluemain border hover:bg-white border-bluemain hover:text-bluemain"
-          text="เพิ่มนักศึกษา"
-        />
-      </RouterLink>
       <ButtonMain
         @click="exportStudent"
         text="Export CSV"
-        class="ml-3 bg-bluemain border hover:bg-white border-bluemain hover:text-bluemain"
+        class=" bg-correct border hover:bg-white border-correct hover:text-correct"
       />
+      <RouterLink :to="`/admin/adddata`">
+        <ButtonMain
+          class="ml-3 bg-bluemain border hover:bg-white border-bluemain hover:text-bluemain"
+          text="เพิ่มนักศึกษา"
+        />
+      </RouterLink>
     </div>
     <div class="p-5 shadow-md text-sm">
       <SearchInput
