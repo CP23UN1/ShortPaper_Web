@@ -151,8 +151,11 @@ class ApiService {
   async getStudentByCommitteeAndFilter(committeeId, filter) {
     return await api.get(`/student/committee-filter/${committeeId}/${filter}`)
   }
-  async getYearList(){
+  async getYearList() {
     return await api.get(`/years/list`)
+  }
+  async exportStudent() {
+    return await api.get(`/export`)
   }
 
   // Subjects

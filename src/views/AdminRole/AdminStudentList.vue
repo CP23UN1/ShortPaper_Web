@@ -81,6 +81,31 @@ const hasFileWithId = (filesArray, fileId) => {
   return filesArray.some((file) => file.shortpaperFileTypeId === fileId)
 }
 
+const exportStudent = async () => {
+  const res = await ApiService.exportStudent()
+  if (res.status === 200) {
+    const blob = new Blob([res.data], { type: 'text/csv' })
+    const filename = `student_export_${Date.now()}`
+    const url = window.URL.createObjectURL(blob)
+    const link = document.createElement('a')
+
+    if (res.status === 200) {
+      link.href = url
+      link.download = filename
+      link.style.display = 'none'
+
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      window.URL.revokeObjectURL(url)
+    } else {
+      console.error('Error downloading file:', error)
+    }
+  } else {
+    console.error('Failed to download file:', res.statusText)
+  }
+}
+
 onMounted(async () => {
   await searchKeyword()
   await getFileType()
@@ -97,6 +122,11 @@ onMounted(async () => {
           text="เพิ่มนักศึกษา"
         />
       </RouterLink>
+      <ButtonMain
+        @click="exportStudent"
+        text="Export CSV"
+        class="ml-3 bg-bluemain border hover:bg-white border-bluemain hover:text-bluemain"
+      />
     </div>
     <div class="p-5 shadow-md text-sm">
       <SearchInput
