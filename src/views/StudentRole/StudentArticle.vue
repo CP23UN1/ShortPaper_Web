@@ -1,15 +1,25 @@
 <script setup>
 import { ref, onBeforeMount } from 'vue'
-
+import { useAuthStore } from '../../stores/auth'
 import Header from '../../components/Header.vue'
 import ApiService from '../../composables/apiService'
 import SelectInput from '../../components/SelectInput.vue'
 
 const favorites = ref([])
-
 const subjects = ref([])
 const articles = ref([])
 const years = ref([])
+const favoriteArticles = ref([])
+
+const store = useAuthStore()
+const studentId = ref(store.userId)
+
+const bookmarkIcon = `<svg class="w-[24px] h-[24px] text-correct cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m17 21-5-4-5 4V3.889a.92.92 0 0 1 .244-.629.808.808 0 0 1 .59-.26h8.333a.81.81 0 0 1 .589.26.92.92 0 0 1 .244.63V21Z"/>
+</svg>`
+const bookmarkedIcon = `<svg class="w-[24px] h-[24px] text-correct cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+  <path d="M7.833 2c-.507 0-.98.216-1.318.576A1.92 1.92 0 0 0 6 3.89V21a1 1 0 0 0 1.625.78L12 18.28l4.375 3.5A1 1 0 0 0 18 21V3.889c0-.481-.178-.954-.515-1.313A1.808 1.808 0 0 0 16.167 2H7.833Z"/>
+</svg>`
 
 const getArticles = async () => {
   const res = await ApiService.getArticles()
@@ -35,22 +45,76 @@ const getYearList = async () => {
   }
 }
 
-const addToFavorites = (id) => {
-  if (!favorites.value.includes(id)) {
-    favorites.value.push(id)
-  } else {
-    favorites.value = favorites.value.filter((favId) => favId !== id)
+const addToFavorites = async (articleId) => {
+  try {
+    const isAlreadyFavorite = isFavorite(articleId)
+    if (isAlreadyFavorite) {
+      const res = await ApiService.removeFromFavorites(
+        studentId.value,
+        articleId
+      )
+      if (res.status === 200) {
+        const data = await res.data
+        alert(`remove favorite`)
+          await getFavoriteArticles()
+        if (data.success) {
+          console.log('remove suc');
+          
+          favorites.value = favorites.value.filter((id) => id !== articleId)
+          
+        }
+      } else {
+        console.error('Failed to remove from favorites:', res.status)
+      }
+    } else {
+      const res = await ApiService.addToFavorites(studentId.value, articleId)
+      if (res.status === 200) {
+        const data = await res.data
+        alert(`favorited`)
+          await getFavoriteArticles()
+        if (data.success) {
+          console.log('fav suc');
+          favorites.value.push(articleId)
+          
+        }
+      } else {
+        console.error('Failed to add to favorites:', res.status)
+      }
+    }
+  } catch (error) {
+    console.error('Error adding/removing to/from favorites:', error)
   }
 }
 
-const isFavorite = (id) => {
-  return favorites.value.includes(id)
+const isFavorite = (articleId) => {
+  return favoriteArticles.value.includes(articleId)
+}
+
+const toggleFavorite = async (articleId) => {
+  await addToFavorites(articleId)
+}
+
+const getBookmarkIcon = (articleId) => {
+  return isFavorite(articleId) ? bookmarkedIcon : bookmarkIcon
+}
+
+const getFavoriteArticles = async () => {
+  try {
+    const response = await ApiService.getFavoriteArticles(studentId.value)
+    if (response.status === 200) {
+      const data = response.data
+      favoriteArticles.value = data.data.map((article) => article.articleId)
+    }
+  } catch (error) {
+    console.error('Error fetching favorites:', error)
+  }
 }
 
 onBeforeMount(async () => {
   await getSubjects()
   await getArticles()
   await getYearList()
+  await getFavoriteArticles()
 })
 </script>
 
@@ -75,7 +139,7 @@ onBeforeMount(async () => {
       <div class="flex items-center">
         <label class="mr-2" for="search-subject">ค้นหาวิชาที่จัดทำ</label>
         <select
-          id="earch-subject"
+          id="search-subject"
           class="w-40 h-8 rounded-[4px] border-gray-200 text-sm"
         >
           <option>ยังไม่ได้เลือกวิชา</option>
@@ -90,12 +154,6 @@ onBeforeMount(async () => {
       </div>
       <div class="flex items-center">
         <label for="search-year" class="mr-2">ปีการศึกษา</label>
-        <!-- <input
-          id="search-year"
-          type="search"
-          class="w-40 h-8 rounded-[4px] border-gray-200 text-sm"
-          placeholder="2/2562"
-        /> -->
         <select
           name="search-year"
           class="w-40 h-8 rounded-[4px] border-gray-200 text-sm"
@@ -104,7 +162,6 @@ onBeforeMount(async () => {
             {{ year }}
           </option>
         </select>
-        <!-- <SelectInput label="ปีการศึกษา" :options="years" placeholder="2/2566" /> -->
       </div>
       <div>
         <button
@@ -138,9 +195,7 @@ onBeforeMount(async () => {
             <td class="py-4 font-medium whitespace-nowrap text-center">
               {{ article.articleId }}
             </td>
-            <td class="font-medium whitespace-nowrap">
-              {{ article.topic }}
-            </td>
+            <td class="font-medium whitespace-nowrap">{{ article.topic }}</td>
             <td class="font-medium whitespace-nowrap text-center">
               {{ article.author }}
             </td>
@@ -149,29 +204,11 @@ onBeforeMount(async () => {
               {{ article.subjects.subjectName }}
             </td>
             <td class="font-medium whitespace-nowrap text-center">
-              <svg
-                @click="addToFavorites(article.articleId)"
-                width="18"
-                height="18"
-                viewBox="0 0 20 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                :class="{ 'text-green-500': isFavorite(article.id) }"
-              >
-                <path
-                  d="M0.666504 24V2.66667C0.666504 1.93333 0.927615 1.30556 1.44984 0.783333C1.97206 0.261111 2.59984 0 3.33317 0H16.6665C17.3998 0 18.0276 0.261111 18.5498 0.783333C19.0721 1.30556 19.3332 1.93333 19.3332 2.66667V24L9.99984 20L0.666504 24Z"
-                  fill="#027368"
-                />
-              </svg>
+              <div
+                @click="toggleFavorite(article.articleId)"
+                v-html="getBookmarkIcon(article.articleId)"
+              ></div>
             </td>
-            <!-- <td class="font-medium whitespace-nowrap">
-              <RouterLink :to="`/file/${fileType.typeId}/${shortpaperId}`">
-                
-                <span class="text-bluemain underline hover:no-underline"
-                  >รายละเอียด</span
-                >
-              </RouterLink>
-            </td> -->
           </tr>
         </tbody>
       </table>

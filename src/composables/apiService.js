@@ -172,5 +172,17 @@ class ApiService {
   async getArticles() {
     return await api.get(`/articles`)
   }
+  async addToFavorites(studentId, articleId) {
+    return await api.post(`/article/student/${studentId}/${articleId}`)
+  }
+  async getFavoriteArticles(studentId) {
+    return await api.get(`/article/favorite/${studentId}`)
+  }
+
+  async removeFromFavorites(studentId, articleId) {
+    return await api.delete(
+      `/article/favorite/remove/${studentId}/${articleId}`
+    )
+  }
 }
 export default new ApiService()
