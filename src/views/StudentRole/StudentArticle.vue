@@ -3,9 +3,7 @@ import { ref, onBeforeMount } from 'vue'
 import { useAuthStore } from '../../stores/auth'
 import Header from '../../components/Header.vue'
 import ApiService from '../../composables/apiService'
-import SelectInput from '../../components/SelectInput.vue'
 
-const favorites = ref([])
 const subjects = ref([])
 const articles = ref([])
 const years = ref([])
