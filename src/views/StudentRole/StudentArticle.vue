@@ -21,14 +21,6 @@ const bookmarkedIcon = `<svg class="w-[24px] h-[24px] text-correct cursor-pointe
   <path d="M7.833 2c-.507 0-.98.216-1.318.576A1.92 1.92 0 0 0 6 3.89V21a1 1 0 0 0 1.625.78L12 18.28l4.375 3.5A1 1 0 0 0 18 21V3.889c0-.481-.178-.954-.515-1.313A1.808 1.808 0 0 0 16.167 2H7.833Z"/>
 </svg>`
 
-const getArticles = async () => {
-  const res = await ApiService.getArticles()
-  if (res.status === 200) {
-    const data = await res.data
-    articles.value = data.data
-  }
-}
-
 const getSubjects = async () => {
   const subjectsRes = await ApiService.getSubjects()
   if (subjectsRes.status === 200) {
@@ -45,44 +37,40 @@ const getYearList = async () => {
   }
 }
 
+const getArticles = async () => {
+  const res = await ApiService.getArticles()
+  if (res.status === 200) {
+    const data = await res.data
+    articles.value = data.data
+  }
+}
+
+const getFavoriteArticles = async () => {
+  try {
+    const res = await ApiService.getFavoriteArticles(studentId.value)
+    if (res.status === 200) {
+      favoriteArticles.value = res.data.data.map((article) => article.articleId)
+    }
+  } catch (error) {
+    console.error('Error fetching favorite articles:', error)
+  }
+}
+
 const addToFavorites = async (articleId) => {
   try {
     const isAlreadyFavorite = isFavorite(articleId)
-    if (isAlreadyFavorite) {
-      const res = await ApiService.removeFromFavorites(
-        studentId.value,
-        articleId
-      )
-      if (res.status === 200) {
-        const data = await res.data
-        alert(`remove favorite`)
-          await getFavoriteArticles()
-        if (data.success) {
-          console.log('remove suc');
-          
-          favorites.value = favorites.value.filter((id) => id !== articleId)
-          
-        }
-      } else {
-        console.error('Failed to remove from favorites:', res.status)
-      }
+    const res = isAlreadyFavorite
+      ? await ApiService.removeFromFavorites(studentId.value, articleId)
+      : await ApiService.addToFavorites(studentId.value, articleId)
+
+    if (res.status === 200) {
+      alert(isAlreadyFavorite ? 'Removed from favorites' : 'Added to favorites')
+      await getFavoriteArticles()
     } else {
-      const res = await ApiService.addToFavorites(studentId.value, articleId)
-      if (res.status === 200) {
-        const data = await res.data
-        alert(`favorited`)
-          await getFavoriteArticles()
-        if (data.success) {
-          console.log('fav suc');
-          favorites.value.push(articleId)
-          
-        }
-      } else {
-        console.error('Failed to add to favorites:', res.status)
-      }
+      console.error('Failed to add/remove from favorites:', res.status)
     }
   } catch (error) {
-    console.error('Error adding/removing to/from favorites:', error)
+    console.error('Error adding/removing from favorites:', error)
   }
 }
 
@@ -96,18 +84,6 @@ const toggleFavorite = async (articleId) => {
 
 const getBookmarkIcon = (articleId) => {
   return isFavorite(articleId) ? bookmarkedIcon : bookmarkIcon
-}
-
-const getFavoriteArticles = async () => {
-  try {
-    const response = await ApiService.getFavoriteArticles(studentId.value)
-    if (response.status === 200) {
-      const data = response.data
-      favoriteArticles.value = data.data.map((article) => article.articleId)
-    }
-  } catch (error) {
-    console.error('Error fetching favorites:', error)
-  }
 }
 
 onBeforeMount(async () => {
