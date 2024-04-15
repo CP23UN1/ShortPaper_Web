@@ -178,11 +178,13 @@ class ApiService {
   async getFavoriteArticles(studentId) {
     return await api.get(`/article/favorite/${studentId}`)
   }
-
   async removeFromFavorites(studentId, articleId) {
     return await api.delete(
       `/article/favorite/remove/${studentId}/${articleId}`
     )
+  }
+  async filterArticle(keyword){
+    return await api.post(`/article/filter/many`, keyword)
   }
 }
 export default new ApiService()

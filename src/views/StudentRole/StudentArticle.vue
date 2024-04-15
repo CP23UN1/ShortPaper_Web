@@ -1,8 +1,9 @@
 <script setup>
 import { ref, onBeforeMount } from 'vue'
 import { useAuthStore } from '../../stores/auth'
-import Header from '../../components/Header.vue'
 import ApiService from '../../composables/apiService'
+import Header from '../../components/Header.vue'
+import EmptyData from '../../components/EmptyData.vue'
 
 const subjects = ref([])
 const articles = ref([])
@@ -84,6 +85,34 @@ const getBookmarkIcon = (articleId) => {
   return isFavorite(articleId) ? bookmarkedIcon : bookmarkIcon
 }
 
+const topicKeyword = ref(null)
+const subjectKeyword = ref(null)
+const yearKeyword = ref(null)
+
+const filterArticle = async () => {
+  console.log(topicKeyword.value)
+  console.log(yearKeyword.value)
+  console.log(subjectKeyword.value)
+  if (
+    topicKeyword.value == null &&
+    subjectKeyword.value == null &&
+    yearKeyword.value == null
+  ) {
+    await getArticles()
+  } else {
+    const keyword = {
+      topicOrAuthor: topicKeyword.value,
+      year: yearKeyword.value,
+      subject: subjectKeyword.value,
+    }
+    const res = await ApiService.filterArticle(keyword)
+    if (res.status === 200) {
+      const data = await res.data
+      articles.value = data.data
+    }
+  }
+}
+
 onBeforeMount(async () => {
   await getSubjects()
   await getArticles()
@@ -108,6 +137,7 @@ onBeforeMount(async () => {
           type="search"
           class="w-80 h-8 rounded-[4px] border-gray-200 text-sm"
           placeholder="ค้นหาชื่อหัวข้อ หรือผู้จัดทำ"
+          v-model="topicKeyword"
         />
       </div>
       <div class="flex items-center">
@@ -115,8 +145,9 @@ onBeforeMount(async () => {
         <select
           id="search-subject"
           class="w-40 h-8 rounded-[4px] border-gray-200 text-sm"
+          v-model="subjectKeyword"
         >
-          <option>ยังไม่ได้เลือกวิชา</option>
+          <option :value="null">ไม่ได้เลือกวิชา</option>
           <option
             v-for="subject in subjects"
             :key="subject.subjectId"
@@ -131,7 +162,9 @@ onBeforeMount(async () => {
         <select
           name="search-year"
           class="w-40 h-8 rounded-[4px] border-gray-200 text-sm"
+          v-model="yearKeyword"
         >
+          <option :value="null">ไม่ได้เลือกปีการศึกษา</option>
           <option v-for="(year, index) in years" :id="index" :value="year">
             {{ year }}
           </option>
@@ -140,6 +173,7 @@ onBeforeMount(async () => {
       <div>
         <button
           class="bg-bluemain text-white w-40 h-8 rounded-md hover:bg-white hover:text-bluemain outline outline-1 hover:outline-bluemain"
+          @click="filterArticle"
         >
           ค้นหา
         </button>
@@ -148,7 +182,7 @@ onBeforeMount(async () => {
 
     <div
       class="relative overflow-x-auto shadow-md rounded-lg mt-6"
-      v-if="articles"
+      v-if="articles.length > 0"
     >
       <table class="w-full text-sm text-left rtl:text-right text-gray-500">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
@@ -186,6 +220,9 @@ onBeforeMount(async () => {
           </tr>
         </tbody>
       </table>
+    </div>
+    <div v-else>
+      <EmptyData message="ไม่มีข้อมูลเอกสาร" />
     </div>
   </div>
 </template>
