@@ -134,8 +134,18 @@ onBeforeMount(async () => {
 <template>
   <div>
     <Header header="เอกสารโครงงานที่ผ่านมา" />
+
+    <div class="justify-end items-end flex mt-6">
+      <ButtonMain
+        :text="showOnlyBookmarks ? 'แสดงทั้งหมด' : 'แสดงบุ๊คมาร์ค'"
+        class="bg-bluemain text-white rounded-md hover:bg-white hover:text-bluemain outline outline-1 outline-bluemain"
+        @click="showBookmark"
+      />
+    </div>
+
     <div
-      class="flex p-4 flex-nowrap space-x-4 justify-center items-center text-sm gap-4"
+      class="flex p-4 flex-nowrap space-x-4 justify-center items-center text-sm gap-4 mt-6"
+      v-if="!showOnlyBookmarks"
     >
       <div class="flex items-center">
         <label for="search-topic" class="mr-2"
@@ -188,17 +198,11 @@ onBeforeMount(async () => {
       </div>
     </div>
 
-    <div class="items-center justify-center flex">
-      <ButtonMain
-        :text="showOnlyBookmarks ? 'แสดงทั้งหมด' : 'แสดงบุ๊คมาร์ค'"
-        class="bg-bluemain text-white rounded-md hover:bg-white hover:text-bluemain outline outline-1 outline-bluemain"
-        @click="showBookmark"
-      />
-    </div>
-
     <div
       class="relative overflow-x-auto shadow-md rounded-lg mt-6"
-      v-if="showOnlyBookmarks ? favoriteArticles : articles"
+      v-if="
+        showOnlyBookmarks ? favoriteArticles.length > 0 : articles.length > 0
+      "
     >
       <table class="w-full text-sm text-left rtl:text-right text-gray-500">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
@@ -238,7 +242,7 @@ onBeforeMount(async () => {
       </table>
     </div>
     <div v-else>
-      <EmptyData message="ไม่มีข้อมูลเอกสาร" />
+      <EmptyData message="ไม่มีข้อมูลเอกสาร" class="mt-6" />
     </div>
   </div>
 </template>
