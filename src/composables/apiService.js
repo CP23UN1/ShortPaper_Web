@@ -39,6 +39,9 @@ class ApiService {
   async createArticleFromFile() {
     return await api.post(`/article/create/from/files`)
   }
+  async getArticleYear() {
+    return await api.get(`/articles/year`)
+  }
 
   // Auth
   async login(info) {

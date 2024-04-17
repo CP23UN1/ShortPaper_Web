@@ -10,6 +10,7 @@ const subjects = ref([])
 const articles = ref([])
 const years = ref([])
 const favoriteArticles = ref([])
+const showOnlyBookmarks = ref(false)
 
 const store = useAuthStore()
 const studentId = ref(store.userId)
@@ -30,7 +31,7 @@ const getSubjects = async () => {
 }
 
 const getYearList = async () => {
-  const res = await ApiService.getYearList()
+  const res = await ApiService.getArticleYear()
   if (res.status === 200) {
     const data = await res.data
     years.value = data.data
@@ -111,7 +112,6 @@ const filterArticle = async () => {
   }
 }
 
-const showOnlyBookmarks = ref(false)
 const showBookmark = () => {
   showOnlyBookmarks.value = !showOnlyBookmarks.value
   if (showOnlyBookmarks.value) {
