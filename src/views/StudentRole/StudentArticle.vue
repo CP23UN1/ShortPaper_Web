@@ -4,6 +4,7 @@ import { useAuthStore } from '../../stores/auth'
 import ApiService from '../../composables/apiService'
 import Header from '../../components/Header.vue'
 import EmptyData from '../../components/EmptyData.vue'
+import ButtonMain from '../../components/ButtonMain.vue'
 
 const subjects = ref([])
 const articles = ref([])
@@ -90,9 +91,6 @@ const subjectKeyword = ref(null)
 const yearKeyword = ref(null)
 
 const filterArticle = async () => {
-  console.log(topicKeyword.value)
-  console.log(yearKeyword.value)
-  console.log(subjectKeyword.value)
   if (
     topicKeyword.value == null &&
     subjectKeyword.value == null &&
@@ -113,6 +111,18 @@ const filterArticle = async () => {
   }
 }
 
+const showOnlyBookmarks = ref(false)
+const showBookmark = () => {
+  showOnlyBookmarks.value = !showOnlyBookmarks.value
+  if (showOnlyBookmarks.value) {
+    articles.value = articles.value.filter((article) =>
+      isFavorite(article.articleId)
+    )
+  } else {
+    getArticles()
+  }
+}
+
 onBeforeMount(async () => {
   await getSubjects()
   await getArticles()
@@ -124,7 +134,6 @@ onBeforeMount(async () => {
 <template>
   <div>
     <Header header="เอกสารโครงงานที่ผ่านมา" />
-
     <div
       class="flex p-4 flex-nowrap space-x-4 justify-center items-center text-sm gap-4"
     >
@@ -171,18 +180,25 @@ onBeforeMount(async () => {
         </select>
       </div>
       <div>
-        <button
-          class="bg-bluemain text-white w-40 h-8 rounded-md hover:bg-white hover:text-bluemain outline outline-1 hover:outline-bluemain"
+        <ButtonMain
+          class="bg-bluemain text-white rounded-md hover:bg-white hover:text-bluemain outline outline-1 outline-bluemain"
           @click="filterArticle"
-        >
-          ค้นหา
-        </button>
+          text="ค้นหา"
+        />
       </div>
+    </div>
+
+    <div class="items-center justify-center flex">
+      <ButtonMain
+        :text="showOnlyBookmarks ? 'แสดงทั้งหมด' : 'แสดงบุ๊คมาร์ค'"
+        class="bg-bluemain text-white rounded-md hover:bg-white hover:text-bluemain outline outline-1 outline-bluemain"
+        @click="showBookmark"
+      />
     </div>
 
     <div
       class="relative overflow-x-auto shadow-md rounded-lg mt-6"
-      v-if="articles.length > 0"
+      v-if="showOnlyBookmarks ? favoriteArticles : articles"
     >
       <table class="w-full text-sm text-left rtl:text-right text-gray-500">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
