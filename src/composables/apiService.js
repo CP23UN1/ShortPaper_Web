@@ -18,6 +18,28 @@ class ApiService {
     return await api.delete(`/announcement/delete/${announcementId}`)
   }
 
+  // Article
+  async getArticles() {
+    return await api.get(`/articles`)
+  }
+  async addToFavorites(studentId, articleId) {
+    return await api.post(`/article/student/${studentId}/${articleId}`)
+  }
+  async getFavoriteArticles(studentId) {
+    return await api.get(`/article/favorite/${studentId}`)
+  }
+  async removeFromFavorites(studentId, articleId) {
+    return await api.delete(
+      `/article/favorite/remove/${studentId}/${articleId}`
+    )
+  }
+  async filterArticle(keyword) {
+    return await api.post(`/article/filter/many`, keyword)
+  }
+  async createArticleFromFile() {
+    return await api.post(`/article/create/from/files`)
+  }
+
   // Auth
   async login(info) {
     return await api.post('/login', info)
@@ -155,7 +177,7 @@ class ApiService {
     return await api.get(`/years/list`)
   }
   async exportStudent() {
-    return await api.get(`/export`)
+    return await api.get(`/export-to-csv`)
   }
 
   // Subjects
@@ -167,24 +189,6 @@ class ApiService {
   }
   async updateSubject(studentId, subject) {
     return await api.patch(`/subject/update/${studentId}`, subject)
-  }
-  // Article
-  async getArticles() {
-    return await api.get(`/articles`)
-  }
-  async addToFavorites(studentId, articleId) {
-    return await api.post(`/article/student/${studentId}/${articleId}`)
-  }
-  async getFavoriteArticles(studentId) {
-    return await api.get(`/article/favorite/${studentId}`)
-  }
-  async removeFromFavorites(studentId, articleId) {
-    return await api.delete(
-      `/article/favorite/remove/${studentId}/${articleId}`
-    )
-  }
-  async filterArticle(keyword){
-    return await api.post(`/article/filter/many`, keyword)
   }
 }
 export default new ApiService()
