@@ -137,7 +137,7 @@ onMounted(async () => {
     </div>
     <div
       class="relative overflow-x-auto shadow-md rounded-lg mt-6"
-      v-if="students.length !== 0"
+      v-if="students"
     >
       <table class="w-full text-sm text-left rtl:text-right text-gray-500">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
