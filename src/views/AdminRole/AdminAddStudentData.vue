@@ -18,7 +18,6 @@ const readCSV = () => {
   const reader = new FileReader()
   reader.onload = (event) => {
     const text = event.target.result
-    // Parse CSV data
     const rows = text.split('\n')
     const data = rows.map((row) => row.split(','))
     csvData.value = data
@@ -52,7 +51,7 @@ const downloadIcon = `<svg class="w-[20px] h-[20px] text-bluemain" aria-hidden="
     <div class="p-5 shadow-md text-sm">
       <div class="mb-5 justify-end flex">
         <a href="/template/Template_AddStudent.csv" download="Template_AddStudent.csv">
-          <button class="flex shadow-md py-2 px-4 rounded-md hover:bg-blue-200">
+          <button class="flex shadow-md py-2 px-4 rounded-md bg-blue-100 hover:bg-blue-200">
             <p class="mr-2">ดาวน์โหลดเทมเพลต</p>
             <div v-html="downloadIcon"></div>
           </button>
