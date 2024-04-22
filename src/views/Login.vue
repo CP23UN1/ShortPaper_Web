@@ -6,33 +6,25 @@ import { useRoute, useRouter } from 'vue-router'
 import { Modal } from 'flowbite'
 
 import ButtonMain from '../components/ButtonMain.vue'
+import AlertModal from '../components/Alert/AlertModal.vue'
 import apiService from '../composables/apiService'
 
 const authStore = useAuthStore()
-const validateStore = useValidateStore()
-
-const route = useRoute()
 const router = useRouter()
 
-const email = ref()
 const username = ref()
 const password = ref()
 
 const validateData = () => {
   let isValid = true
 
-  // if (!email.value && !validateStore.validateEmail(email.value)) {
-  //   alert('กรุณาใส่อีเมลที่ถูกต้อง')
-  //   isValid = false
-  // }
-
   if (!username.value) {
-    showErrorModal('กรุณาใส่ชื่อผู้ใช้')
+    showAlertModal('กรุณาใส่ชื่อผู้ใช้')
     isValid = false
   }
 
   if (!password.value) {
-    showErrorModal('กรุณาใส่รหัสผ่าน')
+    showAlertModal('กรุณาใส่รหัสผ่าน')
     isValid = false
   }
 
@@ -69,16 +61,13 @@ const login = async () => {
             router.push('/')
         }
       } else {
-        showErrorModal('ชื่อผู้ใช้ หรือรหัสผ่านไม่ถูกต้อง')
+        showAlertModal('ชื่อผู้ใช้ หรือรหัสผ่านไม่ถูกต้อง')
       }
-      //  else if (authStore.isPasswordWrong == true) {
-      //   alert('กรุณาใส่รหัสผ่านที่ถูกต้อง')
-      // }
     }
   } catch (error) {
     if (error.response && error.response.status === 400) {
-      const errorMessage = error.response.data.message
-      //showErrorModal(errorMessage)
+      const alertMessage = error.response.data.message
+      showAlertModal(alertMessage)
     } else {
       console.error('An error occurred:', error.message)
     }
@@ -92,16 +81,17 @@ const toggleModal = () => {
   isModalOpen.value = !isModalOpen.value
 }
 
-const isErrorModalOpen = ref(false)
-const errorMessage = ref('')
+// Alert Modal
+const isAlertModalOpen = ref(false)
+const alertMessage = ref('')
 
-const showErrorModal = (message) => {
-  errorMessage.value = message
-  isErrorModalOpen.value = true
+const toggleAlertModal = () => {
+  isAlertModalOpen.value = !isAlertModalOpen.value
 }
 
-const toggleErrorModal = () => {
-  isErrorModalOpen.value = !isErrorModalOpen.value
+const showAlertModal = (message) => {
+  alertMessage.value = message
+  isAlertModalOpen.value = true
 }
 
 // Show password
@@ -147,17 +137,6 @@ const togglePasswordVisibility = () => {
               required
             />
           </div>
-          <!-- <div class="mb-4">
-            <label for="password" class="block font-bold mb-2">รหัสผ่าน</label>
-            <input
-              type="password"
-              id="password"
-              v-model="password"
-              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 border-gray-400 leading-tight focus:outline-none focus:shadow-outline xl:text-lg lg:text-base md:text-sm sm:text-xs"
-              placeholder="รหัสผ่าน"
-              required
-            />
-          </div> -->
           <div class="mb-4">
             <label for="password" class="block font-bold mb-2">รหัสผ่าน</label>
             <div class="relative">
@@ -308,54 +287,12 @@ const togglePasswordVisibility = () => {
     </div>
   </div>
 
-  <div
-    class="fixed top-0 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50"
-    :class="{ hidden: !isErrorModalOpen }"
-    id="error-modal"
-  >
-    <div class="max-w-lg mx-auto p-8 bg-white rounded-lg shadow-md">
-      <div class="mb-4 flex justify-end">
-        <button type="button" @click="toggleErrorModal">
-          <svg
-            class="w-3 h-3"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 14 14"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-            />
-          </svg>
-          <span class="sr-only">Close</span>
-        </button>
-      </div>
-      <div class="text-center mt-[-10px]">
-        <svg
-          class="w-[40px] h-[40px] text-error mx-auto mb-2"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          fill="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm7.707-3.707a1 1 0 0 0-1.414 1.414L10.586 12l-2.293 2.293a1 1 0 1 0 1.414 1.414L12 13.414l2.293 2.293a1 1 0 0 0 1.414-1.414L13.414 12l2.293-2.293a1 1 0 0 0-1.414-1.414L12 10.586 9.707 8.293Z"
-            clip-rule="evenodd"
-          />
-        </svg>
-
-        <h2 class="text-red-600 text-lg font-semibold mb-2">เกิดข้อผิดพลาด</h2>
-        <p class="text-gray-800">{{ errorMessage }}</p>
-      </div>
-    </div>
-  </div>
+  <AlertModal
+    :alertMessage="alertMessage"
+    :is-alert-modal-open="isAlertModalOpen"
+    status="error"
+    @toggle="toggleAlertModal"
+  />
 </template>
 
 <style></style>
