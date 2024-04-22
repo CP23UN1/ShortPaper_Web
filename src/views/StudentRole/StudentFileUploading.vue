@@ -178,7 +178,7 @@ onBeforeMount(async () => {
         <div class="text-center">
           <FileInput
             label="อัปโหลดเอกสาร: "
-            describe="*** เอกสารแต่งตั้งคณะกรรมการสำหรับ Upload จะต้องเป็นไฟล์ .PDF เท่านั้น ***"
+            describe="*** เอกสารแต่งตั้งคณะกรรมการสำหรับอัปโหลดจะต้องเป็นไฟล์ PDF เท่านั้น ***"
             @fileSelected="handleFileSelected"
           />
 
