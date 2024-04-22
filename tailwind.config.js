@@ -19,6 +19,7 @@ module.exports = {
       },
       fontFamily: {
         sarabun: ['Sarabun', 'sans-serif'],
+        mitr: ['Mitr', 'sans-serif'],
       },
       backgroundImage: {
         kmutt: "url('src/assets/kmutt.png')",

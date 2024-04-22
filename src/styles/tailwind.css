@@ -1,4 +1,8 @@
+/* Sarabun */
 @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300&display=swap');
+/* Mitr */
+@import url('https://fonts.googleapis.com/css2?family=Mitr:wght@300&display=swap');
+
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
