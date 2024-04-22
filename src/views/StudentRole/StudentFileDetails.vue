@@ -8,6 +8,7 @@ import ApiService from '../../composables/apiService'
 import Header from '../../components/Header.vue'
 import ButtonMain from '../../components/ButtonMain.vue'
 import NavbarStudent from '../../components/Navbar/NavbarStudent.vue'
+import AlertModal from '../../components/Alert/AlertModal.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -133,7 +134,7 @@ const sendComment = async () => {
   try {
     const res = await ApiService.sendComment(commentObj)
     if (res.status === 200) {
-      alert('บันทึกสำเร็จ')
+      showAlertModal('บันทึกสำเร็จ', 'success')
       await getComments()
       newComment.value = ''
     } else {
@@ -229,6 +230,21 @@ const mapFileStatus = (status) => {
     default:
       return 'ยังไม่มีการอัปโหลด'
   }
+}
+
+// Alert Modal
+const isAlertModalOpen = ref(false)
+const alertMessage = ref('')
+const alertStatus = ref('')
+
+const toggleAlertModal = () => {
+  isAlertModalOpen.value = !isAlertModalOpen.value
+}
+
+const showAlertModal = (message, status) => {
+  alertMessage.value = message
+  alertStatus.value = status
+  isAlertModalOpen.value = true
 }
 
 onBeforeMount(async () => {
@@ -579,6 +595,13 @@ onBeforeMount(async () => {
       <div id="preview-container" v-if="iframePreview"></div>
     </div>
   </div>
+
+  <AlertModal
+    :alertMessage="alertMessage"
+    :is-alert-modal-open="isAlertModalOpen"
+    :status="alertStatus"
+    @toggle="toggleAlertModal"
+  />
 </template>
 
 <style></style>

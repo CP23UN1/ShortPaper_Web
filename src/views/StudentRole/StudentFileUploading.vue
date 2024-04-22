@@ -9,6 +9,7 @@ import Header from '../../components/Header.vue'
 import FileInput from '../../components/FileInput.vue'
 import RadioButton from '../../components/RadioButton.vue'
 import ButtonMain from '../../components/ButtonMain.vue'
+import AlertModal from '../../components/Alert/AlertModal.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -18,7 +19,6 @@ const studentId = ref(store.userId)
 const typeId = ref(route.params.typeId)
 
 const shortpaper = ref()
-// const shortpaperId = ref(route.params.shortpaperId)
 const shortpaperId = ref()
 
 const fileTypes = ref([])
@@ -30,8 +30,6 @@ const explanationVideo = ref('')
 const remark = ref('')
 
 const selectedCommittee = ref('')
-const selectedCommittee2 = ref('')
-const committeeFullName = ref('')
 const handleFileSelected = (selectedFile) => {
   file.value = selectedFile
 }
@@ -46,14 +44,14 @@ const handleTypeId = (id) => {
 
 const handleUpload = async () => {
   if (!file.value) {
-    alert('Please select a file to upload.')
+    showAlertModal('กรุณาเลือกไฟล์', 'error')
     return
   }
 
   // Validate file size
-  const maxSizeInBytes = 10 * 1024 * 1024; // 10 MB (adjust as needed)
+  const maxSizeInBytes = 10 * 1024 * 1024;
   if (file.value.size > maxSizeInBytes) {
-    alert('ไฟล์ต้องมีขนาดไม่เกิน 10 MB');
+    showAlertModal('ไฟล์ต้องมีขนาดไม่เกิน 10 MB', 'error');
     return;
   }
 
@@ -74,13 +72,14 @@ const handleUpload = async () => {
 
     const res = await ApiService.uploadFile(formData)
     if (res.status === 200) {
-      alert(`บันทึกสำเร็จ`)
-      router.push(`/files`)
+      showAlertModal(`บันทึกสำเร็จ`, 'success')
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      await router.push(`/files`)
     } else if(res.status === 500) {
-      alert('กรุณาเลือก อาจารย์ที่ปรึกษา')
+      showAlertModal('กรุณาเลือก อาจารย์ที่ปรึกษา', 'error')
     }
     else {
-      alert(`Failed to upload file. Please try again later.`)
+      showAlertModal(`เกิดข้อผิดพลาดเกี่ยวกับไฟล์`, 'error')
     }
 }
 
@@ -102,7 +101,7 @@ const getFileType = async () => {
     }
   } catch (error) {
     console.error('Error fetching file types:', error)
-    alert(`An error occurred while fetching file types.`)
+    showAlertModal(`เกิดข้อผิดพลาดเกี่ยวกับการรับข้อมูล`, 'error')
   }
 }
 
@@ -114,7 +113,7 @@ const fetchCommittees = async () => {
     }
   } catch (error) {
     console.error('Error fetching committees:', error)
-    alert('An error occurred while fetching committees.')
+    showAlertModal(`เกิดข้อผิดพลาดเกี่ยวกับการรับข้อมูล`, 'error')
   }
 }
 
@@ -142,8 +141,23 @@ const assignCommittee = async () => {
     }
   } catch (error) {
     console.error('Error assigning committee:', error)
-    alert('An error occurred while assigning the committee.')
+    showAlertModal(`เกิดข้อผิดพลาดเกี่ยวกับการส่งข้อมูล`, 'error')
   }
+}
+
+// Alert Modal
+const isAlertModalOpen = ref(false)
+const alertMessage = ref('')
+const alertStatus = ref('')
+
+const toggleAlertModal = () => {
+  isAlertModalOpen.value = !isAlertModalOpen.value
+}
+
+const showAlertModal = (message, status) => {
+  alertMessage.value = message
+  alertStatus.value = status
+  isAlertModalOpen.value = true
 }
 
 onBeforeMount(async () => {
@@ -251,31 +265,12 @@ onBeforeMount(async () => {
       </div>
     </div>
 
-    <!-- <div v-if="typeId == 1" class="shadow-lg rounded-lg p-3 mt-8">
-      <p>เลือกอาจารย์ที่ปรึกษาร่วมสำหรับใบ บ.1</p>
-      <div class="grid grid-cols-4 mt-8 text-sm ml-16">
-        <div v-for="committee in committees" :key="committee.committeeId">
-          <RadioButton
-            name="committee"
-            :value="committee.firstname + ' ' + committee.lastname == selectedCommittee"
-            :label="committee.firstname + ' ' + committee.lastname"
-          />
-        </div>
-      </div>
-    </div> -->
-
-    <!-- <div class="shadow-lg rounded-lg p-3 mt-8" v-if="typeId == 5">
-      <label for="input">วิดีโอคำอธิบายเพิ่มเติม</label>
-      <div class="relative">
-        <input
-          type="text"
-          id="input"
-          class="inline-flex w-72 py-2 mt-2 border border-gray-300 rounded-lg bg-gray-50 focus:ring-bluemain focus:border-bluemain"
-          placeholder="กรุณาแนบลิงก์"
-          v-model="explanationVideo"
-        />
-      </div>
-    </div> -->
+    <AlertModal
+    :alertMessage="alertMessage"
+    :is-alert-modal-open="isAlertModalOpen"
+    :status="alertStatus"
+    @toggle="toggleAlertModal"
+  />
   </div>
 </template>
 

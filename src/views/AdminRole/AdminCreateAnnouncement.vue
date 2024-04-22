@@ -1,10 +1,11 @@
 <script setup>
 import { ref } from 'vue'
-import ApiService from '../../composables/apiService'
 import { useRouter } from 'vue-router'
+import ApiService from '../../composables/apiService'
 
 import Header from '../../components/Header.vue'
 import ButtonMain from '../../components/ButtonMain.vue'
+import AlertModal from '../../components/Alert/AlertModal.vue'
 
 const schedule = ref('')
 const content = ref('')
@@ -24,13 +25,29 @@ const createAnnouncement = async () => {
     const res = await ApiService.createAnnouncement(newAnnouncement)
 
     if (res.data.httpStatusCode === 201) {
-      alert('บันทึกสำเร็จ')
-      router.push('/admin/announcements')
+      showAlertModal('บันทึกสำเร็จ', 'success')
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      await router.push('/admin/announcements')
     } else {
     }
   } catch (error) {
     console.error('Error creating announcement:', error)
   }
+}
+
+// Alert Modal
+const isAlertModalOpen = ref(false)
+const alertMessage = ref('')
+const alertStatus = ref('')
+
+const toggleAlertModal = () => {
+  isAlertModalOpen.value = !isAlertModalOpen.value
+}
+
+const showAlertModal = (message, status) => {
+  alertMessage.value = message
+  alertStatus.value = status
+  isAlertModalOpen.value = true
 }
 </script>
 
@@ -75,18 +92,6 @@ const createAnnouncement = async () => {
             class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
           />
         </div>
-
-        <!-- <div>
-        <label for="imageUrl" class="block text-sm font-medium  "
-          >Image URL:</label
-        >
-        <input
-          type="text"
-          id="imageUrl"
-          v-model="imageUrl"
-          class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-        />
-      </div> -->
         <div class="flex justify-end items-end w-full my-5">
           <ButtonMain
             type="submit"
@@ -97,6 +102,13 @@ const createAnnouncement = async () => {
       </form>
     </div>
   </div>
+
+  <AlertModal
+    :alertMessage="alertMessage"
+    :is-alert-modal-open="isAlertModalOpen"
+    :status="alertStatus"
+    @toggle="toggleAlertModal"
+  />
 </template>
 
 <style></style>

@@ -5,6 +5,7 @@ import ApiService from '../../composables/apiService'
 import Header from '../../components/Header.vue'
 import EmptyData from '../../components/EmptyData.vue'
 import ButtonMain from '../../components/ButtonMain.vue'
+import AlertModal from '../../components/Alert/AlertModal.vue'
 
 const subjects = ref([])
 const articles = ref([])
@@ -65,7 +66,12 @@ const addToFavorites = async (articleId) => {
       : await ApiService.addToFavorites(studentId.value, articleId)
 
     if (res.status === 200) {
-      alert(isAlreadyFavorite ? 'Removed from favorites' : 'Added to favorites')
+      if (isAlreadyFavorite) {
+        showAlertModal('ลบออกจากบุ๊คมาร์ค', 'success')
+      } else {
+        showAlertModal('เพิ่มเข้าบุ๊คมาร์ค', 'success')
+      }
+      // alert(isAlreadyFavorite ? 'Removed from favorites' : 'Added to favorites')
       await getFavoriteArticles()
     } else {
       console.error('Failed to add/remove from favorites:', res.status)
@@ -121,6 +127,21 @@ const showBookmark = () => {
   } else {
     getArticles()
   }
+}
+
+// Alert Modal
+const isAlertModalOpen = ref(false)
+const alertMessage = ref('')
+const alertStatus = ref('')
+
+const toggleAlertModal = () => {
+  isAlertModalOpen.value = !isAlertModalOpen.value
+}
+
+const showAlertModal = (message, status) => {
+  alertMessage.value = message
+  alertStatus.value = status
+  isAlertModalOpen.value = true
 }
 
 onBeforeMount(async () => {
@@ -245,6 +266,13 @@ onBeforeMount(async () => {
       <EmptyData message="ไม่มีข้อมูลเอกสาร" class="mt-6" />
     </div>
   </div>
+
+  <AlertModal
+    :alertMessage="alertMessage"
+    :is-alert-modal-open="isAlertModalOpen"
+    :status="alertStatus"
+    @toggle="toggleAlertModal"
+  />
 </template>
 
 <style></style>

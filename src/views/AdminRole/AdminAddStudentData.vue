@@ -35,6 +35,8 @@ const addStudentData = async () => {
 
     if (res.status === 200) {
       showAlertModal('บันทึกสำเร็จ', 'success')
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      await router.push('/admin/students')
     } else {
       showAlertModal('การอัปโหลดไฟล์ผิดพลาด', 'error')
     }
@@ -52,7 +54,6 @@ const alertStatus = ref('')
 
 const toggleAlertModal = () => {
   isAlertModalOpen.value = !isAlertModalOpen.value
-  router.push('/admin/students')
 }
 
 const showAlertModal = (message, status) => {

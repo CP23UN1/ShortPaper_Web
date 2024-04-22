@@ -1,9 +1,11 @@
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+
 import ApiService from '../../composables/apiService'
 import Header from '../../components/Header.vue'
 import ButtonMain from '../../components/ButtonMain.vue'
-import { useRouter } from 'vue-router'
+import AlertModal from '../../components/Alert/AlertModal.vue'
 
 const file = ref(null)
 const csvData = ref(null)
@@ -31,11 +33,12 @@ const assignAdvisors = async () => {
     formData.append('csvFile', file.value)
     const res = await ApiService.assignCommittee(formData)
 
-    if (res.status === 200 || res.status === 201) {
-      alert(`บันทึกสำเร็จ`)
-      router.push('/admin/students')
+    if (res.status === 200) {
+      showAlertModal(`บันทึกสำเร็จ`, 'success')
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      await router.push('/admin/students')
     } else {
-      alert(`Failed to upload file. Please try again later.`)
+      showAlertModal('การอัปโหลดไฟล์ผิดพลาด', 'error')
     }
   }
 }
@@ -43,6 +46,21 @@ const assignAdvisors = async () => {
 const downloadIcon = `<svg class="w-[20px] h-[20px] text-bluemain" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 19">
     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15h.01M4 12H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-3M9.5 1v10.93m4-3.93-4 4-4-4"/>
   </svg>`
+
+// Alert Modal
+const isAlertModalOpen = ref(false)
+const alertMessage = ref('')
+const alertStatus = ref('')
+
+const toggleAlertModal = () => {
+  isAlertModalOpen.value = !isAlertModalOpen.value
+}
+
+const showAlertModal = (message, status) => {
+  alertMessage.value = message
+  alertStatus.value = status
+  isAlertModalOpen.value = true
+}
 </script>
 
 <template>
@@ -118,6 +136,13 @@ const downloadIcon = `<svg class="w-[20px] h-[20px] text-bluemain" aria-hidden="
       />
     </div>
   </div>
+
+  <AlertModal
+    :alertMessage="alertMessage"
+    :is-alert-modal-open="isAlertModalOpen"
+    :status="alertStatus"
+    @toggle="toggleAlertModal"
+  />
 </template>
 
 <style></style>

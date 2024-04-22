@@ -9,6 +9,7 @@ import ApiService from '../../composables/apiService'
 
 import ConfirmModal from '../../components/ConfirmModal.vue'
 import ButtonMain from '../../components/ButtonMain.vue'
+import AlertModal from '../../components/Alert/AlertModal.vue'
 
 const router = useRouter()
 const store = useValidateStore()
@@ -74,20 +75,20 @@ const validateData = () => {
   let isValid = true
 
   if (!student.value.firstname) {
-    alert('กรุณาใส่ชื่อ')
+    showAlertModal('กรุณาใส่ชื่อ', 'error')
     isValid = false
   }
 
   if (!student.value.lastname) {
-    alert('กรุณาใส่นามสกุล')
+    showAlertModal('กรุณาใส่นามสกุล', 'error')
     isValid = false
   }
 
   if (!student.value.phonenumber) {
-    alert('กรุณาใส่เบอร์โทรศัพท์')
+    showAlertModal('กรุณาใส่เบอร์โทรศัพท์', 'error')
     isValid = false
   } else if (student.value.phonenumber.length !== 10) {
-    alert('กรุณาใส่เบอร์โทรศัพท์ที่ถูกต้อง')
+    showAlertModal('กรุณาใส่เบอร์โทรศัพท์ที่ถูกต้อง', 'error')
     isValid = false
   }
 
@@ -95,7 +96,7 @@ const validateData = () => {
     student.value.alternativeEmail &&
     !store.validateEmail(student.value.alternativeEmail)
   ) {
-    alert('กรุณาใส่อีเมลที่ถูกต้อง')
+    showAlertModal('กรุณาใส่อีเมลที่ถูกต้อง', 'error')
     isValid = false
   }
 
@@ -166,18 +167,34 @@ const updateStudentAndShortpaper = async () => {
     }
 
     modal.value.toggle()
-    alert('บันทึกสำเร็จ')
-    router.push('/details')
+    showAlertModal('บันทึกสำเร็จ', 'success')
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+    await router.push('/details')
   }
 }
 
 const handleResgisteredSubjectChange = (event) => {
-      registeredSubjectsId.value = event.target.value;
-};
+  registeredSubjectsId.value = event.target.value
+}
 
 const handlePaperSubjectChange = (event) => {
-      paperSubjectsId.value = event.target.value;
-};
+  paperSubjectsId.value = event.target.value
+}
+
+// Alert Modal
+const isAlertModalOpen = ref(false)
+const alertMessage = ref('')
+const alertStatus = ref('')
+
+const toggleAlertModal = () => {
+  isAlertModalOpen.value = !isAlertModalOpen.value
+}
+
+const showAlertModal = (message, status) => {
+  alertMessage.value = message
+  alertStatus.value = status
+  isAlertModalOpen.value = true
+}
 
 onMounted(async () => {
   const targetEl = document.getElementById('save-modal')
@@ -188,7 +205,9 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="justify-center item-center bg-bluemain p-10 rounded-lg shadow-lg mt-14">
+  <div
+    class="justify-center item-center bg-bluemain p-10 rounded-lg shadow-lg mt-14"
+  >
     <h1 class="text-white font-black text-xl">แก้ไขข้อมูลส่วนตัว</h1>
 
     <div class="grid grid-cols-2 gap-16 mt-4">
@@ -338,6 +357,13 @@ onMounted(async () => {
     message="ต้องการแก้ไขหรือไม่"
     buttonColor="bg-amber-500 hover:bg-amber-600"
     iconColor="text-amber-500"
+  />
+
+  <AlertModal
+    :alertMessage="alertMessage"
+    :is-alert-modal-open="isAlertModalOpen"
+    :status="alertStatus"
+    @toggle="toggleAlertModal"
   />
 </template>
 
