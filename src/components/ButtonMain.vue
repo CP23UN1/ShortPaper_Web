@@ -21,7 +21,7 @@ const props = defineProps({
   <button
     :type="typeButton"
     :class="className"
-    class="focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 xl:text-lg lg:text-base md:text-sm sm:text-xs"
+    class="focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 xl:text-base lg:text-sm md:text-sm sm:text-xs"
   >
     {{ text }}
   </button>

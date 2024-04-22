@@ -134,7 +134,7 @@ const togglePasswordVisibility = () => {
               type="text"
               id="username"
               v-model="username"
-              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 border-gray-400 leading-tight focus:outline-none focus:shadow-outline xl:text-lg lg:text-base md:text-sm sm:text-xs"
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 border-gray-400 leading-tight focus:outline-none focus:shadow-outline xl:text-base lg:text-sm md:text-sm sm:text-xs"
               placeholder="ชื่อผู้ใช้"
               required
             />
@@ -146,7 +146,7 @@ const togglePasswordVisibility = () => {
                 :type="passwordVisible ? 'text' : 'password'"
                 id="password"
                 v-model="password"
-                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 border-gray-400 leading-tight focus:outline-none focus:shadow-outline xl:text-lg lg:text-base md:text-sm sm:text-xs"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 border-gray-400 leading-tight focus:outline-none focus:shadow-outline xl:text-base lg:text-sm md:text-sm sm:text-xs"
                 placeholder="รหัสผ่าน"
                 required
               />

@@ -47,7 +47,7 @@ watch(
 
 <template>
   <div
-    class="xl:text-base lg:text-base md:text-sm sm:text-xs"
+    class="xl:text-base lg:text-sm md:text-sm sm:text-xs"
     :class="{ 'mx-14 xl:mx-32 lg:mx-28 md:mx-24 sm:mx-20': isMaxWidth }"
   >
     <template v-if="showNavbar">
