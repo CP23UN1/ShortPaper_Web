@@ -19,12 +19,12 @@ const validateData = () => {
   let isValid = true
 
   if (!username.value) {
-    showAlertModal('กรุณาใส่ชื่อผู้ใช้')
+    showAlertModal('กรุณาใส่ชื่อผู้ใช้', 'error')
     isValid = false
   }
 
   if (!password.value) {
-    showAlertModal('กรุณาใส่รหัสผ่าน')
+    showAlertModal('กรุณาใส่รหัสผ่าน', 'error')
     isValid = false
   }
 
@@ -61,13 +61,13 @@ const login = async () => {
             router.push('/')
         }
       } else {
-        showAlertModal('ชื่อผู้ใช้ หรือรหัสผ่านไม่ถูกต้อง')
+        showAlertModal('ชื่อผู้ใช้ หรือรหัสผ่านไม่ถูกต้อง', 'error')
       }
     }
   } catch (error) {
     if (error.response && error.response.status === 400) {
       const alertMessage = error.response.data.message
-      showAlertModal(alertMessage)
+      showAlertModal(alertMessage, 'error')
     } else {
       console.error('An error occurred:', error.message)
     }
@@ -84,13 +84,15 @@ const toggleModal = () => {
 // Alert Modal
 const isAlertModalOpen = ref(false)
 const alertMessage = ref('')
+const alertStatus = ref('')
 
 const toggleAlertModal = () => {
   isAlertModalOpen.value = !isAlertModalOpen.value
 }
 
-const showAlertModal = (message) => {
+const showAlertModal = (message, status) => {
   alertMessage.value = message
+  alertStatus.value = status
   isAlertModalOpen.value = true
 }
 
@@ -290,7 +292,7 @@ const togglePasswordVisibility = () => {
   <AlertModal
     :alertMessage="alertMessage"
     :is-alert-modal-open="isAlertModalOpen"
-    status="error"
+    :status="alertStatus"
     @toggle="toggleAlertModal"
   />
 </template>
