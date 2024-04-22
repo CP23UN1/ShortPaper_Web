@@ -44,7 +44,7 @@ const closeModalIcon = `<svg
 
 <template>
   <div
-    class="fixed top-0 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50"
+    class="absolute top-0 left-0 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50"
     :class="{ hidden: !props.isAlertModalOpen }"
     id="error-modal"
   >
