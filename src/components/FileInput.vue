@@ -1,6 +1,6 @@
 <script setup>
-import { defineProps, defineEmits } from 'vue'
-import ButtonMain from './ButtonMain.vue'
+import { defineProps, defineEmits, ref } from 'vue'
+import AlertModal from './Alert/AlertModal.vue'
 
 const emits = defineEmits(['fileSelected', 'sendFile'])
 const props = defineProps({
@@ -26,14 +26,29 @@ const handleFileChange = (event) => {
 
     if (!allowedTypes.includes(file.type)) {
       event.target.value = null
-      alert('Please select a PDF file.')
+      showAlertModal('กรุณาเลือกไฟล์ PDF', 'error')
       return
     }
 
     emits('fileSelected', file)
   } else {
-    alert('Invalid file input event.')
+    showAlertModal('กรุณาเลือกไฟล์ใหม่', 'error')
   }
+}
+
+// Alert Modal
+const isAlertModalOpen = ref(false)
+const alertMessage = ref('')
+const alertStatus = ref('')
+
+const toggleAlertModal = () => {
+  isAlertModalOpen.value = !isAlertModalOpen.value
+}
+
+const showAlertModal = (message, status) => {
+  alertMessage.value = message
+  alertStatus.value = status
+  isAlertModalOpen.value = true
 }
 </script>
 
@@ -51,16 +66,17 @@ const handleFileChange = (event) => {
       />
     </div>
 
-    <!-- <ButtonMain
-      text="บันทึก"
-      class="bg-bluemain border hover:bg-white hover:border-bluemain hover:text-bluemain ml-3"
-      @click="$emit('sendFile')"
-    /> -->
-
     <p class="mt-2 text-sm text-red-600" id="file_type">
       {{ describe }}
     </p>
   </div>
+
+  <AlertModal
+    :alertMessage="alertMessage"
+    :is-alert-modal-open="isAlertModalOpen"
+    :status="alertStatus"
+    @toggle="toggleAlertModal"
+  />
 </template>
 
 <style></style>
