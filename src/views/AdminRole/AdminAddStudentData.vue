@@ -34,10 +34,9 @@ const addStudentData = async () => {
     const res = await ApiService.addStudent(formData)
 
     if (res.status === 200) {
-      showAlertModal(`บันทึกสำเร็จ`, 'success')
-      router.push('/admin/students')
+      showAlertModal('บันทึกสำเร็จ', 'success')
     } else {
-      showAlertModal(`การอัปโหลดไฟล์ผิดพลาด`, 'error')
+      showAlertModal('การอัปโหลดไฟล์ผิดพลาด', 'error')
     }
   }
 }
@@ -53,6 +52,7 @@ const alertStatus = ref('')
 
 const toggleAlertModal = () => {
   isAlertModalOpen.value = !isAlertModalOpen.value
+  router.push('/admin/students')
 }
 
 const showAlertModal = (message, status) => {
