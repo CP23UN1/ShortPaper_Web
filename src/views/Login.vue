@@ -105,7 +105,7 @@ const togglePasswordVisibility = () => {
 </script>
 
 <template>
-  <div class="flex justify-center items-center bg-login h-screen w-screen">
+  <div class="bg-login flex justify-center items-center h-screen w-screen">
     <div
       class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center justify-center mx-4 md:mx-0 shadow-lg md:my-20 rounded-lg bg-white"
     >
