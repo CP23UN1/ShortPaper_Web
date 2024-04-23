@@ -114,7 +114,7 @@ const togglePasswordVisibility = () => {
         style="
           background-image: url('/un1/images/kmutt-night.png');
           background-color: #f0f0f0;
-          width: 400px;
+          width: 450px;
           height: 500px;
         "
       ></div>
