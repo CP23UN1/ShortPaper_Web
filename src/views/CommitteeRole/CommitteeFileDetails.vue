@@ -178,7 +178,7 @@ const downloadFile = async () => {
     const iframe = document.createElement('iframe')
     iframe.src = url
     iframe.style.width = '100%'
-    iframe.style.height = '500px'
+    iframe.style.height = '750px'
     iframe.style.border = 'none'
 
     previewContainer.appendChild(iframe)
@@ -549,9 +549,9 @@ onBeforeMount(async () => {
     :class="{ hidden: !iframePreview }"
     id="iframe-modal"
   >
-    <div class="w-full h-1/2 mx-auto p-8 bg-white rounded-lg shadow-md">
+    <div class="w-full h-[90%] mx-auto p-8 bg-white rounded-lg shadow-md">
       <div class="mb-4 flex justify-end">
-        <button type="button" class="" @click="togglePreview">
+        <button type="button" @click="togglePreview">
           <svg
             class="w-3 h-3"
             aria-hidden="true"

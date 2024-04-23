@@ -32,14 +32,6 @@ const uploadIconSvgDisabled = `<svg class="w-[20px] h-[20px] text-login" aria-hi
     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15h.01M4 12H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-3m-5.5 0V1.07M5.5 5l4-4 4 4"/>
   </svg>`
 
-const downloadIconSvg = `<svg class="w-[20px] h-[20px] text-bluemain hover:text-correct cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 19">
-    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15h.01M4 12H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-3M9.5 1v10.93m4-3.93-4 4-4-4"/>
-  </svg>`
-
-const downloadIconSvgDisabled = `<svg class="w-[20px] h-[20px] text-login" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 19">
-    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15h.01M4 12H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-3M9.5 1v10.93m4-3.93-4 4-4-4"/>
-  </svg>`
-
 const previewIconSvg = `<svg class="w-[20px] h-[20px] text-bluemain hover:text-correct cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 3v4a1 1 0 0 1-1 1H5m8 7.5 2.5 2.5M19 4v16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7.914a1 1 0 0 1 .293-.707l3.914-3.914A1 1 0 0 1 9.914 3H18a1 1 0 0 1 1 1Zm-5 9.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z"/>
 </svg>
@@ -93,8 +85,6 @@ const getFileTypeName = (fileTypeId) => {
   return fileType ? fileType.typeName : '-'
 }
 
-// const committeeComments = ref([])
-// const studentComments = ref([])
 const comments = ref([])
 const selectedReplyId = ref()
 
@@ -105,16 +95,6 @@ const getComments = async () => {
       const data = await res.data
 
       comments.value = data.data
-      // const allComments = data.data
-
-      // if (allComments !== null) {
-      //   committeeComments.value = allComments.filter((comment) =>
-      //     comment.authorId.startsWith('lec')
-      //   )
-      //   studentComments.value = allComments.filter((comment) =>
-      //     comment.authorId.startsWith('std')
-      //   )
-      // }
     } else {
       console.error('Failed to fetch comments:', res.statusText)
     }
@@ -204,7 +184,7 @@ const downloadFile = async () => {
     const iframe = document.createElement('iframe')
     iframe.src = url
     iframe.style.width = '100%'
-    iframe.style.height = '500px'
+    iframe.style.height = '750px'
     iframe.style.border = 'none'
 
     previewContainer.appendChild(iframe)
@@ -345,14 +325,14 @@ onBeforeMount(async () => {
               route.params.fileTypeId == 1
             "
           >
-            <!-- <hr class="my-3" />
+            <hr class="my-3" />
             <div class="flex justify-end">
               <ButtonMain
                 text="ยื่นแก้ไขใบบ.1"
-                class="bg-error border border-error hover:bg-white hover:text-error"
+                class="bg-error border border-error hover:bg-white hover:text-error mb-3"
                 @click="goToUpload(route.params.fileTypeId)"
               />
-            </div> -->
+            </div>
           </div>
         </div>
       </div>
@@ -486,20 +466,7 @@ onBeforeMount(async () => {
                         </p>
                       </div>
                     </div>
-
                     <p>{{ reply.commentContent }}</p>
-
-                    <!-- <div class="justify-end flex">
-                      <input
-                        type="radio"
-                        :id="'replyId_' + reply.commentId"
-                        :value="reply.commentId"
-                        v-model="selectedReplyId"
-                      />
-                      <label :for="'replyId_' + reply.commentId" class="ml-1.5"
-                        >ตอบกลับ</label
-                      >
-                    </div> -->
                   </div>
                 </div>
               </div>
@@ -508,7 +475,6 @@ onBeforeMount(async () => {
         </div>
       </div>
       <!-- div 2 -->
-
       <div class="grid">
         <div class="shadow-md mx-3" v-if="selectedReplyId">
           <div
@@ -536,32 +502,6 @@ onBeforeMount(async () => {
             </div>
           </div>
         </div>
-
-        <!-- below div 2 -->
-        <!-- <div class="shadow-md m-3" v-if="studentComments.length !== 0">
-          <div
-            class="text-white uppercase bg-bluemain p-2 pl-4 rounded-ss-lg rounded-se-lg"
-          >
-            <p>คำชี้แจงของนักศึกษา</p>
-          </div>
-
-          <div
-            class="bg-white text-gray-900 p-2 pl-4 rounded-es-lg rounded-ee-lg"
-          >
-            <div v-if="studentComments.length !== 0">
-              <div v-for="comment in studentComments" :key="comment.commentId">
-                <p>{{ comment.commentContent }}</p>
-                <p class="text-login text-end">
-                  {{
-                    new Date(comment.createdDatetime).toLocaleString('th-TH', {
-                      timeZone: 'Asia/Bangkok',
-                    })
-                  }}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div> -->
       </div>
     </div>
   </div>
@@ -571,9 +511,9 @@ onBeforeMount(async () => {
     :class="{ hidden: !iframePreview }"
     id="iframe-modal"
   >
-    <div class="w-full h-1/2 mx-auto p-8 bg-white rounded-lg shadow-md">
+    <div class="w-full h-[90%] mx-auto p-8 bg-white rounded-lg shadow-md">
       <div class="mb-4 flex justify-end">
-        <button type="button" class="" @click="togglePreview">
+        <button type="button" @click="togglePreview">
           <svg
             class="w-3 h-3"
             aria-hidden="true"
